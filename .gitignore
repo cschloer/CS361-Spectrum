@@ -1,43 +1,59 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
+##################
+# Unity ignores:
+#
+# !!! WARNING !!!
+#
+# … you MUST convert Unity to using Metafiles *before* you start using this
+#  .gitignore file, or you WILL lose data!
+#
+ 
+# OS X only:
 .DS_Store
-.AppleDouble
-.LSOverride
+*.swp
+*.Trashes
+ 
+# All platforms:
+Library
+Temp
+*.csproj
+*.pidb
+*.unityproj
+*.sln
+*.userprefs
 
-# Icon must end with two \r
-Icon
+Spectrum/Library/assetDatabase3
 
-# Thumbnails
-._*
+Spectrum/Library/AssetServerCacheV3
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+Spectrum/Library/guidmapper
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+Spectrum/Library/metadata/f2/f2bfc4fd283904fd7a28557c951548b3
+
+*.dll
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll.mdb
+Spectrum/Assets/Resources/Scripts/Monster.js
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+
+*.dll
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+
+<<<<<<< HEAD
+Spectrum/Assets/Resources/Scripts/Monster.js
+
+Spectrum/Assets/Resources/Scripts/Monster4.js
+=======
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+>>>>>>> FETCH_HEAD
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+
+Spectrum/Library/CurrentMaximizeLayout.dwlt
+
+Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
