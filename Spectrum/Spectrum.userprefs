@@ -1,0 +1,19 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\CharacterModel.js">
+    <Files>
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Monster5.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Monster.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CameraMovement.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\ColorCircle.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="122" Column="4" />
+      <File FileName="Assets\Resources\Scripts\Weapon.js" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
