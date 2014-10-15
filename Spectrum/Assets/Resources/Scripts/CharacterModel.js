@@ -85,6 +85,7 @@ function Update () {
 			vincible = true;															// Makes player vincible again.
 			rjTimer = 0;
 			landSound.Play();
+			landing();
 		}
 	}
 	if (Input.GetKeyUp("w")){
@@ -199,6 +200,7 @@ function Update () {
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
+	//vincible = false;
 }
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
@@ -322,3 +324,21 @@ function OnDrawGizmos() {
 	
 }
 
+function landing(){
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
+	var landingScript = modelObject.AddComponent("Landing");		// Add the landing.js script to the object.
+												
+	modelObject.collider.enabled = false;
+	modelObject.AddComponent(BoxCollider);
+	modelObject.GetComponent(BoxCollider).isTrigger = true;
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,.5);
+	/*modelObject.AddComponent(Rigidbody);
+	modelObject.GetComponent(Rigidbody).isKinematic = true;
+	modelObject.GetComponent(Rigidbody).useGravity = false;
+	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+*/
+																																													// We can now refer to the object via this script.
+	landingScript.transform.parent = this.transform;	// Set the landing's parent object to be the landing folder.							
+	landingScript.init(this.transform.position.x, this.transform.position.y);				
+
+}
