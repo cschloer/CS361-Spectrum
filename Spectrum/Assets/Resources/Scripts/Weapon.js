@@ -1,16 +1,20 @@
 #pragma strict
+
+//The hero's sword.
 public class Weapon extends MonoBehaviour{
-	public var weaponObject : GameObject;
-	public var owner : Character;
-	public var model : WeaponModel;
-	public var baseRotation : Vector3;
-	public var basePosition : Vector3;
+
+	public var weaponObject : GameObject; //GameObject for weapon's behavior
+	public var owner : Character;	//the owner of this weapon (Currently can only be the main character)
+	public var model : WeaponModel;	//Model object for weapon
+	public var baseRotation : Vector3;	//Default offset rotation when weapon is held
+	public var basePosition : Vector3;	//Default offset translation when weapon is held
 	//public var rotationPoint : Vector3;
-	public var swinging : boolean;
-	public var recovering : boolean;
+	public var swinging : boolean;	//Boolean used to decide if sword inflicts damage on contact
+	public var recovering : boolean;	//Boolean used to decide if sword is still recovering
 	public var swingSound : AudioSource; //Need one of these for each different clip.
 	public var tossSound : AudioSource; 
 
+	//Takes owner (main character) as parameter
 	function init(c){
 		this.name = "Weapon";
 		recovering = false;
@@ -48,34 +52,46 @@ public class Weapon extends MonoBehaviour{
 		tossSound.volume = .5;
  		}
  		
+ 	//Returns distance to hero
  	function distanceFromOwner(){
  		return Vector3.Magnitude(model.transform.position - owner.model.transform.position);
  	}
+ 	
+ 	//Used when weapon can start inflicting damage
  	function startSwinging(){
  		swinging = true;
  		model.renderer.material.color = Color(1,1,1);
  		owner.model.rjTimer = owner.model.rollTime;
 
  	}
+ 	
+ 	//Used when weapon can no longer inflict damage
  	function stopSwinging(){
  		swinging = false;
  		model.renderer.material.color = Color(.8,.6,.6);
  	}
+ 	
+ 	//Used when recovery begins
  	function startRecovery(){
  		recovering = true;
  		model.renderer.material.color = Color(.7,.5,.5);
 
  	}
+ 	
+ 	//Used when recovery ends
  	function stopRecovery(){
  		recovering = false;
  		model.renderer.material.color = Color(.8,.6,.6);
  	}
  	
+ 	//Subroutine
+ 	//Hero swings sword across (angle) over (time), recovering for (recovery) seconds.
  	function swing(angle : int, time : float, recovery : float){
  		swingSound.Play(); // Plays the sound
 
  		startSwinging();
  		var t : float = 0;
+ 		//Swinging motion
  		while (t < time){
  				t += Time.deltaTime;
  			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
@@ -86,6 +102,7 @@ public class Weapon extends MonoBehaviour{
  		
  		stopSwinging();
 		startRecovery();
+		//Recovery motion
  		while (t < time + recovery){
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
@@ -96,6 +113,8 @@ public class Weapon extends MonoBehaviour{
  		stopRecovery();
  	}
 
+	//Subroutine
+	//Hero executes spin attack over time (time), recovers for (recovery) seconds. Sword rotates by 360 plus (overshoot). 
 	function spin(time : float, recovery : float, overshoot : float){
 		startSwinging();
  		var t : float = 0;
@@ -121,12 +140,16 @@ public class Weapon extends MonoBehaviour{
  		stopRecovery();
  	}
 	
+	//Subroutine
+	//Throw sword directly forward by (distance) over (time), spinning at rate (spinSpeed). Recover for time (recovery). 
+	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
   	function toss(distance : float, time : float, spinSpeed : float, recovery : float){
  		model.transform.parent = null;
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
  		startSwinging();
  		var t : float = 0;
+ 		//Throw outward
  		while (t < time){
  			if(!tossSound.isPlaying) tossSound.Play();
  			t += Time.deltaTime;
@@ -135,6 +158,7 @@ public class Weapon extends MonoBehaviour{
  			yield;
  		}
  		t=0;
+ 		//Recover until sword reaches hero
  		while (distanceFromOwner() > .1){
  			t += Time.deltaTime;
  			 if(!tossSound.isPlaying) tossSound.Play();
@@ -159,7 +183,7 @@ public class Weapon extends MonoBehaviour{
  		
  		stopRecovery();
  	}
- 		
+ 	//Looks for key input, executes proper function depending on color.
  	function Update(){
  		if(Input.GetKeyDown("up") && !swinging && !recovering && owner.model.yellow){
  			if(owner.model.jumping){
@@ -181,8 +205,8 @@ public class Weapon extends MonoBehaviour{
  		}
  	}
  	
- 	
-	
+ 	//Subroutine called at initialization
+	//Constantly places sword at hero. This deals with the issue of the sword moving while the hero runs against an obstacle.
 	function resetPosition(){
 		while (true){
 			if(!swinging)
