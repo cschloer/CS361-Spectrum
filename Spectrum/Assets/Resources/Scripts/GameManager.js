@@ -130,7 +130,7 @@ function spawnMonster() {
 		if (clockFrequency > 1){
 			clockFrequency *= .98;
 		}
-		print("spawned monster " + rType + ", " + clockFrequency);
+		//print("spawned monster " + rType + ", " + clockFrequency);
 	}
 }
 

@@ -215,7 +215,7 @@ function changeBlue(){
 		blue = true;
 		this.renderer.material.color = colorChoice();
 	}
-	print("Blue: " + blue);
+	//print("Blue: " + blue);
 
 }
 function changeRed(){
@@ -231,7 +231,7 @@ function changeRed(){
 		this.transform.localScale = Vector3(2,2,2); 
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
 	}
-	print("Red: " + red);
+	//print("Red: " + red);
 
 }
 function changeYellow(){
@@ -243,7 +243,7 @@ function changeYellow(){
 	  yellow = true;
 	  this.renderer.material.color = colorChoice();
 	}
-	print("Yellow: " + yellow);
+//	print("Yellow: " + yellow);
 }
 
 function colorChoice(){
@@ -331,14 +331,14 @@ function landing(){
 	modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,.5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(2,2,2);
 	/*modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = true;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
 	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 */
-																																													// We can now refer to the object via this script.
-	landingScript.transform.parent = this.transform;	// Set the landing's parent object to be the landing folder.							
+																																							// We can now refer to the object via this script.
+	landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
 	landingScript.init(this.transform.position.x, this.transform.position.y);				
 
 }

@@ -207,7 +207,7 @@ public class Monster extends MonoBehaviour
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
-		Destroy(modelObject);
+		Destroy(this.gameObject);
 	}
 	function act(){
 		model.transform.position.z = 0;
