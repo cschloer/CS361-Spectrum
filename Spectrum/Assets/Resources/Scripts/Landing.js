@@ -28,7 +28,7 @@ function OnTriggerEnter(col:Collider){
 	if (col.gameObject.name.Contains("Monster")){ // If it runs into a monster, knock that monster back
 		print("WE HIT ONE SCOTTY");
 		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
-		//monster.
+		var distance = Vector3.Distance(monster.transform.position, this.transform.position);
 		//col.gameObject.GetComponent(MonsterModel).monster.flee(
 	}
 }
