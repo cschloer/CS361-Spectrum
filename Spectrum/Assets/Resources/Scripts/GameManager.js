@@ -9,6 +9,7 @@ var tiles : Array;					// This array holds tiles.
 var colorFolder : GameObject;
 var camera:GameObject;
 
+var paused : boolean;
 var clock: float;
 var monsterCounter : int;
 var clockFrequency : int;
@@ -41,6 +42,7 @@ function Start () {
 	
 	protolevelInit();
 	
+	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
 	clockFrequency = 15;
@@ -64,6 +66,16 @@ function Update () {
 
 		}
 		return;
+	}
+	if (Input.GetKeyUp(KeyCode.Escape)){
+		if(!paused){
+			Time.timeScale = 0;
+			paused = !paused;
+		}
+		else{
+			Time.timeScale = 1;
+			paused = !paused;
+		}
 	}
 	clock = clock + Time.deltaTime;
 	spawnMonster();
@@ -220,8 +232,13 @@ function OnGUI() {
 		GUI.color = Color.white;
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n You win!");
+	} else if(paused){
+		GUI.backgroundColor = Color.black;
+		GUI.color = Color.white;
+		GUI.skin.box.fontSize = 26;
+		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n Paused!\nHealth: "+character.health+"\nScore:"+character.killedMonsters);
 	}
 	else {
-		GUI.Label(Rect(0,0,Screen.width,Screen.height),"Health: " + character.health + "\nKilled Monsters: " + character.killedMonsters );
+		GUI.Label(Rect(0,0,Screen.width,Screen.height),"Health: " + character.health + "\nKilled Monsters: "+character.killedMonsters);
 	}
 }
