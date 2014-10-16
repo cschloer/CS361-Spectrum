@@ -3,14 +3,18 @@ var clock:float;
 var modelObject:GameObject;
 var x:float;
 var y:float;
+var colliderSize:int;
+var knockBackRange:float;
 
 function init(x:float, y:float, m){
+	colliderSize = 2;
+	knockBackRange = Mathf.Sqrt(colliderSize*colliderSize);
 	modelObject = m;										
 	modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
 	modelObject.GetComponent(BoxCollider).size = Vector3(2,2,2);
-	
+
 	
 	this.x = x;
 	this.y = y;
@@ -28,7 +32,9 @@ function OnTriggerEnter(col:Collider){
 	if (col.gameObject.name.Contains("Monster")){ // If it runs into a monster, knock that monster back
 		print("WE HIT ONE SCOTTY");
 		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
-		var monsterDistance = Vector3.Distance(monster.transform.position, this.transform.position);
+		var monsterDistance:float = Vector2.Distance(Vector2(monster.model.transform.position.x, monster.model.transform.position.y),
+			Vector2(this.transform.position.x, this.transform.position.y));
+		print(monsterDistance);
 		var colliderDistance = Vector3(2, 2, 0);
 		//col.gameObject.GetComponent(MonsterModel).monster.flee(
 	}
