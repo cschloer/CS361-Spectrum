@@ -159,6 +159,14 @@ public class Monster extends MonoBehaviour
 	}
 	
 	
+	public function charge(speed : float, duration : float){
+		var t : float = 0;
+		while(t < duration && health > 0){
+			t += Time.deltaTime;
+			moveTowardHero(speed);
+			yield;
+		}
+	}
 	
 	//Subroutine - call once, runs concurrently.
 	public function flee(speed : float, duration : float){
