@@ -327,7 +327,6 @@ function OnDrawGizmos() {
 function landing(){
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
 	var landingScript = modelObject.AddComponent("Landing");		// Add the landing.js script to the object.
-
 	/*modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = true;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
