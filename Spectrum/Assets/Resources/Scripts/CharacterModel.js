@@ -327,7 +327,7 @@ function OnDrawGizmos() {
 function landing(){
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
 	var landingScript = modelObject.AddComponent("Landing");		// Add the landing.js script to the object.
-	
+
 	/*modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = true;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
@@ -335,6 +335,6 @@ function landing(){
 */
 																																							// We can now refer to the object via this script.
 	landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
-	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject);				
+	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject, this.red);				
 
 }

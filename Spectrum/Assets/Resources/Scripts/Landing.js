@@ -3,28 +3,42 @@ var clock:float;
 var modelObject:GameObject;
 var x:float;
 var y:float;
-var colliderSize:int;
+var colliderSize:float;
 var knockBackRange:float;
+var isBig:boolean;
 
-function init(x:float, y:float, m){
-	colliderSize = 2;
+
+function init(x:float, y:float, m:GameObject, r:boolean){
+	clock = 0;
+	isBig = r;
+	colliderSize = 1.5;
+	if (isBig) colliderSize = 3;
 	knockBackRange = Mathf.Sqrt(colliderSize*colliderSize);
 	modelObject = m;										
 	modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
-	modelObject.GetComponent(BoxCollider).size = Vector3(2,2,2);
+	modelObject.GetComponent(BoxCollider).size = Vector3(colliderSize,colliderSize,2);
 
 	
 	this.x = x;
 	this.y = y;
 	this.name = "Landing";											// Name the object.
-	this.renderer.material.mainTexture = Resources.Load("Textures/landing", Texture2D);	// Set the texture.  Must be in Resources folder.
+	this.renderer.material.mainTexture = Resources.Load("Textures/empty", Texture2D);	// Set the texture.  Must be in Resources folder.
+	
+	//this.renderer.material.mainTexture = Resources.Load("Textures/landing", Texture2D);	// Uncomment this line to add a texture showing the approximate size of the landing
 	this.transform.position = Vector3(x, y, -1);	
 	this.transform.localScale = Vector3(2, 2, 2);
+	if (isBig) this.transform.localScale = Vector3(4, 4, 4);	 
 	
 	this.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	this.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+}
+
+function Update(){
+	if (clock > .2) Destroy(this.gameObject);
+	clock+=Time.deltaTime;
+ 
 }
 
 function OnTriggerEnter(col:Collider){
@@ -36,7 +50,10 @@ function OnTriggerEnter(col:Collider){
 			Vector2(this.transform.position.x, this.transform.position.y));
 		print(monsterDistance);
 		var colliderDistance = Vector3(2, 2, 0);
-		//col.gameObject.GetComponent(MonsterModel).monster.flee(
+		var speed :int = 5;
+		col.gameObject.GetComponent(MonsterModel).monster.flee(speed, (knockBackRange-monsterDistance)/speed); // knockback function, based on how far away
+		//col.gameObject.GetComponent(MonsterModel).monster.hurt();
+		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
 	}
 }
 function OnDrawGizmos() {
