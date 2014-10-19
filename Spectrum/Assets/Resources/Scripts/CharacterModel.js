@@ -154,6 +154,10 @@ function Update () {
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = true;
 		}
 	}
+	if (Input.GetKeyDown("f")){
+	
+		castSpell();
+	}
 	if (Input.GetKeyDown("space")) {
 		if (!jumping && !rolling) { 
 			if (!blue && rjTimer >= rollCooldown){ // roll because blue
@@ -335,5 +339,10 @@ function landing(){
 																																							// We can now refer to the object via this script.
 	landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
 	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject, this.red);				
+
+}
+
+function castSpell(){
+	print("Casting...");
 
 }

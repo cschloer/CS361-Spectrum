@@ -1,5 +1,5 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\CharacterModel.js">
     <Files>
       <File FileName="Assets\Resources\Scripts\GameManager.js" Line="1" Column="1" />
@@ -8,7 +8,7 @@
       <File FileName="Assets\Resources\Scripts\Monster.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\CameraMovement.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\ColorCircle.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="122" Column="4" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="317" Column="1" />
       <File FileName="Assets\Resources\Scripts\Weapon.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
