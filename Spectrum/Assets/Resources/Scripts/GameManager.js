@@ -19,6 +19,8 @@ var loseScreen:boolean;
 var winScreen:boolean;
 
 var musicSound : AudioSource;
+
+
 // Called once when the script is created.
 function Start () {
 	characterFolder = new GameObject();  

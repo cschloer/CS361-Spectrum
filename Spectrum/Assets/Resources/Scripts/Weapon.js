@@ -15,7 +15,7 @@ public class Weapon extends MonoBehaviour{
 	public var tossSound : AudioSource; 
 
 	//Takes owner (main character) as parameter
-	function init(c){
+	function init(c:Character){
 		this.name = "Weapon";
 		recovering = false;
 		owner = c;
@@ -34,7 +34,7 @@ public class Weapon extends MonoBehaviour{
 	 	weaponObject.GetComponent(Rigidbody).useGravity = false;
 	 	weaponObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 	 	weaponObject.transform.parent = owner.model.transform;
-		model = weaponObject.AddComponent("WeaponModel");
+		model = weaponObject.AddComponent("WeaponModel") as WeaponModel;
 		model.weapon = this;
 		model.transform.parent = weaponObject.transform;								
 		model.transform.localPosition = basePosition;						
@@ -45,10 +45,10 @@ public class Weapon extends MonoBehaviour{
 		stopSwinging();
 		
 		swingSound = gameObject.AddComponent("AudioSource") as AudioSource; //Initialized AudioSource
-		swingSound.clip = Resources.Load("Sounds/woosh"); //Loads proper clip. In Unity Editor make sure "3D Sound" is UNCHECKED. It's checked by default. MP3s seem to work well and Audacity can export them.
+		swingSound.clip = Resources.Load("Sounds/woosh") as AudioClip; //Loads proper clip. In Unity Editor make sure "3D Sound" is UNCHECKED. It's checked by default. MP3s seem to work well and Audacity can export them.
 		swingSound.volume = .7;
 		tossSound = gameObject.AddComponent("AudioSource") as AudioSource;
-		tossSound.clip = Resources.Load("Sounds/woosh-woosh");
+		tossSound.clip = Resources.Load("Sounds/woosh-woosh") as AudioClip;
 		tossSound.volume = .5;
  		}
  		

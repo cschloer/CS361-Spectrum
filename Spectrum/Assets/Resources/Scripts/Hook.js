@@ -8,19 +8,19 @@ var hasHit:boolean;
 var boxObject:GameObject;
 
 
-function init(x:float, y:float, m:GameObject, c){
+function init(x:float, y:float, m:GameObject, c:CharacterModel){
 	clock = 0;
 	modelObject = m;	
 	character = c;				
 	modelObject.collider.isTrigger = true;			
-	// no need to fuck with mesh colliders
+	// no need to mess with box colliders
 	this.x = x;
 	this.y = y;
 	this.name = "Hook";											// Name the object.
 	this.renderer.material.mainTexture = Resources.Load("Textures/hook", Texture2D);	// Set the texture.  Must be in Resources folder.
 	
 	this.transform.rotation = character.transform.rotation;
-	//this.renderer.material.mainTexture = Resources.Load("Textures/landing", Texture2D);	// Uncomment this line to add a texture showing the approximate size of the landing
+	
 	this.transform.position = Vector3(x, y, -1);	
 	//this.transform.localScale = Vector3(2, 2, 2);
 	
@@ -73,6 +73,6 @@ public function moveTowardHero(m : float){
 }
 
 function destroyMe(){
-	character.isHook = false;
+	character.coolSpell = false;
 	Destroy(this.gameObject);
 }

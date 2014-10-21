@@ -44,11 +44,9 @@ function Update(){
 function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
 	if (col.gameObject.name.Contains("Monster")){ // If it runs into a monster, knock that monster back
-		print("WE HIT ONE SCOTTY");
 		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
 		var monsterDistance:float = Vector2.Distance(Vector2(monster.model.transform.position.x, monster.model.transform.position.y),
 			Vector2(this.transform.position.x, this.transform.position.y));
-		print(monsterDistance);
 		var colliderDistance = Vector3(2, 2, 0);
 		var speed :int = 5;
 		col.gameObject.GetComponent(MonsterModel).monster.flee(speed, (knockBackRange-monsterDistance)/speed); // knockback function, based on how far away

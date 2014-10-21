@@ -35,7 +35,7 @@ var rollSound : AudioSource;
 var jumpSound : AudioSource;
 var landSound : AudioSource;
 
-var isHook:boolean;
+var coolSpell:boolean; // cooldown for spell
 
 // Use this for initialization
 function Start () {
@@ -342,17 +342,28 @@ function landing(){
 }
 
 function castSpell(){
-	spellHook();
-
+	if (yellow) spellHook();
+	else spellMine();
 }
 
-function spellHook(){
-	if (isHook) return;
-	isHook = true;
+function spellHook(){ // hook spell, currently when meele
+	if (coolSpell) return;
+	coolSpell = true;
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
 	var hookScript = modelObject.AddComponent("Hook");		// Add the hook.js script to the object.
 	
 																																							// We can now refer to the object via this script.
 	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
 	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+}
+
+function spellMine(){	// mine spell, currently when ranged
+	if (coolSpell) return;
+	coolSpell = true;
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+	var hookScript = modelObject.AddComponent("Mine");		// Add the hook.js script to the object.
+																																							// We can now refer to the object via this script.
+	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
+	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+
 }
