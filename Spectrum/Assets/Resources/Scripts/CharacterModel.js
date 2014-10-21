@@ -342,6 +342,7 @@ function landing(){
 }
 
 function castSpell(){
+
 	if (yellow) spellHook();
 	else spellMine();
 }
@@ -350,7 +351,7 @@ function spellHook(){ // hook spell, currently when meele
 	if (coolSpell) return;
 	coolSpell = true;
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-	var hookScript = modelObject.AddComponent("Hook");		// Add the hook.js script to the object.
+	var hookScript = modelObject.AddComponent("SpellHook");		// Add the hook.js script to the object.
 	
 																																							// We can now refer to the object via this script.
 	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
@@ -360,6 +361,18 @@ function spellHook(){ // hook spell, currently when meele
 function spellMine(){	// mine spell, currently when ranged
 	if (coolSpell) return;
 	coolSpell = true;
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+	var hookScript = modelObject.AddComponent("SpellMine");		// Add the hook.js script to the object.
+																																							// We can now refer to the object via this script.
+	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
+	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+
+}
+
+function spellAOE(){
+	//if (coolSpell) return;
+	//coolSpell = true;
+	
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
 	var hookScript = modelObject.AddComponent("Mine");		// Add the hook.js script to the object.
 																																							// We can now refer to the object via this script.
