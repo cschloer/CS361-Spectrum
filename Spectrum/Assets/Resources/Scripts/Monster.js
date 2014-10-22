@@ -24,7 +24,7 @@ public class Monster extends MonoBehaviour
 		health = 3;
 		hurtRecovery = 1;
 		modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
-		model = modelObject.AddComponent("MonsterModel");						// Add a gemModel script to control visuals of the gem.
+		model = modelObject.AddComponent("MonsterModel") as MonsterModel;						// Add a gemModel script to control visuals of the gem.
 		model.monster = this;
 		//gemType = 1;
 		moveSpeed = 1;
@@ -48,15 +48,15 @@ public class Monster extends MonoBehaviour
  		modelObject.GetComponent(Rigidbody).freezeRotation = true;
  		
  		hurtSound = gameObject.AddComponent("AudioSource") as AudioSource;
-		hurtSound.clip = Resources.Load("Sounds/hit");
+		hurtSound.clip = Resources.Load("Sounds/hit") as AudioClip;
 		splatSound = gameObject.AddComponent("AudioSource") as AudioSource;
-		splatSound.clip = Resources.Load("Sounds/splat");
+		splatSound.clip = Resources.Load("Sounds/splat") as AudioClip;
 		hissSound = gameObject.AddComponent("AudioSource") as AudioSource;
-		hissSound.clip = Resources.Load("Sounds/hiss");
+		hissSound.clip = Resources.Load("Sounds/hiss") as AudioClip;
 		puffSound = gameObject.AddComponent("AudioSource") as AudioSource;
-		puffSound.clip = Resources.Load("Sounds/puff");
+		puffSound.clip = Resources.Load("Sounds/puff") as AudioClip;
 		vip1Sound = gameObject.AddComponent("AudioSource") as AudioSource;
-		vip1Sound.clip = Resources.Load("Sounds/vip1");
+		vip1Sound.clip = Resources.Load("Sounds/vip1") as AudioClip;
 		vip2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
 		vip2Sound.clip = Resources.Load("Sounds/vip2");
 		
@@ -164,6 +164,14 @@ public class Monster extends MonoBehaviour
 	}
 	
 	
+	public function charge(speed : float, duration : float){
+		var t : float = 0;
+		while(t < duration && health > 0){
+			t += Time.deltaTime;
+			moveTowardHero(speed);
+			yield;
+		}
+	}
 	
 	//Subroutine - call once, runs concurrently.
 	public function flee(speed : float, duration : float){
@@ -212,7 +220,7 @@ public class Monster extends MonoBehaviour
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
-		Destroy(modelObject);
+		Destroy(this.gameObject);
 	}
 	function act(){
 		model.transform.position.z = 0;
@@ -231,7 +239,7 @@ public class Monster extends MonoBehaviour
 	//Keywords can be used for specific hit behaviours (stun, slow, knockback, etc) to be implemented in CharacterModel's (or WeaponModel's) OnTriggerEnter.
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
-		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack");						
+		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack") as MonsterAttack;						
 		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		attack.transform.position = model.transform.position;
 		attack.transform.rotation = model.transform.rotation;

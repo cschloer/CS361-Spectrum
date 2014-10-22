@@ -39,8 +39,11 @@ var landSound : AudioSource;
 var shadow : GameObject;
 var shadowOffset : float;
 
+var coolSpell:boolean; // cooldown for spell
+
 // Use this for initialization
 function Start () {
+	isHook = false;
 	speed = 2;
 	blue = false;
 	red = false;
@@ -175,6 +178,10 @@ function Update () {
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = true;
 		}
 	}
+	if (Input.GetKeyDown("f")){
+	
+		castSpell();
+	}
 	if (Input.GetKeyDown("space")) {
 		if (!jumping && !rolling) { 
 			if (!blue && rjTimer >= rollCooldown){ // roll because blue
@@ -243,7 +250,7 @@ function changeBlue(){
 		blue = true;
 		this.renderer.material.color = colorChoice();
 	}
-	print("Blue: " + blue);
+	//print("Blue: " + blue);
 
 }
 function changeRed(){
@@ -259,7 +266,7 @@ function changeRed(){
 		this.transform.localScale = Vector3(2,2,2); 
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
 	}
-	print("Red: " + red);
+	//print("Red: " + red);
 
 }
 function changeYellow(){
@@ -271,7 +278,7 @@ function changeYellow(){
 	  yellow = true;
 	  this.renderer.material.color = colorChoice();
 	}
-	print("Yellow: " + yellow);
+//	print("Yellow: " + yellow);
 }
 
 function colorChoice(){
@@ -353,20 +360,51 @@ function OnDrawGizmos() {
 }
 
 function landing(){
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
 	var landingScript = modelObject.AddComponent("Landing");		// Add the landing.js script to the object.
-												
-	modelObject.collider.enabled = false;
-	modelObject.AddComponent(BoxCollider);
-	modelObject.GetComponent(BoxCollider).isTrigger = true;
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,.5);
-	/*modelObject.AddComponent(Rigidbody);
-	modelObject.GetComponent(Rigidbody).isKinematic = true;
-	modelObject.GetComponent(Rigidbody).useGravity = false;
-	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
-*/
-																																													// We can now refer to the object via this script.
-	landingScript.transform.parent = this.transform;	// Set the landing's parent object to be the landing folder.							
-	landingScript.init(this.transform.position.x, this.transform.position.y);				
+	
+																																							// We can now refer to the object via this script.
+	landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
+	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject, this.red);				
+
+}
+
+function castSpell(){
+
+	if (yellow) spellHook();
+	else spellMine();
+}
+
+function spellHook(){ // hook spell, currently when meele
+	if (coolSpell) return;
+	coolSpell = true;
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+	var hookScript = modelObject.AddComponent("SpellHook");		// Add the hook.js script to the object.
+	
+																																							// We can now refer to the object via this script.
+	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
+	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+}
+
+function spellMine(){	// mine spell, currently when ranged
+	if (coolSpell) return;
+	coolSpell = true;
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+	var hookScript = modelObject.AddComponent("SpellMine");		// Add the hook.js script to the object.
+																																							// We can now refer to the object via this script.
+	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
+	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+
+}
+
+function spellAOE(){
+	//if (coolSpell) return;
+	//coolSpell = true;
+	
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+	var hookScript = modelObject.AddComponent("Mine");		// Add the hook.js script to the object.
+																																							// We can now refer to the object via this script.
+	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
+	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 
 }
