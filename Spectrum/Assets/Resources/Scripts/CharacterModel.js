@@ -69,8 +69,8 @@ function Start () {
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	//shadow.transform.parent=transform;
 	//shadow.transform.localPosition = Vector3(0, 0, 0);						// Center the model on the parent.
-	
-	shadow.name = "Character Shadown";											// Name the object.
+	shadow.transform.parent = this.transform.parent;
+	shadow.name = "Character Shadow";											// Name the object.
 	shadow.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
 	shadow.renderer.material.color = Color.black;												// Set the color (easy way to tint things).
 	shadow.renderer.material.color.a = .4;
@@ -235,6 +235,7 @@ function Update () {
 function updateShadow(){
 	shadow.transform.position = transform.position + Vector3.down * shadowOffset;
 	shadow.transform.rotation = transform.rotation;
+	shadow.transform.position.z = 0;
 	if (!jumping) shadowOffset = .1;
 }
 function OnCollisionExit(collisionInfo : Collision){
@@ -259,11 +260,13 @@ function changeRed(){
 		this.renderer.material.color = colorChoice();
 		this.transform.localScale = Vector3(1,1,1); 
 		modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+		shadow.transform.localScale = Vector3(1,1,1);
 	}
 	else {
 		red = true;
 		this.renderer.material.color = colorChoice();
 		this.transform.localScale = Vector3(2,2,2); 
+		shadow.transform.localScale = Vector3(2,2,2);
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
 	}
 	//print("Red: " + red);
@@ -372,7 +375,7 @@ function landing(){
 function castSpell(){
 	if (yellow && !blue) spellHook(); // rolling meele
 	else if (!yellow && !blue) spellMine(); // rolling ranged
-	else if (!yellow && blue) spellAOE(); // jumping ranged
+	else if (yellow && blue) spellAOE(); // jumping melee
 	else print("Spell not yet implemented");
 }
 

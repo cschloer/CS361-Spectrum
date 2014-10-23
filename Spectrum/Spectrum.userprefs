@@ -1,10 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/CharacterModel.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\SpellMine.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/Character.js" Line="26" Column="71" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="247" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="413" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="407" Column="59" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="26" Column="71" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="247" Column="1" />
+      <File FileName="Assets\Resources\Scripts\WeaponModel.js" Line="18" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Weapon.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\SpellMine.js" Line="64" Column="3" />
+      <File FileName="Assets\Resources\Scripts\SpellAOE.js" Line="58" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
