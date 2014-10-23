@@ -63,6 +63,7 @@
      <Compile Include="Assets\Resources\Scripts\Monster6.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterAttack.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterModel.js" />
+     <Compile Include="Assets\Resources\Scripts\SpellAOE.js" />
      <Compile Include="Assets\Resources\Scripts\SpellHook.js" />
      <Compile Include="Assets\Resources\Scripts\SpellMine.js" />
      <Compile Include="Assets\Resources\Scripts\Tile.js" />

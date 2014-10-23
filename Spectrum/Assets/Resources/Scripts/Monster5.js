@@ -41,7 +41,7 @@ public class Monster5 extends Monster {
 	
 	function Update() {
 		super.Update();
-		clock = clock + Time.deltaTime;
+		clock = clock + Time.deltaTime*freeze;
 		blink();
 	}
 

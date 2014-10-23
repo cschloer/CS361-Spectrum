@@ -25,7 +25,7 @@ public class Monster6 extends Monster{
 		//If we're lunging, head forward and increment lungeTimer. 
 		if(lunging){
 			move(2);
-			lungeTimer += Time.deltaTime;
+			lungeTimer += Time.deltaTime*freeze;
 		} else {		// If we're not, get behind the hero.
 			circleBehind();
 		}
