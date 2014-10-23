@@ -134,9 +134,11 @@ function spawnMonster() {
 		rType = Random.Range(1,7);
 		addMonster(rX,rY,character,rType);
 		monsterCounter++;
+		/*
 		if (clockFrequency > 1){
-			clockFrequency *= .98;
+			clockFrequency -= 1;
 		}
+		*/
 		//print("spawned monster " + rType + ", " + clockFrequency);
 	}
 }
