@@ -3,7 +3,7 @@ var moveW:boolean;
 var moveS:boolean;
 var moveE:boolean;
 
-var Manager;
+var Manager:GameManager;
 
 var rotateL:boolean;
 var rotateR:boolean;
@@ -228,6 +228,7 @@ function Update () {
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
+	
 	vincible = false;
 }
 
@@ -413,5 +414,8 @@ function spellAOE(){
 		hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 		
 	}
+	
+	yield WaitForSeconds(5); 
+	coolSpell = false;
 
 }

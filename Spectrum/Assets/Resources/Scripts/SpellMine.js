@@ -10,8 +10,10 @@ var colliderSize:float;
 var explosionParticle:ParticleSystem;
 var resetCool:boolean; // so that the cooldown only gets reset the first time around
 var cycles:int; // how many blinking cycles it's gone through
+var destroying:boolean;
 
 function init(x:float, y:float, m:GameObject, c:CharacterModel){
+	destroying = false;
 	resetCool = true;
 	cycles = 0;
 	clock = 0;
@@ -56,7 +58,7 @@ function Update(){
 
 function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
-	if (col.gameObject.name.Contains("Monster")){ // If it runs into a monster, pull that monster back
+	if (col.gameObject.name.Contains("Monster")){ // If it runs into a monster, damage it
 		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
 		monster.hurt();
 		destroyMe();
@@ -73,11 +75,19 @@ function OnDrawGizmos() {
 
 
 function destroyMe(){
+	if (destroying) return;
+	this.renderer.enabled = false;
+	modelObject.GetComponent(BoxCollider).size = Vector3(colliderSize*2,colliderSize*2,2); // Collider gets bigger in explosion
+	destroying = true;
+	var explosionParticle:ParticleSystem = Instantiate(character.Manager.explosionFire);
+	explosionParticle.transform.parent = transform;
+	explosionParticle.transform.localPosition = Vector3(0,0,0);
+	explosionParticle.gameObject.SetActive(true);
+	yield WaitForSeconds(1);
 	if (resetCool) { // if the cooldown hasn't been reset yet, this mine was destroyed very early. Remove mine visually and wait before resetting cooldown.
-		this.renderer.enabled = false;
-		this.collider.enabled = false;
 		yield WaitForSeconds(.5-clock);
 		character.coolSpell = false;
 	}
+	
 	Destroy(this.gameObject);
 }

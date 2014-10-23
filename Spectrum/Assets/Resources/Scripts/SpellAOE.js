@@ -8,9 +8,10 @@ var hasHit:boolean;
 var boxObject:GameObject;
 
 var direction:int;
-
+var destroying:boolean;
 
 function init(x:float, y:float, m:GameObject, c:CharacterModel){
+	destroying = false;
 	clock = 0;
 	modelObject = m;	
 	character = c;
@@ -32,7 +33,8 @@ function init(x:float, y:float, m:GameObject, c:CharacterModel){
 }
 
 function Update(){
-	if (clock > 10 && !hasHit) destroyMe(0); // destroy if it hasn't hit anything after 1.5 seconds
+	if (destroying) return;
+	if (clock > 10 && !hasHit) destroyMe(false); // destroy if it hasn't hit anything after 1.5 seconds
 	if (clock > .25) 	this.transform.Rotate(0, 0,direction*5);
 	if (clock > 8) this.renderer.material.color.a = 1-((clock-8)/2);
 	clock+=Time.deltaTime;
@@ -53,11 +55,9 @@ function OnTriggerEnter(col:Collider){
 		// When this object is destroyed, any coroutine it called is immediately all destroyed.
 		// So the destruction of this gameObject has to be delayed.
 		hasHit = true;
-		this.renderer.enabled = false;
-	//	this.rigidbody.isKinematic = true;
-		this.collider.enabled = false;
+
 		monster.pause(2);
-		destroyMe(3);
+		destroyMe(true); // destroy and explode!
 		
 		//col.gameObject.GetComponent(MonsterModel).monster.hurt();
 		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
@@ -76,8 +76,16 @@ public function moveTowardHero(m : float){
 		this.transform.position += toHero.normalized * Time.deltaTime*1* m;
 }
 
-function destroyMe(delay:float){
-	yield WaitForSeconds(delay);
-	character.coolSpell = false;
+function destroyMe(explode:boolean){
+	destroying = true;
+	if (explode) {
+		this.renderer.enabled = false;
+		this.collider.enabled = false;
+		var explosionParticle:ParticleSystem = Instantiate(character.Manager.explosionIce);
+		explosionParticle.transform.parent = transform;
+		explosionParticle.transform.localPosition = Vector3(0,0,0);
+		explosionParticle.gameObject.SetActive(true);
+		yield WaitForSeconds(3);
+	}
 	Destroy(this.gameObject);
 }

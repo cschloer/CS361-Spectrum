@@ -1,14 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\SpellMine.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\SpellAOE.js">
     <Files>
-      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="407" Column="59" />
-      <File FileName="Assets\Resources\Scripts\Character.js" Line="26" Column="71" />
-      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="247" Column="1" />
-      <File FileName="Assets\Resources\Scripts\WeaponModel.js" Line="18" Column="3" />
-      <File FileName="Assets\Resources\Scripts\Weapon.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\SpellMine.js" Line="64" Column="3" />
-      <File FileName="Assets\Resources\Scripts\SpellAOE.js" Line="58" Column="33" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="418" Column="27" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="11" Column="14" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="30" Column="15" />
+      <File FileName="Assets\Resources\Scripts\WeaponModel.js" Line="20" Column="3" />
+      <File FileName="Assets\Resources\Scripts\Weapon.js" Line="173" Column="6" />
+      <File FileName="Assets\Resources\Scripts\SpellMine.js" Line="85" Column="47" />
+      <File FileName="Assets\Resources\Scripts\SpellAOE.js" Line="80" Column="20" />
+      <File FileName="Assets\Resources\Scripts\Monster.js" Line="64" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
