@@ -72,6 +72,7 @@ function checkHealth(){
 	while (t < 2){
 		t += Time.deltaTime;
 		model.renderer.material.color.a = 1-(t/2);
+		weapon.model.renderer.material.color.a = 1-(t/2);
 		yield;
 	}
 	//Application.LoadLevel("Spectrum");

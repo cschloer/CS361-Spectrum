@@ -45,7 +45,8 @@ public class Monster4 extends Monster {
 	
 	function spit(){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
-		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack");						
+		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack");
+		attack.transform.parent = this.transform.parent;						
 		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		attack.transform.position = model.transform.position;
 		attack.transform.rotation = model.transform.rotation;

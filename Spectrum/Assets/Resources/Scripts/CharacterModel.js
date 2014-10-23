@@ -207,7 +207,7 @@ function Update () {
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
-	//vincible = false;
+	vincible = false;
 }
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
@@ -342,7 +342,8 @@ function landing(){
 }
 
 function castSpell(){
-
+	spellAOE();
+	return;
 	if (yellow) spellHook();
 	else spellMine();
 }
@@ -370,13 +371,16 @@ function spellMine(){	// mine spell, currently when ranged
 }
 
 function spellAOE(){
-	//if (coolSpell) return;
-	//coolSpell = true;
-	
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-	var hookScript = modelObject.AddComponent("Mine");		// Add the hook.js script to the object.
-																																							// We can now refer to the object via this script.
-	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
-	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+	if (coolSpell) return;
+	coolSpell = true;
+	for (var i=0; i < 16; i ++){
+		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+		var hookScript = modelObject.AddComponent("SpellAOE");		// Add the hook.js script to the object.
+		hookScript.transform.rotation = this.transform.rotation;
+		hookScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
+		hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
+		hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+		
+	}
 
 }

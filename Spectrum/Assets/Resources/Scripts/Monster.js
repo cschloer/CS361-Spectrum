@@ -16,8 +16,10 @@ public class Monster extends MonoBehaviour
 	public var hissSound : AudioSource;
 	public var vip1Sound : AudioSource;
 	public var vip2Sound : AudioSource;
+	var freeze:int; // 1 for not freezing, 0 for freezing
 
 	public function init(c : Character) {
+		freeze=1;
 		hero = c;
 		hurting = false;
 		health = 3;
@@ -66,7 +68,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Move forward at given speed factor
 	public function move(multiplier : float){
-		model.transform.position += model.transform.up * Time.deltaTime*moveSpeed*multiplier;
+		model.transform.position += model.transform.up * Time.deltaTime*freeze*moveSpeed*multiplier;
 		
 	}
 	
@@ -76,7 +78,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Move backward at given speed factor
 	public function moveBack(multiplier : float){
-		model.transform.position += -1*model.transform.up * Time.deltaTime*moveSpeed*multiplier;
+		model.transform.position += -1*model.transform.up * Time.deltaTime*freeze*moveSpeed*multiplier;
 	}
 	
 	//Strafe left
@@ -85,7 +87,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Strafe left at given speed
 	public function moveLeft(multiplier : float){
-		model.transform.position += -1*model.transform.right * Time.deltaTime*moveSpeed*multiplier;
+		model.transform.position += -1*model.transform.right * Time.deltaTime*freeze*moveSpeed*multiplier;
 	}
 	//Strafe right
 	public function moveRight(){
@@ -93,12 +95,12 @@ public class Monster extends MonoBehaviour
 	}
 	//Strafe right at given speed
 	public function moveRight(multiplier : float){
-		model.transform.position += 1*model.transform.right * Time.deltaTime*moveSpeed*multiplier;
+		model.transform.position += 1*model.transform.right * Time.deltaTime*freeze*moveSpeed*multiplier;
 	}
 	//Strafe toward hero at given speed
 	public function moveTowardHero(m : float){
 		var toHero : Vector3 = hero.model.transform.position - model.transform.position;
-		model.transform.position += toHero.normalized * Time.deltaTime*moveSpeed * m;
+		model.transform.position += toHero.normalized * Time.deltaTime*freeze*moveSpeed * m;
 	}
 	//Strafe toward hero at default speed
 	public function moveTowardHero(){
@@ -108,7 +110,7 @@ public class Monster extends MonoBehaviour
 	//Strafe away from hero at given speed
 	public function moveFromHero(m : float){
 		var toHero : Vector3 = hero.model.transform.position - model.transform.position;
-		model.transform.position += toHero.normalized * Time.deltaTime*moveSpeed * m * -1;
+		model.transform.position += toHero.normalized * Time.deltaTime*freeze*moveSpeed * m * -1;
 	}
 	
 	//Strafe away from hero at default speed
@@ -118,7 +120,7 @@ public class Monster extends MonoBehaviour
 	
 	//Rotate right (clockwise) at given speed
 	public function turnRight(m : float){
-		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime * turnSpeed * m * -1);
+		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime*freeze * turnSpeed * m * -1);
 	}
 	public function turnRight(){
 		turnRight(1);
@@ -126,7 +128,7 @@ public class Monster extends MonoBehaviour
 	
 	//Rotate left (counterclockwise) at given speed
 	public function turnLeft(m : float){
-		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime * turnSpeed * m * 1);
+		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime*freeze * turnSpeed * m * 1);
 	}
 	public function turnLeft(){
 		turnLeft(1);
@@ -152,7 +154,7 @@ public class Monster extends MonoBehaviour
 		//print("AnglestoHero: " + anglesToHero + ", Z: " + model.transform.eulerAngles.z);
 		var sign : float = -1;
 		if((model.transform.eulerAngles.z + (360-anglesToHero)) % 360 < 180) sign = 1;
-		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime * turnSpeed * sign * multiplier);
+		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime*freeze * turnSpeed * sign * multiplier);
 	}
 	public function turnToHero(){
 		turnToHero(1);
@@ -177,6 +179,15 @@ public class Monster extends MonoBehaviour
 			yield;
 		}
 	}
+	
+	public function pause(duration:float){
+		if (freeze==0) return; // can't have multiple freezes
+		freeze=0;
+		yield WaitForSeconds(duration);
+		freeze=1;
+	
+	}
+
 	
 	//Subroutine - call once, runs concurrently.
 	public function hurt(){

@@ -7,33 +7,39 @@ var character:CharacterModel;
 var hasHit:boolean;
 var boxObject:GameObject;
 
+var direction:int;
+
 
 function init(x:float, y:float, m:GameObject, c:CharacterModel){
 	clock = 0;
 	modelObject = m;	
-	character = c;				
+	character = c;
+	if (Random.Range(0, 2) == 0) direction = -1;		
+	else direction = 1;
+	hasHit = false;
 	modelObject.collider.isTrigger = true;			
 	// no need to mess with box colliders
 	this.x = x;
 	this.y = y;
-	this.name = "Hook";											// Name the object.
-	this.renderer.material.mainTexture = Resources.Load("Textures/hook", Texture2D);	// Set the texture.  Must be in Resources folder.
-	
-	this.transform.rotation = character.transform.rotation;
+	this.name = "AOE";											// Name the object.
+	this.renderer.material.mainTexture = Resources.Load("Textures/aoe", Texture2D);	// Set the texture.  Must be in Resources folder.
 	
 	this.transform.position = Vector3(x, y, 0);	
-	//this.transform.localScale = Vector3(2, 2, 2);
+	this.transform.localScale = Vector3(.5, .5, 2);
 	
 	this.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	this.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 }
 
 function Update(){
-	if (clock > 1.5 && !hasHit)destroyMe(); // destroy if it hasn't hit anything after 1.5 seconds
+	if (clock > 10 && !hasHit) destroyMe(0); // destroy if it hasn't hit anything after 1.5 seconds
+	if (clock > .25) 	this.transform.Rotate(0, 0,direction*5);
+	if (clock > 8) this.renderer.material.color.a = 1-((clock-8)/2);
 	clock+=Time.deltaTime;
-	if (hasHit) return;
+	
+	if (Random.Range(0, 60) == 1) direction*= -1;
  	//this.transform.position += this.transform.up; // use this for badass machine gun
- 	this.transform.position += this.transform.up/5;
+ 	this.transform.position += this.transform.up/(12/(clock/6+1));
 }
 
 function OnTriggerEnter(col:Collider){
@@ -42,8 +48,16 @@ function OnTriggerEnter(col:Collider){
 		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
 		var monsterDistance:float = Vector2.Distance(Vector2(monster.model.transform.position.x, monster.model.transform.position.y),
 			Vector2(character.transform.position.x, character.transform.position.y));
-		monster.charge(monsterDistance*2, .95/2);
-		this.pull(monsterDistance*2,.95/2);
+			
+			
+		// When this object is destroyed, any coroutine it called is immediately all destroyed.
+		// So the destruction of this gameObject has to be delayed.
+		hasHit = true;
+		this.renderer.enabled = false;
+	//	this.rigidbody.isKinematic = true;
+		this.collider.enabled = false;
+		monster.pause(2);
+		destroyMe(3);
 		
 		//col.gameObject.GetComponent(MonsterModel).monster.hurt();
 		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
@@ -56,23 +70,14 @@ function OnDrawGizmos() {
 	
 }
 
-public function pull(speed : float, duration : float){
-		hasHit = true;
-		var t : float = 0;
-		while(t < duration){
-			t += Time.deltaTime;
-			moveTowardHero(speed);
-			yield;
-		}
-		destroyMe();
-}
 
 public function moveTowardHero(m : float){
 		var toHero : Vector3 = character.transform.position - this.transform.position;
 		this.transform.position += toHero.normalized * Time.deltaTime*1* m;
 }
 
-function destroyMe(){
+function destroyMe(delay:float){
+	yield WaitForSeconds(delay);
 	character.coolSpell = false;
 	Destroy(this.gameObject);
 }
