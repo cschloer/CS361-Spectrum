@@ -30,10 +30,14 @@ var rollTime : float;
 var rollSpeed : float;
 var rollCooldown : float;
 var jumpCooldown : float;
+var jumpTime : float;
 
 var rollSound : AudioSource;
 var jumpSound : AudioSource;
 var landSound : AudioSource;
+
+var shadow : GameObject;
+var shadowOffset : float;
 
 var coolSpell:boolean; // cooldown for spell
 
@@ -52,6 +56,7 @@ function Start () {
 	rollSpeed = 8;
 	rollCooldown = 1.5;
 	jumpCooldown = 1;
+	jumpTime = 1;
 	
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
@@ -61,10 +66,22 @@ function Start () {
 	landSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	landSound.clip = Resources.Load("Sounds/thump");
 	
+	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
+	//shadow.transform.parent=transform;
+	//shadow.transform.localPosition = Vector3(0, 0, 0);						// Center the model on the parent.
+	
+	shadow.name = "Character Shadown";											// Name the object.
+	shadow.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
+	shadow.renderer.material.color = Color.black;												// Set the color (easy way to tint things).
+	shadow.renderer.material.color.a = .4;
+	shadow.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+	shadow.collider.enabled = false;
+	shadowOffset = .1;
 }
 
 // Update is called once per frame
 function Update () {
+	updateShadow();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
@@ -78,8 +95,12 @@ function Update () {
 			rjTimer = 0;
 		}
 	 }
-	if (jumping){		
-		if (rjTimer >= 1) { // Amount of time for jumping
+	if (jumping){
+	
+		if(rjTimer <jumpTime/2) shadowOffset += Time.deltaTime;
+		else shadowOffset -= Time.deltaTime;
+							
+		if (rjTimer >= jumpTime) { // Amount of time for jumping
 			jumping = false;
 			this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
@@ -208,6 +229,13 @@ function Update () {
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	vincible = false;
+}
+
+
+function updateShadow(){
+	shadow.transform.position = transform.position + Vector3.down * shadowOffset;
+	shadow.transform.rotation = transform.rotation;
+	if (!jumping) shadowOffset = .1;
 }
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;

@@ -9,6 +9,7 @@ public class Monster extends MonoBehaviour
 	public var hurtRecovery : float; //Time spend invincible after hit
 	public var hurting : boolean; //Marker boolean for whether it was just hurt
 	public var modelObject : GameObject;
+	public var bulletFolder : GameObject;
 	
 	public var hurtSound : AudioSource;
 	public var splatSound : AudioSource;
@@ -59,7 +60,11 @@ public class Monster extends MonoBehaviour
 		vip1Sound = gameObject.AddComponent("AudioSource") as AudioSource;
 		vip1Sound.clip = Resources.Load("Sounds/vip1") as AudioClip;
 		vip2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
-		vip2Sound.clip = Resources.Load("Sounds/vip2") as AudioClip;
+		vip2Sound.clip = Resources.Load("Sounds/vip2");
+		
+		bulletFolder = new GameObject();
+		bulletFolder.name = "Bullets";
+		bulletFolder.transform.parent = transform;
 	}
 	
 	//Move forward at default speed
@@ -256,7 +261,7 @@ public class Monster extends MonoBehaviour
 		attack.transform.localScale = Vector3(width,depth,1); 
 		attack.init(range, speed, fade, home);
 		attack.hero = hero;
-
+		attack.transform.parent = bulletFolder.transform;
 		attackObject.collider.enabled = false;
 		attackObject.AddComponent(BoxCollider);
 		attackObject.GetComponent(BoxCollider).name = "attack d:" + destructible + " " + keyword;
