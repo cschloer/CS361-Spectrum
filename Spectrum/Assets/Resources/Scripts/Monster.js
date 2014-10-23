@@ -60,7 +60,7 @@ public class Monster extends MonoBehaviour
 		vip1Sound = gameObject.AddComponent("AudioSource") as AudioSource;
 		vip1Sound.clip = Resources.Load("Sounds/vip1") as AudioClip;
 		vip2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
-		vip2Sound.clip = Resources.Load("Sounds/vip2");
+		vip2Sound.clip = Resources.Load("Sounds/vip2") as AudioClip;
 		
 		bulletFolder = new GameObject();
 		bulletFolder.name = "Bullets";

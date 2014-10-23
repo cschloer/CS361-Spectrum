@@ -73,5 +73,11 @@ function OnDrawGizmos() {
 
 
 function destroyMe(){
+	if (resetCool) {
+		this.renderer.enabled = false;
+		this.collider.enabled = false;
+		yield WaitForSeconds(.5-clock);
+		character.coolSpell = false;
+	}
 	Destroy(this.gameObject);
 }
