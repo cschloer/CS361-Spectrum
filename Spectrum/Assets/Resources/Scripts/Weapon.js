@@ -153,10 +153,6 @@ public class Weapon extends MonoBehaviour{
  		var t : float = 0;
  		//Throw outward
  		while (t < time){
- 			if (t > time) { // a check in case something goes wrong
- 				stopSwinging();
- 				return;	
- 			}
  			if(!tossSound.isPlaying) tossSound.Play();
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
@@ -166,10 +162,6 @@ public class Weapon extends MonoBehaviour{
  		t=0;
  		//Recover until sword reaches hero
  		while (distanceFromOwner() > .1){
- 			if (t > time) { // a check in case something goes wrong
- 				stopSwinging();
- 				return;	
- 			}
  			t += Time.deltaTime;
  			 if(!tossSound.isPlaying) tossSound.Play();
 
@@ -178,6 +170,7 @@ public class Weapon extends MonoBehaviour{
  			model.transform.position -= (heading.normalized * tossSpeed * Time.deltaTime);
  			yield;
  		}
+ 		//resetPosition();
  		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;

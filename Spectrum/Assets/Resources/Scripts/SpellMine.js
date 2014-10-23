@@ -17,7 +17,7 @@ function init(x:float, y:float, m:GameObject, c:CharacterModel){
 	clock = 0;
 	modelObject = m;	
 	character = c;	
-	colliderSize = 1;			
+	colliderSize = .5;			
 	modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
@@ -73,7 +73,7 @@ function OnDrawGizmos() {
 
 
 function destroyMe(){
-	if (resetCool) {
+	if (resetCool) { // if the cooldown hasn't been reset yet, this mine was destroyed very early. Remove mine visually and wait before resetting cooldown.
 		this.renderer.enabled = false;
 		this.collider.enabled = false;
 		yield WaitForSeconds(.5-clock);
