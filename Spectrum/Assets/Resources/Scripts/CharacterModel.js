@@ -370,10 +370,10 @@ function landing(){
 }
 
 function castSpell(){
-	spellAOE();
-	return;
-	if (yellow) spellHook();
-	else spellMine();
+	if (yellow && !blue) spellHook(); // rolling meele
+	else if (!yellow && !blue) spellMine(); // rolling ranged
+	else if (!yellow && blue) spellAOE(); // jumping ranged
+	else print("Spell not yet implemented");
 }
 
 function spellHook(){ // hook spell, currently when meele
