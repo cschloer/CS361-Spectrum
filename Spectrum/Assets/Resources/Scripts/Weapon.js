@@ -13,6 +13,7 @@ public class Weapon extends MonoBehaviour{
 	public var recovering : boolean;	//Boolean used to decide if sword is still recovering
 	public var swingSound : AudioSource; //Need one of these for each different clip.
 	public var tossSound : AudioSource; 
+	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 
 	//Takes owner (main character) as parameter
 	function init(c:Character){
@@ -148,13 +149,14 @@ public class Weapon extends MonoBehaviour{
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
  		startSwinging();
+ 		tossSpeed = distance/time;
  		var t : float = 0;
  		//Throw outward
  		while (t < time){
  			if(!tossSound.isPlaying) tossSound.Play();
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
- 			model.transform.position += (heading * distance * Time.deltaTime / time);
+ 			model.transform.position += (heading * tossSpeed * Time.deltaTime);
  			yield;
  		}
  		t=0;
@@ -165,9 +167,10 @@ public class Weapon extends MonoBehaviour{
 
  			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			heading = model.transform.position - owner.model.transform.position;
- 			model.transform.position -= (heading.normalized *distance * Time.deltaTime / time);
+ 			model.transform.position -= (heading.normalized * tossSpeed * Time.deltaTime);
  			yield;
  		}
+ 		//resetPosition();
  		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;

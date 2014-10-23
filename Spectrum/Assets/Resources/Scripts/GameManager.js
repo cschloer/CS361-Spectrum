@@ -20,9 +20,14 @@ var winScreen:boolean;
 
 var musicSound : AudioSource;
 
+var explosionFire : ParticleSystem;
+var explosionIce : ParticleSystem;
+
 
 // Called once when the script is created.
 function Start () {
+	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
+	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	characterFolder = new GameObject();  
 	characterFolder.name = "Character";
 	monsterFolder = new GameObject();
