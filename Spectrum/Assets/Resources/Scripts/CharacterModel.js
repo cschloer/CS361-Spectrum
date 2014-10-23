@@ -41,6 +41,7 @@ var shadowOffset : float;
 
 var coolSpell:boolean; // cooldown for spell
 
+var heroScale : float; //tracks size of hero in float form
 // Use this for initialization
 function Start () {
 	isHook = false;
@@ -57,7 +58,7 @@ function Start () {
 	rollCooldown = 1.5;
 	jumpCooldown = 1;
 	jumpTime = 1;
-	
+	heroScale = 1;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
 	rollSound.volume = .5;
@@ -73,15 +74,16 @@ function Start () {
 	shadow.name = "Character Shadow";											// Name the object.
 	shadow.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
 	shadow.renderer.material.color = Color.black;												// Set the color (easy way to tint things).
-	shadow.renderer.material.color.a = .4;
+	shadow.renderer.material.color.a = .6;
 	shadow.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	shadow.collider.enabled = false;
-	shadowOffset = .1;
+	shadow.transform.localScale = Vector3.one * .9;
+	shadowOffset = 0;
 }
 
 // Update is called once per frame
 function Update () {
-	updateShadow();
+	updateShadow(); //Position shadow and rescale hero for jumping
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
@@ -97,12 +99,11 @@ function Update () {
 	 }
 	if (jumping){
 	
-		if(rjTimer <jumpTime/2) shadowOffset += Time.deltaTime;
-		else shadowOffset -= Time.deltaTime;
+		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
 							
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
 			jumping = false;
-			this.renderer.material.color = colorStore;	
+			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
 			gameObject.GetComponent(BoxCollider).isTrigger = false;
@@ -198,8 +199,8 @@ function Update () {
 			else if (blue && rjTimer >= jumpCooldown){ // jump because not blue
 				// todo: jump animation
 				jumpSound.Play();
-				colorStore = this.renderer.material.color;
-				this.renderer.material.color = Color(2,2,2);
+				//colorStore = this.renderer.material.color;
+				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
@@ -232,12 +233,14 @@ function Update () {
 	vincible = false;
 }
 
-
+//Resize hero and position shadow for jumping
 function updateShadow(){
-	shadow.transform.position = transform.position + Vector3.down * shadowOffset;
-	shadow.transform.rotation = transform.rotation;
+	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 2; //Offsets shadow based on time in air (quadratically)
+	shadow.transform.rotation = transform.rotation; //Rotates shadow to match hero
 	shadow.transform.position.z = 0;
-	if (!jumping) shadowOffset = .1;
+	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset - .1); //Scales hero quadratically as she jumps
+	
+	//if (!jumping) shadowOffset = 0; //Pr
 }
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
@@ -258,16 +261,18 @@ function changeBlue(){
 function changeRed(){
 	if (red){
 		red = false;
+		heroScale = 1;
 		this.renderer.material.color = colorChoice();
-		this.transform.localScale = Vector3(1,1,1); 
+		this.transform.localScale = Vector3.one; 
 		modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
-		shadow.transform.localScale = Vector3(1,1,1);
+		shadow.transform.localScale = Vector3(1,1,1)*.9;
 	}
 	else {
 		red = true;
+		heroScale = 2;
 		this.renderer.material.color = colorChoice();
-		this.transform.localScale = Vector3(2,2,2); 
-		shadow.transform.localScale = Vector3(2,2,2);
+		this.transform.localScale = Vector3.one*heroScale;
+		shadow.transform.localScale = Vector3.one*heroScale *.9;
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
 	}
 	//print("Red: " + red);
