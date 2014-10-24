@@ -81,7 +81,7 @@ function destroyMe(explode:boolean){
 	if (explode) {
 		this.renderer.enabled = false;
 		this.collider.enabled = false;
-		var explosionParticle:ParticleSystem = Instantiate(character.Manager.explosionIce);
+		var explosionParticle:ParticleSystem = Instantiate(character.Manager.explosionGreen);
 		explosionParticle.transform.parent = transform;
 		explosionParticle.transform.localPosition = Vector3(0,0,0);
 		explosionParticle.gameObject.SetActive(true);
