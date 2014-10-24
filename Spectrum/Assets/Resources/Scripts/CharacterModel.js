@@ -381,7 +381,6 @@ function landing(){
 }
 
 function castSpell(){
-
 	if (yellow && !blue) spellHook(); // rolling meele
 	else if (!yellow && !blue) spellMine(); // rolling ranged
 	else if (yellow && blue) spellAOE(); // jumping melee

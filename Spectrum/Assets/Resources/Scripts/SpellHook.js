@@ -42,8 +42,10 @@ function OnTriggerEnter(col:Collider){
 		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
 		var monsterDistance:float = Vector2.Distance(Vector2(monster.model.transform.position.x, monster.model.transform.position.y),
 			Vector2(character.transform.position.x, character.transform.position.y));
-		monster.charge(monsterDistance*2, .95/2);
-		this.pull(monsterDistance*2,.95/2);
+		var speed:int = 20;
+		monster.getHooked(speed);
+		monster.hooking = true;
+		this.pull(speed, monster);
 		
 		//col.gameObject.GetComponent(MonsterModel).monster.hurt();
 		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
@@ -56,16 +58,22 @@ function OnDrawGizmos() {
 	
 }
 
-public function pull(speed : float, duration : float){
+public function pull(speed : float, m :Monster){
 		hasHit = true;
 		var t : float = 0;
-		while(t < duration){
+		while(distanceToHero() > .5){
+			//if (duration - t < .5) this.renderer.active = false;
 			t += Time.deltaTime;
 			moveTowardHero(speed);
 			yield;
 		}
+		m.hooking = false;
 		destroyMe();
 }
+
+public function distanceToHero(){
+		return Vector3.Magnitude(this.transform.position - character.transform.position);
+	}
 
 public function moveTowardHero(m : float){
 		var toHero : Vector3 = character.transform.position - this.transform.position;
