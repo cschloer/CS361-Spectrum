@@ -47,7 +47,7 @@ var heroScale : float; //tracks size of hero in float form
 function Start () {
 	cameraShake = false;
 	isHook = false;
-	speed = 2;
+	speed = 3;
 	blue = false;
 	red = false;
 	yellow = false;
@@ -55,9 +55,9 @@ function Start () {
 	vincible = true;
 	colorStore = Color(1,1,1);
 	heading = Vector3.zero;
-	rollTime = .5;
-	rollSpeed = 8;
-	rollCooldown = 1.5;
+	rollTime = .25;
+	rollSpeed = 12;
+	rollCooldown = .5;
 	jumpCooldown = 1;
 	jumpTime = 1;
 	heroScale = 1;
