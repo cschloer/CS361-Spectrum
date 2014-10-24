@@ -40,10 +40,12 @@ var shadow : GameObject;
 var shadowOffset : float;
 
 var coolSpell:boolean; // cooldown for spell
+var cameraShake:boolean;
 
 var heroScale : float; //tracks size of hero in float form
 // Use this for initialization
 function Start () {
+	cameraShake = false;
 	isHook = false;
 	speed = 2;
 	blue = false;
@@ -226,7 +228,7 @@ function Update () {
 		this.transform.Translate(heading * Time.deltaTime * speed);
 	
 	}	
-	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
@@ -379,10 +381,11 @@ function landing(){
 }
 
 function castSpell(){
+
 	if (yellow && !blue) spellHook(); // rolling meele
 	else if (!yellow && !blue) spellMine(); // rolling ranged
 	else if (yellow && blue) spellAOE(); // jumping melee
-	else print("Spell not yet implemented");
+	else if (!yellow && blue) spellWall();
 }
 
 function spellHook(){ // hook spell, currently when meele
@@ -399,11 +402,11 @@ function spellHook(){ // hook spell, currently when meele
 function spellMine(){	// mine spell, currently when ranged
 	if (coolSpell) return;
 	coolSpell = true;
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-	var hookScript = modelObject.AddComponent("SpellMine");		// Add the hook.js script to the object.
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the mine texture.
+	var mineScript = modelObject.AddComponent("SpellMine");		// Add the mine.js script to the object.
 																																							// We can now refer to the object via this script.
-	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
-	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+	mineScript.transform.parent = this.transform.parent;	// Set the mine's parent object to be the mine folder.							
+	mineScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 
 }
 
@@ -411,16 +414,55 @@ function spellAOE(){
 	if (coolSpell) return;
 	coolSpell = true;
 	for (var i=0; i < 16; i ++){
-		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-		var hookScript = modelObject.AddComponent("SpellAOE");		// Add the hook.js script to the object.
-		hookScript.transform.rotation = this.transform.rotation;
-		hookScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
-		hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
-		hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the aoe texture.
+		var aoeScript = modelObject.AddComponent("SpellAOE");		// Add the aoe.js script to the object.
+		aoeScript.transform.rotation = this.transform.rotation;
+		aoeScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
+		aoeScript.transform.parent = this.transform.parent;	// Set the aoe's parent object to be the aoe folder.							
+		aoeScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 		
 	}
 	
 	yield WaitForSeconds(5); 
 	coolSpell = false;
 
+}
+
+function spellWall(){
+	if (coolSpell) return;
+	coolSpell = true;
+	var walls : Array;
+	walls = new Array();
+	var curRotate = this.transform.rotation;
+	var curPosition = this.transform.position;
+	for (var i=2; i < 50; i++){
+	
+		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the wall texture.
+		var wallScript = modelObject.AddComponent("SpellWall");		// Add the wall.js script to the object.
+		wallScript.transform.rotation = curRotate;
+																																						// We can now refer to the object via this script.
+		wallScript.transform.parent = this.transform.parent;	// Set the wall's parent object to be the wall folder.	
+		walls.Add(wallScript);	
+		wallScript.init(curPosition.x, curPosition.y, modelObject, this, i);	
+		yield WaitForSeconds(.01);
+	}
+	for (var j=0; j<walls.length; j++){
+		walls[j].expand(2);
+	
+	}
+	shakeCamera(2);
+
+}
+
+function shakeCamera(duration:float){
+	var timer:float = 0;
+	cameraShake = true;
+	while (timer < duration){
+		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.Translate(Random.Range(-0.2f, 0.2f),Random.Range(-0.2f, 0.2f),0);
+		timer+=Time.deltaTime;
+		yield;
+	}
+	
+	cameraShake = false;
 }
