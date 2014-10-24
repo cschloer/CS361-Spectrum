@@ -19,8 +19,12 @@ public class Monster extends MonoBehaviour
 	public var vip2Sound : AudioSource;
 	var freeze:int; // 1 for not freezing, 0 for freezing
 	var hooking:boolean;
+	var fleeing:boolean;
+	var charging:boolean;
 
 	public function init(c : Character) {
+		charging = false;
+		fleeing = false;
 		hooking = false;
 		freeze=1;
 		hero = c;
@@ -175,13 +179,16 @@ public class Monster extends MonoBehaviour
 	}
 	
 	
-	public function charge(speed : float, duration : float){
+	public function charge(speed : float, duration : float){// charge the hero
+		if (charging) return;
+		charging = true;
 		var t : float = 0;
 		while(t < duration && health > 0){
 			t += Time.deltaTime;
 			moveTowardHero(speed);
 			yield;
 		}
+		charging = false;
 	}
 	
 	
@@ -197,13 +204,16 @@ public class Monster extends MonoBehaviour
 	
 	//Subroutine - call once, runs concurrently.
 	public function flee(speed : float, duration : float){
-		if (hooking || freeze == 0) return;
+		
+		if (fleeing || hooking || freeze == 0) return;
+		fleeing = true;
 		var t : float = 0;
 		while(t < duration && health > 0){
 			t += Time.deltaTime;
 			moveFromHero(speed);
 			yield;
 		}
+		fleeing = false;
 	}
 	
 	public function pause(duration:float){
