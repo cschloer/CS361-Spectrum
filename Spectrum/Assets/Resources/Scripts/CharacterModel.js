@@ -12,6 +12,7 @@ var speed:int;
 var blue:boolean;
 var red:boolean;
 var yellow:boolean;
+var currentColor : Color;
 
 var rolling:boolean;
 var jumping:boolean;
@@ -54,6 +55,7 @@ function Start () {
 	rolling = false;
 	vincible = true;
 	colorStore = Color(1,1,1);
+	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
 	rollTime = .25;
 	rollSpeed = 12;
@@ -86,13 +88,14 @@ function Start () {
 // Update is called once per frame
 function Update () {
 	updateShadow(); //Position shadow and rescale hero for jumping
+	updateColor();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
 		this.transform.Translate(heading * Time.deltaTime*speed);
 		if (rjTimer >= rollTime) { // Amount of time for rolling
 			rolling = false;
-			this.renderer.material.color = colorStore;	
+			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
 			speed = 2;
 			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
@@ -190,8 +193,8 @@ function Update () {
 			if (!blue && rjTimer >= rollCooldown){ // roll because blue
 				// todo: roll animation
 				rollSound.Play();
-				colorStore = this.renderer.material.color;
-				this.renderer.material.color = Color(.5,.5,.5);
+				//colorStore = this.renderer.material.color;
+				//this.renderer.material.color = Color(.5,.5,.5);
 				speed = rollSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = rollSpeed;
 				rolling = true;
@@ -242,8 +245,20 @@ function updateShadow(){
 	shadow.transform.position.z = 0;
 	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset - .1); //Scales hero quadratically as she jumps
 	
-	//if (!jumping) shadowOffset = 0; //Pr
+	
 }
+function updateColor(){
+	var multiplier : float = 1;
+	currentColor = colorChoice();
+	if (rolling) multiplier = .8;
+	if(character.hurting) multiplier = .5;
+	transform.renderer.material.color.r = (1+currentColor.r)/2;
+	transform.renderer.material.color.g = (1+currentColor.g)/2;
+	transform.renderer.material.color.b = (1+currentColor.b)/2;
+}
+	
+
+
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
 }
@@ -251,11 +266,9 @@ function OnCollisionExit(collisionInfo : Collision){
 function changeBlue(){
 	if (blue){
 		blue = false;
-		this.renderer.material.color = colorChoice();
 	}
 	else{
 		blue = true;
-		this.renderer.material.color = colorChoice();
 	}
 	//print("Blue: " + blue);
 
@@ -264,7 +277,6 @@ function changeRed(){
 	if (red){
 		red = false;
 		heroScale = 1;
-		this.renderer.material.color = colorChoice();
 		this.transform.localScale = Vector3.one; 
 		modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
 		shadow.transform.localScale = Vector3(1,1,1)*.9;
@@ -272,7 +284,6 @@ function changeRed(){
 	else {
 		red = true;
 		heroScale = 2;
-		this.renderer.material.color = colorChoice();
 		this.transform.localScale = Vector3.one*heroScale;
 		shadow.transform.localScale = Vector3.one*heroScale *.9;
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
@@ -283,11 +294,9 @@ function changeRed(){
 function changeYellow(){
 	if (yellow) {
 		yellow = false;
-		this.renderer.material.color = colorChoice();
 	}
 	else {
 	  yellow = true;
-	  this.renderer.material.color = colorChoice();
 	}
 //	print("Yellow: " + yellow);
 }
@@ -358,7 +367,7 @@ function stopMovement(){
 }
 
 function OnTriggerEnter(col:Collider){
-	print(col.gameObject.name);
+	//print(col.gameObject.name);
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		character.hurt();
 	}

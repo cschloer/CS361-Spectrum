@@ -50,6 +50,7 @@
      <Compile Include="Assets\Resources\Scripts\CameraMovement.js" />
      <Compile Include="Assets\Resources\Scripts\Character.js" />
      <Compile Include="Assets\Resources\Scripts\CharacterModel.js" />
+     <Compile Include="Assets\Resources\Scripts\ColorBlob.js" />
      <Compile Include="Assets\Resources\Scripts\ColorCircle.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />

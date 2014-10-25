@@ -259,11 +259,13 @@ public class Monster extends MonoBehaviour
 		hero.killedMonsters++;
 		var t : float = 0;
 		splatSound.Play();
+		dropColor();
 		while (t < deathTime){
 			t += Time.deltaTime;
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
+		
 		Destroy(this.gameObject);
 	}
 	function act(){
@@ -306,7 +308,61 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
+	function dropColor(){
+		print("Dropping Random Color");
+		var rand : float = Random.value;
+		print(rand);
+		if(rand < 1.0/6){
+			dropColor("red");
+		}else if(rand < 2.0/6){
+			dropColor("yellow");
+		}else if(rand < 3.0/6){
+			dropColor("blue");
+		}else if(rand < 4.0/6){
+			dropColor("antiRed");
+		}else if(rand < 5.0/6){
+			dropColor("antiYellow");
+		}else {
+			dropColor("antiBlue");
+		}
+	}
+	function dropColor(color : String){
+		dropColor(color, 4);
+	}
 	
+	function dropColor(color : String, duration : float){
+		if(color.Equals("red")) dropColor(1, 0, 0, duration);
+		if(color.Equals("yellow")) dropColor(0, 1, 0, duration);
+		if(color.Equals("blue")) dropColor(0, 0, 1, duration);
+		if(color.Equals("anitRed")) dropColor(-1, 0, 0, duration);
+		if(color.Equals("antiYellow")) dropColor(0, -1, 0, duration);
+		if(color.Equals("antiBlue")) dropColor(0, 0, -1, duration);
+		
+	}
+	function dropColor(red : float, yellow : float, blue : float, duration : float){
+		print("Dropping color!");
+		var blobObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+		var blob : ColorBlob = blobObject.AddComponent("ColorBlob") as ColorBlob;
+		blob.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
+		blob.transform.position = model.transform.position;
+		blob.transform.rotation = model.transform.rotation;
+		blob.name = "Blob";											// Name the object.
+		blob.renderer.material.mainTexture = Resources.Load("Textures/colorBlob", Texture2D);	// Set the texture.  Must be in Resources folder.
+		blob.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+		blob.init(red, yellow, blue, duration);
+		//attack.transform.parent = ??
+		blobObject.collider.enabled = false;
+		blobObject.AddComponent(BoxCollider);
+		blobObject.GetComponent(BoxCollider).isTrigger = true;
+		blobObject.GetComponent(BoxCollider).size = Vector3(.6,.6,10);
+		/*
+		blobObject.AddComponent(Rigidbody);
+		blobObject.GetComponent(Rigidbody).isKinematic = false;
+		blobObject.GetComponent(Rigidbody).useGravity = false;
+		blobObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+		blobObject.GetComponent(Rigidbody).freezeRotation = true;
+		*/
+	}
 	//An example behaviour. Monster maintains constant distance and circles around hero, facing it.
 	public function circlingBehaviour(distance : float){
 		moveRight();
