@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\EndScript.js" />
      <Compile Include="Assets\Resources\Scripts\CameraMovement.js" />
      <Compile Include="Assets\Resources\Scripts\Character.js" />
      <Compile Include="Assets\Resources\Scripts\CharacterModel.js" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\Resources\Scripts\SpellAOE.js" />
      <Compile Include="Assets\Resources\Scripts\SpellHook.js" />
      <Compile Include="Assets\Resources\Scripts\SpellMine.js" />
+     <Compile Include="Assets\Resources\Scripts\SpellWall.js" />
      <Compile Include="Assets\Resources\Scripts\Tile.js" />
      <Compile Include="Assets\Resources\Scripts\TileFloorModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileWallModel.js" />

@@ -232,7 +232,7 @@ function Update () {
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
-	vincible = false;
+	//vincible = false;
 }
 
 //Resize hero and position shadow for jumping
