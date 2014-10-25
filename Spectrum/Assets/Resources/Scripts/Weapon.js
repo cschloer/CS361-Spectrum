@@ -14,7 +14,7 @@ public class Weapon extends MonoBehaviour{
 	public var swingSound : AudioSource; //Need one of these for each different clip.
 	public var tossSound : AudioSource; 
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
-
+	public var hasHit : boolean;
 	//Takes owner (main character) as parameter
 	function init(c:Character){
 		this.name = "Weapon";
@@ -24,7 +24,7 @@ public class Weapon extends MonoBehaviour{
 		weaponObject = new GameObject();
 		weaponObject.name = "WeaponObject";
 		//weaponObject.collider.enabled = false;
-		
+		hasHit = false;
 		baseRotation = Vector3(0, 0, -55);
 		basePosition = Vector3(0, 0, 0);
 	 	weaponObject.AddComponent(BoxCollider);
@@ -152,13 +152,14 @@ public class Weapon extends MonoBehaviour{
  		tossSpeed = distance/time;
  		var t : float = 0;
  		//Throw outward
- 		while (t < time){
+ 		while (t < time && !hasHit){
  			if(!tossSound.isPlaying) tossSound.Play();
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			model.transform.position += (heading * tossSpeed * Time.deltaTime);
  			yield;
  		}
+ 		hasHit = false;
  		t=0;
  		//Recover until sword reaches hero
  		while (distanceFromOwner() > .1){

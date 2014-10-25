@@ -358,6 +358,7 @@ function stopMovement(){
 }
 
 function OnTriggerEnter(col:Collider){
+	print(col.gameObject.name);
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		character.hurt();
 	}
@@ -452,13 +453,17 @@ function spellWall(){
 	shakeCamera(2);
 
 }
-
+//Shakes the camera for the given duration with default intensity (.2)
 function shakeCamera(duration:float){
+	shakeCamera(duration, .2);
+}
+//Shakes the camera for the given intensity and duration.
+function shakeCamera(duration:float, intensity:float){
 	var timer:float = 0;
 	cameraShake = true;
 	while (timer < duration){
 		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
-		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.Translate(Random.Range(-0.2f, 0.2f),Random.Range(-0.2f, 0.2f),0);
+		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
 		timer+=Time.deltaTime;
 		yield;
 	}
