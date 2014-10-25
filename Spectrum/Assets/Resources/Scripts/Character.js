@@ -9,7 +9,7 @@ var killedMonsters : int;
 var manager:GameManager;
 function init(m) {
 	manager = m;
-	health = 3;
+	health = 100; //For testing purposes
 	hurtRecovery = .5;
 	enabled = false;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
@@ -50,7 +50,7 @@ public function hurt(){
 		hurting = true;
 		var before = model.renderer.material.color;
 		model.renderer.material.color = Color(.5,.5,.5);
-
+		model.shakeCamera(.5, .1);
 		var t : float = hurtRecovery;
 		while (t > 0){
 			t -= Time.deltaTime;

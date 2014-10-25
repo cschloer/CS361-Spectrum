@@ -69,6 +69,18 @@ public class Monster extends MonoBehaviour
 		bulletFolder.transform.parent = transform;
 	}
 	
+	//Monster will hurt hero on contact until stopHurtOnContact is called.
+	public function startHurtOnContact(){
+		if (!modelObject.name.Contains("attack")){
+			modelObject.name += "attack";
+		}
+	}
+	
+	public function stopHurtOnContact(){
+		if (modelObject.name.Contains("attack")){
+			modelObject.name.Replace("attack", "");
+		}
+	}
 	//Move forward at default speed
 	public function move(){
 		move(1);
