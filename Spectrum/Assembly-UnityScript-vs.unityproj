@@ -73,6 +73,7 @@
      <Compile Include="Assets\Resources\Scripts\WeaponModel.js" />
      <Compile Include="Assets\Resources\Scripts\gem.js" />
      <Compile Include="Assets\Resources\Scripts\gemModel.js" />
+     <Compile Include="Assets\StartScript.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
