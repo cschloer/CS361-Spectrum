@@ -1,4 +1,4 @@
-﻿##################
+##################
 # Unity ignores:
 #
 # !!! WARNING !!!
@@ -50,3 +50,7 @@ Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
 Spectrum/Library/CurrentMaximizeLayout.dwlt
 
 Spectrum/Library/ScriptAssemblies/Assembly-UnityScript.dll
+
+Spectrum/Assembly-UnityScript-vs.unityproj
+
+*.unityproj
