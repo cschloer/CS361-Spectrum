@@ -40,11 +40,14 @@ var shadow : GameObject;
 var shadowOffset : float;
 
 var coolSpell:boolean; // cooldown for spell
+var cameraShake:boolean;
 
+var heroScale : float; //tracks size of hero in float form
 // Use this for initialization
 function Start () {
+	cameraShake = false;
 	isHook = false;
-	speed = 2;
+	speed = 3;
 	blue = false;
 	red = false;
 	yellow = false;
@@ -52,12 +55,12 @@ function Start () {
 	vincible = true;
 	colorStore = Color(1,1,1);
 	heading = Vector3.zero;
-	rollTime = .5;
-	rollSpeed = 8;
-	rollCooldown = 1.5;
+	rollTime = .25;
+	rollSpeed = 12;
+	rollCooldown = .5;
 	jumpCooldown = 1;
 	jumpTime = 1;
-	
+	heroScale = 1;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
 	rollSound.volume = .5;
@@ -73,15 +76,16 @@ function Start () {
 	shadow.name = "Character Shadow";											// Name the object.
 	shadow.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
 	shadow.renderer.material.color = Color.black;												// Set the color (easy way to tint things).
-	shadow.renderer.material.color.a = .4;
+	shadow.renderer.material.color.a = .6;
 	shadow.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	shadow.collider.enabled = false;
-	shadowOffset = .1;
+	shadow.transform.localScale = Vector3.one * .9;
+	shadowOffset = 0;
 }
 
 // Update is called once per frame
 function Update () {
-	updateShadow();
+	updateShadow(); //Position shadow and rescale hero for jumping
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
@@ -97,12 +101,11 @@ function Update () {
 	 }
 	if (jumping){
 	
-		if(rjTimer <jumpTime/2) shadowOffset += Time.deltaTime;
-		else shadowOffset -= Time.deltaTime;
+		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
 							
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
 			jumping = false;
-			this.renderer.material.color = colorStore;	
+			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
 			gameObject.GetComponent(BoxCollider).isTrigger = false;
@@ -198,8 +201,8 @@ function Update () {
 			else if (blue && rjTimer >= jumpCooldown){ // jump because not blue
 				// todo: jump animation
 				jumpSound.Play();
-				colorStore = this.renderer.material.color;
-				this.renderer.material.color = Color(2,2,2);
+				//colorStore = this.renderer.material.color;
+				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
@@ -225,19 +228,21 @@ function Update () {
 		this.transform.Translate(heading * Time.deltaTime * speed);
 	
 	}	
-	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
 	vincible = false;
 }
 
-
+//Resize hero and position shadow for jumping
 function updateShadow(){
-	shadow.transform.position = transform.position + Vector3.down * shadowOffset;
-	shadow.transform.rotation = transform.rotation;
+	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 2; //Offsets shadow based on time in air (quadratically)
+	shadow.transform.rotation = transform.rotation; //Rotates shadow to match hero
 	shadow.transform.position.z = 0;
-	if (!jumping) shadowOffset = .1;
+	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset - .1); //Scales hero quadratically as she jumps
+	
+	//if (!jumping) shadowOffset = 0; //Pr
 }
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
@@ -258,16 +263,18 @@ function changeBlue(){
 function changeRed(){
 	if (red){
 		red = false;
+		heroScale = 1;
 		this.renderer.material.color = colorChoice();
-		this.transform.localScale = Vector3(1,1,1); 
+		this.transform.localScale = Vector3.one; 
 		modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
-		shadow.transform.localScale = Vector3(1,1,1);
+		shadow.transform.localScale = Vector3(1,1,1)*.9;
 	}
 	else {
 		red = true;
+		heroScale = 2;
 		this.renderer.material.color = colorChoice();
-		this.transform.localScale = Vector3(2,2,2); 
-		shadow.transform.localScale = Vector3(2,2,2);
+		this.transform.localScale = Vector3.one*heroScale;
+		shadow.transform.localScale = Vector3.one*heroScale *.9;
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
 	}
 	//print("Red: " + red);
@@ -377,7 +384,7 @@ function castSpell(){
 	if (yellow && !blue) spellHook(); // rolling meele
 	else if (!yellow && !blue) spellMine(); // rolling ranged
 	else if (yellow && blue) spellAOE(); // jumping melee
-	else print("Spell not yet implemented");
+	else if (!yellow && blue) spellWall();
 }
 
 function spellHook(){ // hook spell, currently when meele
@@ -394,11 +401,11 @@ function spellHook(){ // hook spell, currently when meele
 function spellMine(){	// mine spell, currently when ranged
 	if (coolSpell) return;
 	coolSpell = true;
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-	var hookScript = modelObject.AddComponent("SpellMine");		// Add the hook.js script to the object.
+	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the mine texture.
+	var mineScript = modelObject.AddComponent("SpellMine");		// Add the mine.js script to the object.
 																																							// We can now refer to the object via this script.
-	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
-	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+	mineScript.transform.parent = this.transform.parent;	// Set the mine's parent object to be the mine folder.							
+	mineScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 
 }
 
@@ -406,16 +413,55 @@ function spellAOE(){
 	if (coolSpell) return;
 	coolSpell = true;
 	for (var i=0; i < 16; i ++){
-		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-		var hookScript = modelObject.AddComponent("SpellAOE");		// Add the hook.js script to the object.
-		hookScript.transform.rotation = this.transform.rotation;
-		hookScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
-		hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
-		hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the aoe texture.
+		var aoeScript = modelObject.AddComponent("SpellAOE");		// Add the aoe.js script to the object.
+		aoeScript.transform.rotation = this.transform.rotation;
+		aoeScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
+		aoeScript.transform.parent = this.transform.parent;	// Set the aoe's parent object to be the aoe folder.							
+		aoeScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 		
 	}
 	
 	yield WaitForSeconds(5); 
 	coolSpell = false;
 
+}
+
+function spellWall(){
+	if (coolSpell) return;
+	coolSpell = true;
+	var walls : Array;
+	walls = new Array();
+	var curRotate = this.transform.rotation;
+	var curPosition = this.transform.position;
+	for (var i=2; i < 50; i++){
+	
+		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the wall texture.
+		var wallScript = modelObject.AddComponent("SpellWall");		// Add the wall.js script to the object.
+		wallScript.transform.rotation = curRotate;
+																																						// We can now refer to the object via this script.
+		wallScript.transform.parent = this.transform.parent;	// Set the wall's parent object to be the wall folder.	
+		walls.Add(wallScript);	
+		wallScript.init(curPosition.x, curPosition.y, modelObject, this, i);	
+		yield WaitForSeconds(.01);
+	}
+	for (var j=0; j<walls.length; j++){
+		walls[j].expand(2);
+	
+	}
+	shakeCamera(2);
+
+}
+
+function shakeCamera(duration:float){
+	var timer:float = 0;
+	cameraShake = true;
+	while (timer < duration){
+		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.Translate(Random.Range(-0.2f, 0.2f),Random.Range(-0.2f, 0.2f),0);
+		timer+=Time.deltaTime;
+		yield;
+	}
+	
+	cameraShake = false;
 }

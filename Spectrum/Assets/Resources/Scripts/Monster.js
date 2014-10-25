@@ -18,8 +18,10 @@ public class Monster extends MonoBehaviour
 	public var vip1Sound : AudioSource;
 	public var vip2Sound : AudioSource;
 	var freeze:int; // 1 for not freezing, 0 for freezing
+	var hooking:boolean;
 
 	public function init(c : Character) {
+		hooking = false;
 		freeze=1;
 		hero = c;
 		hurting = false;
@@ -73,6 +75,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Move forward at given speed factor
 	public function move(multiplier : float){
+		if (hooking || freeze == 0) return;
 		model.transform.position += model.transform.up * Time.deltaTime*freeze*moveSpeed*multiplier;
 		
 	}
@@ -83,6 +86,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Move backward at given speed factor
 	public function moveBack(multiplier : float){
+		if (hooking || freeze == 0) return;
 		model.transform.position += -1*model.transform.up * Time.deltaTime*freeze*moveSpeed*multiplier;
 	}
 	
@@ -92,6 +96,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Strafe left at given speed
 	public function moveLeft(multiplier : float){
+		if (hooking || freeze == 0) return;
 		model.transform.position += -1*model.transform.right * Time.deltaTime*freeze*moveSpeed*multiplier;
 	}
 	//Strafe right
@@ -100,6 +105,7 @@ public class Monster extends MonoBehaviour
 	}
 	//Strafe right at given speed
 	public function moveRight(multiplier : float){
+		if (hooking || freeze == 0) return;
 		model.transform.position += 1*model.transform.right * Time.deltaTime*freeze*moveSpeed*multiplier;
 	}
 	//Strafe toward hero at given speed
@@ -114,6 +120,7 @@ public class Monster extends MonoBehaviour
 	
 	//Strafe away from hero at given speed
 	public function moveFromHero(m : float){
+		if (hooking || freeze == 0) return;
 		var toHero : Vector3 = hero.model.transform.position - model.transform.position;
 		model.transform.position += toHero.normalized * Time.deltaTime*freeze*moveSpeed * m * -1;
 	}
@@ -125,6 +132,7 @@ public class Monster extends MonoBehaviour
 	
 	//Rotate right (clockwise) at given speed
 	public function turnRight(m : float){
+		if (hooking || freeze == 0) return;
 		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime*freeze * turnSpeed * m * -1);
 	}
 	public function turnRight(){
@@ -133,6 +141,7 @@ public class Monster extends MonoBehaviour
 	
 	//Rotate left (counterclockwise) at given speed
 	public function turnLeft(m : float){
+		if (hooking || freeze == 0) return;
 		model.transform.eulerAngles += Vector3(0, 0, Time.deltaTime*freeze * turnSpeed * m * 1);
 	}
 	public function turnLeft(){
@@ -175,8 +184,20 @@ public class Monster extends MonoBehaviour
 		}
 	}
 	
+	
+	public function getHooked(speed : float){ // function used to hook monsters
+		var t : float = 0;
+		while(distanceToHero() > .5){
+			t += Time.deltaTime;
+			moveTowardHero(speed);
+			yield;
+		}
+	}
+	
+	
 	//Subroutine - call once, runs concurrently.
 	public function flee(speed : float, duration : float){
+		if (hooking || freeze == 0) return;
 		var t : float = 0;
 		while(t < duration && health > 0){
 			t += Time.deltaTime;

@@ -44,5 +44,14 @@ public class Monster5 extends Monster {
 		clock = clock + Time.deltaTime*freeze;
 		blink();
 	}
+	
+	function act(){
+		model.transform.position.z = 0;
+		circlingBehaviour(2);
+		if(Random.value > .99){
+			if (!isVisible) return;
+			simpleBullet();
+		}
+	}
 
 }

@@ -23,7 +23,7 @@ function init(m) {
 	modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = false;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
-	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.5, .5, 1);
 	modelObject.GetComponent(Rigidbody).freezeRotation = true;
 	modelObject.AddComponent(Animation);
 

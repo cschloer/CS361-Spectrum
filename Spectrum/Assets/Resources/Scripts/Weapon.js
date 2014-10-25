@@ -188,6 +188,7 @@ public class Weapon extends MonoBehaviour{
  	}
  	//Looks for key input, executes proper function depending on color.
  	function Update(){
+
  		if(Input.GetKeyDown("up") && !swinging && !recovering && owner.model.yellow){
  			if(owner.model.jumping){
  				if(!owner.model.red){
