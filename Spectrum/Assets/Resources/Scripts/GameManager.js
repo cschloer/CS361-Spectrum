@@ -71,7 +71,7 @@ function Update () {
 		if (losewinTimer >= 2) {
 			winScreen = false;
 			loseScreen = false;
-			Application.LoadLevel("Spectrum");
+			Application.LoadLevel("End");
 
 		}
 		return;
@@ -233,10 +233,7 @@ function OnGUI() {
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
 	if (loseScreen){
-		GUI.backgroundColor = Color.black;
-		GUI.color = Color.white;
-		GUI.skin.box.fontSize = 26;
-		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n You lose!");
+		 Application.LoadLevel("End");
 	}
 	else if (winScreen){
 		GUI.backgroundColor = Color.black;
