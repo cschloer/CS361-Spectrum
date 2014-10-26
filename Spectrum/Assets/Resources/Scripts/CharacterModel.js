@@ -7,7 +7,9 @@ var Manager:GameManager;
 
 var rotateL:boolean;
 var rotateR:boolean;
-var speed:int;
+
+var moveSpeed:int;
+var turnSpeed:int;
 
 var blue:boolean;
 var red:boolean;
@@ -28,11 +30,11 @@ var walkclip : AnimationClip;
 var colorStore : Color;
 var heading : Vector3;
 var rollTime : float; 
-var rollSpeed : float;
+var rollSpeedMultiplier : float;
 var rollCooldown : float;
 var jumpCooldown : float;
 var jumpTime : float;
-
+var jumpSpeedMultiplier : float;
 var rollSound : AudioSource;
 var jumpSound : AudioSource;
 var landSound : AudioSource;
@@ -44,11 +46,15 @@ var coolSpell:boolean; // cooldown for spell
 var cameraShake:boolean;
 
 var heroScale : float; //tracks size of hero in float form
+
+
+
 // Use this for initialization
 function Start () {
 	cameraShake = false;
 	isHook = false;
-	speed = 3;
+	moveSpeed = 3;
+	turnSpeed = 3;
 	blue = false;
 	red = false;
 	yellow = false;
@@ -58,10 +64,11 @@ function Start () {
 	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
 	rollTime = .25;
-	rollSpeed = 12;
+	rollSpeedMultiplier = 3;
 	rollCooldown = .5;
 	jumpCooldown = 1;
 	jumpTime = 1;
+	jumpSpeedMultiplier = 1;
 	heroScale = 1;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
@@ -92,12 +99,12 @@ function Update () {
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
-		this.transform.Translate(heading * Time.deltaTime*speed);
+		this.transform.Translate(heading * Time.deltaTime*moveSpeed);
 		if (rjTimer >= rollTime) { // Amount of time for rolling
 			rolling = false;
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
-			speed = 2;
+			moveSpeed = 2;
 			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
 			rjTimer = 0;
 		}
@@ -195,8 +202,7 @@ function Update () {
 				rollSound.Play();
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
-				speed = rollSpeed;
-				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = rollSpeed;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = rollSpeedMultiplier * moveSpeed;
 				rolling = true;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = true;
 				rjTimer = 0;
@@ -207,6 +213,7 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).isTrigger = true;
@@ -219,8 +226,8 @@ function Update () {
 			
 	if (!rolling){
 		
-		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(speed)));
-		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(speed)));
+		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(turnSpeed)));
+		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(turnSpeed)));
 		
 		heading = Vector3.zero;
 		if (moveN) heading += Vector3.up;
@@ -228,9 +235,15 @@ function Update () {
 		if (moveS) heading += Vector3.down;
 		if (moveW) heading += Vector3.left;
 		heading.Normalize();
-		this.transform.Translate(heading * Time.deltaTime * speed);
+		if(jumping){
+			this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
+		}else{
+			this.transform.Translate(heading * Time.deltaTime * moveSpeed);
+		}
 	
-	}	
+	}else{
+		this.transform.Translate(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
+	}
 	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();

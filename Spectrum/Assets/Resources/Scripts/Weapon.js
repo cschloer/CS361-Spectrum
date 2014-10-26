@@ -15,6 +15,13 @@ public class Weapon extends MonoBehaviour{
 	public var tossSound : AudioSource; 
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 	public var hasHit : boolean;
+	
+	public var throwTime : float;
+	public var throwRecovery : float;
+	public var swingTime : float;
+	public var swingRecovery : float;
+	public var throwDistance : float;
+	public var swingArc : int;
 	//Takes owner (main character) as parameter
 	function init(c:Character){
 		this.name = "Weapon";
@@ -51,6 +58,13 @@ public class Weapon extends MonoBehaviour{
 		tossSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		tossSound.clip = Resources.Load("Sounds/woosh-woosh") as AudioClip;
 		tossSound.volume = .5;
+		
+		throwTime = .8;
+		throwRecovery = 1;
+		throwDistance = 4;
+		swingTime = .3;
+		swingRecovery = .5;
+		swingArc = 110;
  		}
  		
  	//Returns distance to hero
@@ -199,14 +213,17 @@ public class Weapon extends MonoBehaviour{
  				}
  			} else{
  				if(!owner.model.red){
- 					swing(110, .3, .5);
+ 					//swing(110, .3, .5);
+ 					swing(swingArc, swingTime, swingRecovery);
  				} else {
- 					swing(110, .5, 1);
+ 					//swing(110, .5, 1);
+ 					swing(swingArc, swingTime, swingRecovery);
  				}
  			}
  		}
  		if(Input.GetKeyDown("up") && !swinging && !recovering && !owner.model.yellow){
- 			toss(4, .8, 1000, 1);
+ 			//toss(4, .8, 1000, 1);
+ 			toss(throwDistance, throwTime, 1000, throwRecovery);
  		}
  	}
  	
