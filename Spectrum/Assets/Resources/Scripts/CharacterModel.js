@@ -273,6 +273,7 @@ function changeRed(){
 		red = true;
 		heroScale = 2;
 		this.renderer.material.color = colorChoice();
+		//toBig();
 		this.transform.localScale = Vector3.one*heroScale;
 		shadow.transform.localScale = Vector3.one*heroScale *.9;
 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
@@ -450,6 +451,23 @@ function spellWall(){
 	
 	}
 	shakeCamera(2);
+
+}
+
+function toBig(){
+	var time:float = 0;
+	print("going big!");
+	while (time < 1){
+		this.transform.localScale += Vector3(.01,.01, 0);
+		time+= Time.deltaTime;
+		yield;
+	}
+
+}
+
+
+function toSmall(){
+
 
 }
 
