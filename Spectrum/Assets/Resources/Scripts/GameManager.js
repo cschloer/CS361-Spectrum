@@ -230,7 +230,7 @@ function win(){
 }
 
 function OnGUI() {
-	GUI.Label(Rect(300, 0, 300, 30), "Life is one great balancing act.");
+	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
 
 	GUI.Label(Rect(270, 20, 200, 30), "Move speed: " + character.model.moveSpeed);
 	character.model.moveSpeed = GUI.HorizontalSlider (Rect (460, 25, 100, 30), character.model.moveSpeed, 2.0, 10.0);
@@ -242,7 +242,7 @@ function OnGUI() {
 		GUI.Label(Rect(270, 80, 200, 30), "Swing recovery: " + character.weapon.swingRecovery);
 		character.weapon.swingRecovery = GUI.HorizontalSlider (Rect (460, 85, 100, 30), character.weapon.swingRecovery, 0.0, .6);
 		GUI.Label(Rect(270, 100, 200, 30), "Swing arc: " + character.weapon.swingArc);
-		character.weapon.swingArc = GUI.HorizontalSlider (Rect (460, 85, 100, 30), character.weapon.swingArc, 1, 270);
+		character.weapon.swingArc = GUI.HorizontalSlider (Rect (460, 105, 100, 30), character.weapon.swingArc, 1, 270);
 		
 	}else{
 		GUI.Label(Rect(270, 60, 200, 30), "Throw time: " + character.weapon.throwTime);
