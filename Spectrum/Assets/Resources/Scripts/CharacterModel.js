@@ -104,7 +104,7 @@ function Update () {
 			rolling = false;
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
-			moveSpeed = 2;
+			//moveSpeed = 2;
 			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
 			rjTimer = 0;
 		}
