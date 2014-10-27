@@ -149,7 +149,7 @@ function spawnMonster() {
 function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	type = 3;
+	type = 6;
 	switch(type){
 		case 1:
 			monsterScript = monsterObject.AddComponent("Monster1");
