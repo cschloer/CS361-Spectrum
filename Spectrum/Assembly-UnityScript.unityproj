@@ -54,6 +54,7 @@
      <Compile Include="Assets\Resources\Scripts\ColorCircle.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
+     <Compile Include="Assets\Resources\Scripts\Minion.js" />
      <Compile Include="Assets\Resources\Scripts\Monster.js" />
      <Compile Include="Assets\Resources\Scripts\Monster1.js" />
      <Compile Include="Assets\Resources\Scripts\Monster2.js" />

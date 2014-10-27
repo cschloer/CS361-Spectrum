@@ -10,6 +10,9 @@ public class Monster extends MonoBehaviour
 	public var hurting : boolean; //Marker boolean for whether it was just hurt
 	public var modelObject : GameObject;
 	public var bulletFolder : GameObject;
+	public var minionFolder : GameObject;
+	public var invincible : boolean; //Monster cannot be hurt while invincible.
+	public var activateDistance : float; //Monster waits till hero is within this distance to activate.
 	
 	public var hurtSound : AudioSource;
 	public var splatSound : AudioSource;
@@ -23,6 +26,8 @@ public class Monster extends MonoBehaviour
 	var charging:boolean;
 
 	public function init(c : Character) {
+		activateDistance = 10;
+		invincible = false;
 		charging = false;
 		fleeing = false;
 		hooking = false;
@@ -38,6 +43,7 @@ public class Monster extends MonoBehaviour
 		moveSpeed = 1;
 		turnSpeed = 90;
 			
+		
 		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		model.name = "Monster Model";										// Name the object.
@@ -71,8 +77,20 @@ public class Monster extends MonoBehaviour
 		bulletFolder = new GameObject();
 		bulletFolder.name = "Bullets";
 		bulletFolder.transform.parent = transform;
+		
+		minionFolder = new GameObject();
+		minionFolder.name = "Minions";
+		minionFolder.transform.parent = transform;
+		
+		waitToActivate();
 	}
 	
+	function waitToActivate(){
+		while (activateDistance != 0){
+			if(distanceToHero() <= activateDistance) activateDistance = 0;
+			yield WaitForSeconds(1);
+		}
+	}
 	//Monster will hurt hero on contact until stopHurtOnContact is called.
 	public function startHurtOnContact(){
 		if (!modelObject.name.Contains("attack")){
@@ -167,7 +185,13 @@ public class Monster extends MonoBehaviour
 	public function distanceToHero(){
 		return Vector3.Magnitude(model.transform.position - hero.model.transform.position);
 	}
-
+	//Gives an angle in degrees of the hero's radial position based on the monster's orientation
+	public function angleToHero(){
+		var vectorToHero : Vector3 = hero.model.transform.position - model.transform.position;
+		var anglesToHero : float = Mathf.Atan2(vectorToHero.y, vectorToHero.x) * Mathf.Rad2Deg - 90;
+		var num : float = anglesToHero - model.transform.eulerAngles.z;
+		return num % 360 + 360;
+	}
 	//Gives an angle (in degrees) of the monster's radial position based on the hero's orientation. 0 is in front of hero, 180 is behind.
 	//Good for monsters getting behind hero
 	public function heroAngle(){
@@ -239,27 +263,29 @@ public class Monster extends MonoBehaviour
 	
 	//Subroutine - call once, runs concurrently.
 	public function hurt(){
-		hurtSound.Play();
-		flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
-		health--;
-		hurting = true;
-		model.renderer.material.color = Color(.5,.5,.5);
+		if(!invincible){
+			hurtSound.Play();
+			flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
+			health--;
+			hurting = true;
+			model.renderer.material.color = Color(.5,.5,.5);
 
-		var t : float = hurtRecovery;
-		while (t > 0 && health > 0){
-			t -= Time.deltaTime;
-			yield;
+			var t : float = hurtRecovery;
+			while (t > 0 && health > 0){
+				t -= Time.deltaTime;
+				yield;
+			}
+			hurting = false;
+			model.renderer.material.color = Color(1,1,1);
 		}
-		hurting = false;
-		model.renderer.material.color = Color(1,1,1);
-
 			
 	}
 	
 
 	function Update(){
-		if(health > 0){
+		if(health > 0 && active){
 			act();
+			model.transform.localPosition.z = 0;
 		}else if (health > -100){
 			die(1);
 			health -= 101;
@@ -392,6 +418,20 @@ public class Monster extends MonoBehaviour
 	function simpleBullet(){
 		attack(5, 2.5, .5, .3, .3, Color(1, 0, 1),true, false, "bullet");
 		puffSound.Play();
+	}
+	
+	function createMinion(n : String){
+		var minionObject = new GameObject();					// Create a new empty game object that will hold a character.
+		var minionScript : Minion;
+		minionScript = minionObject.AddComponent("Minion");
+		minionScript.transform.parent = minionFolder.transform;
+		
+		minionScript.init(this);
+		minionScript.name = n;
+		return minionScript;
+	}
+	//To be overridden in monsters. Here you can react to things happening to the monster's minion.
+	function minionCollision(minion : Minion, col : Collider){
 	}
 	
 	

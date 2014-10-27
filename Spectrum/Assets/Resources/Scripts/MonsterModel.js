@@ -13,5 +13,11 @@ function OnTriggerEnter(col:Collider){
 			monster.hurt();
 			col.gameObject.GetComponent(WeaponModel).weapon.hasHit = true;
 		}
+		
+		if (monster instanceof Minion){
+			var minion = monster as Minion;
+			minion.passCollision(col);
+			//print("Passing collision to minion");
+		}
 		//print(col.gameObject.name);
 }
