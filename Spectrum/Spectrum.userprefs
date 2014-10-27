@@ -1,18 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Monster.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Monster6.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="273" Column="31" />
+      <File FileName="Assets/Resources/Scripts/Minion.js" Line="31" Column="26" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="152" Column="10" />
       <File FileName="Assets/Resources/Scripts/Character.js" Line="94" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="518" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Landing.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SpellHook.js" Line="86" Column="2" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="278" Column="18" />
       <File FileName="Assets/Resources/Scripts/WeaponModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterModel.js" Line="14" Column="25" />
-      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="17" Column="1" />
-      <File FileName="Assets/Resources/Scripts/ColorBlob.js" Line="72" Column="2" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="28" Column="22" />
-      <File FileName="Assets/Resources/Scripts/Monster5.js" Line="17" Column="24" />
+      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="209" Column="39" />
+      <File FileName="Assets/Resources/Scripts/Monster.js" Line="69" Column="63" />
+      <File FileName="Assets/Resources/Scripts/Monster1.js" Line="18" Column="70" />
+      <File FileName="Assets/Resources/Scripts/Monster2.js" Line="23" Column="20" />
+      <File FileName="Assets/Resources/Scripts/Monster3.js" Line="17" Column="3" />
+      <File FileName="Assets/Resources/Scripts/Monster5.js" Line="17" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Monster6.js" Line="41" Column="22" />
+      <File FileName="Assets/Resources/Scripts/ColorBlob.js" Line="61" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -15,7 +15,7 @@ public class Monster3 extends Monster {
 		dodgeSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		dodgeSound.clip = Resources.Load("Sounds/whistle") as AudioClip;
 	}
-	
+
 	function act(){
 		turnToHero(4);
 		move(1.2);
@@ -28,7 +28,7 @@ public class Monster3 extends Monster {
 		}
 		lastAttack -= Time.deltaTime;
 	}
-	
+
 	function dodge(time : float, speed : float){
 		dodgeSound.Play();
 		dodging = true;
@@ -46,5 +46,5 @@ public class Monster3 extends Monster {
 		}
 		dodging = false;
 	}
-	
+
 }
