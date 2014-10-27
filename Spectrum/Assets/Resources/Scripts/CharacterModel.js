@@ -287,21 +287,14 @@ function changeBlue(){
 
 }
 function changeRed(){
+	this.renderer.material.color = colorChoice();
 	if (red){
-		red = false;
-		heroScale = 1;
-		this.transform.localScale = Vector3.one; 
-		modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
-		shadow.transform.localScale = Vector3(1,1,1)*.9;
+		red = false; 
+		toSmall();
 	}
 	else {
 		red = true;
-		heroScale = 2;
-		this.renderer.material.color = colorChoice();
-		//toBig();
-		this.transform.localScale = Vector3.one*heroScale;
-		shadow.transform.localScale = Vector3.one*heroScale *.9;
-		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
+		toBig();
 	}
 	//print("Red: " + red);
 
@@ -479,20 +472,26 @@ function spellWall(){
 }
 
 function toBig(){
-	var time:float = 0;
-	print("going big!");
-	while (time < 1){
-		this.transform.localScale += Vector3(.01,.01, 0);
-		time+= Time.deltaTime;
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
+	var counter:float = 0;
+	while (counter < 1){
+		heroScale+=Time.deltaTime*3;
+		counter+= Time.deltaTime*3;
 		yield;
 	}
-
+	heroScale-=(1-counter);
 }
 
 
 function toSmall(){
-
-
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	var counter:float = 0;
+	while (counter < 1){
+		heroScale-=Time.deltaTime*3;
+		counter+= Time.deltaTime*3;
+		yield;
+	}
+	heroScale+=(1-counter);
 }
 
 //Shakes the camera for the given duration with default intensity (.2)
