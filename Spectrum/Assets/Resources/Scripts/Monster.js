@@ -36,8 +36,8 @@ public class Monster extends MonoBehaviour
 		hurting = false;
 		health = 3;
 		hurtRecovery = 1;
-		modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
-		model = modelObject.AddComponent("MonsterModel") as MonsterModel;						// Add a gemModel script to control visuals of the gem.
+		modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the monster texture.
+		model = modelObject.AddComponent("MonsterModel") as MonsterModel;						// Add a monsterModel script to control visuals of the monster.
 		model.monster = this;
 		//gemType = 1;
 		moveSpeed = 1;
@@ -54,7 +54,7 @@ public class Monster extends MonoBehaviour
 		modelObject.collider.enabled = false;
  		modelObject.AddComponent(BoxCollider);
 		modelObject.GetComponent(BoxCollider).isTrigger = false;
- 		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,10);
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
  		modelObject.AddComponent(Rigidbody);
 		modelObject.GetComponent(Rigidbody).isKinematic = false;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
