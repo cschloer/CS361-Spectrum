@@ -30,7 +30,7 @@ public class Monster1 extends Monster {
 		}
 	}
 	//Rears up and charges at hero, attacking at its finish. 
-	function lunge(chargeTime, chargeSpeed, lungeTime, lungeSpeed, retreatTime, retreatSpeed){
+	function lunge(chargeTime : float, chargeSpeed : float, lungeTime : float, lungeSpeed : float, retreatTime : float, retreatSpeed : float){
 		lunging = true;
 		while(chargeTime > 0){
 			chargeTime -= Time.deltaTime;
