@@ -1,8 +1,8 @@
 ﻿// CAGE
 // CSCI 361 Prototype
 
-// tileFloorModel
-// Blank uninteractive floor tile
+// tileWallModel
+// Wall Tile, blocks movement.
 
 var owner : Tile;
 

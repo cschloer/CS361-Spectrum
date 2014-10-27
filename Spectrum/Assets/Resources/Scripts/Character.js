@@ -19,7 +19,7 @@ function init(m) {
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).name = "Box1";
 	modelObject.GetComponent(BoxCollider).isTrigger = false;
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,5);
 	modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = false;
 	modelObject.GetComponent(Rigidbody).useGravity = false;

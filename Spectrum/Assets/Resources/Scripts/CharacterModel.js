@@ -119,7 +119,7 @@ function Update () {
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
-			gameObject.GetComponent(BoxCollider).isTrigger = false;
+			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z + 5;
 			vincible = true;															// Makes player vincible again.
 			rjTimer = 0;
 			landSound.Play();
@@ -217,7 +217,7 @@ function Update () {
 				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
-				modelObject.GetComponent(BoxCollider).isTrigger = true;
+				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
 				
 			}
