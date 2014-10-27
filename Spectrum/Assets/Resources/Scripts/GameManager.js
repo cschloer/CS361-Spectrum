@@ -52,7 +52,7 @@ function Start () {
 
 	addWeapon(character);
 	
-	roomCreate(10, -10, "room1.txt");
+	protolevelInit();
 	
 	paused = false;
 	clock = 0.0;
@@ -213,35 +213,69 @@ function addTile(x : float, y :float, t : String){
 // ProtolevelInit
 // Initiates the prototype level.
 function protolevelInit(){
-  for( i = -10; i <=10; i++) {
-    for( j = -10; j <=10; j++){
-      if( i == -10 || i == 10 || j == -10 || j == 10){
-      	addTile(i,j,"Wall");
-      }
-      else{
-      	addTile(i,j,"Floor");
-      }
-    }
-  }
+  roomCreate(-10,-10,0,"Plain1End.txt");
+  roomCreate(-10, 10,0,"Plain2Cross.txt");
+  roomCreate(-30, 10,1,"Plain2End.txt");
+  roomCreate( 10, 10,3,"Plain2End.txt");
+  roomCreate(-10, 30,2,"Plain1End.txt");
 }
 // Room Creation
 // Initiates room off of a txt file.
-function roomCreate (xStart: float, yStart: float, fileName: String) {
+function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
 	var c : char;
-	for( i = xStart; i > xStart-20; i--) {
-    	for( j = yStart; j < yStart+20; j++){
-    		c = stream.Read();
-    		if(c == '\n')
-    			c = stream.Read();
-    		if(c == 'W'){
-    			addTile(j,i,"Wall");
-    		}
-    		else if (c == "T"){
-    			addTile(j,i,"Floor");
-    		}
-		}
-  	}
+	switch( rot ){
+		case 1:
+			for( i = xS+19; i >= xS; i-- ) {
+    			for( j = yS+20; j > yS; j-- ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, i, j);
+				}
+  			}
+  			break;
+		case 2:
+			for( i = yS+1; i <= yS+20; i++ ) {
+    			for( j = xS+19; j >= xS; j-- ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, j, i);
+				}
+  			}
+  			break;
+  		case 3:
+			for( i = xS; i < xS+20; i++ ) {
+    			for( j = yS+1; j <= yS+20; j++ ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, i, j);
+				}
+  			}
+  			break;
+  		default:
+			for( i = yS+20; i > yS; i-- ) {
+    			for( j = xS; j < xS+20; j++ ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, j, i);
+				}
+  			}
+  			break;
+	}
+}
+// pop tile
+// Creates a tile based on character read input
+function popTile(c: char, xpos: float, ypos: float){
+   	if(c == 'W'){
+    	addTile(xpos,ypos,"Wall");
+    }
+    else if (c == "T"){
+    	addTile(xpos,ypos,"Floor");
+    }
 }
 
 // *******************************************
