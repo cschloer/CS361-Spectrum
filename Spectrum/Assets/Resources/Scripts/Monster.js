@@ -54,7 +54,7 @@ public class Monster extends MonoBehaviour
 		modelObject.collider.enabled = false;
  		modelObject.AddComponent(BoxCollider);
 		modelObject.GetComponent(BoxCollider).isTrigger = false;
- 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,10);
  		modelObject.AddComponent(Rigidbody);
 		modelObject.GetComponent(Rigidbody).isKinematic = false;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
@@ -91,18 +91,11 @@ public class Monster extends MonoBehaviour
 			yield WaitForSeconds(1);
 		}
 	}
-	//Monster will hurt hero on contact until stopHurtOnContact is called.
-	public function startHurtOnContact(){
-		if (!modelObject.name.Contains("attack")){
-			modelObject.name += "attack";
-		}
-	}
-	
-	public function stopHurtOnContact(){
-		if (modelObject.name.Contains("attack")){
-			modelObject.name.Replace("attack", "");
-		}
-	}
+	function setSize(x : float, y : float){
+		model.transform.localScale = Vector3(x, y, y);					
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75 * x, .75 * y ,10);
+ 	}
+ 	
 	//Move forward at default speed
 	public function move(){
 		move(1);
@@ -345,9 +338,9 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
 	function dropColor(){
-		print("Dropping Random Color");
+		//print("Dropping Random Color");
 		var rand : float = Random.value;
-		print(rand);
+		//print(rand);
 		if(rand < 1.0/6){
 			dropColor("red");
 		}else if(rand < 2.0/6){
@@ -376,7 +369,7 @@ public class Monster extends MonoBehaviour
 		
 	}
 	function dropColor(red : float, yellow : float, blue : float, duration : float){
-		print("Dropping color!");
+		//print("Dropping color!");
 		var blobObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 		var blob : ColorBlob = blobObject.AddComponent("ColorBlob") as ColorBlob;
 		blob.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.

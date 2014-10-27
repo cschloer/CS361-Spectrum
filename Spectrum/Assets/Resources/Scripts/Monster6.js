@@ -21,7 +21,6 @@ public class Monster6 extends Monster{
 		//If we're at the proper distance and behind the hero, lunge!
 		if(heroAngle() > 160 && heroAngle() < 200 && distance < 4.1 && distance > 3.9 && Random.value > .97){
 			lunging = true;
-			startHurtOnContact();
 		}
 		//If we're lunging, head forward and increment lungeTimer. 
 		if(lunging){
@@ -34,7 +33,6 @@ public class Monster6 extends Monster{
 		if((distance < 1 && lunging) || lungeTimer > 2){
 			//simpleMelee();
 			lunging = false;
-			stopHurtOnContact();
 			lungeTimer = 0;
 		}
 	}

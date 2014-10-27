@@ -89,16 +89,14 @@ function Start () {
 	shadow.name = "Character Shadow";											// Name the object.
 	shadow.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
 	shadow.renderer.material.color = Color.black;												// Set the color (easy way to tint things).
-	shadow.renderer.material.color.a = .6;
 	shadow.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	shadow.collider.enabled = false;
-	shadow.transform.localScale = Vector3.one * .9;
+	shadow.transform.localScale = Vector3.one;
 	shadowOffset = 0;
 }
 
 // Update is called once per frame
 function Update () {
-	updateShadow(); //Position shadow and rescale hero for jumping
 	updateColor();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
@@ -114,7 +112,6 @@ function Update () {
 		}
 	 }
 	if (jumping){
-	
 		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
 							
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
@@ -221,7 +218,7 @@ function Update () {
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).isTrigger = true;
-				vincible = false;														// Player invincible without passing through walls.
+				vincible = false;													// Player invincible without passing through walls.
 				
 			}
 		
@@ -252,15 +249,17 @@ function Update () {
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
-	//vincible = false;
+	updateShadow(); //Position shadow and rescale hero for jumping
 }
 
 //Resize hero and position shadow for jumping
 function updateShadow(){
-	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 2; //Offsets shadow based on time in air (quadratically)
+	if(jumping) shadow.renderer.material.color.a = .6;
+	else shadow.renderer.material.color.a = 0;
+	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 4; //Offsets shadow based on time in air (quadratically)
 	shadow.transform.rotation = transform.rotation; //Rotates shadow to match hero
 	shadow.transform.position.z = 0;
-	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset - .1); //Scales hero quadratically as she jumps
+	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset); //Scales hero quadratically as she jumps
 	
 	
 }
@@ -481,6 +480,7 @@ function toBig(){
 	while (counter < 1){
 		heroScale+=Time.deltaTime*3;
 		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
 	heroScale-=(1-counter);
@@ -493,6 +493,7 @@ function toSmall(){
 	while (counter < 1){
 		heroScale-=Time.deltaTime*3;
 		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
 	heroScale+=(1-counter);

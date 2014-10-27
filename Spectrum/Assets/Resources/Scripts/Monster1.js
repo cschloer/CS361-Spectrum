@@ -1,5 +1,5 @@
 
-// Shielded bug - to be taken out by 
+// Shielded bug - to be taken out by a throw more easily.
 
 public class Monster1 extends Monster {
 	var lunging : boolean;
@@ -8,28 +8,29 @@ public class Monster1 extends Monster {
 		super.init(c);
 		health = 1;
 		model.renderer.material.mainTexture = Resources.Load("Textures/Monster1", Texture2D);	// Set the texture.  Must be in Resources folder.
+		//Adds the shield. The shield passes collision information to this monster to make it shield when struck.
 		var min : Minion = createMinion("TestMinion");
 		min.setTexture("shield");
 		min.setLocalPosition(Vector3(0, .25, 0));
 		lunging = false;
-		
+		//Add sound
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
 	}
-	
+	//Approaches hero. If it's lined up, it will lunge. 
 	function act(){
 		if(!lunging){
 			turnToHero(.8);
 			if(distanceToHero() < 3){
 				moveFromHero(1);
-				if(angleToHero() < 2 || angleToHero() > 358) lunge(.5, .2, .5, 3);
+				if(angleToHero() < 2 || angleToHero() > 358) lunge(.5, .2, .5, 3, .5, 2);
 			}else{
 				move(1.5);
 			}
 		}
 	}
-	
-	function lunge(chargeTime, chargeSpeed, lungeTime, lungeSpeed){
+	//Rears up and charges at hero, attacking at its finish. 
+	function lunge(chargeTime, chargeSpeed, lungeTime, lungeSpeed, retreatTime, retreatSpeed){
 		lunging = true;
 		while(chargeTime > 0){
 			chargeTime -= Time.deltaTime;
@@ -42,7 +43,12 @@ public class Monster1 extends Monster {
 			yield;
 		}
 		attack(3, 6, 0, 1, .3, Color.red, false, true, "");
-
+		
+		while(retreatTime > 0){
+			retreatTime -= Time.deltaTime;
+			moveFromHero(retreatSpeed);
+			yield;
+		}
 		lunging = false;
 	}
 
