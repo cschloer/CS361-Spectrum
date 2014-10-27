@@ -434,11 +434,11 @@ function spellMine(){	// mine spell, currently when ranged
 function spellAOE(){
 	if (coolSpellAOE) return;
 	coolSpellAOE = true;
-	for (var i=0; i < 16; i ++){
+	for (var i=0; i < 8; i ++){
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the aoe texture.
 		var aoeScript = modelObject.AddComponent("SpellAOE");		// Add the aoe.js script to the object.
 		aoeScript.transform.rotation = this.transform.rotation;
-		aoeScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
+		aoeScript.transform.Rotate(0, 0, i*45);																																						// We can now refer to the object via this script.
 		aoeScript.transform.parent = this.transform.parent;	// Set the aoe's parent object to be the aoe folder.							
 		aoeScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 		

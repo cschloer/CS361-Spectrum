@@ -35,7 +35,7 @@ function init(x:float, y:float, m:GameObject, c:CharacterModel){
 function Update(){
 	if (destroying) return;
 	if (clock > 10 && !hasHit) destroyMe(false); // destroy if it hasn't hit anything after 1.5 seconds
-	if (clock > .25) 	this.transform.Rotate(0, 0,direction*5);
+	if (clock > .75) 	this.transform.Rotate(0, 0,direction*5);
 	if (clock > 8) this.renderer.material.color.a = 1-((clock-8)/2);
 	clock+=Time.deltaTime;
 	

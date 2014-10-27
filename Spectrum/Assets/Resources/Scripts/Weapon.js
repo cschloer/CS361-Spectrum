@@ -8,6 +8,7 @@ public class Weapon extends MonoBehaviour{
 	public var model : WeaponModel;	//Model object for weapon
 	public var baseRotation : Vector3;	//Default offset rotation when weapon is held
 	public var basePosition : Vector3;	//Default offset translation when weapon is held
+	var character:Character;
 	//public var rotationPoint : Vector3;
 	public var swinging : boolean;	//Boolean used to decide if sword inflicts damage on contact
 	public var recovering : boolean;	//Boolean used to decide if sword is still recovering
@@ -27,6 +28,7 @@ public class Weapon extends MonoBehaviour{
 		this.name = "Weapon";
 		recovering = false;
 		owner = c;
+		character = c;
 		owner.setWeapon(this);
 		weaponObject = new GameObject();
 		weaponObject.name = "WeaponObject";
@@ -212,6 +214,7 @@ public class Weapon extends MonoBehaviour{
  					spin(1, 1, 110);
  				}
  			} else{
+ 				character.lunge();
  				if(!owner.model.red){
  					//swing(110, .3, .5);
  					swing(swingArc, swingTime, swingRecovery);
