@@ -53,8 +53,8 @@ var heroScale : float; //tracks size of hero in float form
 function Start () {
 	cameraShake = false;
 	isHook = false;
-	moveSpeed = 3;
-	turnSpeed = 3;
+	moveSpeed = 5;
+	turnSpeed = 1;
 	blue = false;
 	red = false;
 	yellow = false;
@@ -64,11 +64,11 @@ function Start () {
 	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
 	rollTime = .25;
-	rollSpeedMultiplier = 3;
+	rollSpeedMultiplier = 1.5;
 	rollCooldown = .5;
 	jumpCooldown = 1;
-	jumpTime = 1;
-	jumpSpeedMultiplier = 1;
+	jumpTime = .75;
+	jumpSpeedMultiplier = .75;
 	heroScale = 1;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");

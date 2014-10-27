@@ -59,11 +59,11 @@ public class Weapon extends MonoBehaviour{
 		tossSound.clip = Resources.Load("Sounds/woosh-woosh") as AudioClip;
 		tossSound.volume = .5;
 		
-		throwTime = .8;
+		throwTime = .5;
 		throwRecovery = 1;
-		throwDistance = 4;
-		swingTime = .3;
-		swingRecovery = .5;
+		throwDistance = 3;
+		swingTime = .2;
+		swingRecovery = .2;
 		swingArc = 110;
  		}
  		
@@ -207,9 +207,9 @@ public class Weapon extends MonoBehaviour{
  		if(Input.GetKeyDown("up") && !swinging && !recovering && owner.model.yellow){
  			if(owner.model.jumping){
  				if(!owner.model.red){
- 					spin(.5, 1.5, 110);
+ 					spin(.5, .7, 110);
  				} else{
- 					spin(1, 2.5, 110);
+ 					spin(1, 1, 110);
  				}
  			} else{
  				if(!owner.model.red){
