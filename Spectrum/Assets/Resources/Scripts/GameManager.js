@@ -1,30 +1,33 @@
+// Spectrum
+// Prototype Stage
+// Fall 2014
+
+// Imports:
+import System.IO;
+
+// Globals
 var characterFolder : GameObject;	// This will be an empty game object used for organizing heroes in the hierarchy pane.
 var monsterFolder : GameObject;		// This will be an empty game object used for organizing monsters in the hierarchy pane.
 var tileFolder : GameObject;		// This will be an empty game object used for organizing tiles in the hierarchy pane.
+var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
+var roomFolder : GameObject;		// This will be an empty game object used for organizing rooms in the hierarchy pane.
 var character : Character;			// This is the hero character.
 var monsters : Array;				// This array holds monsters.
 var tiles : Array;					// This array holds tiles.
-
-
-var colorFolder : GameObject;
-var camera:GameObject;
-
-var paused : boolean;
-var clock: float;
-var monsterCounter : int;
-var clockFrequency : int;
-
-var losewinTimer:float;
-var loseScreen:boolean;
-var winScreen:boolean;
-
-var musicSound : AudioSource;
-
+var camera:GameObject;				// Camera GameObject for look control
+var paused : boolean;				// Boolean for pause menu
+var clock: float;					// Clock monitor variable.
+var monsterCounter : int;			// Counter for monster spawning.
+var clockFrequency : int;			// Timer for monster spawning.
+var losewinTimer:float;				// Timer for gameover.
+var loseScreen:boolean;				// Boolean for gamewin.
+var winScreen:boolean;				// Boolean for gamelose.
+var musicSound : AudioSource;		// Game music.
 var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 
-
+// Start
 // Called once when the script is created.
 function Start () {
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
@@ -49,7 +52,7 @@ function Start () {
 
 	addWeapon(character);
 	
-	protolevelInit();
+	roomCreate(10, -10, "room1.txt");
 	
 	paused = false;
 	clock = 0.0;
@@ -64,6 +67,7 @@ function Start () {
 	loseScreen = false;
 }
 
+// Update
 // Called every frame.
 function Update () {
 	if (winScreen || loseScreen){
@@ -91,7 +95,10 @@ function Update () {
 }
 
 
-// Adds: These functions add certain elements.
+// *******************************************
+// 				  Add Functions
+// *******************************************
+
 function addCharacter(x : float , y : float) {
 	var characterObject = new GameObject();									// Create a new empty game object that will hold a character.
 	var characterScript = characterObject.AddComponent("Character");		// Add the character.js script to the object.
@@ -104,7 +111,6 @@ function addCharacter(x : float , y : float) {
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 }
-
 
 function addCircle(color:int){
 	//var colorObject = new GameObject();					// Create a new empty game object that will hold a color.
@@ -144,7 +150,6 @@ function spawnMonster() {
 		//print("spawned monster " + rType + ", " + clockFrequency);
 	}
 }
-
 
 function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
@@ -201,6 +206,10 @@ function addTile(x : float, y :float, t : String){
 	tileScript.name = "Tile" + tiles.length;
 }
 
+// *******************************************
+// 				Level Initiation
+// *******************************************
+
 // ProtolevelInit
 // Initiates the prototype level.
 function protolevelInit(){
@@ -215,19 +224,43 @@ function protolevelInit(){
     }
   }
 }
+// Room Creation
+// Initiates room off of a txt file.
+function roomCreate (xStart: float, yStart: float, fileName: String) {
+	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
+	var c : char;
+	for( i = xStart; i > xStart-20; i--) {
+    	for( j = yStart; j < yStart+20; j++){
+    		c = stream.Read();
+    		if(c == '\n')
+    			c = stream.Read();
+    		if(c == 'W'){
+    			addTile(j,i,"Wall");
+    		}
+    		else if (c == "T"){
+    			addTile(j,i,"Floor");
+    		}
+		}
+  	}
+}
 
+// *******************************************
+// 			   Win and Lose Screens
+// *******************************************
 
 function lose(){
 	loseScreen = true;
 	losewinTimer = 0;
-
 }
 
 function win(){
 	winScreen = true;
 	losewinTimer = 0;
-
 }
+
+// *******************************************
+// 					  GUI
+// *******************************************
 
 function OnGUI() {
 	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
