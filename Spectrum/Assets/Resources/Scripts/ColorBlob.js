@@ -6,7 +6,7 @@ var yellow : float;
 var eatSound : AudioSource;
 function Start () {
 	eatSound = gameObject.AddComponent("AudioSource") as AudioSource;
-	eatSound.clip = Resources.Load("Sounds/slurp");
+	eatSound.clip = Resources.Load("Sounds/slurp") as AudioClip;
 }
 
 function Update () {

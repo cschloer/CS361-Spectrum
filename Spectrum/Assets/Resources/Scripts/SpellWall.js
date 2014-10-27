@@ -1,4 +1,4 @@
-﻿#pragma strict
+#pragma strict
 var clock:float;
 var modelObject:GameObject;
 var x:float;
@@ -41,7 +41,7 @@ function init(x:float, y:float, m:GameObject, c:CharacterModel, distance:int){
 
 function Update(){
 	if (destroying) return;
-	if (clock > 6) destroyMe(true); // destroy if it hasn't hit anything after 1.5 seconds
+	if (clock > 6) destroyMe(false); // destroy if it hasn't hit anything after 1.5 seconds
 	clock+=Time.deltaTime;
 	
 	
@@ -65,7 +65,7 @@ function expand(duration:float){
 	var timer:float = 0;
 	while (timer < duration){
 		this.transform.localScale += Vector3(.01,.01, 0);
-		//this.GetComponent(BoxCollider).size = Vector3(this.transform.localScale.x,this.transform.localScale.y,1);
+		//this.GetComponent(BoxCollider).size = Vector3(this.transform.localScale.x,this.transform.localScale.y,1);w
 		timer += Time.deltaTime;
 		yield;
 	}
@@ -75,7 +75,7 @@ function expand(duration:float){
 
 function destroyMe(explode:boolean){
 	destroying = true;
-	character.coolSpell = false;
+	character.coolSpellWall = false;
 	if (explode) {
 		modelObject.GetComponent(BoxCollider).isTrigger = true;
 		this.renderer.enabled = false;
@@ -84,6 +84,14 @@ function destroyMe(explode:boolean){
 		explosionParticle.transform.localPosition = Vector3(0,0,0);
 		explosionParticle.gameObject.SetActive(true);
 		yield WaitForSeconds(2);
+	}
+	else {
+		var clock:float = 0;
+		while (clock < 1){
+			this.renderer.material.color.a = 1-((clock));
+			clock+=Time.deltaTime;
+			yield;
+		}
 	}
 	Destroy(this.gameObject);
 }

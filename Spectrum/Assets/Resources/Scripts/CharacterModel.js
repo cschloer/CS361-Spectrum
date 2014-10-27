@@ -42,7 +42,11 @@ var landSound : AudioSource;
 var shadow : GameObject;
 var shadowOffset : float;
 
-var coolSpell:boolean; // cooldown for spell
+var coolSpellHook:boolean; // cooldown for spell
+var coolSpellMine:boolean;
+var coolSpellAOE:boolean;
+var coolSpellWall:boolean;
+
 var cameraShake:boolean;
 
 var heroScale : float; //tracks size of hero in float form
@@ -406,8 +410,8 @@ function castSpell(){
 }
 
 function spellHook(){ // hook spell, currently when meele
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellHook) return;
+	coolSpellHook = true;
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
 	var hookScript = modelObject.AddComponent("SpellHook");		// Add the hook.js script to the object.
 	
@@ -417,8 +421,8 @@ function spellHook(){ // hook spell, currently when meele
 }
 
 function spellMine(){	// mine spell, currently when ranged
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellMine) return;
+	coolSpellMine = true;
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the mine texture.
 	var mineScript = modelObject.AddComponent("SpellMine");		// Add the mine.js script to the object.
 																																							// We can now refer to the object via this script.
@@ -428,8 +432,8 @@ function spellMine(){	// mine spell, currently when ranged
 }
 
 function spellAOE(){
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellAOE) return;
+	coolSpellAOE = true;
 	for (var i=0; i < 16; i ++){
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the aoe texture.
 		var aoeScript = modelObject.AddComponent("SpellAOE");		// Add the aoe.js script to the object.
@@ -441,13 +445,13 @@ function spellAOE(){
 	}
 	
 	yield WaitForSeconds(5); 
-	coolSpell = false;
+	coolSpellAOE = false;
 
 }
 
 function spellWall(){
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellWall) return;
+	coolSpellWall = true;
 	var walls : Array;
 	walls = new Array();
 	var curRotate = this.transform.rotation;

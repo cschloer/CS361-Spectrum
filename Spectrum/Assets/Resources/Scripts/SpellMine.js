@@ -48,7 +48,7 @@ function Update(){
 	else if (clock > .5) { 
 		this.renderer.material.mainTexture = Resources.Load("Textures/mineB", Texture2D);
 		if (resetCool) { // reset the cooldown only the first time around
-			character.coolSpell = false;
+			character.coolSpellMine = false;
 			resetCool = false;
 		}
 	}
@@ -86,7 +86,7 @@ function destroyMe(){
 	yield WaitForSeconds(1);
 	if (resetCool) { // if the cooldown hasn't been reset yet, this mine was destroyed very early. Remove mine visually and wait before resetting cooldown.
 		yield WaitForSeconds(.5-clock);
-		character.coolSpell = false;
+		character.coolSpellMine = false;
 	}
 	
 	Destroy(this.gameObject);
