@@ -24,6 +24,11 @@ public class Weapon extends MonoBehaviour{
 	public var throwDistance : float;
 	public var swingArc : int;
 	//Takes owner (main character) as parameter
+	
+// *******************************************
+// 			   Initialization
+// *******************************************
+
 	function init(c:Character){
 		this.name = "Weapon";
 		recovering = false;
@@ -38,7 +43,7 @@ public class Weapon extends MonoBehaviour{
 		basePosition = Vector3(0, 0, 0);
 	 	weaponObject.AddComponent(BoxCollider);
 	 	weaponObject.GetComponent(BoxCollider).isTrigger = true;
-	 	weaponObject.GetComponent(BoxCollider).size = Vector3(.1,2,.5);
+	 	weaponObject.GetComponent(BoxCollider).size = Vector3(.1, 2, .5);
 	 	weaponObject.AddComponent(Rigidbody);
 	 	weaponObject.GetComponent(Rigidbody).isKinematic = false;
 	 	weaponObject.GetComponent(Rigidbody).useGravity = false;
@@ -46,8 +51,8 @@ public class Weapon extends MonoBehaviour{
 	 	weaponObject.transform.parent = owner.model.transform;
 		model = weaponObject.AddComponent("WeaponModel") as WeaponModel;
 		model.weapon = this;
-		model.transform.parent = weaponObject.transform;								
-		model.transform.localPosition = basePosition;						
+		model.transform.parent = weaponObject.transform;
+		model.transform.localPosition = basePosition;
 		model.transform.localEulerAngles = baseRotation;						
 		var spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
@@ -61,14 +66,17 @@ public class Weapon extends MonoBehaviour{
 		tossSound.clip = Resources.Load("Sounds/woosh-woosh") as AudioClip;
 		tossSound.volume = .5;
 		
-		throwTime = .5;
+		throwTime = .37;
 		throwRecovery = 1;
 		throwDistance = 3;
 		swingTime = .2;
 		swingRecovery = .2;
 		swingArc = 110;
  		}
- 		
+// *******************************************
+// 			   Helper Functions
+// *******************************************
+
  	//Returns distance to hero
  	function distanceFromOwner(){
  		return Vector3.Magnitude(model.transform.position - owner.model.transform.position);
@@ -101,6 +109,10 @@ public class Weapon extends MonoBehaviour{
  		model.renderer.material.color = Color(.8,.6,.6);
  	}
  	
+// *******************************************
+// 			   Attacks
+// *******************************************
+
  	//Subroutine
  	//Hero swings sword across (angle) over (time), recovering for (recovery) seconds.
  	function swing(angle : int, time : float, recovery : float){
@@ -203,6 +215,11 @@ public class Weapon extends MonoBehaviour{
  		
  		stopRecovery();
  	}
+ 	
+// *******************************************
+// 			   Key Input
+// *******************************************
+
  	//Looks for key input, executes proper function depending on color.
  	function Update(){
 
@@ -230,6 +247,10 @@ public class Weapon extends MonoBehaviour{
  		}
  	}
  	
+// *******************************************
+// 			   Cleanup
+// *******************************************
+
  	//Subroutine called at initialization
 	//Constantly places sword at hero. This deals with the issue of the sword moving while the hero runs against an obstacle.
 	function resetPosition(){
