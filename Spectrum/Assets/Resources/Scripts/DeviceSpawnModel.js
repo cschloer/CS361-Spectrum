@@ -30,6 +30,11 @@ function Update(){
 		var mon = manager.addMonster(transform.position.x,transform.position.y+1,manager.character,rType);
 		spawns.Add(mon);
 	}
+	for(i = 0; i < spawns.length; i++){
+		if( spawns[i] == null ){
+			spawns.Remove(i);
+		}
+	}
 }
 
 function breakage(){
