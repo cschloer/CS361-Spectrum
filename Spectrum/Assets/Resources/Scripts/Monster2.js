@@ -43,6 +43,8 @@ public class Monster2 extends Monster {
 			chargin = true;
 			turnSpeed = 120;
 		}
+		
+		if(distanceToHero() < 1.5) simpleMelee();
 	}
 	
 	function charge(){

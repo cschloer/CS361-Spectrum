@@ -47,7 +47,7 @@ public class Monster5 extends Monster {
 	function act(){
 		model.transform.position.z = 0;
 		circlingBehaviour(2);
-		if(Random.value > .99){
+		if(Random.value > .98){
 			if (!isVisible) return;
 			simpleBullet();
 		}

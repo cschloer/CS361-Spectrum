@@ -59,7 +59,7 @@ function Start () {
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
-	clockFrequency = 7;
+	clockFrequency = 5;
 	musicSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	musicSound.clip = Resources.Load("Sounds/music");
 	musicSound.volume = .6;
@@ -376,17 +376,18 @@ function OnGUI() {
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), textJump, ScaleMode.ScaleToFit, true, 0);
 	} else {
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), textJump, ScaleMode.ScaleToFit, true, 0);
 	}
-	
+			
+
 	// -------> This is the TraitMap
-	
+	GUI.color.a = 1;
 	// Controls the rolling image of the TraitMap
 	var textRoll : Texture2D;
 	textRoll = Resources.Load("Textures/TraitMap_Roll", Texture2D);
 	if (character.model.blue == true){
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1,height1*3+boxSize/2,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
@@ -400,7 +401,7 @@ function OnGUI() {
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	} else {
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	}
 	
@@ -408,7 +409,7 @@ function OnGUI() {
 	var textThrow : Texture2D;
 	textThrow = Resources.Load("Textures/TraitMap_Throw", Texture2D);
 	if (character.model.yellow == true){
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1*3+boxSize/2,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
@@ -422,7 +423,7 @@ function OnGUI() {
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 	} else {
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 		GUI.color.a = 1;
 
@@ -432,7 +433,7 @@ function OnGUI() {
 	var textSmall : Texture2D;
 	textSmall = Resources.Load("Textures/TraitMap_Small", Texture2D);
 	if (character.model.red == true){
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1*3+boxSize/2,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
@@ -441,7 +442,7 @@ function OnGUI() {
 	
 	// --------> This is the lifehearts
 	var textHealth : Texture2D;
-	
+	GUI.color.a = 1;
 	if (character.health >= 3) {
 		textHealth = Resources.Load("Textures/heart3", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);

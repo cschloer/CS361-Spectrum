@@ -11,7 +11,8 @@ public class Monster1 extends Monster {
 		//Adds the shield. The shield passes collision information to this monster to make it shield when struck.
 		var min : Minion = createMinion("TestMinion");
 		min.setTexture("shield");
-		min.setLocalPosition(Vector3(0, .25, 0));
+		min.setSize(1.2, 1);
+		min.setLocalPosition(Vector3(0, .6, 0));
 		lunging = false;
 		//Add sound
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
