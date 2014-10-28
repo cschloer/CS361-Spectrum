@@ -1,10 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StartScript.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\GameManager.js">
     <Files>
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="306" Column="17" />
       <File FileName="Assets\StartScript.js" Line="22" Column="28" />
-      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="230" Column="19" />
-      <File FileName="Assets\Resources\Scripts\Monster1.js" Line="8" Column="88" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="343" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Monster1.js" Line="9" Column="3" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="28" Column="8" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="5" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
