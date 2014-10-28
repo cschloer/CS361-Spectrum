@@ -181,13 +181,16 @@ public class Weapon extends MonoBehaviour{
  		tossSpeed = distance/time;
  		var t : float = 0;
  		//Throw outward
+ 		var moveScalar:float = 1;
+ 		if (character.model.moveN) moveScalar = 1.5;
  		while (t < time && !hasHit){
  			if(!tossSound.isPlaying) tossSound.Play();
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
- 			model.transform.position += (heading * tossSpeed * Time.deltaTime);
+ 			model.transform.position += (heading * tossSpeed * Time.deltaTime)*moveScalar;
  			yield;
  		}
+ 		
  		hasHit = false;
  		t=0;
  		//Recover until sword reaches hero
