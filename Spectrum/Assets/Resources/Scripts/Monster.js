@@ -24,7 +24,7 @@ public class Monster extends MonoBehaviour
 	var hooking:boolean;
 	var fleeing:boolean;
 	var charging:boolean;
-
+	
 	public function init(c : Character) {
 		activateDistance = 10;
 		invincible = false;
@@ -42,7 +42,6 @@ public class Monster extends MonoBehaviour
 		//gemType = 1;
 		moveSpeed = 1;
 		turnSpeed = 90;
-			
 		
 		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
@@ -50,7 +49,7 @@ public class Monster extends MonoBehaviour
 		model.renderer.material.mainTexture = Resources.Load("Textures/gem1", Texture2D);	// Set the texture.  Must be in Resources folder.
 		model.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 		model.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
-	
+		
 		modelObject.collider.enabled = false;
  		modelObject.AddComponent(BoxCollider);
 		modelObject.GetComponent(BoxCollider).isTrigger = false;
@@ -93,7 +92,8 @@ public class Monster extends MonoBehaviour
 	}
 	function setSize(x : float, y : float){
 		model.transform.localScale = Vector3(x, y, y);					
- 		modelObject.GetComponent(BoxCollider).size = Vector3(.75 * x, .75 * y ,10);
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75, .75, 10);
+
  	}
  	
 	//Move forward at default speed
@@ -274,7 +274,6 @@ public class Monster extends MonoBehaviour
 			
 	}
 	
-
 	function Update(){
 		if(health > 0 && active){
 			act();
@@ -425,6 +424,14 @@ public class Monster extends MonoBehaviour
 	}
 	//To be overridden in monsters. Here you can react to things happening to the monster's minion.
 	function minionCollision(minion : Minion, col : Collider){
+	}
+	
+	function OnDrawGizmos() {
+		// Draw a yellow cube at the transforms position
+		Gizmos.color = Color.yellow;
+		
+		//Gizmos.DrawWireCube (model.transform.position, modelObject.GetComponent(BoxCollider).size);
+	
 	}
 	
 	

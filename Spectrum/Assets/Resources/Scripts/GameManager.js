@@ -67,6 +67,7 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+	//addMonster(5, 5, character, 7);
 }
 
 // Update
@@ -177,7 +178,7 @@ function addMonster(x : float, y :float, c : Character, type: int){
 			monsterScript = monsterObject.AddComponent("Monster6");		// Add the monster2.js script to the object.
 			break;
 		default:
-			monsterScript = monsterObject.AddComponent("Monster");		// Add the monster.js script to the object.
+			monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
 	}
 	
 	monsterScript.transform.parent = monsterFolder.transform;
