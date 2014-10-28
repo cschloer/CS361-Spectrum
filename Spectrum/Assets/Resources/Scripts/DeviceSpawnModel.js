@@ -7,7 +7,7 @@ var owner : Device;
 var manager : GameManager;
 var spawns : Array;
 var broken : boolean;
-
+var breakSound : AudioSource;
 function init(own : Device, man: GameManager) {
 	owner = own;									// Set up a pointer to the device object containing this model.
 	manager = man;									// Set up a pointer to the game manager
@@ -21,7 +21,8 @@ function init(own : Device, man: GameManager) {
 	renderer.material.mainTexture = Resources.Load("Textures/spawner", Texture2D);		// Set the texture.  Must be in Resources folder.
 	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
-	
+	breakSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	breakSound.clip = Resources.Load("Sounds/rattle");
 }
 
 function Update(){
@@ -41,4 +42,5 @@ function breakage(){
 	renderer.material.mainTexture = Resources.Load("Textures/cracked", Texture2D);
 	broken = true;
 	owner.box.isTrigger = true;
+	breakSound.Play();
 }

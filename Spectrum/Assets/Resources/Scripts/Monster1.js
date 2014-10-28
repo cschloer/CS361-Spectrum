@@ -4,6 +4,7 @@
 public class Monster1 extends Monster {
 	var lunging : boolean;
 	var metalSound : AudioSource;
+
 	function init(c: Character){
 		super.init(c);
 		health = 1;
@@ -17,6 +18,7 @@ public class Monster1 extends Monster {
 		//Add sound
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
+		
 	}
 	//Approaches hero. If it's lined up, it will lunge. 
 	function act(){

@@ -18,7 +18,7 @@ function Start () {
 }
 
 function Update () {
-	traveled += Time.deltaTime * speed;
+	traveled += Time.deltaTime * Mathf.Abs(speed);
 	transform.position += transform.up * Time.deltaTime*speed;
 	if(traveled >= range) Destroy(gameObject);
 	if(fade) renderer.material.color.a = 1-(traveled/range);

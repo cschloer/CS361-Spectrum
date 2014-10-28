@@ -83,7 +83,7 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
-	//addMonster(5, 5, character, 7);
+	addMonster(40, 20, character, 7);
 }
 
 // Update
@@ -140,7 +140,7 @@ function addCake(x : float , y : float) {
 	cakeObject.AddComponent(BoxCollider);
 	cakeObject.GetComponent(BoxCollider).name = "cakes";
 	cakeObject.GetComponent(BoxCollider).isTrigger = true;
-	cakeObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+	cakeObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
 											
 	
 }															

@@ -275,13 +275,15 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function Update(){
-		if(health > 0 && active){
-			act();
-			model.transform.localPosition.z = 0;
-		}else if (health > -100){
-			die(1);
-			health -= 101;
-		}		
+		if(activateDistance == 0){
+			if(health > 0){
+				act();
+				model.transform.localPosition.z = 0;
+			}else if (health > -100){
+				die(1);
+				health -= 101;
+			}	
+		}	
 	}
 	function die(deathTime : float){
 		hero.killedMonsters++;
@@ -333,7 +335,7 @@ public class Monster extends MonoBehaviour
 		attackObject.AddComponent(Rigidbody);
 		attackObject.GetComponent(Rigidbody).isKinematic = false;
 		attackObject.GetComponent(Rigidbody).useGravity = false;
-		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
 	function dropColor(){

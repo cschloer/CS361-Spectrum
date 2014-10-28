@@ -58,12 +58,7 @@ function Update(){
 
 function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
-	if (col.gameObject.name.Contains("Monster")){ // If it runs into a monster, damage it
-		var monster:Monster = col.gameObject.GetComponent(MonsterModel).monster;
-		monster.hurt();
-		destroyMe();
-		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
-	}
+	
 }
 function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position

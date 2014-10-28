@@ -38,6 +38,7 @@ var jumpSpeedMultiplier : float;
 var rollSound : AudioSource;
 var jumpSound : AudioSource;
 var landSound : AudioSource;
+var cakeSound : AudioSource;
 
 var shadow : GameObject;
 var shadowOffset : float;
@@ -83,6 +84,8 @@ function Start () {
 	jumpSound.clip = Resources.Load("Sounds/boing");
 	landSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	landSound.clip = Resources.Load("Sounds/thump");
+	cakeSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	cakeSound.clip = Resources.Load("Sounds/cake");
 	character.modelObject.layer = 3;											// Character layer.
 	
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -392,6 +395,7 @@ function OnTriggerEnter(col:Collider){
 		Destroy(col.gameObject);
 		cakesCollected++;
 		print(cakesCollected);
+		cakeSound.Play();
 	}
 }
 
