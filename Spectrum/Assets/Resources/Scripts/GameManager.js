@@ -302,7 +302,10 @@ function win(){
 // 					  GUI
 // *******************************************
 
-function OnGUI() {
+function OnGUI() {	
+
+	//Balancing sliders
+	/*
 	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
 
 	GUI.Label(Rect(270, 20, 200, 30), "Move speed: " + character.model.moveSpeed);
@@ -341,6 +344,7 @@ function OnGUI() {
 		GUI.Label(Rect(270, 160, 200, 30), "Roll recovery: " + character.model.rollCooldown);
 		character.model.rollCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.rollCooldown, 0, 2.0);
 	}
+	*/
 	
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
