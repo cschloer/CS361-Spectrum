@@ -34,7 +34,7 @@ function OnTriggerEnter(col:Collider){
 
 function OnTriggerStay(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
-		character = col.gameObject.GetComponent(CharacterModel);
+		character.transform.position = this.transform.position;
 		character.stopMovement();
 		character.fallDeath();
 	}

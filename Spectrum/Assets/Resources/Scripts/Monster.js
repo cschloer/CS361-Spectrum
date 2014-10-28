@@ -341,11 +341,11 @@ public class Monster extends MonoBehaviour
 		//print("Dropping Random Color");
 		var rand : float = Random.value;
 		//print(rand);
-		if(rand < 1.0/6){
+		if(rand < 2.0/6){
 			dropColor("red");
-		}else if(rand < 2.0/6){
+		}else if(rand < 4.0/6){
 			dropColor("yellow");
-		}else if(rand < 3.0/6){
+		}else if(rand <= 6.0/6){
 			dropColor("blue");
 		}else if(rand < 4.0/6){
 			dropColor("antiRed");

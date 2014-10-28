@@ -59,7 +59,7 @@ function Start () {
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
-	clockFrequency = 15;
+	clockFrequency = 5;
 	musicSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	musicSound.clip = Resources.Load("Sounds/music");
 	musicSound.volume = .6;
@@ -156,7 +156,7 @@ function spawnMonster() {
 function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	type = 6;
+	//type = 1;
 	switch(type){
 		case 1:
 			monsterScript = monsterObject.AddComponent("Monster1");
@@ -218,7 +218,8 @@ function addTile(x : float, y :float, t : String){
 function protolevelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");
   roomCreate(-10, 10,0,"Plain2Cross.txt");
-  roomCreate(-30, 10,1,"Hole2End.txt");
+  roomCreate(-30, 10,0,"Hole2Tri.txt");
+  roomCreate(-30,-10,0,"Hole2End.txt");
   roomCreate( 10, 10,3,"Plain2End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
 }
@@ -232,7 +233,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = xS+19; i >= xS; i-- ) {
     			for( j = yS+20; j > yS; j-- ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, i, j);
 				}
@@ -242,7 +243,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = yS+1; i <= yS+20; i++ ) {
     			for( j = xS+19; j >= xS; j-- ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, j, i);
 				}
@@ -252,7 +253,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = xS; i < xS+20; i++ ) {
     			for( j = yS+1; j <= yS+20; j++ ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, i, j);
 				}
@@ -262,7 +263,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = yS+20; i > yS; i-- ) {
     			for( j = xS; j < xS+20; j++ ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, j, i);
 				}
@@ -302,7 +303,10 @@ function win(){
 // 					  GUI
 // *******************************************
 
-function OnGUI() {
+function OnGUI() {	
+
+	//Balancing sliders
+	/*
 	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
 
 	GUI.Label(Rect(270, 20, 200, 30), "Move speed: " + character.model.moveSpeed);
@@ -341,6 +345,7 @@ function OnGUI() {
 		GUI.Label(Rect(270, 160, 200, 30), "Roll recovery: " + character.model.rollCooldown);
 		character.model.rollCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.rollCooldown, 0, 2.0);
 	}
+	*/
 	
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
@@ -372,17 +377,18 @@ function OnGUI() {
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), textJump, ScaleMode.ScaleToFit, true, 0);
 	} else {
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), textJump, ScaleMode.ScaleToFit, true, 0);
 	}
-	
+			
+
 	// -------> This is the TraitMap
-	
+	GUI.color.a = 1;
 	// Controls the rolling image of the TraitMap
 	var textRoll : Texture2D;
 	textRoll = Resources.Load("Textures/TraitMap_Roll", Texture2D);
 	if (character.model.blue == true){
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1,height1*3+boxSize/2,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
@@ -396,7 +402,7 @@ function OnGUI() {
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	} else {
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	}
 	
@@ -404,7 +410,7 @@ function OnGUI() {
 	var textThrow : Texture2D;
 	textThrow = Resources.Load("Textures/TraitMap_Throw", Texture2D);
 	if (character.model.yellow == true){
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1*3+boxSize/2,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
@@ -418,7 +424,7 @@ function OnGUI() {
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 	} else {
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 		GUI.color.a = 1;
 
@@ -428,7 +434,7 @@ function OnGUI() {
 	var textSmall : Texture2D;
 	textSmall = Resources.Load("Textures/TraitMap_Small", Texture2D);
 	if (character.model.red == true){
-		GUI.color.a = 0.5;
+		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1*3+boxSize/2,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
@@ -437,7 +443,7 @@ function OnGUI() {
 	
 	// --------> This is the lifehearts
 	var textHealth : Texture2D;
-	
+	GUI.color.a = 1;
 	if (character.health >= 3) {
 		textHealth = Resources.Load("Textures/heart3", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);

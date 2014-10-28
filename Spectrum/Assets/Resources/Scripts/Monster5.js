@@ -12,7 +12,7 @@ public class Monster5 extends Monster {
 		isVisible = true;
 		clock = 0.0;
 		blinkCounter = 0;
-		health = 2;
+		health = 1;
 		model.renderer.material.mainTexture = Resources.Load("Textures/magician", Texture2D);	// Set the texture.  Must be in Resources folder.
 	}
 	
@@ -28,7 +28,7 @@ public class Monster5 extends Monster {
 				vip1Sound.Play();
 				isVisible = false;
 				blinkCounter++;
-				if (model!= null) model.renderer.material.color.a = 0;
+				if (model!= null) model.renderer.material.color.a = .1;
 			}else{
 				vip2Sound.Play();
 				isVisible = true;
@@ -47,7 +47,7 @@ public class Monster5 extends Monster {
 	function act(){
 		model.transform.position.z = 0;
 		circlingBehaviour(2);
-		if(Random.value > .99){
+		if(Random.value > .98){
 			if (!isVisible) return;
 			simpleBullet();
 		}

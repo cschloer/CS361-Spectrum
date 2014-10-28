@@ -12,7 +12,7 @@ public class Monster2 extends Monster {
 	public function init(c : Character) {
 	
 		super.init(c);
-		health = 4;
+		health = 3;
 		hurtRecovery = .7;
 		moveSpeed = .75;
 		turnSpeed = 60;
@@ -43,6 +43,8 @@ public class Monster2 extends Monster {
 			chargin = true;
 			turnSpeed = 120;
 		}
+		
+		if(distanceToHero() < 1.5) simpleMelee();
 	}
 	
 	function charge(){

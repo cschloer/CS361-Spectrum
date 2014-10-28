@@ -19,12 +19,13 @@ function init(r : float, y : float, b : float, duration : float) {
 	timeLeft = duration;
 	appear(.5);
 	renderer.material.color=Color.black;
-	if(red == 1) renderer.material.color = Color(1, 0, 0);
 	if(red == -1) renderer.material.color = Color(1, .8, .8);
-	if(blue == 1) renderer.material.color = Color(0, 0, 1);
+	if(red == 1) renderer.material.color = Color(1, 0, 0);
 	if(blue == -1) renderer.material.color = Color (.8, .8, 1);
-	if(yellow == 1) renderer.material.color = Color(1, 1, 0);
+	if(blue == 1) renderer.material.color = Color(0, 0, 1);
 	if(yellow == -1) renderer.material.color = Color(1, 1, .6);
+	if(yellow == 1) renderer.material.color = Color(1, 1, 0);
+	
 }
 
 //Adds the color to the map (be linearly scaling from 0 to 1 over duration seconds).
@@ -62,9 +63,9 @@ function OnTriggerEnter(col:Collider){
 		if(col.gameObject.name == "Character Model"){
 			var character : CharacterModel = col.gameObject.GetComponent(CharacterModel);
 
-			if((character.blue && blue == -1) || (!character.blue && blue == 1)) character.changeBlue();
-			if((character.red && red == -1) || (!character.red && red == 1)) character.changeRed();
-			if((character.yellow && yellow == -1) || (!character.yellow && yellow == 1)) character.changeYellow();
+			if((character.blue && blue == 1) || (!character.blue && blue == 1)) character.changeBlue();
+			if((character.red && red == 1) || (!character.red && red == 1)) character.changeRed();
+			if((character.yellow && yellow == 1) || (!character.yellow && yellow == 1)) character.changeYellow();
 			timeLeft = 0;
 			eatSound.Play();
 		}
