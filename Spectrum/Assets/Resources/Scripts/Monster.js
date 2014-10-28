@@ -10,6 +10,9 @@ public class Monster extends MonoBehaviour
 	public var hurting : boolean; //Marker boolean for whether it was just hurt
 	public var modelObject : GameObject;
 	public var bulletFolder : GameObject;
+	public var minionFolder : GameObject;
+	public var invincible : boolean; //Monster cannot be hurt while invincible.
+	public var activateDistance : float; //Monster waits till hero is within this distance to activate.
 	
 	public var hurtSound : AudioSource;
 	public var splatSound : AudioSource;
@@ -19,21 +22,28 @@ public class Monster extends MonoBehaviour
 	public var vip2Sound : AudioSource;
 	var freeze:int; // 1 for not freezing, 0 for freezing
 	var hooking:boolean;
+	var fleeing:boolean;
+	var charging:boolean;
 
 	public function init(c : Character) {
+		activateDistance = 10;
+		invincible = false;
+		charging = false;
+		fleeing = false;
 		hooking = false;
 		freeze=1;
 		hero = c;
 		hurting = false;
 		health = 3;
 		hurtRecovery = 1;
-		modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
-		model = modelObject.AddComponent("MonsterModel") as MonsterModel;						// Add a gemModel script to control visuals of the gem.
+		modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the monster texture.
+		model = modelObject.AddComponent("MonsterModel") as MonsterModel;						// Add a monsterModel script to control visuals of the monster.
 		model.monster = this;
 		//gemType = 1;
 		moveSpeed = 1;
 		turnSpeed = 90;
 			
+		
 		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		model.name = "Monster Model";										// Name the object.
@@ -44,7 +54,7 @@ public class Monster extends MonoBehaviour
 		modelObject.collider.enabled = false;
  		modelObject.AddComponent(BoxCollider);
 		modelObject.GetComponent(BoxCollider).isTrigger = false;
- 		modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
  		modelObject.AddComponent(Rigidbody);
 		modelObject.GetComponent(Rigidbody).isKinematic = false;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
@@ -67,20 +77,25 @@ public class Monster extends MonoBehaviour
 		bulletFolder = new GameObject();
 		bulletFolder.name = "Bullets";
 		bulletFolder.transform.parent = transform;
+		
+		minionFolder = new GameObject();
+		minionFolder.name = "Minions";
+		minionFolder.transform.parent = transform;
+		
+		waitToActivate();
 	}
 	
-	//Monster will hurt hero on contact until stopHurtOnContact is called.
-	public function startHurtOnContact(){
-		if (!modelObject.name.Contains("attack")){
-			modelObject.name += "attack";
+	function waitToActivate(){
+		while (activateDistance != 0){
+			if(distanceToHero() <= activateDistance) activateDistance = 0;
+			yield WaitForSeconds(1);
 		}
 	}
-	
-	public function stopHurtOnContact(){
-		if (modelObject.name.Contains("attack")){
-			modelObject.name.Replace("attack", "");
-		}
-	}
+	function setSize(x : float, y : float){
+		model.transform.localScale = Vector3(x, y, y);					
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75 * x, .75 * y ,10);
+ 	}
+ 	
 	//Move forward at default speed
 	public function move(){
 		move(1);
@@ -163,7 +178,13 @@ public class Monster extends MonoBehaviour
 	public function distanceToHero(){
 		return Vector3.Magnitude(model.transform.position - hero.model.transform.position);
 	}
-
+	//Gives an angle in degrees of the hero's radial position based on the monster's orientation
+	public function angleToHero(){
+		var vectorToHero : Vector3 = hero.model.transform.position - model.transform.position;
+		var anglesToHero : float = Mathf.Atan2(vectorToHero.y, vectorToHero.x) * Mathf.Rad2Deg - 90;
+		var num : float = anglesToHero - model.transform.eulerAngles.z;
+		return num % 360 + 360;
+	}
 	//Gives an angle (in degrees) of the monster's radial position based on the hero's orientation. 0 is in front of hero, 180 is behind.
 	//Good for monsters getting behind hero
 	public function heroAngle(){
@@ -187,13 +208,16 @@ public class Monster extends MonoBehaviour
 	}
 	
 	
-	public function charge(speed : float, duration : float){
+	public function charge(speed : float, duration : float){// charge the hero
+		if (charging) return;
+		charging = true;
 		var t : float = 0;
 		while(t < duration && health > 0){
 			t += Time.deltaTime;
 			moveTowardHero(speed);
 			yield;
 		}
+		charging = false;
 	}
 	
 	
@@ -209,13 +233,16 @@ public class Monster extends MonoBehaviour
 	
 	//Subroutine - call once, runs concurrently.
 	public function flee(speed : float, duration : float){
-		if (hooking || freeze == 0) return;
+		
+		if (fleeing || hooking || freeze == 0) return;
+		fleeing = true;
 		var t : float = 0;
 		while(t < duration && health > 0){
 			t += Time.deltaTime;
 			moveFromHero(speed);
 			yield;
 		}
+		fleeing = false;
 	}
 	
 	public function pause(duration:float){
@@ -229,27 +256,29 @@ public class Monster extends MonoBehaviour
 	
 	//Subroutine - call once, runs concurrently.
 	public function hurt(){
-		hurtSound.Play();
-		flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
-		health--;
-		hurting = true;
-		model.renderer.material.color = Color(.5,.5,.5);
+		if(!invincible){
+			hurtSound.Play();
+			flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
+			health--;
+			hurting = true;
+			model.renderer.material.color = Color(.5,.5,.5);
 
-		var t : float = hurtRecovery;
-		while (t > 0 && health > 0){
-			t -= Time.deltaTime;
-			yield;
+			var t : float = hurtRecovery;
+			while (t > 0 && health > 0){
+				t -= Time.deltaTime;
+				yield;
+			}
+			hurting = false;
+			model.renderer.material.color = Color(1,1,1);
 		}
-		hurting = false;
-		model.renderer.material.color = Color(1,1,1);
-
 			
 	}
 	
 
 	function Update(){
-		if(health > 0){
+		if(health > 0 && active){
 			act();
+			model.transform.localPosition.z = 0;
 		}else if (health > -100){
 			die(1);
 			health -= 101;
@@ -259,11 +288,13 @@ public class Monster extends MonoBehaviour
 		hero.killedMonsters++;
 		var t : float = 0;
 		splatSound.Play();
+		dropColor();
 		while (t < deathTime){
 			t += Time.deltaTime;
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
+		
 		Destroy(this.gameObject);
 	}
 	function act(){
@@ -306,7 +337,61 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
+	function dropColor(){
+		//print("Dropping Random Color");
+		var rand : float = Random.value;
+		//print(rand);
+		if(rand < 1.0/6){
+			dropColor("red");
+		}else if(rand < 2.0/6){
+			dropColor("yellow");
+		}else if(rand < 3.0/6){
+			dropColor("blue");
+		}else if(rand < 4.0/6){
+			dropColor("antiRed");
+		}else if(rand < 5.0/6){
+			dropColor("antiYellow");
+		}else {
+			dropColor("antiBlue");
+		}
+	}
+	function dropColor(color : String){
+		dropColor(color, 4);
+	}
 	
+	function dropColor(color : String, duration : float){
+		if(color.Equals("red")) dropColor(1, 0, 0, duration);
+		if(color.Equals("yellow")) dropColor(0, 1, 0, duration);
+		if(color.Equals("blue")) dropColor(0, 0, 1, duration);
+		if(color.Equals("anitRed")) dropColor(-1, 0, 0, duration);
+		if(color.Equals("antiYellow")) dropColor(0, -1, 0, duration);
+		if(color.Equals("antiBlue")) dropColor(0, 0, -1, duration);
+		
+	}
+	function dropColor(red : float, yellow : float, blue : float, duration : float){
+		//print("Dropping color!");
+		var blobObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+		var blob : ColorBlob = blobObject.AddComponent("ColorBlob") as ColorBlob;
+		blob.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
+		blob.transform.position = model.transform.position;
+		blob.transform.rotation = model.transform.rotation;
+		blob.name = "Blob";											// Name the object.
+		blob.renderer.material.mainTexture = Resources.Load("Textures/colorBlob", Texture2D);	// Set the texture.  Must be in Resources folder.
+		blob.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+		blob.init(red, yellow, blue, duration);
+		//attack.transform.parent = ??
+		blobObject.collider.enabled = false;
+		blobObject.AddComponent(BoxCollider);
+		blobObject.GetComponent(BoxCollider).isTrigger = true;
+		blobObject.GetComponent(BoxCollider).size = Vector3(.6,.6,10);
+		/*
+		blobObject.AddComponent(Rigidbody);
+		blobObject.GetComponent(Rigidbody).isKinematic = false;
+		blobObject.GetComponent(Rigidbody).useGravity = false;
+		blobObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+		blobObject.GetComponent(Rigidbody).freezeRotation = true;
+		*/
+	}
 	//An example behaviour. Monster maintains constant distance and circles around hero, facing it.
 	public function circlingBehaviour(distance : float){
 		moveRight();
@@ -326,6 +411,20 @@ public class Monster extends MonoBehaviour
 	function simpleBullet(){
 		attack(5, 2.5, .5, .3, .3, Color(1, 0, 1),true, false, "bullet");
 		puffSound.Play();
+	}
+	
+	function createMinion(n : String){
+		var minionObject = new GameObject();					// Create a new empty game object that will hold a character.
+		var minionScript : Minion;
+		minionScript = minionObject.AddComponent("Minion");
+		minionScript.transform.parent = minionFolder.transform;
+		
+		minionScript.init(this);
+		minionScript.name = n;
+		return minionScript;
+	}
+	//To be overridden in monsters. Here you can react to things happening to the monster's minion.
+	function minionCollision(minion : Minion, col : Collider){
 	}
 	
 	

@@ -7,11 +7,14 @@ var Manager:GameManager;
 
 var rotateL:boolean;
 var rotateR:boolean;
-var speed:int;
+
+var moveSpeed:int;
+var turnSpeed:int;
 
 var blue:boolean;
 var red:boolean;
 var yellow:boolean;
+var currentColor : Color;
 
 var rolling:boolean;
 var jumping:boolean;
@@ -27,11 +30,11 @@ var walkclip : AnimationClip;
 var colorStore : Color;
 var heading : Vector3;
 var rollTime : float; 
-var rollSpeed : float;
+var rollSpeedMultiplier : float;
 var rollCooldown : float;
 var jumpCooldown : float;
 var jumpTime : float;
-
+var jumpSpeedMultiplier : float;
 var rollSound : AudioSource;
 var jumpSound : AudioSource;
 var landSound : AudioSource;
@@ -39,27 +42,37 @@ var landSound : AudioSource;
 var shadow : GameObject;
 var shadowOffset : float;
 
-var coolSpell:boolean; // cooldown for spell
+var coolSpellHook:boolean; // cooldown for spell
+var coolSpellMine:boolean;
+var coolSpellAOE:boolean;
+var coolSpellWall:boolean;
+
 var cameraShake:boolean;
 
 var heroScale : float; //tracks size of hero in float form
+
+
+
 // Use this for initialization
 function Start () {
 	cameraShake = false;
 	isHook = false;
-	speed = 3;
+	moveSpeed = 5;
+	turnSpeed = 1;
 	blue = false;
 	red = false;
 	yellow = false;
 	rolling = false;
 	vincible = true;
 	colorStore = Color(1,1,1);
+	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
 	rollTime = .25;
-	rollSpeed = 12;
+	rollSpeedMultiplier = 1.5;
 	rollCooldown = .5;
 	jumpCooldown = 1;
-	jumpTime = 1;
+	jumpTime = .75;
+	jumpSpeedMultiplier = .75;
 	heroScale = 1;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
@@ -68,6 +81,7 @@ function Start () {
 	jumpSound.clip = Resources.Load("Sounds/boing");
 	landSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	landSound.clip = Resources.Load("Sounds/thump");
+	character.modelObject.layer = 3;											// Character layer.
 	
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	//shadow.transform.parent=transform;
@@ -76,31 +90,29 @@ function Start () {
 	shadow.name = "Character Shadow";											// Name the object.
 	shadow.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
 	shadow.renderer.material.color = Color.black;												// Set the color (easy way to tint things).
-	shadow.renderer.material.color.a = .6;
 	shadow.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	shadow.collider.enabled = false;
-	shadow.transform.localScale = Vector3.one * .9;
+	shadow.transform.localScale = Vector3.one;
 	shadowOffset = 0;
 }
 
 // Update is called once per frame
 function Update () {
-	updateShadow(); //Position shadow and rescale hero for jumping
+	updateColor();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
-		this.transform.Translate(heading * Time.deltaTime*speed);
+		this.transform.Translate(heading * Time.deltaTime*moveSpeed);
 		if (rjTimer >= rollTime) { // Amount of time for rolling
 			rolling = false;
-			this.renderer.material.color = colorStore;	
+			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
-			speed = 2;
+			//moveSpeed = 2;
 			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
 			rjTimer = 0;
 		}
 	 }
 	if (jumping){
-	
 		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
 							
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
@@ -108,8 +120,9 @@ function Update () {
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
-			gameObject.GetComponent(BoxCollider).isTrigger = false;
+			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z + 5;
 			vincible = true;															// Makes player vincible again.
+			character.modelObject.layer = 3;																// Set to character layer.
 			rjTimer = 0;
 			landSound.Play();
 			landing();
@@ -190,10 +203,9 @@ function Update () {
 			if (!blue && rjTimer >= rollCooldown){ // roll because blue
 				// todo: roll animation
 				rollSound.Play();
-				colorStore = this.renderer.material.color;
-				this.renderer.material.color = Color(.5,.5,.5);
-				speed = rollSpeed;
-				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = rollSpeed;
+				//colorStore = this.renderer.material.color;
+				//this.renderer.material.color = Color(.5,.5,.5);
+				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = rollSpeedMultiplier * moveSpeed;
 				rolling = true;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = true;
 				rjTimer = 0;
@@ -204,10 +216,12 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
-				modelObject.GetComponent(BoxCollider).isTrigger = true;
-				vincible = false;														// Player invincible without passing through walls.
+				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
+				vincible = false;													// Player invincible without passing through walls.
+				character.modelObject.layer = 6;														// Allows player to jump through cliffs.
 				
 			}
 		
@@ -216,8 +230,8 @@ function Update () {
 			
 	if (!rolling){
 		
-		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(speed)));
-		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(speed)));
+		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(turnSpeed)));
+		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(turnSpeed)));
 		
 		heading = Vector3.zero;
 		if (moveN) heading += Vector3.up;
@@ -225,25 +239,45 @@ function Update () {
 		if (moveS) heading += Vector3.down;
 		if (moveW) heading += Vector3.left;
 		heading.Normalize();
-		this.transform.Translate(heading * Time.deltaTime * speed);
+		if(jumping){
+			this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
+		}else{
+			this.transform.Translate(heading * Time.deltaTime * moveSpeed);
+		}
 	
-	}	
+	}else{
+		this.transform.Translate(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
+	}
 	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
-	//vincible = false;
+	updateShadow(); //Position shadow and rescale hero for jumping
 }
 
 //Resize hero and position shadow for jumping
 function updateShadow(){
-	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 2; //Offsets shadow based on time in air (quadratically)
+	if(jumping) shadow.renderer.material.color.a = .6;
+	else shadow.renderer.material.color.a = 0;
+	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 4; //Offsets shadow based on time in air (quadratically)
 	shadow.transform.rotation = transform.rotation; //Rotates shadow to match hero
 	shadow.transform.position.z = 0;
-	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset - .1); //Scales hero quadratically as she jumps
+	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset); //Scales hero quadratically as she jumps
 	
-	//if (!jumping) shadowOffset = 0; //Pr
+	
 }
+function updateColor(){
+	var multiplier : float = 1;
+	currentColor = colorChoice();
+	if (rolling) multiplier = .8;
+	if(character.hurting) multiplier = .5;
+	transform.renderer.material.color.r = (1+currentColor.r)/2;
+	transform.renderer.material.color.g = (1+currentColor.g)/2;
+	transform.renderer.material.color.b = (1+currentColor.b)/2;
+}
+	
+
+
 function OnCollisionExit(collisionInfo : Collision){
 	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
 }
@@ -251,31 +285,22 @@ function OnCollisionExit(collisionInfo : Collision){
 function changeBlue(){
 	if (blue){
 		blue = false;
-		this.renderer.material.color = colorChoice();
 	}
 	else{
 		blue = true;
-		this.renderer.material.color = colorChoice();
 	}
 	//print("Blue: " + blue);
 
 }
 function changeRed(){
+	this.renderer.material.color = colorChoice();
 	if (red){
-		red = false;
-		heroScale = 1;
-		this.renderer.material.color = colorChoice();
-		this.transform.localScale = Vector3.one; 
-		modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
-		shadow.transform.localScale = Vector3(1,1,1)*.9;
+		red = false; 
+		toSmall();
 	}
 	else {
 		red = true;
-		heroScale = 2;
-		this.renderer.material.color = colorChoice();
-		this.transform.localScale = Vector3.one*heroScale;
-		shadow.transform.localScale = Vector3.one*heroScale *.9;
-		modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
+		toBig();
 	}
 	//print("Red: " + red);
 
@@ -283,11 +308,9 @@ function changeRed(){
 function changeYellow(){
 	if (yellow) {
 		yellow = false;
-		this.renderer.material.color = colorChoice();
 	}
 	else {
 	  yellow = true;
-	  this.renderer.material.color = colorChoice();
 	}
 //	print("Yellow: " + yellow);
 }
@@ -358,7 +381,7 @@ function stopMovement(){
 }
 
 function OnTriggerEnter(col:Collider){
-	print(col.gameObject.name);
+	//print(col.gameObject.name);
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		character.hurt();
 	}
@@ -389,8 +412,8 @@ function castSpell(){
 }
 
 function spellHook(){ // hook spell, currently when meele
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellHook) return;
+	coolSpellHook = true;
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
 	var hookScript = modelObject.AddComponent("SpellHook");		// Add the hook.js script to the object.
 	
@@ -400,8 +423,8 @@ function spellHook(){ // hook spell, currently when meele
 }
 
 function spellMine(){	// mine spell, currently when ranged
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellMine) return;
+	coolSpellMine = true;
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the mine texture.
 	var mineScript = modelObject.AddComponent("SpellMine");		// Add the mine.js script to the object.
 																																							// We can now refer to the object via this script.
@@ -411,26 +434,26 @@ function spellMine(){	// mine spell, currently when ranged
 }
 
 function spellAOE(){
-	if (coolSpell) return;
-	coolSpell = true;
-	for (var i=0; i < 16; i ++){
+	if (coolSpellAOE) return;
+	coolSpellAOE = true;
+	for (var i=0; i < 8; i ++){
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the aoe texture.
 		var aoeScript = modelObject.AddComponent("SpellAOE");		// Add the aoe.js script to the object.
 		aoeScript.transform.rotation = this.transform.rotation;
-		aoeScript.transform.Rotate(0, 0, i*22.5);																																						// We can now refer to the object via this script.
+		aoeScript.transform.Rotate(0, 0, i*45);																																						// We can now refer to the object via this script.
 		aoeScript.transform.parent = this.transform.parent;	// Set the aoe's parent object to be the aoe folder.							
 		aoeScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
 		
 	}
 	
 	yield WaitForSeconds(5); 
-	coolSpell = false;
+	coolSpellAOE = false;
 
 }
 
 function spellWall(){
-	if (coolSpell) return;
-	coolSpell = true;
+	if (coolSpellWall) return;
+	coolSpellWall = true;
 	var walls : Array;
 	walls = new Array();
 	var curRotate = this.transform.rotation;
@@ -453,6 +476,45 @@ function spellWall(){
 	shakeCamera(2);
 
 }
+
+function toBig(){
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
+	var counter:float = 0;
+	while (counter < 1){
+		heroScale+=Time.deltaTime*3;
+		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
+		yield;
+	}
+	heroScale-=(1-counter);
+}
+
+
+function toSmall(){
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	var counter:float = 0;
+	while (counter < 1){
+		heroScale-=Time.deltaTime*3;
+		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
+		yield;
+	}
+	heroScale+=(1-counter);
+}
+
+function fallDeath(){
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	var counter:float = 0;
+	while (counter < 1.5){
+		heroScale-=Time.deltaTime*4;
+		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
+		yield;
+	}
+	//todo: respawn
+	Manager.lose();
+}
+
 //Shakes the camera for the given duration with default intensity (.2)
 function shakeCamera(duration:float){
 	shakeCamera(duration, .2);

@@ -8,6 +8,7 @@ public class Weapon extends MonoBehaviour{
 	public var model : WeaponModel;	//Model object for weapon
 	public var baseRotation : Vector3;	//Default offset rotation when weapon is held
 	public var basePosition : Vector3;	//Default offset translation when weapon is held
+	var character:Character;
 	//public var rotationPoint : Vector3;
 	public var swinging : boolean;	//Boolean used to decide if sword inflicts damage on contact
 	public var recovering : boolean;	//Boolean used to decide if sword is still recovering
@@ -15,11 +16,19 @@ public class Weapon extends MonoBehaviour{
 	public var tossSound : AudioSource; 
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 	public var hasHit : boolean;
+	
+	public var throwTime : float;
+	public var throwRecovery : float;
+	public var swingTime : float;
+	public var swingRecovery : float;
+	public var throwDistance : float;
+	public var swingArc : int;
 	//Takes owner (main character) as parameter
 	function init(c:Character){
 		this.name = "Weapon";
 		recovering = false;
 		owner = c;
+		character = c;
 		owner.setWeapon(this);
 		weaponObject = new GameObject();
 		weaponObject.name = "WeaponObject";
@@ -51,6 +60,13 @@ public class Weapon extends MonoBehaviour{
 		tossSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		tossSound.clip = Resources.Load("Sounds/woosh-woosh") as AudioClip;
 		tossSound.volume = .5;
+		
+		throwTime = .5;
+		throwRecovery = 1;
+		throwDistance = 3;
+		swingTime = .2;
+		swingRecovery = .2;
+		swingArc = 110;
  		}
  		
  	//Returns distance to hero
@@ -193,20 +209,24 @@ public class Weapon extends MonoBehaviour{
  		if(Input.GetKeyDown("up") && !swinging && !recovering && owner.model.yellow){
  			if(owner.model.jumping){
  				if(!owner.model.red){
- 					spin(.5, 1.5, 110);
+ 					spin(.5, .7, 110);
  				} else{
- 					spin(1, 2.5, 110);
+ 					spin(1, 1, 110);
  				}
  			} else{
+ 				character.lunge();
  				if(!owner.model.red){
- 					swing(110, .3, .5);
+ 					//swing(110, .3, .5);
+ 					swing(swingArc, swingTime, swingRecovery);
  				} else {
- 					swing(110, .5, 1);
+ 					//swing(110, .5, 1);
+ 					swing(swingArc, swingTime, swingRecovery);
  				}
  			}
  		}
  		if(Input.GetKeyDown("up") && !swinging && !recovering && !owner.model.yellow){
- 			toss(4, .8, 1000, 1);
+ 			//toss(4, .8, 1000, 1);
+ 			toss(throwDistance, throwTime, 1000, throwRecovery);
  		}
  	}
  	

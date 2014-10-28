@@ -19,7 +19,7 @@ function init(m) {
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).name = "Box1";
 	modelObject.GetComponent(BoxCollider).isTrigger = false;
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,5);
 	modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = false;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
@@ -64,6 +64,18 @@ public function hurt(){
 function setWeapon(w : Weapon){
 	weapon = w;
 }
+
+function lunge(){ // lunge forward , used to attack
+	var timer:float = 0;
+	while (timer < .1){
+		model.transform.position += model.transform.up/10;
+		if(!model.cameraShake) manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position =
+		 Vector3(model.transform.position.x, model.transform.position.y, -10)+3*model.transform.up;
+		timer+= Time.deltaTime;
+		yield;
+	}
+
+}
 function checkHealth(){
 	while(health > 0){
 		yield WaitForSeconds(.5);
@@ -76,6 +88,7 @@ function checkHealth(){
 		yield;
 	}
 	//Application.LoadLevel("Spectrum");
+	//todo: respawn
 	manager.lose();
 }
 

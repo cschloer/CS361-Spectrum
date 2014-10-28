@@ -1,30 +1,33 @@
+// Spectrum
+// Prototype Stage
+// Fall 2014
+
+// Imports:
+import System.IO;
+
+// Globals
 var characterFolder : GameObject;	// This will be an empty game object used for organizing heroes in the hierarchy pane.
 var monsterFolder : GameObject;		// This will be an empty game object used for organizing monsters in the hierarchy pane.
 var tileFolder : GameObject;		// This will be an empty game object used for organizing tiles in the hierarchy pane.
+var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
+var roomFolder : GameObject;		// This will be an empty game object used for organizing rooms in the hierarchy pane.
 var character : Character;			// This is the hero character.
 var monsters : Array;				// This array holds monsters.
 var tiles : Array;					// This array holds tiles.
-
-
-var colorFolder : GameObject;
-var camera:GameObject;
-
-var paused : boolean;
-var clock: float;
-var monsterCounter : int;
-var clockFrequency : int;
-
-var losewinTimer:float;
-var loseScreen:boolean;
-var winScreen:boolean;
-
-var musicSound : AudioSource;
-
+var camera:GameObject;				// Camera GameObject for look control
+var paused : boolean;				// Boolean for pause menu
+var clock: float;					// Clock monitor variable.
+var monsterCounter : int;			// Counter for monster spawning.
+var clockFrequency : int;			// Timer for monster spawning.
+var losewinTimer:float;				// Timer for gameover.
+var loseScreen:boolean;				// Boolean for gamewin.
+var winScreen:boolean;				// Boolean for gamelose.
+var musicSound : AudioSource;		// Game music.
 var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 
-
+// Start
 // Called once when the script is created.
 function Start () {
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
@@ -38,6 +41,8 @@ function Start () {
 	tileFolder = new GameObject();
 	tileFolder.name = "Tiles";
 	tiles = new Array();
+	
+	Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
 
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
@@ -64,6 +69,7 @@ function Start () {
 	loseScreen = false;
 }
 
+// Update
 // Called every frame.
 function Update () {
 	if (winScreen || loseScreen){
@@ -91,7 +97,10 @@ function Update () {
 }
 
 
-// Adds: These functions add certain elements.
+// *******************************************
+// 				  Add Functions
+// *******************************************
+
 function addCharacter(x : float , y : float) {
 	var characterObject = new GameObject();									// Create a new empty game object that will hold a character.
 	var characterScript = characterObject.AddComponent("Character");		// Add the character.js script to the object.
@@ -104,7 +113,6 @@ function addCharacter(x : float , y : float) {
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 }
-
 
 function addCircle(color:int){
 	//var colorObject = new GameObject();					// Create a new empty game object that will hold a color.
@@ -145,10 +153,10 @@ function spawnMonster() {
 	}
 }
 
-
 function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
+	type = 6;
 	switch(type){
 		case 1:
 			monsterScript = monsterObject.AddComponent("Monster1");
@@ -196,40 +204,144 @@ function addTile(x : float, y :float, t : String){
 	tileScript.transform.parent = tileFolder.transform;
 	tileScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
 	
-	tileScript.init(t);
+	tileScript.init(t, 0);
 	tiles.Add(tileScript);
 	tileScript.name = "Tile" + tiles.length;
 }
 
+// *******************************************
+// 				Level Initiation
+// *******************************************
+
 // ProtolevelInit
 // Initiates the prototype level.
 function protolevelInit(){
-  for( i = -10; i <=10; i++) {
-    for( j = -10; j <=10; j++){
-      if( i == -10 || i == 10 || j == -10 || j == 10){
-      	addTile(i,j,"Wall");
-      }
-      else{
-      	addTile(i,j,"Floor");
-      }
+  roomCreate(-10,-10,0,"Plain1End.txt");
+  roomCreate(-10, 10,0,"Plain2Cross.txt");
+  roomCreate(-30, 10,1,"Hole2End.txt");
+  roomCreate( 10, 10,3,"Plain2End.txt");
+  roomCreate(-10, 30,2,"Plain1End.txt");
+}
+// Room Creation
+// Initiates room off of a txt file.
+function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
+	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
+	var c : char;
+	switch( rot ){
+		case 1:
+			for( i = xS+19; i >= xS; i-- ) {
+    			for( j = yS+20; j > yS; j-- ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, i, j);
+				}
+  			}
+  			break;
+		case 2:
+			for( i = yS+1; i <= yS+20; i++ ) {
+    			for( j = xS+19; j >= xS; j-- ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, j, i);
+				}
+  			}
+  			break;
+  		case 3:
+			for( i = xS; i < xS+20; i++ ) {
+    			for( j = yS+1; j <= yS+20; j++ ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, i, j);
+				}
+  			}
+  			break;
+  		default:
+			for( i = yS+20; i > yS; i-- ) {
+    			for( j = xS; j < xS+20; j++ ){
+    				c = stream.Read();
+    				if(c == '\n')
+    					c = stream.Read();
+    				popTile(c, j, i);
+				}
+  			}
+  			break;
+	}
+}
+// pop tile
+// Creates a tile based on character read input
+function popTile(c: char, xpos: float, ypos: float){
+   	if(c == 'W'){
+    	addTile(xpos,ypos,"Wall");
     }
-  }
+    if(c == 'H'){
+    	addTile(xpos,ypos,"Hole");
+    }
+    else if (c == "T"){
+    	addTile(xpos,ypos,"Floor");
+    }
 }
 
+// *******************************************
+// 			   Win and Lose Screens
+// *******************************************
 
 function lose(){
 	loseScreen = true;
 	losewinTimer = 0;
-
 }
 
 function win(){
 	winScreen = true;
 	losewinTimer = 0;
-
 }
 
+// *******************************************
+// 					  GUI
+// *******************************************
+
 function OnGUI() {
+	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
+
+	GUI.Label(Rect(270, 20, 200, 30), "Move speed: " + character.model.moveSpeed);
+	character.model.moveSpeed = GUI.HorizontalSlider (Rect (460, 25, 100, 30), character.model.moveSpeed, 2.0, 10.0);
+	GUI.Label(Rect(270, 40, 200, 30), "Turn speed: " + character.model.turnSpeed);
+	character.model.turnSpeed = GUI.HorizontalSlider (Rect (460, 45, 100, 30), character.model.turnSpeed, 0.0, 5.0);
+	if(character.model.yellow){
+		GUI.Label(Rect(270, 60, 200, 30), "Swing time: " + character.weapon.swingTime);
+		character.weapon.swingTime = GUI.HorizontalSlider (Rect (460, 65, 100, 30), character.weapon.swingTime, 0.1, .6);
+		GUI.Label(Rect(270, 80, 200, 30), "Swing recovery: " + character.weapon.swingRecovery);
+		character.weapon.swingRecovery = GUI.HorizontalSlider (Rect (460, 85, 100, 30), character.weapon.swingRecovery, 0.0, .6);
+		GUI.Label(Rect(270, 100, 200, 30), "Swing arc: " + character.weapon.swingArc);
+		character.weapon.swingArc = GUI.HorizontalSlider (Rect (460, 105, 100, 30), character.weapon.swingArc, 1, 270);
+		
+	}else{
+		GUI.Label(Rect(270, 60, 200, 30), "Throw time: " + character.weapon.throwTime);
+		character.weapon.throwTime = GUI.HorizontalSlider (Rect (460, 65, 100, 30), character.weapon.throwTime, 0.1, 1.5);
+		GUI.Label(Rect(270, 80, 200, 30), "Throw recovery: " + character.weapon.throwRecovery);
+		character.weapon.throwRecovery = GUI.HorizontalSlider (Rect (460, 85, 100, 30), character.weapon.throwRecovery, 0.0, 1.5);
+		GUI.Label(Rect(270, 100, 200, 30), "Throw distance: " + character.weapon.throwDistance);
+		character.weapon.throwDistance = GUI.HorizontalSlider (Rect (460, 105, 100, 30), character.weapon.throwDistance, 1.0, 8.0);
+	}
+	
+	if(character.model.blue){
+		GUI.Label(Rect(270, 120, 200, 30), "Jump time: " + character.model.jumpTime);
+		character.model.jumpTime = GUI.HorizontalSlider (Rect (460, 125, 100, 30), character.model.jumpTime, 0.1, 3.0);
+		GUI.Label(Rect(270, 140, 200, 30), "Jump speed: x" + character.model.jumpSpeedMultiplier);
+		character.model.jumpSpeedMultiplier = GUI.HorizontalSlider (Rect (460, 145, 100, 30), character.model.jumpSpeedMultiplier, 0.5, 3.0);
+		GUI.Label(Rect(270, 160, 200, 30), "Jump recovery: " + character.model.jumpCooldown);
+		character.model.jumpCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.jumpCooldown, 0, 2.0);
+	} else{
+		GUI.Label(Rect(270, 120, 200, 30), "Roll time: " + character.model.rollTime);
+		character.model.rollTime = GUI.HorizontalSlider (Rect (460, 125, 100, 30), character.model.rollTime, 0.1, 2.0);
+		GUI.Label(Rect(270, 140, 200, 30), "Roll speed: x" + character.model.rollSpeedMultiplier);
+		character.model.rollSpeedMultiplier = GUI.HorizontalSlider (Rect (460, 145, 100, 30), character.model.rollSpeedMultiplier, 0.5, 6.0);
+		GUI.Label(Rect(270, 160, 200, 30), "Roll recovery: " + character.model.rollCooldown);
+		character.model.rollCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.rollCooldown, 0, 2.0);
+	}
+	
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
 	if (loseScreen){

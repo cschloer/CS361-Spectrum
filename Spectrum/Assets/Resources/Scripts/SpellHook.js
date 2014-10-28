@@ -81,6 +81,6 @@ public function moveTowardHero(m : float){
 }
 
 function destroyMe(){
-	character.coolSpell = false;
+	character.coolSpellHook = false;
 	Destroy(this.gameObject);
 }
