@@ -41,6 +41,8 @@ function Start () {
 	tileFolder = new GameObject();
 	tileFolder.name = "Tiles";
 	tiles = new Array();
+	
+	Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
 
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
@@ -202,7 +204,7 @@ function addTile(x : float, y :float, t : String){
 	tileScript.transform.parent = tileFolder.transform;
 	tileScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
 	
-	tileScript.init(t);
+	tileScript.init(t, 0);
 	tiles.Add(tileScript);
 	tileScript.name = "Tile" + tiles.length;
 }
@@ -216,7 +218,7 @@ function addTile(x : float, y :float, t : String){
 function protolevelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");
   roomCreate(-10, 10,0,"Plain2Cross.txt");
-  roomCreate(-30, 10,1,"Plain2End.txt");
+  roomCreate(-30, 10,1,"Hole2End.txt");
   roomCreate( 10, 10,3,"Plain2End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
 }
@@ -273,6 +275,9 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 function popTile(c: char, xpos: float, ypos: float){
    	if(c == 'W'){
     	addTile(xpos,ypos,"Wall");
+    }
+    if(c == 'H'){
+    	addTile(xpos,ypos,"Hole");
     }
     else if (c == "T"){
     	addTile(xpos,ypos,"Floor");

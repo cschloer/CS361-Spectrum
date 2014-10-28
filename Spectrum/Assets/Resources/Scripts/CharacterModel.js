@@ -81,6 +81,7 @@ function Start () {
 	jumpSound.clip = Resources.Load("Sounds/boing");
 	landSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	landSound.clip = Resources.Load("Sounds/thump");
+	character.modelObject.layer = 3;											// Character layer.
 	
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	//shadow.transform.parent=transform;
@@ -121,6 +122,7 @@ function Update () {
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z + 5;
 			vincible = true;															// Makes player vincible again.
+			character.modelObject.layer = 3;																// Set to character layer.
 			rjTimer = 0;
 			landSound.Play();
 			landing();
@@ -219,6 +221,7 @@ function Update () {
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
+				character.modelObject.layer = 6;														// Allows player to jump through cliffs.
 				
 			}
 		
@@ -497,6 +500,19 @@ function toSmall(){
 		yield;
 	}
 	heroScale+=(1-counter);
+}
+
+function fallDeath(){
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	var counter:float = 0;
+	while (counter < 1.5){
+		heroScale-=Time.deltaTime*4;
+		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
+		yield;
+	}
+	//todo: respawn
+	Manager.lose();
 }
 
 //Shakes the camera for the given duration with default intensity (.2)

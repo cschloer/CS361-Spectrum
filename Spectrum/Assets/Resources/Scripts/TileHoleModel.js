@@ -1,10 +1,11 @@
 ﻿// CAGE
 // CSCI 361 Prototype
 
-// tileFloorModel
-// Blank uninteractive floor tile
+// tileHoleModel
+// Hole Model, beware falling.
 
 var owner : Tile;
+var character : CharacterModel;
 
 function init(own : Tile) {
 	owner = own;									// Set up a pointer to the marble object containing this model.
@@ -14,22 +15,27 @@ function init(own : Tile) {
 	name = "Tile Floor Model";						// Name the object.
 	
 	
-	var rand = Random.value;
-	var floorName : String;
-	if(rand < .05)
-		floorName = "Textures/Floor_a";
-	else if(rand <.1)
-		floorName = "Textures/Floor_b";
-	else if(rand <.15)
-		floorName = "Textures/Floor_c";
-	else if(rand <.95)
-		floorName = "Textures/Floor_d";
-	else
-		floorName = "Textures/Floor_e";
-	renderer.material.mainTexture = Resources.Load(floorName, Texture2D);		// Set the texture.  Must be in Resources folder.
+
+	renderer.material.mainTexture = Resources.Load("Textures/Hole", Texture2D);		// Set the texture.  Must be in Resources folder.
 	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	//renderer.sortingLayerID = 2;														// Set the Unit to the tile layer.
 	//renderer.sortingOrder = 2;
 	
+}
+
+function OnTriggerEnter(col:Collider){
+	if(col.gameObject.name.Contains("Character")){
+		character = col.gameObject.GetComponent(CharacterModel);
+		character.stopMovement();
+		character.fallDeath();
+	}
+}
+
+function OnTriggerStay(col:Collider){
+	if(col.gameObject.name.Contains("Character")){
+		character = col.gameObject.GetComponent(CharacterModel);
+		character.stopMovement();
+		character.fallDeath();
+	}
 }
