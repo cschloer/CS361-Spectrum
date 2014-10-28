@@ -8,7 +8,7 @@ public class Monster6 extends Monster{
 	
 	function init(c : Character){
 		super.init(c);
-		health = 2;	
+		health = 1;	
 		moveSpeed = 2;	//Moves faster
 		lunging = false;
 		lungeTimer = 0;

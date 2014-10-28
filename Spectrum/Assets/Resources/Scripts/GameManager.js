@@ -59,7 +59,7 @@ function Start () {
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
-	clockFrequency = 15;
+	clockFrequency = 7;
 	musicSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	musicSound.clip = Resources.Load("Sounds/music");
 	musicSound.volume = .6;
@@ -156,7 +156,7 @@ function spawnMonster() {
 function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	type = 1;
+	//type = 1;
 	switch(type){
 		case 1:
 			monsterScript = monsterObject.AddComponent("Monster1");
