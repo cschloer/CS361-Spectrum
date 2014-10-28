@@ -52,7 +52,11 @@ function Start () {
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
 	
+<<<<<<< HEAD
 	addCharacter(0,-5);
+=======
+	addCharacter(0,0);
+>>>>>>> FETCH_HEAD
 	//addCircle(0); // blue circle
 	//addCircle(1); // red circle
 	//addCircle(2); // yellow circle	
