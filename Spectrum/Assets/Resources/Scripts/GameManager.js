@@ -220,7 +220,9 @@ function protolevelInit(){
   roomCreate(-10, 10,0,"Plain2Cross.txt");
   roomCreate(-30, 10,0,"Hole2Tri.txt");
   roomCreate(-30,-10,0,"Hole2End.txt");
-  roomCreate( 10, 10,3,"Plain2End.txt");
+  roomCreate(-30, 30,2,"Walls1End.txt");
+  roomCreate( 10, 10,1,"Hole3Tri.txt");
+  roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
 }
 // Room Creation
@@ -277,7 +279,7 @@ function popTile(c: char, xpos: float, ypos: float){
    	if(c == 'W'){
     	addTile(xpos,ypos,"Wall");
     }
-    if(c == 'H'){
+    else if(c == 'H'){
     	addTile(xpos,ypos,"Hole");
     }
     else if (c == "T"){

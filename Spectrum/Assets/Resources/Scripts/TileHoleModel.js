@@ -28,14 +28,13 @@ function OnTriggerEnter(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
 		character = col.gameObject.GetComponent(CharacterModel);
 		character.stopMovement();
-		character.fallDeath();
+		character.fallDeath(transform.position);
 	}
 }
 
 function OnTriggerStay(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
-		character.transform.position = this.transform.position;
 		character.stopMovement();
-		character.fallDeath();
+		character.fallDeath(transform.position);
 	}
 }
