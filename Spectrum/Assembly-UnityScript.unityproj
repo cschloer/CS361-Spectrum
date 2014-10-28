@@ -69,6 +69,7 @@
      <Compile Include="Assets\Resources\Scripts\SpellMine.js" />
      <Compile Include="Assets\Resources\Scripts\SpellWall.js" />
      <Compile Include="Assets\Resources\Scripts\Tile.js" />
+     <Compile Include="Assets\Resources\Scripts\TileCliffModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileFloorModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileHoleModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileWallModel.js" />

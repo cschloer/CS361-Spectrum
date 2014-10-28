@@ -41,6 +41,8 @@ function Start () {
 	tileFolder = new GameObject();
 	tileFolder.name = "Tiles";
 	tiles = new Array();
+	
+	Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
 
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
@@ -202,7 +204,7 @@ function addTile(x : float, y :float, t : String){
 	tileScript.transform.parent = tileFolder.transform;
 	tileScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
 	
-	tileScript.init(t);
+	tileScript.init(t, 0);
 	tiles.Add(tileScript);
 	tileScript.name = "Tile" + tiles.length;
 }

@@ -81,6 +81,7 @@ function Start () {
 	jumpSound.clip = Resources.Load("Sounds/boing");
 	landSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	landSound.clip = Resources.Load("Sounds/thump");
+	character.modelObject.layer = 3;											// Character layer.
 	
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
 	//shadow.transform.parent=transform;
@@ -121,6 +122,7 @@ function Update () {
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z + 5;
 			vincible = true;															// Makes player vincible again.
+			character.modelObject.layer = 3;																// Set to character layer.
 			rjTimer = 0;
 			landSound.Play();
 			landing();
@@ -219,6 +221,7 @@ function Update () {
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
+				character.modelObject.layer = 6;														// Allows player to jump through cliffs.
 				
 			}
 		

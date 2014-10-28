@@ -7,7 +7,7 @@
 var modelObject : GameObject; 
 var box : BoxCollider;			// For walls and cliffs
 
-function init(type: String) {
+function init(type: String, or: int) {
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
 	modelObject.collider.enabled = false;								// Turn off MeshCollider
 	modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.
@@ -24,6 +24,12 @@ function init(type: String) {
 		box.size = Vector3(.5,.5,5);
 		box.isTrigger = true;
 		hmodel.init(this);													// Initialize the tileModel.
+	} else if(type == "Cliff") {
+		var cmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
+		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
+		box.center = cmodel.transform.position;								// Center the boxcollider on the unit.
+		box.size = Vector3(1.3,1.3,4);
+		cmodel.init(this, or);													// Initialize the tileModel.
 	} else {
 		var model = modelObject.AddComponent("TileFloorModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
