@@ -50,9 +50,11 @@
      <Compile Include="Assets\Resources\Scripts\CameraMovement.js" />
      <Compile Include="Assets\Resources\Scripts\Character.js" />
      <Compile Include="Assets\Resources\Scripts\CharacterModel.js" />
+     <Compile Include="Assets\Resources\Scripts\ColorBlob.js" />
      <Compile Include="Assets\Resources\Scripts\ColorCircle.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
+     <Compile Include="Assets\Resources\Scripts\Minion.js" />
      <Compile Include="Assets\Resources\Scripts\Monster.js" />
      <Compile Include="Assets\Resources\Scripts\Monster1.js" />
      <Compile Include="Assets\Resources\Scripts\Monster2.js" />
@@ -67,13 +69,30 @@
      <Compile Include="Assets\Resources\Scripts\SpellMine.js" />
      <Compile Include="Assets\Resources\Scripts\SpellWall.js" />
      <Compile Include="Assets\Resources\Scripts\Tile.js" />
+     <Compile Include="Assets\Resources\Scripts\TileCliffModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileFloorModel.js" />
+     <Compile Include="Assets\Resources\Scripts\TileHoleModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileWallModel.js" />
      <Compile Include="Assets\Resources\Scripts\Weapon.js" />
      <Compile Include="Assets\Resources\Scripts\WeaponModel.js" />
      <Compile Include="Assets\Resources\Scripts\gem.js" />
      <Compile Include="Assets\Resources\Scripts\gemModel.js" />
      <Compile Include="Assets\StartScript.js" />
+     <None Include="Assets\Resources\Levels\Plain2End.txt" />
+     <None Include="Assets\Resources\Levels\Plain2Cross.txt" />
+     <None Include="Assets\Resources\Levels\Plain2Opp.txt" />
+     <None Include="Assets\Resources\Levels\Plain1Cross.txt" />
+     <None Include="Assets\Resources\Levels\Walls1End.txt" />
+     <None Include="Assets\Resources\Levels\Plain1Adj.txt" />
+     <None Include="Assets\Resources\Levels\Plain1End.txt" />
+     <None Include="Assets\Resources\Levels\Plain1Opp.txt" />
+     <None Include="Assets\Resources\Levels\Walls1Adj.txt" />
+     <None Include="Assets\Resources\Levels\Plain2Adj.txt" />
+     <None Include="Assets\Resources\Levels\Walls1Cross.txt" />
+     <None Include="Assets\Resources\Levels\Hole2End.txt" />
+     <None Include="Assets\Resources\Levels\Plain1Tri.txt" />
+     <None Include="Assets\Resources\Levels\Walls1Opp.txt" />
+     <None Include="Assets\Resources\Levels\room1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
