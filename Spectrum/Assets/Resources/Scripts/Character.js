@@ -88,6 +88,7 @@ function checkHealth(){
 		yield;
 	}
 	//Application.LoadLevel("Spectrum");
+	//todo: respawn
 	manager.lose();
 }
 

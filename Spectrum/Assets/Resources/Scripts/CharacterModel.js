@@ -499,6 +499,19 @@ function toSmall(){
 	heroScale+=(1-counter);
 }
 
+function fallDeath(){
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	var counter:float = 0;
+	while (counter < 1.5){
+		heroScale-=Time.deltaTime*4;
+		counter+= Time.deltaTime*3;
+		shadow.transform.localScale = Vector3.one * heroScale;
+		yield;
+	}
+	//todo: respawn
+	Manager.lose();
+}
+
 //Shakes the camera for the given duration with default intensity (.2)
 function shakeCamera(duration:float){
 	shakeCamera(duration, .2);

@@ -15,8 +15,15 @@ function init(type: String) {
 		var wmodel = modelObject.AddComponent("TileWallModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = wmodel.transform.position;								// Center the boxcollider on the unit.
-		box.size = Vector3(1.1,1.1,20);
+		box.size = Vector3(1.3,1.3,20);
 		wmodel.init(this);													// Initialize the tileModel.
+	} else if(type == "Hole") {
+		var hmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
+		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
+		box.center = hmodel.transform.position;								// Center the boxcollider on the unit.
+		box.size = Vector3(.5,.5,5);
+		box.isTrigger = true;
+		hmodel.init(this);													// Initialize the tileModel.
 	} else {
 		var model = modelObject.AddComponent("TileFloorModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
