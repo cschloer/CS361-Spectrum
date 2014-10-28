@@ -52,10 +52,10 @@ function Start () {
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
 	
-	addCharacter(0,0);
-	addCircle(0); // blue circle
-	addCircle(1); // red circle
-	addCircle(2); // yellow circle	
+	addCharacter(0,-5);
+	//addCircle(0); // blue circle
+	//addCircle(1); // red circle
+	//addCircle(2); // yellow circle	
 	
 	addWeapon(character);
 	
@@ -229,14 +229,14 @@ function addWeapon(c : Character){
 	weaponScript.init(c);
 }
 
-function addDevice(x : float, y :float, t : String){
+function addDevice(x : float, y :float, t : String, n : int){
 	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
 	deviceScript.transform.parent = deviceFolder.transform;
 	deviceScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
 	
-	deviceScript.init(t, this);
+	deviceScript.init(t, this, n);
 	devices.Add(deviceScript);
 	deviceScript.name = "Device" + tiles.length;
 }
@@ -269,7 +269,11 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
-  addDevice(0,4,"mSpawn");
+  addDevice(-4,40,"mSpawn", 3);
+  addDevice( 4,40,"mSpawn", 3);
+  addDevice(-14,38,"mSpawn", 4);
+  addDevice(20,5,"mSpawn", 4);
+  addDevice(30,20.5,"barrier",0);
 }
 // Room Creation
 // Initiates room off of a txt file.
