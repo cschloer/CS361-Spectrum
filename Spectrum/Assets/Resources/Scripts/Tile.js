@@ -2,7 +2,6 @@
 // CSCI 361 Prototype
 
 // tile
-// todo: wall tiles, cliff tiles, fall tiles.
 
 var modelObject : GameObject; 
 var box : BoxCollider;			// For walls and cliffs
