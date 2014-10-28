@@ -27,6 +27,7 @@ var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 
+
 // Start
 // Called once when the script is created.
 function Start () {
@@ -51,8 +52,19 @@ function Start () {
 	addCircle(0); // blue circle
 	addCircle(1); // red circle
 	addCircle(2); // yellow circle	
-
+	
 	addWeapon(character);
+	
+	addCake(1,0);
+	addCake(2,0);
+	addCake(3,0);
+	addCake(4,0);
+	
+	addCake(-16,21);
+	addCake(25,21);
+	addCake(-16,42);
+	addCake(8,49);
+	
 	
 	protolevelInit();
 	
@@ -113,6 +125,20 @@ function addCharacter(x : float , y : float) {
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 }
+
+function addCake(x : float , y : float) {
+	var cakeObject = new GameObject();					
+	var cakeScript = cakeObject.AddComponent("Cake");		
+	cakeScript.transform.position = Vector3(x,y,0);		
+	cakeScript.init();
+	//cakeObject.collider.enabled = false;
+	cakeObject.AddComponent(BoxCollider);
+	cakeObject.GetComponent(BoxCollider).name = "cakes";
+	cakeObject.GetComponent(BoxCollider).isTrigger = true;
+	cakeObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+											
+	
+}															
 
 function addCircle(color:int){
 	//var colorObject = new GameObject();					// Create a new empty game object that will hold a color.
@@ -458,5 +484,16 @@ function OnGUI() {
 	}else {
 		textHealth = Resources.Load("Textures/heart0", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);
-	}				
+	}
+	
+	// ----------> Cake
+	var textCake : Texture2D;
+	GUI.color.a = 1;
+	var currentCakes = character.model.cakesCollected;
+	
+	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
+	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
+
+
+																	
 }

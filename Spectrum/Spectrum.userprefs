@@ -1,22 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Weapon.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\GameManager.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/Minion.js" Line="31" Column="26" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="159" Column="10" />
-      <File FileName="Assets/Resources/Scripts/Character.js" Line="95" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="54" Column="1" />
-      <File FileName="Assets/Resources/Scripts/WeaponModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="180" Column="4" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="431" Column="2" />
-      <File FileName="Assets/Resources/Scripts/Monster1.js" Line="18" Column="70" />
-      <File FileName="Assets/Resources/Scripts/Monster2.js" Line="23" Column="20" />
-      <File FileName="Assets/Resources/Scripts/Monster3.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster5.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster6.js" Line="41" Column="22" />
-      <File FileName="Assets/Resources/Scripts/ColorBlob.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SpellMine.js" Line="61" Column="2" />
-      <File FileName="Assets/Resources/Scripts/MonsterModel.js" Line="17" Column="61" />
+      <File FileName="Assets\Resources\Scripts\Minion.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="119" Column="44" />
+      <File FileName="Assets\Resources\Scripts\Cake.js" Line="12" Column="52" />
+      <File FileName="Assets\Resources\Scripts\gem.js" Line="14" Column="72" />
+      <File FileName="Assets\Resources\Scripts\CakeModel.js" Line="1" Column="1" />
+      <File FileName="..\..\..\Documents\College\Junior Year\Game Design\GemTrain\Assets\Resources\Scripts\GameManager.js" Line="192" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

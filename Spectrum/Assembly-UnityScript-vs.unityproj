@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\EndScript.js" />
+     <Compile Include="Assets\Resources\Scripts\Cake.js" />
+     <Compile Include="Assets\Resources\Scripts\CakeModel.js" />
      <Compile Include="Assets\Resources\Scripts\CameraMovement.js" />
      <Compile Include="Assets\Resources\Scripts\Character.js" />
      <Compile Include="Assets\Resources\Scripts\CharacterModel.js" />
@@ -78,11 +80,14 @@
      <Compile Include="Assets\Resources\Scripts\gem.js" />
      <Compile Include="Assets\Resources\Scripts\gemModel.js" />
      <Compile Include="Assets\StartScript.js" />
+     <None Include="Assets\Resources\Levels\Hole3Tri.txt" />
      <None Include="Assets\Resources\Levels\Plain2End.txt" />
      <None Include="Assets\Resources\Levels\Plain2Cross.txt" />
+     <None Include="Assets\Resources\Levels\Plain2Tri.txt" />
      <None Include="Assets\Resources\Levels\Plain2Opp.txt" />
      <None Include="Assets\Resources\Levels\Plain1Cross.txt" />
      <None Include="Assets\Resources\Levels\Walls1End.txt" />
+     <None Include="Assets\Resources\Levels\Hole2Tri.txt" />
      <None Include="Assets\Resources\Levels\Plain1Adj.txt" />
      <None Include="Assets\Resources\Levels\Plain1End.txt" />
      <None Include="Assets\Resources\Levels\Plain1Opp.txt" />

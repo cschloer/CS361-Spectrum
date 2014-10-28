@@ -51,10 +51,13 @@ var cameraShake:boolean;
 
 var heroScale : float; //tracks size of hero in float form
 
+var cakesCollected : int;
+
 
 // Use this for initialization
 function Start () {
 	cameraShake = false;
+	cakesCollected = 0;
 	isHook = false;
 	moveSpeed = 5;
 	turnSpeed = 1;
@@ -383,6 +386,12 @@ function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		character.hurt();
+	}
+	
+	if(col.gameObject.name.Contains("ake")){
+		Destroy(col.gameObject);
+		cakesCollected++;
+		print(cakesCollected);
 	}
 }
 
