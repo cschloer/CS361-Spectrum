@@ -71,6 +71,9 @@ function Start () {
 	addCake(-16,42);
 	addCake(8,49);
 	
+	addCircle(0); 
+	addCircle(1);
+	addCircle(2);
 	
 	protolevelInit();
 	
