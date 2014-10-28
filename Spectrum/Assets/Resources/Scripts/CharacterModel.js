@@ -477,7 +477,7 @@ function spellWall(){
 }
 
 function toBig(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale+=Time.deltaTime*3;
@@ -490,7 +490,7 @@ function toBig(){
 
 
 function toSmall(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale-=Time.deltaTime*3;

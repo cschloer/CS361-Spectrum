@@ -21,7 +21,7 @@ function init(type: String, or: int) {
 		var hmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = hmodel.transform.position;								// Center the boxcollider on the unit.
-		box.size = Vector3(.5,.5,5);
+		box.size = Vector3(.4,.4,4);
 		box.isTrigger = true;
 		hmodel.init(this);													// Initialize the tileModel.
 	} else if(type == "Cliff") {

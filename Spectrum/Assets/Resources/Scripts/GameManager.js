@@ -218,7 +218,8 @@ function addTile(x : float, y :float, t : String){
 function protolevelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");
   roomCreate(-10, 10,0,"Plain2Cross.txt");
-  roomCreate(-30, 10,1,"Hole2End.txt");
+  roomCreate(-30, 10,0,"Hole2Tri.txt");
+  roomCreate(-30,-10,0,"Hole2End.txt");
   roomCreate( 10, 10,3,"Plain2End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
 }
@@ -232,7 +233,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = xS+19; i >= xS; i-- ) {
     			for( j = yS+20; j > yS; j-- ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, i, j);
 				}
@@ -242,7 +243,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = yS+1; i <= yS+20; i++ ) {
     			for( j = xS+19; j >= xS; j-- ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, j, i);
 				}
@@ -252,7 +253,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = xS; i < xS+20; i++ ) {
     			for( j = yS+1; j <= yS+20; j++ ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, i, j);
 				}
@@ -262,7 +263,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = yS+20; i > yS; i-- ) {
     			for( j = xS; j < xS+20; j++ ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, j, i);
 				}
