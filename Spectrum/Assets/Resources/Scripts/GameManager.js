@@ -10,8 +10,9 @@ var characterFolder : GameObject;	// This will be an empty game object used for 
 var monsterFolder : GameObject;		// This will be an empty game object used for organizing monsters in the hierarchy pane.
 var tileFolder : GameObject;		// This will be an empty game object used for organizing tiles in the hierarchy pane.
 var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
-var roomFolder : GameObject;		// This will be an empty game object used for organizing rooms in the hierarchy pane.
+var deviceFolder : GameObject;		// This will be an empty game object used for organizing devices in the hierarchy pane.
 var character : Character;			// This is the hero character.
+var devices : Array;				// This array holds devices.
 var monsters : Array;				// This array holds monsters.
 var tiles : Array;					// This array holds tiles.
 var camera:GameObject;				// Camera GameObject for look control
@@ -27,6 +28,7 @@ var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 
+
 // Start
 // Called once when the script is created.
 function Start () {
@@ -38,6 +40,9 @@ function Start () {
 	monsterFolder = new GameObject();
 	monsterFolder.name = "Monsters";
 	monsters = new Array();
+	deviceFolder = new GameObject();
+	deviceFolder.name = "Devices";
+	devices = new Array();
 	tileFolder = new GameObject();
 	tileFolder.name = "Tiles";
 	tiles = new Array();
@@ -51,8 +56,19 @@ function Start () {
 	addCircle(0); // blue circle
 	addCircle(1); // red circle
 	addCircle(2); // yellow circle	
-
+	
 	addWeapon(character);
+	
+	addCake(1,0);
+	addCake(2,0);
+	addCake(3,0);
+	addCake(4,0);
+	
+	addCake(-16,21);
+	addCake(25,21);
+	addCake(-16,42);
+	addCake(8,49);
+	
 	
 	protolevelInit();
 	
@@ -94,7 +110,7 @@ function Update () {
 		}
 	}
 	clock = clock + Time.deltaTime;
-	spawnMonster();
+	//spawnMonster();
 }
 
 
@@ -114,6 +130,20 @@ function addCharacter(x : float , y : float) {
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 }
+
+function addCake(x : float , y : float) {
+	var cakeObject = new GameObject();					
+	var cakeScript = cakeObject.AddComponent("Cake");		
+	cakeScript.transform.position = Vector3(x,y,0);		
+	cakeScript.init();
+	//cakeObject.collider.enabled = false;
+	cakeObject.AddComponent(BoxCollider);
+	cakeObject.GetComponent(BoxCollider).name = "cakes";
+	cakeObject.GetComponent(BoxCollider).isTrigger = true;
+	cakeObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+											
+	
+}															
 
 function addCircle(color:int){
 	//var colorObject = new GameObject();					// Create a new empty game object that will hold a color.
@@ -187,6 +217,7 @@ function addMonster(x : float, y :float, c : Character, type: int){
 	monsterScript.init(c);
 	monsters.Add(monsterScript);
 	monsterScript.name = "Monster"+ monsters.length;
+	return monsterScript;
 }
 
 function addWeapon(c : Character){
@@ -196,6 +227,18 @@ function addWeapon(c : Character){
 	weaponScript.transform.position = character.transform.position;
 	
 	weaponScript.init(c);
+}
+
+function addDevice(x : float, y :float, t : String){
+	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
+	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
+	
+	deviceScript.transform.parent = deviceFolder.transform;
+	deviceScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
+	
+	deviceScript.init(t, this);
+	devices.Add(deviceScript);
+	deviceScript.name = "Device" + tiles.length;
 }
 
 function addTile(x : float, y :float, t : String){
@@ -219,9 +262,14 @@ function addTile(x : float, y :float, t : String){
 function protolevelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");
   roomCreate(-10, 10,0,"Plain2Cross.txt");
-  roomCreate(-30, 10,1,"Hole2End.txt");
-  roomCreate( 10, 10,3,"Plain2End.txt");
+  roomCreate(-30, 10,0,"Hole2Tri.txt");
+  roomCreate(-30,-10,0,"Hole2End.txt");
+  roomCreate(-30, 30,2,"Walls1End.txt");
+  roomCreate( 10, 10,1,"Hole3Tri.txt");
+  roomCreate( 10,-10,0,"Plain2End.txt");
+  roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
+  addDevice(0,4,"mSpawn");
 }
 // Room Creation
 // Initiates room off of a txt file.
@@ -233,7 +281,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = xS+19; i >= xS; i-- ) {
     			for( j = yS+20; j > yS; j-- ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, i, j);
 				}
@@ -243,7 +291,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = yS+1; i <= yS+20; i++ ) {
     			for( j = xS+19; j >= xS; j-- ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, j, i);
 				}
@@ -253,7 +301,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = xS; i < xS+20; i++ ) {
     			for( j = yS+1; j <= yS+20; j++ ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, i, j);
 				}
@@ -263,7 +311,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			for( i = yS+20; i > yS; i-- ) {
     			for( j = xS; j < xS+20; j++ ){
     				c = stream.Read();
-    				if(c == '\n')
+    				if(c == System.Environment.NewLine)
     					c = stream.Read();
     				popTile(c, j, i);
 				}
@@ -277,7 +325,7 @@ function popTile(c: char, xpos: float, ypos: float){
    	if(c == 'W'){
     	addTile(xpos,ypos,"Wall");
     }
-    if(c == 'H'){
+    else if(c == 'H'){
     	addTile(xpos,ypos,"Hole");
     }
     else if (c == "T"){
@@ -456,5 +504,16 @@ function OnGUI() {
 	}else {
 		textHealth = Resources.Load("Textures/heart0", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);
-	}				
+	}
+	
+	// ----------> Cake
+	var textCake : Texture2D;
+	GUI.color.a = 1;
+	var currentCakes = character.model.cakesCollected;
+	
+	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
+	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
+
+
+																	
 }

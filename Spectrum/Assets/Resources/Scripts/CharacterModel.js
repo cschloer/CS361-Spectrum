@@ -51,10 +51,13 @@ var cameraShake:boolean;
 
 var heroScale : float; //tracks size of hero in float form
 
+var cakesCollected : int;
+
 
 // Use this for initialization
 function Start () {
 	cameraShake = false;
+	cakesCollected = 0;
 	isHook = false;
 	moveSpeed = 5;
 	turnSpeed = 1;
@@ -384,6 +387,12 @@ function OnTriggerEnter(col:Collider){
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		character.hurt();
 	}
+	
+	if(col.gameObject.name.Contains("ake")){
+		Destroy(col.gameObject);
+		cakesCollected++;
+		print(cakesCollected);
+	}
 }
 
 function OnDrawGizmos() {
@@ -477,7 +486,7 @@ function spellWall(){
 }
 
 function toBig(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale+=Time.deltaTime*3;
@@ -490,7 +499,7 @@ function toBig(){
 
 
 function toSmall(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale-=Time.deltaTime*3;
@@ -501,11 +510,12 @@ function toSmall(){
 	heroScale+=(1-counter);
 }
 
-function fallDeath(){
+function fallDeath(aim: Vector3){
 	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
 	var counter:float = 0;
-	while (counter < 1.5){
-		heroScale-=Time.deltaTime*4;
+	while (counter < 2){
+		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
+		heroScale-=Time.deltaTime*3;
 		counter+= Time.deltaTime*3;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;

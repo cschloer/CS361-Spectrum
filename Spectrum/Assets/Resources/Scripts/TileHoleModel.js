@@ -12,7 +12,7 @@ function init(own : Tile) {
 	
 	transform.parent = owner.transform;				// Set the model's parent to the gem (this object).
 	transform.localPosition = Vector3(0,0,0);		// Center the model on the parent.
-	name = "Tile Floor Model";						// Name the object.
+	name = "Tile Hole Model";						// Name the object.
 	
 	
 
@@ -28,14 +28,13 @@ function OnTriggerEnter(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
 		character = col.gameObject.GetComponent(CharacterModel);
 		character.stopMovement();
-		character.fallDeath();
+		character.fallDeath(transform.position);
 	}
 }
 
 function OnTriggerStay(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
-		character = col.gameObject.GetComponent(CharacterModel);
 		character.stopMovement();
-		character.fallDeath();
+		character.fallDeath(transform.position);
 	}
 }

@@ -9,7 +9,7 @@ var killedMonsters : int;
 var manager:GameManager;
 function init(m) {
 	manager = m;
-	health = 3; //For testing purposes
+	health = 100; //For testing purposes
 	hurtRecovery = .5;
 	enabled = false;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
