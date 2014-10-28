@@ -52,7 +52,6 @@ var cameraShake:boolean;
 var heroScale : float; //tracks size of hero in float form
 
 
-
 // Use this for initialization
 function Start () {
 	cameraShake = false;

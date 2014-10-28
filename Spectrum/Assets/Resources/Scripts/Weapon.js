@@ -177,6 +177,7 @@ public class Weapon extends MonoBehaviour{
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
  		startSwinging();
+ 		
  		tossSpeed = distance/time;
  		var t : float = 0;
  		//Throw outward
