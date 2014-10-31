@@ -76,6 +76,7 @@ function Start () {
 	jumpCooldown = 1;
 	jumpTime = .75;
 	jumpSpeedMultiplier = .75;
+	rollVector = Vector3.zero;
 	heroScale = 1;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
@@ -107,7 +108,7 @@ function Update () {
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
-		this.transform.Translate(heading * Time.deltaTime*moveSpeed);
+		
 		if (rjTimer >= rollTime) { // Amount of time for rolling
 			rolling = false;
 			//this.renderer.material.color = colorStore;	
@@ -210,9 +211,7 @@ function Update () {
 				rollSound.Play();
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
-				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = rollSpeedMultiplier * moveSpeed;
 				rolling = true;
-				Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = true;
 				rjTimer = 0;
 			}
 			else if (blue && rjTimer >= jumpCooldown){ // jump because not blue
@@ -232,30 +231,71 @@ function Update () {
 		
 		}
 	}
+	
+	if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weapon.recovering && yellow){
+ 			if(jumping){
+ 				if(!red){
+ 					character.weapon.spin(.5, .7, 110);
+ 				} else{
+ 					character.weapon.spin(1, 1, 110);
+ 				}
+ 			} else{
+ 				character.lunge();
+ 				if(!red){
+ 					//swing(110, .3, .5);
+ 					character.weapon.swing(character.weapon.swingArc, character.weapon.swingTime, character.weapon.swingRecovery);
+ 				} else {
+ 					//swing(110, .5, 1);
+ 					character.weapon.swing(character.weapon.swingArc, character.weapon.swingTime, character.weapon.swingRecovery);
+ 				}
+ 			}
+ 		}
+ 	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
+ 			//toss(4, .8, 1000, 1);
+ 			character.weapon.toss(character.weapon.throwDistance, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 		}
 			
 	if (!rolling){
-		
+		/* // uncomment to add rotation with a keyboard 
 		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(turnSpeed)));
 		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(turnSpeed)));
+		*/
+		
 		
 		heading = Vector3.zero;
-		if (moveN) heading += Vector3.up;
-		if (moveE) heading += Vector3.right;
-		if (moveS) heading += Vector3.down;
-		if (moveW) heading += Vector3.left;
+		/*if (moveN) heading += this.transform.left; // uncomment these to move in direction of rotation
+		if (moveE) heading += this.transform.right;
+		if (moveS) heading += this.transform.down;
+		if (moveW) heading += this.transform.left;
+		*/
+		if (moveN) heading += Vector3(0, 1, 0);
+		if (moveE) heading += Vector3(1, 0, 0);
+		if (moveS) heading += Vector3(0, -1, 0);
+		if (moveW) heading += Vector3(-1, 0, 0);
 		heading.Normalize();
 		if(jumping){
-			this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
+			//this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
+			this.transform.position += heading*Time.deltaTime*moveSpeed*jumpSpeedMultiplier;
 		}else{
-			this.transform.Translate(heading * Time.deltaTime * moveSpeed);
+			//this.transform.Translate(heading*Time.deltaTime*moveSpeed);
+			this.transform.position += heading*Time.deltaTime*moveSpeed;
 		}
 	
 	}else{
-		this.transform.Translate(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
+		this.transform.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
 	}
-	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
-	Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
+	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
+	//Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
+	
+
+	 var mouseScreenPosition = Input.mousePosition;   
+     mouseScreenPosition.z = this.transform.position.z;
+     var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+     this.transform.LookAt(mouseWorldSpace, Camera.mainCamera.transform.forward);
+     this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
+	
 	
 	updateShadow(); //Position shadow and rescale hero for jumping
 }
@@ -537,7 +577,7 @@ function shakeCamera(duration:float, intensity:float){
 	var timer:float = 0;
 	cameraShake = true;
 	while (timer < duration){
-		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
 		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
 		timer+=Time.deltaTime;
 		yield;
