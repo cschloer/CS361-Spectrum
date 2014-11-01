@@ -28,7 +28,7 @@ var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 
-
+var levelString : String;
 // Start
 // Called once when the script is created.
 function Start () {
@@ -89,6 +89,9 @@ function Start () {
 	winScreen = false;
 	loseScreen = false;
 	addMonster(40, 20, character, 7);
+	
+	levelString = "";
+	
 }
 
 // Update
@@ -265,8 +268,9 @@ function addTile(x : float, y :float, t : String){
 // ProtolevelInit
 // Initiates the prototype level.
 function protolevelInit(){
-  roomCreate(-10,-10,0,"Plain1End.txt");
-  roomCreate(-10, 10,0,"Plain2Cross.txt");
+  //roomCreate(-10,-10,0,"Plain1End.txt");
+  //roomCreate(-10, 10,0,"Plain2Cross.txt");
+  /*
   roomCreate(-30, 10,0,"Hole2Tri.txt");
   roomCreate(-30,-10,0,"Hole2End.txt");
   roomCreate(-30, 30,2,"Walls1End.txt");
@@ -274,6 +278,7 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
+  */
   addDevice(-4,40,"mSpawn", 3);
   addDevice( 4,40,"mSpawn", 3);
   addDevice(-14,38,"mSpawn", 4);
@@ -285,10 +290,12 @@ function protolevelInit(){
 function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
 	var c : char;
+	var xLength = parseInt(stream.ReadLine());
+	var yLength = parseInt(stream.ReadLine());
 	switch( rot ){
 		case 1:
-			for( i = xS+19; i >= xS; i-- ) {
-    			for( j = yS+20; j > yS; j-- ){
+			for( i = xS+xLength - 1; i >= xS; i-- ) {
+    			for( j = yS+yLength; j > yS; j-- ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -297,8 +304,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
 		case 2:
-			for( i = yS+1; i <= yS+20; i++ ) {
-    			for( j = xS+19; j >= xS; j-- ){
+			for( i = yS+1; i <= yS+yLength; i++ ) {
+    			for( j = xS+xLength-1; j >= xS; j-- ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -307,8 +314,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
   		case 3:
-			for( i = xS; i < xS+20; i++ ) {
-    			for( j = yS+1; j <= yS+20; j++ ){
+			for( i = xS; i < xS+xLength; i++ ) {
+    			for( j = yS+1; j <= yS+yLength; j++ ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -317,8 +324,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
   		default:
-			for( i = yS+20; i > yS; i-- ) {
-    			for( j = xS; j < xS+20; j++ ){
+			for( i = yS+yLength; i > yS; i-- ) {
+    			for( j = xS; j < xS+xLength; j++ ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -327,6 +334,16 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
 	}
+	
+	var addLine : String = "";
+	while (!addLine.Contains("*end*")){
+		addLine = stream.ReadLine();
+		if(addLine.Length > 1){
+			var splitString : String[] = addLine.Split(" "[0]);
+			addDevice(float.Parse(splitString[0]) + xS, float.Parse(splitString[1]) + yS, splitString[2], parseInt(splitString[3]));
+		}
+	}
+		
 }
 // pop tile
 // Creates a tile based on character read input
@@ -362,6 +379,13 @@ function win(){
 
 function OnGUI() {	
 
+	levelString = GUI.TextField (Rect (Screen.width - 100, Screen.height-30, 60, 20), levelString, 25);
+	if (GUI.Button(Rect(Screen.width - 100, Screen.height-50, 60, 20),"Load/Create")){
+			if(File.Exists("Assets/Resources/Levels/"+levelString)) roomCreate(0,0, 1, levelString);
+	}	
+	if (GUI.Button(Rect(Screen.width - 100, Screen.height-70, 60, 20),"Save")){
+			Debug.Log("Clicked the button with text");
+	}
 	//Balancing sliders
 	/*
 	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
