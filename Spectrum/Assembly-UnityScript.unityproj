@@ -54,6 +54,8 @@
      <Compile Include="Assets\Resources\Scripts\CharacterModel.js" />
      <Compile Include="Assets\Resources\Scripts\ColorBlob.js" />
      <Compile Include="Assets\Resources\Scripts\ColorCircle.js" />
+     <Compile Include="Assets\Resources\Scripts\Device.js" />
+     <Compile Include="Assets\Resources\Scripts\DeviceSpawnModel.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
      <Compile Include="Assets\Resources\Scripts\Minion.js" />
