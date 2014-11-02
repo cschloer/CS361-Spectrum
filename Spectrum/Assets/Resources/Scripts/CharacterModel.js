@@ -54,6 +54,13 @@ var heroScale : float; //tracks size of hero in float form
 
 var cakesCollected : int;
 
+var boostRaRo:boolean; // a range boost that happens after a roll
+var boostRaRoTimer:float;
+
+var boostMeRo1:boolean; // booleans associated with combo meele attack
+var boostMeRo2:boolean;
+var boostMeRoTimer:float; // Timer used for each of the combos
+var boostRoll:boolean; // increase roll
 
 // Use this for initialization
 function Start () {
@@ -100,17 +107,31 @@ function Start () {
 	shadow.collider.enabled = false;
 	shadow.transform.localScale = Vector3.one;
 	shadowOffset = 0;
+	
+	boostRaRo = false; // boost when a rolling ranged character rolls
+	boostRaRoTimer = 0;
+	
+	boostMeRo1 = false;
+	boostMeRo2 = false;
+	boostMeRoTimer = 0;
+	boostRoll = false;
 }
 
 // Update is called once per frame
 function Update () {
+	boostMeRoTimer += Time.deltaTime;
+	if (boostMeRoTimer > .75) boostMeRoClear(); // clear the boostMeRoTimer and values if the timer has gone off
 	updateColor();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
-		
 		if (rjTimer >= rollTime) { // Amount of time for rolling
+			boostRoll = false;
 			rolling = false;
+			if(!yellow) {
+				if(boostRaRo) boostRaRoTimer=0;
+				else boostRR(); // boost the ranged attack after a roll if ranged
+			}
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
 			//moveSpeed = 2;
@@ -212,7 +233,11 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
 				rolling = true;
-				rjTimer = 0;
+				rjTimer = 0;													
+				if (boostMeRo2) { 
+					boostRoll = true;
+					boostMeRoClear();	
+				}
 			}
 			else if (blue && rjTimer >= jumpCooldown){ // jump because not blue
 				// todo: jump animation
@@ -225,8 +250,7 @@ function Update () {
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
-				character.modelObject.layer = 6;														// Allows player to jump through cliffs.
-				
+				character.modelObject.layer = 6;	// Allows player to jump through cliffs.
 			}
 		
 		}
@@ -240,8 +264,14 @@ function Update () {
  					character.weapon.spin(1, 1, 110);
  				}
  			} else{
- 				character.lunge();
- 				if(!red){
+
+ 		
+
+ 				if (!blue){ // if rolling, we can do a cool combo
+ 					boostMR();
+
+ 				}
+ 				else if(!red){
  					//swing(110, .3, .5);
  					character.weapon.swing(character.weapon.swingArc, character.weapon.swingTime, character.weapon.swingRecovery);
  				} else {
@@ -252,7 +282,8 @@ function Update () {
  		}
  	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
  			//toss(4, .8, 1000, 1);
- 			character.weapon.toss(character.weapon.throwDistance, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 			if (boostRaRo) character.weapon.toss(character.weapon.throwDistance*1.5, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 			else character.weapon.toss(character.weapon.throwDistance, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
  		}
 			
 	if (!rolling){
@@ -282,7 +313,10 @@ function Update () {
 		}
 	
 	}else{
-		this.transform.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
+		if (boostRoll){
+			character.weapon.pauseSwing(character.weapon.swingArc/2, character.weapon.swingTime/2, character.weapon.swingRecovery, 2);
+		}
+		this.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
 	}
 	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
@@ -431,10 +465,9 @@ function OnTriggerEnter(col:Collider){
 		character.hurt();
 	}
 	
-	if(col.gameObject.name.Contains("ake")){
+	if(col.gameObject.name.Contains("cake")){
 		Destroy(col.gameObject);
 		cakesCollected++;
-		print(cakesCollected);
 		cakeSound.Play();
 	}
 }
@@ -585,3 +618,44 @@ function shakeCamera(duration:float, intensity:float){
 	
 	cameraShake = false;
 }
+
+function boostRR(){
+	if (character.weapon.swinging) return;
+	boostRaRo = true;
+	character.weapon.weaponObject.GetComponent("SpriteRenderer").sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick3", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 	
+	character.weapon.model.renderer.material.color = Color(.5,.5,.5); // light up the weapon
+	yield WaitForSeconds(.5);
+	if (!character.weapon.swinging) {
+		character.weapon.model.renderer.material.color = Color(.8,.6,.6);
+		character.weapon.weaponObject.GetComponent("SpriteRenderer").sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 	}
+	boostRaRo = false;
+}
+
+function boostMR(){
+	boostMeRoTimer = 0;
+ 	if (!boostMeRo1){
+ 		boostMeRo1 = true;
+ 	
+ 		character.weapon.comboSwing(character.weapon.swingArc, character.weapon.swingTime*2, character.weapon.swingRecovery);
+ 			
+ 	}
+ 	else if (!boostMeRo2) boostMeRo2 = true;
+ 	else { // combo ended
+ 		boostMeRoClear();
+ 		boostMR();
+ 		
+ 	}
+ 
+}
+
+function boostMeRoClear(){ // sets all of the boostMeRo's to false, combo stops
+	boostMeRo1 = false;
+	boostMeRo2 = false;
+	boostMeRoTimer = 0;
+
+
+}
+
+
