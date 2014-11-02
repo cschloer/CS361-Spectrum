@@ -21,6 +21,8 @@ function init(m) {
 	modelObject.GetComponent(BoxCollider).isTrigger = false;
 	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,5);
 	modelObject.AddComponent(Rigidbody);
+	//modelObject.GetComponent(Rigidbody).collisionDetectionMode = CollisionDetectionMode.Continuous; 
+	//modelObject.GetComponent(Rigidbody).interpolation = RigidbodyInterpolation.Interpolate;
 	modelObject.GetComponent(Rigidbody).isKinematic = false;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
 	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.5, .5, 1);
@@ -68,11 +70,11 @@ function setWeapon(w : Weapon){
 function lunge(){ // lunge forward , used to attack
 	var timer:float = 0;
 	while (timer < .1){
-		model.transform.position += model.transform.up/10;
+		model.transform.position += model.transform.up/7;
 		//if(!model.cameraShake) manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position =
 		 //Vector3(model.transform.position.x, model.transform.position.y, -10)+3*model.transform.up;
 		// if(!model.cameraShake) manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position =
-		 Vector3(model.transform.position.x, model.transform.position.y, -10);
+		// Vector3(model.transform.position.x, model.transform.position.y, -10);
 		timer+= Time.deltaTime;
 		yield;
 	}
