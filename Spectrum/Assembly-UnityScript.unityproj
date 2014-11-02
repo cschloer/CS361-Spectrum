@@ -56,6 +56,7 @@
      <Compile Include="Assets\Resources\Scripts\ColorCircle.js" />
      <Compile Include="Assets\Resources\Scripts\Device.js" />
      <Compile Include="Assets\Resources\Scripts\DeviceSpawnModel.js" />
+     <Compile Include="Assets\Resources\Scripts\DeviceWallModel.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
      <Compile Include="Assets\Resources\Scripts\Minion.js" />
@@ -67,6 +68,7 @@
      <Compile Include="Assets\Resources\Scripts\Monster5.js" />
      <Compile Include="Assets\Resources\Scripts\Monster6.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterAttack.js" />
+     <Compile Include="Assets\Resources\Scripts\MonsterBoss.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterModel.js" />
      <Compile Include="Assets\Resources\Scripts\SpellAOE.js" />
      <Compile Include="Assets\Resources\Scripts\SpellHook.js" />
