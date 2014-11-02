@@ -5,7 +5,7 @@ var model: CakeModel;
 // Use this for initialization
 function init() {
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
-	model = modelObject.AddComponent("CakeModel");						// Add a gemModel script to control visuals of the gem.
+	model = modelObject.AddComponent(CakeModel);						// Add a gemModel script to control visuals of the gem.
 	
 	model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 	model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.

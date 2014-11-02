@@ -69,8 +69,10 @@ function lunge(){ // lunge forward , used to attack
 	var timer:float = 0;
 	while (timer < .1){
 		model.transform.position += model.transform.up/10;
-		if(!model.cameraShake) manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position =
-		 Vector3(model.transform.position.x, model.transform.position.y, -10)+3*model.transform.up;
+		//if(!model.cameraShake) manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position =
+		 //Vector3(model.transform.position.x, model.transform.position.y, -10)+3*model.transform.up;
+		// if(!model.cameraShake) manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position =
+		 Vector3(model.transform.position.x, model.transform.position.y, -10);
 		timer+= Time.deltaTime;
 		yield;
 	}

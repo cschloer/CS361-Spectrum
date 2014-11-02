@@ -52,10 +52,12 @@ function Start () {
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
 	
-	addCharacter(0,0);
-	addCircle(0); // blue circle
-	addCircle(1); // red circle
-	addCircle(2); // yellow circle	
+
+	addCharacter(0,-5);
+
+	//addCircle(0); // blue circle
+	//addCircle(1); // red circle
+	//addCircle(2); // yellow circle	
 	
 	addWeapon(character);
 	
@@ -69,6 +71,9 @@ function Start () {
 	addCake(-16,42);
 	addCake(8,49);
 	
+	addCircle(0); 
+	addCircle(1);
+	addCircle(2);
 	
 	protolevelInit();
 	
@@ -83,6 +88,7 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+	addMonster(40, 20, character, 7);
 }
 
 // Update
@@ -139,7 +145,7 @@ function addCake(x : float , y : float) {
 	cakeObject.AddComponent(BoxCollider);
 	cakeObject.GetComponent(BoxCollider).name = "cakes";
 	cakeObject.GetComponent(BoxCollider).isTrigger = true;
-	cakeObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+	cakeObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
 											
 	
 }															
@@ -207,7 +213,7 @@ function addMonster(x : float, y :float, c : Character, type: int){
 			monsterScript = monsterObject.AddComponent("Monster6");		// Add the monster2.js script to the object.
 			break;
 		default:
-			monsterScript = monsterObject.AddComponent("Monster");		// Add the monster.js script to the object.
+			monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
 	}
 	
 	monsterScript.transform.parent = monsterFolder.transform;
@@ -216,7 +222,7 @@ function addMonster(x : float, y :float, c : Character, type: int){
 	monsterScript.init(c);
 	monsters.Add(monsterScript);
 	monsterScript.name = "Monster"+ monsters.length;
-	return monsterScript;
+	return monsterObject;
 }
 
 function addWeapon(c : Character){
@@ -228,14 +234,14 @@ function addWeapon(c : Character){
 	weaponScript.init(c);
 }
 
-function addDevice(x : float, y :float, t : String){
+function addDevice(x : float, y :float, t : String, n : int){
 	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
 	deviceScript.transform.parent = deviceFolder.transform;
 	deviceScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
 	
-	deviceScript.init(t, this);
+	deviceScript.init(t, this, n);
 	devices.Add(deviceScript);
 	deviceScript.name = "Device" + tiles.length;
 }
@@ -268,7 +274,11 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
-  addDevice(0,4,"mSpawn");
+  addDevice(-4,40,"mSpawn", 3);
+  addDevice( 4,40,"mSpawn", 3);
+  addDevice(-14,38,"mSpawn", 4);
+  addDevice(20,5,"mSpawn", 4);
+  addDevice(30,20.5,"barrier",0);
 }
 // Room Creation
 // Initiates room off of a txt file.
