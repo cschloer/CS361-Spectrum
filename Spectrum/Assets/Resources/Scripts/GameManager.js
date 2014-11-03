@@ -250,7 +250,7 @@ function addWeapon(c : Character){
 }
 
 function addDevice(x : float, y :float, t : String, n : int){
-	print("Adding Device");
+	//print("Adding Device");
 	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
@@ -314,8 +314,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 	var yLength = parseInt(stream.ReadLine());
 	switch( rot ){
 		case 1:
-			for( i = xS+xLength - 1; i >= xS; i-- ) {
-    			for( j = yS+yLength; j > yS; j-- ){
+			for( i = xS+xLength -1; i >= xS; i-- ) {
+    			for( j = yS+yLength - 1; j >= yS; j-- ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -391,18 +391,67 @@ function blankRoom(x : int, y : int){
 		}
 	}
 }
-
-function writeLevel(x : int, y : int, name : String){
-	print("Writing " + x + " by " + y + " level " + name + ".");
+function clearRoom(){
+	//print(tiles.length);
+	for(var i : int = 0; i < tiles.length; i++){
+		if(tiles[i] != null){
+			for(var j : int = 0; j < tiles[i].length; j++){
+				if(tiles[i][j]!= null){
+					//print("Destroying " + tiles[i][j].name);
+					Destroy(tiles[i][j].gameObject);
+				}
+			}
+			tiles[i].Clear();
+		}
+	}
+	tiles.Clear();
+	for(i= 0; i < devices.length; i++){
+		Destroy(devices[i].gameObject);
+	}
+	
 }
+function writeLevel(x : int, y : int, name : String){
+	var fileString : String = "";
+	fileString += x + "\n" + y + "\n";
+	for(var i : int = 0; i < x; i++){
+		for(var j : int = 0; j < y; j++){
+			print("Getting tiles [" + arrayIndex(i) + "][" + arrayIndex(i) + "]");
+			fileString += tileToString(tiles[arrayIndex(i)][arrayIndex(j)]);
+		}
+	}
+	fileString += "\n";
+	for (var dev : Device in devices){
+		fileString += deviceToString(dev) + "\n";
+	}
+	fileString += "*end*";
+	//var bytes = System.Text.Encoding.UTF8.GetBytes(fileString);
+	File.WriteAllText("Assets/Resources/Levels/" + name + ".txt", fileString);
+	
+	
+}
+function tileToString(t : Tile){
+	switch(t.type){
+		case "Wall": return 'W';
+		break;
+		case "Floor": return 'T';
+		break;
+		case "Hole": return 'H';
+		break;
+	}
+}
+
+function deviceToString(dev : Device){
+	return "" + dev.transform.position.x + " " + dev.transform.position.y + " " + dev.type + " " + dev.data;
+}
+
 function spacialIndex(n : int){
 	if(n % 1 == 1) return (n+1)/2;
 	else return -n/2;
 }
 
 function arrayIndex(n : int){
-	if(n < 0) return -n * 2;
-	else return n/2;
+	if(n <= 0) return -n * 2;
+	else return n*2-1;
 }
 // *******************************************
 // 			   Win and Lose Screens
@@ -426,6 +475,7 @@ function OnGUI() {
 
 	levelString = GUI.TextField (Rect (Screen.width - 120, Screen.height-30, 100, 20), levelString, 25);
 	if (GUI.Button(Rect(Screen.width - 120, Screen.height-50, 100, 20),"Load/Create")){
+			clearRoom();
 			if(File.Exists("Assets/Resources/Levels/"+levelString + ".txt")) roomCreate(0,0, 1, levelString + ".txt");
 			else blankRoom(parseInt(levelXString), parseInt(levelYString));
 	}	

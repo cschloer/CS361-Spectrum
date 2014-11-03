@@ -1,23 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.js">
     <Files>
       <File FileName="Assets/Resources/Scripts/Minion.js" Line="13" Column="21" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="385" Column="18" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="318" Column="37" />
       <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/WeaponModel.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Weapon.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/ColorBlob.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SpellMine.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/MonsterModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterBoss.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster1.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Cake.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterAttack.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Levels/Plain2Cross.txt" Line="4" Column="1" />
-      <File FileName="Assets/Resources/Scripts/DeviceSpawnModel.js" Line="37" Column="1" />
+      <File FileName="Assets/Resources/Levels/Hole2Tri.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Levels/Hole3Tri.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Levels/Plain1Adj.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Levels/Plain1Cross.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Levels/Plain1End.txt" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Tile.js" Line="10" Column="11" />
+      <File FileName="Assets/Resources/Scripts/Device.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Levels/room2.txt" Line="4" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

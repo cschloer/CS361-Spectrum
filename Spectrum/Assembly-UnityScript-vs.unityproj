@@ -86,6 +86,7 @@
      <Compile Include="Assets\StartScript.js" />
      <None Include="Assets\Resources\Levels\Hole3Tri.txt" />
      <None Include="Assets\Resources\Levels\Plain2End.txt" />
+     <None Include="Assets\Resources\Levels\room3.txt" />
      <None Include="Assets\Resources\Levels\Plain2Cross.txt" />
      <None Include="Assets\Resources\Levels\Plain2Tri.txt" />
      <None Include="Assets\Resources\Levels\Plain2Opp.txt" />
@@ -97,10 +98,14 @@
      <None Include="Assets\Resources\Levels\Plain1Opp.txt" />
      <None Include="Assets\Resources\Levels\Walls1Adj.txt" />
      <None Include="Assets\Resources\Levels\Plain2Adj.txt" />
+     <None Include="Assets\Resources\Levels\room.txt" />
      <None Include="Assets\Resources\Levels\Walls1Cross.txt" />
+     <None Include="Assets\Resources\Levels\room5.txt" />
      <None Include="Assets\Resources\Levels\Hole2End.txt" />
+     <None Include="Assets\Resources\Levels\room2.txt" />
      <None Include="Assets\Resources\Levels\Plain1Tri.txt" />
      <None Include="Assets\Resources\Levels\Walls1Opp.txt" />
+     <None Include="Assets\Resources\Levels\room4.txt" />
      <None Include="Assets\Resources\Levels\room1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
