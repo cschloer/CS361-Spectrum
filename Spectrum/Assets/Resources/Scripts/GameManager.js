@@ -324,7 +324,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
 		case 2:
-			for( i = yS+1; i <= yS+yLength; i++ ) {
+			for( i = yS; i < yS+yLength; i++ ) {
     			for( j = xS+xLength-1; j >= xS; j-- ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
@@ -335,7 +335,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			break;
   		case 3:
 			for( i = xS; i < xS+xLength; i++ ) {
-    			for( j = yS+1; j <= yS+yLength; j++ ){
+    			for( j = yS; j < yS+yLength; j++ ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -344,7 +344,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
   		default:
-			for( i = yS+yLength; i > yS; i-- ) {
+			for( i = yS+yLength - 1; i >= yS; i-- ) {
     			for( j = xS; j < xS+xLength; j++ ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
@@ -408,6 +408,7 @@ function clearRoom(){
 	for(i= 0; i < devices.length; i++){
 		Destroy(devices[i].gameObject);
 	}
+	devices.Clear();
 	
 }
 function writeLevel(x : int, y : int, name : String){
@@ -476,7 +477,7 @@ function OnGUI() {
 	levelString = GUI.TextField (Rect (Screen.width - 120, Screen.height-30, 100, 20), levelString, 25);
 	if (GUI.Button(Rect(Screen.width - 120, Screen.height-50, 100, 20),"Load/Create")){
 			clearRoom();
-			if(File.Exists("Assets/Resources/Levels/"+levelString + ".txt")) roomCreate(0,0, 1, levelString + ".txt");
+			if(File.Exists("Assets/Resources/Levels/"+levelString + ".txt")) roomCreate(0,0, 3, levelString + ".txt");
 			else blankRoom(parseInt(levelXString), parseInt(levelYString));
 	}	
 	if (GUI.Button(Rect(Screen.width - 120, Screen.height-70, 100, 20),"Save")){
