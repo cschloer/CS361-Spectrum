@@ -40,6 +40,7 @@ var selectX : int;
 var selected : GameObject;
 var rotater : int;
 var rotaterString : String;
+var currentThing : int;
 
 // Start
 // Called once when the script is created.
@@ -65,31 +66,6 @@ function Start () {
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
 	
-	
-	//addCharacter(0,-5);
-	//addWeapon(character);
-	/*
-	//addCircle(0); // blue circle
-	//addCircle(1); // red circle
-	//addCircle(2); // yellow circle	
-	
-	
-	
-	addCake(1,0);
-	addCake(2,0);
-	addCake(3,0);
-	addCake(4,0);
-	
-	addCake(-16,21);
-	addCake(25,21);
-	addCake(-16,42);
-	addCake(8,49);
-	
-	addCircle(0); 
-	addCircle(1);
-	addCircle(2);
-	*/
-	
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
@@ -110,6 +86,7 @@ function Start () {
 	levelYString = "20";
 	rotater = 0;
 	rotaterString = "0";
+	currentThing = 0;
 	//protolevelInit();
 
 }
@@ -136,6 +113,12 @@ function Update () {
 			Time.timeScale = 1;
 			paused = !paused;
 		}
+	}
+	if (Input.GetKeyUp("q")){
+		currentThing = (currentThing + 5)%6;
+	}
+	if (Input.GetKeyUp("e")){
+		currentThing = (currentThing + 1)%6;
 	}
 	clock = clock + Time.deltaTime;
 	//spawnMonster();
@@ -465,6 +448,52 @@ function arrayIndex(n : int){
 	if(n <= 0) return -n * 2;
 	else return n*2-1;
 }
+
+function placeAt(xPl : int, yPl : int){
+	var x : int = arrayIndex(xPl);
+	var y : int = arrayIndex(yPl);
+	
+	if(currentThing < 3){			// Case 1: tile
+		if(tiles.length <= x || tiles[x] == null || tiles[x].length <= y) {
+					// DNE
+		} else {	// Exists
+			Destroy(tiles[x][y].gameObject);
+		}
+		switch(currentThing){
+			case 1:
+				addTile(xPl,yPl,"Wall");
+				break;
+			case 2:
+				addTile(xPl,yPl,"Hole");
+				break;
+			default:
+				addTile(xPl,yPl,"Floor");
+				break;
+		}
+	} else{							// Case 2: device
+		for(i = 0; i < devices.length; i++){	// Delete device in the square if it exists and you;re placing a device
+			if(devices[i].transform.position.x == x && devices[i].transform.position.y == y){
+				Destroy(devices[i].gameObject);
+				devices.RemoveAt(i);
+			}
+		}
+		switch(currentThing){
+			case 4:
+				addDevice(xPl,yPl,"wall", 3);
+				break;
+			case 5:
+				addCake(xPl,yPl);
+				break;
+			case 6:
+				// todo: add color circle
+				break;
+			default:
+				addDevice(xPl,yPl,"mSpawn", 3);
+				break;
+		}
+	}
+	
+}
 // *******************************************
 // 			   Win and Lose Screens
 // *******************************************
@@ -502,6 +531,38 @@ function OnGUI() {
 	levelYString = GUI.TextField (Rect (Screen.width - 70, Screen.height-90, 40, 20), levelYString, 25);
 	rotaterString = GUI.TextField (Rect (Screen.width - 70, Screen.height-120, 40, 20), rotaterString, 1);
 
+	// Controls the GUI placement
+	var width1 = Screen.width/50;
+	var height1 = width1;
+	var boxSize = Screen.width/10;
+	var placementImage : Texture2D;
+	switch(currentThing){
+		case 1:
+			placementImage = Resources.Load("Textures/levelEditor_WallTile", Texture2D);
+			GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), placementImage, ScaleMode.ScaleToFit, true, 0);
+			break;
+		case 2:
+			placementImage = Resources.Load("Textures/levelEditor_HoleTile", Texture2D);
+			GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), placementImage, ScaleMode.ScaleToFit, true, 0);
+			break;
+		case 3:
+			placementImage = Resources.Load("Textures/levelEditor_SpawnDevice", Texture2D);
+			GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), placementImage, ScaleMode.ScaleToFit, true, 0);
+			break;
+		case 4:
+			placementImage = Resources.Load("Textures/levelEditor_WallDevice", Texture2D);
+			GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), placementImage, ScaleMode.ScaleToFit, true, 0);
+			break;
+		case 5:
+			placementImage = Resources.Load("Textures/levelEditor_cakeSpawn", Texture2D);
+			GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), placementImage, ScaleMode.ScaleToFit, true, 0);
+			break;
+		default:
+			placementImage = Resources.Load("Textures/levelEditor_BlankTile", Texture2D);
+			GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), placementImage, ScaleMode.ScaleToFit, true, 0);
+			break;
+	}
+	
 	
 	//Balancing sliders
 	/*
