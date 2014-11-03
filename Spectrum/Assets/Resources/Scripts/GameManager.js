@@ -29,6 +29,12 @@ var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 
 var levelString : String;
+var levelXString : String;
+var levelYString : String;
+var levelX : int;
+var levelY : int;
+var levelDevices : Array;
+
 // Start
 // Called once when the script is created.
 function Start () {
@@ -47,19 +53,21 @@ function Start () {
 	tileFolder.name = "Tiles";
 	tiles = new Array();
 	
+	
 	Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
 
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
 	
-
+	
 	addCharacter(0,-5);
-
+	addWeapon(character);
+	/*
 	//addCircle(0); // blue circle
 	//addCircle(1); // red circle
 	//addCircle(2); // yellow circle	
 	
-	addWeapon(character);
+	
 	
 	addCake(1,0);
 	addCake(2,0);
@@ -74,8 +82,7 @@ function Start () {
 	addCircle(0); 
 	addCircle(1);
 	addCircle(2);
-	
-	protolevelInit();
+	*/
 	
 	paused = false;
 	clock = 0.0;
@@ -91,7 +98,12 @@ function Start () {
 	addMonster(40, 20, character, 7);
 	
 	levelString = "";
-	
+	levelX = 0;
+	levelY = 0;
+	levelXString = "20";
+	levelYString = "20";
+	//protolevelInit();
+
 }
 
 // Update
@@ -238,6 +250,7 @@ function addWeapon(c : Character){
 }
 
 function addDevice(x : float, y :float, t : String, n : int){
+	print("Adding Device");
 	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
@@ -246,19 +259,26 @@ function addDevice(x : float, y :float, t : String, n : int){
 	
 	deviceScript.init(t, this, n);
 	devices.Add(deviceScript);
-	deviceScript.name = "Device" + tiles.length;
+	deviceScript.name = "Device " + x + ", " + y;
 }
 
-function addTile(x : float, y :float, t : String){
+function addTile(xSpacial : float, ySpacial :float, t : String){
+	var x : int = arrayIndex(xSpacial);
+	var y : int = arrayIndex(ySpacial);
+
+	if(tiles.length <= x) tiles.length = x+1;
+	if(tiles[x] == null) tiles[x] = new Array();
+	if(tiles[x].length <= y) tiles[x].length = y+1;
 	var tileObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var tileScript = tileObject.AddComponent("Tile");		// Add the character.js script to the object.
 	
 	tileScript.transform.parent = tileFolder.transform;
-	tileScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
+	tileScript.transform.position = Vector3(xSpacial,ySpacial,1);			// Position the character at x,y.								
 	
 	tileScript.init(t, 0);
-	tiles.Add(tileScript);
-	tileScript.name = "Tile" + tiles.length;
+	tiles[x][y] = tileScript;
+	tileScript.name = "Tile " + xSpacial + ", " + ySpacial;
+	
 }
 
 // *******************************************
@@ -268,9 +288,9 @@ function addTile(x : float, y :float, t : String){
 // ProtolevelInit
 // Initiates the prototype level.
 function protolevelInit(){
-  //roomCreate(-10,-10,0,"Plain1End.txt");
-  //roomCreate(-10, 10,0,"Plain2Cross.txt");
-  /*
+  roomCreate(-10,-10,0,"Plain1End.txt");
+  roomCreate(-10, 10,0,"Plain2Cross.txt");
+  
   roomCreate(-30, 10,0,"Hole2Tri.txt");
   roomCreate(-30,-10,0,"Hole2End.txt");
   roomCreate(-30, 30,2,"Walls1End.txt");
@@ -278,7 +298,7 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
-  */
+  
   addDevice(-4,40,"mSpawn", 3);
   addDevice( 4,40,"mSpawn", 3);
   addDevice(-14,38,"mSpawn", 4);
@@ -333,15 +353,19 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 				}
   			}
   			break;
+  			
 	}
 	
-	var addLine : String = "";
-	while (!addLine.Contains("*end*")){
-		addLine = stream.ReadLine();
-		if(addLine.Length > 1){
+	var addLine : String;
+	addLine = stream.ReadLine();
+	var endString = "*end*";
+	while (!addLine.Contains(endString)){
+		if(addLine != null && addLine.Length > 1){
 			var splitString : String[] = addLine.Split(" "[0]);
 			addDevice(float.Parse(splitString[0]) + xS, float.Parse(splitString[1]) + yS, splitString[2], parseInt(splitString[3]));
 		}
+		addLine = stream.ReadLine();
+
 	}
 		
 }
@@ -357,8 +381,29 @@ function popTile(c: char, xpos: float, ypos: float){
     else if (c == "T"){
     	addTile(xpos,ypos,"Floor");
     }
+    
 }
 
+function blankRoom(x : int, y : int){
+	for(var i : float = 0; i < x; i++){
+		for(var j : float = 0; j < y; j++){
+			popTile("T"[0], i, j);
+		}
+	}
+}
+
+function writeLevel(x : int, y : int, name : String){
+	print("Writing " + x + " by " + y + " level " + name + ".");
+}
+function spacialIndex(n : int){
+	if(n % 1 == 1) return (n+1)/2;
+	else return -n/2;
+}
+
+function arrayIndex(n : int){
+	if(n < 0) return -n * 2;
+	else return n/2;
+}
 // *******************************************
 // 			   Win and Lose Screens
 // *******************************************
@@ -379,13 +424,19 @@ function win(){
 
 function OnGUI() {	
 
-	levelString = GUI.TextField (Rect (Screen.width - 100, Screen.height-30, 60, 20), levelString, 25);
-	if (GUI.Button(Rect(Screen.width - 100, Screen.height-50, 60, 20),"Load/Create")){
-			if(File.Exists("Assets/Resources/Levels/"+levelString)) roomCreate(0,0, 1, levelString);
+	levelString = GUI.TextField (Rect (Screen.width - 120, Screen.height-30, 100, 20), levelString, 25);
+	if (GUI.Button(Rect(Screen.width - 120, Screen.height-50, 100, 20),"Load/Create")){
+			if(File.Exists("Assets/Resources/Levels/"+levelString + ".txt")) roomCreate(0,0, 1, levelString + ".txt");
+			else blankRoom(parseInt(levelXString), parseInt(levelYString));
 	}	
-	if (GUI.Button(Rect(Screen.width - 100, Screen.height-70, 60, 20),"Save")){
-			Debug.Log("Clicked the button with text");
+	if (GUI.Button(Rect(Screen.width - 120, Screen.height-70, 100, 20),"Save")){
+			writeLevel(parseInt(levelXString), parseInt(levelYString), levelString);
 	}
+	GUI.Label(Rect(Screen.width - 200, Screen.height-90, 100, 20), "Dimensions:");
+	levelXString = GUI.TextField (Rect (Screen.width - 120, Screen.height-90, 40, 20), levelXString, 25);
+	levelYString = GUI.TextField (Rect (Screen.width - 70, Screen.height-90, 40, 20), levelYString, 25);
+
+	
 	//Balancing sliders
 	/*
 	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
@@ -426,7 +477,7 @@ function OnGUI() {
 		GUI.Label(Rect(270, 160, 200, 30), "Roll recovery: " + character.model.rollCooldown);
 		character.model.rollCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.rollCooldown, 0, 2.0);
 	}
-	*/
+	
 	
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
@@ -546,7 +597,7 @@ function OnGUI() {
 	
 	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
 	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
-
+	*/
 
 																	
 }
