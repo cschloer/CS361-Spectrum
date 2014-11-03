@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_STANDALONE_OSX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_GAMECENTER;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_5_2;UNITY_4_5;UNITY_STANDALONE_OSX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_GAMECENTER;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -59,6 +59,8 @@
      <Compile Include="Assets\Resources\Scripts\DeviceWallModel.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
+     <Compile Include="Assets\Resources\Scripts\LevelEditorCamera.js" />
+     <Compile Include="Assets\Resources\Scripts\LevelManager.js" />
      <Compile Include="Assets\Resources\Scripts\Minion.js" />
      <Compile Include="Assets\Resources\Scripts\Monster.js" />
      <Compile Include="Assets\Resources\Scripts\Monster1.js" />
@@ -86,6 +88,7 @@
      <Compile Include="Assets\StartScript.js" />
      <None Include="Assets\Resources\Levels\Hole3Tri.txt" />
      <None Include="Assets\Resources\Levels\Plain2End.txt" />
+     <None Include="Assets\Resources\Levels\rooma.txt" />
      <None Include="Assets\Resources\Levels\room3.txt" />
      <None Include="Assets\Resources\Levels\Plain2Cross.txt" />
      <None Include="Assets\Resources\Levels\Plain2Tri.txt" />
@@ -98,12 +101,12 @@
      <None Include="Assets\Resources\Levels\Plain1Opp.txt" />
      <None Include="Assets\Resources\Levels\Walls1Adj.txt" />
      <None Include="Assets\Resources\Levels\Plain2Adj.txt" />
-     <None Include="Assets\Resources\Levels\room.txt" />
      <None Include="Assets\Resources\Levels\Walls1Cross.txt" />
      <None Include="Assets\Resources\Levels\room5.txt" />
      <None Include="Assets\Resources\Levels\Hole2End.txt" />
      <None Include="Assets\Resources\Levels\room2.txt" />
      <None Include="Assets\Resources\Levels\Plain1Tri.txt" />
+     <None Include="Assets\Resources\Levels\USER_ERROR.txt" />
      <None Include="Assets\Resources\Levels\Walls1Opp.txt" />
      <None Include="Assets\Resources\Levels\room4.txt" />
      <None Include="Assets\Resources\Levels\room1.txt" />
