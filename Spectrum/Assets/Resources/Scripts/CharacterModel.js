@@ -313,13 +313,11 @@ function Update () {
 		}
 	
 	}else{
-		if (boostRoll){
-			character.weapon.pauseSwing(character.weapon.swingArc/2, character.weapon.swingTime/2, character.weapon.swingRecovery, 2);
-		}
+		
 		this.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
 	}
 	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
-	if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
+	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
 	//Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
@@ -330,7 +328,7 @@ function Update () {
      this.transform.LookAt(mouseWorldSpace, Camera.mainCamera.transform.forward);
      this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
 	
-	
+	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	updateShadow(); //Position shadow and rescale hero for jumping
 }
 
