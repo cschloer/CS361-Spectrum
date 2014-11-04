@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/LevelManager.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Cake.js">
     <Files>
       <File FileName="Assets/Resources/Scripts/Minion.js" Line="13" Column="21" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="63" Column="20" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="655" Column="1" />
       <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Weapon.js" Line="1" Column="1" />
@@ -17,7 +17,9 @@
       <File FileName="Assets/Resources/Scripts/Device.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Levels/room2.txt" Line="1" Column="1" />
       <File FileName="Assets/StartScript.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="178" Column="17" />
+      <File FileName="Assets/Resources/Scripts/DeviceSpawnModel.js" Line="52" Column="23" />
+      <File FileName="Assets/Resources/Scripts/Cake.js" Line="18" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

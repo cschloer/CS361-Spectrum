@@ -107,6 +107,7 @@
      <None Include="Assets\Resources\Levels\room5.txt" />
      <None Include="Assets\Resources\Levels\Hole2End.txt" />
      <None Include="Assets\Resources\Levels\room2.txt" />
+     <None Include="Assets\Resources\Levels\testEmpty.txt" />
      <None Include="Assets\Resources\Levels\Plain1Tri.txt" />
      <None Include="Assets\Resources\Levels\USER_ERROR.txt" />
      <None Include="Assets\Resources\Levels\Walls1Opp.txt" />

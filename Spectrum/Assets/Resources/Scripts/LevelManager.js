@@ -24,6 +24,11 @@ var losewinTimer:float;				// Timer for gameover.
 var loseScreen:boolean;				// Boolean for gamewin.
 var winScreen:boolean;				// Boolean for gamelose.
 var musicSound : AudioSource;		// Game music.
+var tock1Sound : AudioSource;
+var tock2Sound : AudioSource;
+var tapTapSound : AudioSource;
+var loadSound : AudioSource;
+var saveSound : AudioSource;
 var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
@@ -72,10 +77,20 @@ function Start () {
 	monsterCounter = 0;
 	clockFrequency = 5;
 	musicSound = gameObject.AddComponent("AudioSource") as AudioSource;
-	musicSound.clip = Resources.Load("Sounds/music");
+	musicSound.clip = Resources.Load("Sounds/George Street Shuffle");
+	tock1Sound = gameObject.AddComponent("AudioSource") as AudioSource;
+	tock1Sound.clip = Resources.Load("Sounds/softTock");
+	tock2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
+	tock2Sound.clip = Resources.Load("Sounds/medTock");
+	loadSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	loadSound.clip = Resources.Load("Sounds/fuzz");
+	saveSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	saveSound.clip = Resources.Load("Sounds/ruffle");
+	tapTapSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	tapTapSound.clip = Resources.Load("Sounds/doubleClick");
 	musicSound.volume = .6;
 	musicSound.loop = true;
-	//musicSound.Play();
+	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
 	//addMonster(40, 20, character, 7);
@@ -128,12 +143,15 @@ function Update () {
 	}
 	if (Input.GetKeyUp("q")){
 		currentThing = (currentThing + 5)%6;
+		tock1Sound.Play();
 	}
 	if (Input.GetKeyUp("e")){
 		currentThing = (currentThing + 1)%6;
+		tock1Sound.Play();
 	}
 	if (Input.GetKeyUp("space")){
 		placeAt(selectX,selectY);
+		tock2Sound.Play();
 	}
 	clock = clock + Time.deltaTime;
 	//spawnMonster();
@@ -549,9 +567,11 @@ function OnGUI() {
 			else {
 				blankRoom(parseInt(levelXString), parseInt(levelYString));
 			}
+			loadSound.Play();
 	}	
 	if (GUI.Button(Rect(Screen.width - 120, Screen.height-70, 100, 20),"Save")){
 			writeLevel(parseInt(levelXString), parseInt(levelYString), levelString);
+			saveSound.Play();
 	}
 	GUI.Label(Rect(Screen.width - 200, Screen.height-90, 100, 20), "Dimensions:");
 	GUI.Label(Rect(Screen.width - 140, Screen.height-120, 100, 20), "Rotation:");
