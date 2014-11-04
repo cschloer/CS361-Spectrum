@@ -122,10 +122,10 @@ public class Weapon extends MonoBehaviour{
  		startSwinging();
  		var t : float = 0;
  		//Swinging motion
- 		while (t < time){
+ 		while (t < time/1.25){
  				t += Time.deltaTime;
  			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
- 				model.transform.RotateAround(model.transform.position, Vector3.forward, angle/time * Time.deltaTime);
+ 				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
  			
  			yield;
  		}
@@ -141,6 +141,79 @@ public class Weapon extends MonoBehaviour{
  		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
  		stopRecovery();
+ 	}
+ 	
+ 	
+ 	function pauseSwing(angle : int, time : float, recovery : float, pTime:float){
+ 		swingSound.Play(); // Plays the sound
+
+ 		startSwinging();
+ 		var t : float = 0;
+ 		//Swinging motion
+ 		while (t < time/1.25){
+ 				t += Time.deltaTime;
+ 			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
+ 				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
+ 			
+ 			yield;
+ 		}
+ 		yield WaitForSeconds(pTime);
+ 		stopSwinging();
+		startRecovery();
+		//Recovery motion
+ 		while (t < time + recovery){
+ 			t += Time.deltaTime;
+ 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
+ 			yield;
+ 		}
+ 		model.transform.localEulerAngles = baseRotation;
+ 		model.transform.localPosition = basePosition;
+ 		stopRecovery();
+ 	}
+ 	
+ 	function comboSwing(angle : int, time : float, recovery : float){ // swing for the meele/roll combo swing
+ 		swingSound.Play(); // Plays the sound
+
+ 		startSwinging();
+ 		var t : float = 0;
+ 		//Swinging motion
+ 		while (t < time){
+ 				t += Time.deltaTime;
+ 			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
+ 				model.transform.RotateAround(model.transform.position, Vector3.forward, angle/time * Time.deltaTime);
+ 			
+ 			yield;
+ 		}
+ 		stopSwinging();
+ 		while (character.model.boostMeRo1 && !character.model.boostMeRo2){ // until something changes in the boostMeRo variables
+ 			yield;
+ 		}
+ 		model.transform.localPosition = basePosition;
+ 		if (character.model.boostMeRo2){ // swing was casted, so swing back the other way!
+ 			startSwinging();
+ 			character.lunge();
+ 			var speedIncrease:float = 4;
+ 			while (t < time + time/speedIncrease){
+	 			t += Time.deltaTime;
+	 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/time * Time.deltaTime*speedIncrease);
+	 			yield;
+	 		}
+	 		model.transform.localEulerAngles = baseRotation;
+	 		model.transform.localPosition = basePosition;
+	 		stopSwinging();
+ 		}
+ 		else {
+			startRecovery();
+			//Recovery motion
+	 		while (t < time + recovery){
+	 			t += Time.deltaTime;
+	 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
+	 			yield;
+	 		}
+	 		model.transform.localEulerAngles = baseRotation;
+	 		model.transform.localPosition = basePosition;
+	 		stopRecovery();
+ 		}
  	}
 
 	//Subroutine
@@ -173,22 +246,22 @@ public class Weapon extends MonoBehaviour{
 	//Subroutine
 	//Throw sword directly forward by (distance) over (time), spinning at rate (spinSpeed). Recover for time (recovery). 
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
-  	function toss(distance : float, time : float, spinSpeed : float, recovery : float){
+  	function toss(distance : float, time : float, spinSpeed : float, recovery : float){	
  		model.transform.parent = null;
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
  		startSwinging();
- 		
+
  		tossSpeed = distance/time;
  		tossTime = 0;
  		//Throw outward
- 		var moveScalar:float = 1;
- 		if (character.model.moveN) moveScalar = 1.5;
+ 		var moveAdder:Vector3 = character.model.heading/8;// 8 was a guess and check arbitrary number. Print out "tosstime" to see how
+ 		// similar the tosstime is for each movement pattern
  		while (tossTime < time && !hasHit){
  			if(!tossSound.isPlaying) tossSound.Play();
  			tossTime += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
- 			model.transform.position += (heading * tossSpeed * Time.deltaTime)*moveScalar;
+ 			model.transform.position += (heading * tossSpeed * Time.deltaTime)+moveAdder; 
  			yield;
  		}
  		
@@ -212,13 +285,16 @@ public class Weapon extends MonoBehaviour{
  		model.transform.localScale = Vector3.one;
  		stopSwinging();
  		startRecovery();
+
  		t=0;
  		while (t < recovery){
  			t += Time.deltaTime;
  			yield;
  		}
- 		
+ 		weaponObject.GetComponent(SpriteRenderer).sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 	
  		stopRecovery();
+ 		
  	}
  	
 // *******************************************
@@ -228,28 +304,6 @@ public class Weapon extends MonoBehaviour{
  	//Looks for key input, executes proper function depending on color.
  	function Update(){
 
- 		if(Input.GetKeyDown("up") && !swinging && !recovering && owner.model.yellow){
- 			if(owner.model.jumping){
- 				if(!owner.model.red){
- 					spin(.5, .7, 110);
- 				} else{
- 					spin(1, 1, 110);
- 				}
- 			} else{
- 				character.lunge();
- 				if(!owner.model.red){
- 					//swing(110, .3, .5);
- 					swing(swingArc, swingTime, swingRecovery);
- 				} else {
- 					//swing(110, .5, 1);
- 					swing(swingArc, swingTime, swingRecovery);
- 				}
- 			}
- 		}
- 		if(Input.GetKeyDown("up") && !swinging && !recovering && !owner.model.yellow){
- 			//toss(4, .8, 1000, 1);
- 			toss(throwDistance, throwTime, 1000, throwRecovery);
- 		}
  	}
  	
 // *******************************************
