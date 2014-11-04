@@ -299,6 +299,32 @@ public class Weapon extends MonoBehaviour{
  		
  	}
  	
+ 	function attack(range : float, speed : float, home : float, width :float, depth : float, headingOffset : float, color : Color, destructible : boolean, fade : boolean, keyword : String, texture : String){
+		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
+		var attack : HeroAttack = attackObject.AddComponent("HeroAttack") as HeroAttack;						
+		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
+		attack.transform.position = model.transform.position + headingOffset * character.model.heading;
+		attack.transform.rotation = model.transform.rotation;
+		attack.name = "Hero Attack";											// Name the object.
+		attack.renderer.material.mainTexture = Resources.Load("Textures/" + texture, Texture2D);	// Set the texture.  Must be in Resources folder.
+		attack.renderer.material.color = color;												// Set the color (easy way to tint things).
+		attack.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+		attack.transform.localScale = Vector3(width,depth,1); 
+		attack.init(range, speed, fade);
+		attack.hero = character;
+		//attack.transform.parent = bulletFolder.transform;
+		attackObject.collider.enabled = false;
+		attackObject.AddComponent(BoxCollider);
+		attackObject.GetComponent(BoxCollider).name = "heroAttack d:" + destructible + " " + keyword;
+		attackObject.GetComponent(BoxCollider).isTrigger = true;
+		attackObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
+		attackObject.AddComponent(Rigidbody);
+		attackObject.GetComponent(Rigidbody).isKinematic = false;
+		attackObject.GetComponent(Rigidbody).useGravity = false;
+		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
+		attackObject.GetComponent(Rigidbody).freezeRotation = true;
+	}
+ 	
 // *******************************************
 // 			   Key Input
 // *******************************************
