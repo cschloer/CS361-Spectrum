@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/CakeModel.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/LevelManager.js">
     <Files>
       <File FileName="Assets/Resources/Scripts/Minion.js" Line="13" Column="21" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="533" Column="1" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="152" Column="29" />
       <File FileName="Assets/Resources/Scripts/Character.js" Line="99" Column="1" />
       <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="466" Column="33" />
       <File FileName="Assets/Resources/Scripts/Weapon.js" Line="327" Column="3" />
@@ -14,13 +14,13 @@
       <File FileName="Assets/Resources/Levels/Plain1Cross.txt" Line="5" Column="6" />
       <File FileName="Assets/Resources/Levels/Plain1End.txt" Line="4" Column="6" />
       <File FileName="Assets/Resources/Scripts/Tile.js" Line="42" Column="2" />
-      <File FileName="Assets/Resources/Scripts/Device.js" Line="41" Column="2" />
+      <File FileName="Assets/Resources/Scripts/Device.js" Line="27" Column="34" />
       <File FileName="Assets/StartScript.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/DeviceSpawnModel.js" Line="59" Column="2" />
       <File FileName="Assets/Resources/Scripts/Cake.js" Line="15" Column="51" />
-      <File FileName="Assets/Resources/Scripts/CakeModel.js" Line="29" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CakeModel.js" Line="19" Column="2" />
       <File FileName="Assets/Resources/Scripts/DeviceWallModel.js" Line="25" Column="62" />
-      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="782" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="190" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

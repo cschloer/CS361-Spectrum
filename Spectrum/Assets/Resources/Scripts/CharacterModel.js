@@ -463,7 +463,7 @@ function OnTriggerEnter(col:Collider){
 		character.hurt();
 	}
 	
-	if(col.gameObject.name.Contains("cake")){
+	if(col.gameObject.name.Contains("Cake")){
 		Destroy(col.gameObject);
 		cakesCollected++;
 		cakeSound.Play();
