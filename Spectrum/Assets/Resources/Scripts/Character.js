@@ -1,4 +1,4 @@
-﻿var model : CharacterModel;
+var model : CharacterModel;
 var weapon : Weapon;
 var hurtRecovery : float;
 var hurting : boolean;
@@ -19,7 +19,7 @@ function init(m) {
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).name = "Box1";
 	modelObject.GetComponent(BoxCollider).isTrigger = false;
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.375,.375,5);
 	modelObject.AddComponent(Rigidbody);
 	//modelObject.GetComponent(Rigidbody).collisionDetectionMode = CollisionDetectionMode.Continuous; 
 	//modelObject.GetComponent(Rigidbody).interpolation = RigidbodyInterpolation.Interpolate;
@@ -44,8 +44,8 @@ function init(m) {
 	oofSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	oofSound.clip = Resources.Load("Sounds/oof");
 	killedMonsters = 0;
-
 }
+
 public function hurt(){
 		oofSound.Play();
 		health--;

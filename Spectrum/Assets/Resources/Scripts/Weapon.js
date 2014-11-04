@@ -24,6 +24,7 @@ public class Weapon extends MonoBehaviour{
 	public var swingRecovery : float;
 	public var throwDistance : float;
 	public var swingArc : int;
+	public var spriteRenderer: SpriteRenderer;
 	//Takes owner (main character) as parameter
 	
 // *******************************************
@@ -55,7 +56,7 @@ public class Weapon extends MonoBehaviour{
 		model.transform.parent = weaponObject.transform;
 		model.transform.localPosition = basePosition;
 		model.transform.localEulerAngles = baseRotation;						
-		var spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
+		spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		resetPosition();
 		stopSwinging();
@@ -291,8 +292,7 @@ public class Weapon extends MonoBehaviour{
  			t += Time.deltaTime;
  			yield;
  		}
- 		weaponObject.GetComponent(SpriteRenderer).sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
- 	
+ 		
  		stopRecovery();
  		
  	}
@@ -320,6 +320,43 @@ public class Weapon extends MonoBehaviour{
 			//print("Test");
 		}
 	}
+	
+	function toBoomerang(){
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 		
+	
+	}
+	
+	function toStick(){
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 		
+	
+	}
+	
+	function vibrateFor(duration:float){
+		var timer:float =0;
+		
+		while (timer<duration){
+			timer+=Time.deltaTime;
+			vibrate();
+			yield;
+		}
+		resetPosition();
+	}
+	
+		
+	function vibrateIntense(intensity:float){
+		print("okay");
+		resetPosition();
+		model.transform.Translate(Random.Range(-intensity, intensity), Random.Range(-intensity, intensity), 0);
+		
+	}
+	
+	function vibrate(){
+		vibrateIntense(.2);
+
+	}
+
 	
 	
 	
