@@ -274,7 +274,7 @@ function addSelector(x : float, y :float){
 	var selectorScript = selectorObject.AddComponent("Selector");	// Add the Selector.js script to the object.
 	
 	selectorScript.transform.parent = selectorFolder.transform;
-	selectorScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
+	selectorScript.transform.position = Vector3(x,y,-1);			// Position the character at x,y.								
 	
 	selectorScript.init();
 	selected = selectorScript;
