@@ -26,7 +26,7 @@ function init(t: String, manager: GameManager, num : int) {
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(2.5,.5,15);
-		model.init(this, manager);													// Initialize the tileModel.
+		model.init(this, manager, num);													// Initialize the tileModel.
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
 }

@@ -37,7 +37,8 @@ var levelDevices : Array;
 
 var selectY : int;
 var selectX : int;
-var selected : GameObject;
+var selected : Selector;
+var selectorFolder : GameObject;
 var rotater : int;
 var rotaterString : String;
 var currentThing : int;
@@ -87,6 +88,11 @@ function Start () {
 	rotater = 0;
 	rotaterString = "0";
 	currentThing = 0;
+	selectX = 0;
+	selectY = 0;
+	selectorFolder = new GameObject();
+	selectorFolder.name = "Selector";
+	addSelector(selectX,selectY);
 	//protolevelInit();
 
 }
@@ -104,6 +110,12 @@ function Update () {
 		}
 		return;
 	}
+	if (Input.GetMouseButtonUp(0)){
+		selectX = Mathf.Floor(Camera.main.ScreenToWorldPoint(Input.mousePosition).x + 0.5);
+		selectY = Mathf.Floor(Camera.main.ScreenToWorldPoint(Input.mousePosition).y + 0.5);
+		Destroy(selected.gameObject);
+		addSelector(selectX,selectY);
+	}
 	if (Input.GetKeyUp(KeyCode.Escape)){
 		if(!paused){
 			Time.timeScale = 0;
@@ -119,6 +131,9 @@ function Update () {
 	}
 	if (Input.GetKeyUp("e")){
 		currentThing = (currentThing + 1)%6;
+	}
+	if (Input.GetKeyUp("space")){
+		placeAt(selectX,selectY);
 	}
 	clock = clock + Time.deltaTime;
 	//spawnMonster();
@@ -248,9 +263,22 @@ function addDevice(x : float, y :float, t : String, n : int){
 	deviceScript.transform.parent = deviceFolder.transform;
 	deviceScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
 	
-	deviceScript.init(t, this, n);
+	deviceScript.init(t, null, n);
 	devices.Add(deviceScript);
 	deviceScript.name = "Device " + x + ", " + y;
+}
+
+function addSelector(x : float, y :float){
+	//print("Adding Device");
+	var selectorObject = new GameObject();						// Create a new empty game object that will hold a character.
+	var selectorScript = selectorObject.AddComponent("Selector");	// Add the Selector.js script to the object.
+	
+	selectorScript.transform.parent = selectorFolder.transform;
+	selectorScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
+	
+	selectorScript.init();
+	selected = selectorScript;
+	selectorScript.name = "Selector";
 }
 
 function addTile(xSpacial : float, ySpacial :float, t : String){
@@ -454,7 +482,7 @@ function placeAt(xPl : int, yPl : int){
 	var y : int = arrayIndex(yPl);
 	
 	if(currentThing < 3){			// Case 1: tile
-		if(tiles.length <= x || tiles[x] == null || tiles[x].length <= y) {
+		if(tiles.length <= x || tiles[x] == null || tiles[x].length <= y || tiles[x][y] == null) {
 					// DNE
 		} else {	// Exists
 			Destroy(tiles[x][y].gameObject);
@@ -479,7 +507,7 @@ function placeAt(xPl : int, yPl : int){
 		}
 		switch(currentThing){
 			case 4:
-				addDevice(xPl,yPl,"wall", 3);
+				addDevice(xPl,yPl,"wall", 1);
 				break;
 			case 5:
 				addCake(xPl,yPl);
@@ -488,7 +516,7 @@ function placeAt(xPl : int, yPl : int){
 				// todo: add color circle
 				break;
 			default:
-				addDevice(xPl,yPl,"mSpawn", 3);
+				addDevice(xPl,yPl,"mSpawn", 0);
 				break;
 		}
 	}

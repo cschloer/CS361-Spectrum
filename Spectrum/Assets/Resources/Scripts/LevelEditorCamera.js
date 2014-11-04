@@ -1,4 +1,4 @@
-﻿#pragma strict
+#pragma strict
 
 var target;
 var Manager:LevelManager;
