@@ -5,8 +5,9 @@
 
 var modelObject : GameObject; 
 var box : BoxCollider;			// For walls and cliffs
-
-function init(type: String, or: int) {
+var type : String;
+function init(t: String, or: int) {
+	type = t;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
 	modelObject.collider.enabled = false;								// Turn off MeshCollider
 	modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.

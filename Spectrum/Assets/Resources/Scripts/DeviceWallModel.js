@@ -4,14 +4,17 @@
 // Blocks an entrance
 
 var owner : Device;
-var manager : GameManager;
+var manager;
 var broken : boolean;
 var breakSound : AudioSource;
 var counter : int;
-function init(own : Device, man: GameManager) {
+var editorpause : boolean;
+function init(own : Device, man, opt: int) {
 	owner = own;									// Set up a pointer to the device object containing this model.
 	manager = man;									// Set up a pointer to the game manager
 	broken = false;
+	if(opt > 0)
+		editorpause = true;
 	
 	transform.parent = owner.transform;				// Set the model's parent to the gem (this object).
 	transform.localPosition = Vector3(0,0,-0.1);		// Center the model on the parent.
@@ -27,11 +30,12 @@ function init(own : Device, man: GameManager) {
 }
 
 function Update(){
-	if(Vector3.Magnitude(transform.position - manager.character.model.transform.position) < 5 && !broken){
+	if(editorpause){
 	}
-	if(manager.character.model.cakesCollected > 7){
-		print("breakage");
-		breakage();
+	else{
+		if(manager.character.model.cakesCollected > 7){
+			breakage();
+		}
 	}
 }
 

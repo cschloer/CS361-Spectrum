@@ -30,6 +30,7 @@ function init(own : Device, man: GameManager, count: int) {
 	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	breakSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	breakSound.volume = 0;
 	breakSound.clip = Resources.Load("Sounds/rattles");
 }
 
@@ -48,6 +49,7 @@ function Update(){
 }
 
 function breakage(){
+	breakSound.volume = 1;
 	if(!broken) breakSound.Play();
 	renderer.material.mainTexture = Resources.Load("Textures/cracked", Texture2D);
 	broken = true;

@@ -6,8 +6,11 @@
 
 var modelObject : GameObject; 
 var box : BoxCollider;			// For colliding.
-
-function init(type: String, manager: GameManager, num : int) {
+var type : String;
+var data : int;
+function init(t: String, manager: GameManager, num : int) {
+	type = t;
+	data = num;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
 	modelObject.collider.enabled = false;								// Turn off MeshCollider
 	modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.
@@ -23,7 +26,7 @@ function init(type: String, manager: GameManager, num : int) {
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(2.5,.5,15);
-		model.init(this, manager);													// Initialize the tileModel.
+		model.init(this, manager, num);													// Initialize the tileModel.
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
 }
