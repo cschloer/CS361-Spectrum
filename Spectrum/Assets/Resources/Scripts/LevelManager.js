@@ -100,7 +100,7 @@ function Start () {
 	levelY = 0;
 	levelXString = "20";
 	levelYString = "20";
-	rotater = 0;
+	rotater = 3;
 	rotaterString = "0";
 	currentThing = 0;
 	selectX = 0;
@@ -128,6 +128,26 @@ function Update () {
 	if (Input.GetMouseButtonUp(0)){
 		selectX = Mathf.Floor(Camera.main.ScreenToWorldPoint(Input.mousePosition).x + 0.5);
 		selectY = Mathf.Floor(Camera.main.ScreenToWorldPoint(Input.mousePosition).y + 0.5);
+		Destroy(selected.gameObject);
+		addSelector(selectX,selectY);
+	}
+	if (Input.GetKeyUp("up")){
+		selectY++;
+		Destroy(selected.gameObject);
+		addSelector(selectX,selectY);
+	}
+	if (Input.GetKeyUp("down")){
+		selectY--;
+		Destroy(selected.gameObject);
+		addSelector(selectX,selectY);
+	}
+	if (Input.GetKeyUp("right")){
+		selectX++;
+		Destroy(selected.gameObject);
+		addSelector(selectX,selectY);
+	}
+	if (Input.GetKeyUp("left")){
+		selectX--;
 		Destroy(selected.gameObject);
 		addSelector(selectX,selectY);
 	}
@@ -286,6 +306,7 @@ function addDevice(x : float, y :float, t : String, n : int){
 	
 	deviceScript.init(t, null, n);
 	devices.Add(deviceScript);
+	deviceScript.frozen = true;
 	deviceScript.name = "Device " + x + ", " + y;
 }
 
@@ -425,7 +446,7 @@ function popTile(c: char, xpos: float, ypos: float){
 }
 
 function blankRoom(x : int, y : int){
-	print("X: "+x+"\t Y: "+y);
+	//print("X: "+x+"\t Y: "+y);
 	for(var i : float = 0; i < x; i++){
 		for(var j : float = 0; j < y; j++){
 			popTile("T"[0], i, j);
@@ -459,7 +480,7 @@ function writeLevel(x : int, y : int, name : String){
 	fileString += x + "\n" + y + "\n";
 	for(var i : int = 0; i < x; i++){
 		for(var j : int = 0; j < y; j++){
-			print("Getting tiles [" + arrayIndex(i) + "][" + arrayIndex(i) + "]");
+			//print("Getting tiles [" + arrayIndex(i) + "][" + arrayIndex(i) + "]");
 			fileString += tileToString(tiles[arrayIndex(i)][arrayIndex(j)]);
 		}
 	}
@@ -501,7 +522,7 @@ function arrayIndex(n : int){
 function placeAt(xPl : int, yPl : int){
 	var x : int = arrayIndex(xPl);
 	var y : int = arrayIndex(yPl);
-	
+	//print("CurrentThing = " + currentThing + ", Devices.length = " + devices.length);
 	if(currentThing < 3){			// Case 1: tile
 		if(tiles.length <= x || tiles[x] == null || tiles[x].length <= y || tiles[x][y] == null) {
 					// DNE
@@ -520,10 +541,14 @@ function placeAt(xPl : int, yPl : int){
 				break;
 		}
 	} else{							// Case 2: device
+		
 		for(i = 0; i < devices.length; i++){	// Delete device in the square if it exists and you;re placing a device
-			if(devices[i].transform.position.x == x && devices[i].transform.position.y == y){
+			//print("(" + devices[i].transform.position.x + ", " + devices[i].transform.position.y + "), (" + x + ", " + y + ")");
+
+			if(devices[i].transform.position.x == xPl && devices[i].transform.position.y == yPl){
 				Destroy(devices[i].gameObject);
 				devices.RemoveAt(i);
+				return;
 			}
 		}
 		switch(currentThing){
@@ -537,7 +562,7 @@ function placeAt(xPl : int, yPl : int){
 				// todo: add color circle
 				break;
 			default:
-				addDevice(xPl,yPl,"mSpawn", 0);
+				addDevice(xPl,yPl,"mSpawn", Random.Range(1,6));
 				break;
 		}
 	}

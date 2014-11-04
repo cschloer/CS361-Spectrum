@@ -35,7 +35,7 @@ function init(own : Device, man: GameManager, count: int) {
 }
 
 function Update(){
-	if (spawns.length < counter && Random.value < 0.002 && !broken){
+	if (spawns.length < counter && Random.value < 0.002 && !broken && !owner.frozen){
 		var rType = Random.Range(1,7);
 		var mon = manager.addMonster(transform.position.x,transform.position.y+2,manager.character,rType);
 		//mon.activateDistance = 8;

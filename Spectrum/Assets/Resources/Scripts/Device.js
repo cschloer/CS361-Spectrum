@@ -8,9 +8,11 @@ var modelObject : GameObject;
 var box : BoxCollider;			// For colliding.
 var type : String;
 var data : int;
+var frozen : boolean;
 function init(t: String, manager: GameManager, num : int) {
 	type = t;
 	data = num;
+	frozen = false;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
 	modelObject.collider.enabled = false;								// Turn off MeshCollider
 	modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.
