@@ -523,6 +523,8 @@ function OnGUI() {
 	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
 	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
 
-
+	GUI.contentColor = Color.white;
+	if(character.model.red && !character.model.yellow)	GUI.TextField(Rect(Screen.width -60 ,Screen.height-40, 50, 30), "" + character.model.chargingBoomTimer); 
+	
 																	
 }

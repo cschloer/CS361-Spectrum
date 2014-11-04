@@ -62,6 +62,9 @@ var boostMeRo2:boolean;
 var boostMeRoTimer:float; // Timer used for each of the combos
 var boostRoll:boolean; // increase roll
 
+var isChargingBoom:boolean; // boomerang charging
+var chargingBoomTimer:float;
+
 // Use this for initialization
 function Start () {
 	cameraShake = false;
@@ -84,7 +87,7 @@ function Start () {
 	jumpTime = .75;
 	jumpSpeedMultiplier = .75;
 	rollVector = Vector3.zero;
-	heroScale = 1;
+	heroScale = .75;
 	rollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	rollSound.clip = Resources.Load("Sounds/tumble");
 	rollSound.volume = .5;
@@ -115,6 +118,9 @@ function Start () {
 	boostMeRo2 = false;
 	boostMeRoTimer = 0;
 	boostRoll = false;
+	
+	isChargingBoom = false;
+	chargingBoomTimer = 0;
 }
 
 // Update is called once per frame
@@ -256,7 +262,29 @@ function Update () {
 		}
 	}
 	
-	if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weapon.recovering && yellow){
+	
+	//Mouse input for boomerang charge
+	if (Input.GetMouseButton(0) && !character.weapon.swinging && !character.weapon.recovering && !yellow && red){ // holding down
+		if (!character.weapon.swinging && !character.weapon.recovering && !yellow && red && !isChargingBoom){
+			isChargingBoom = true;
+			character.weapon.vibrateFor(2);
+		}
+		else if (isChargingBoom){
+			if (chargingBoomTimer <= 2) {
+				chargingBoomTimer+=Time.deltaTime; 
+				character.weapon.spriteRenderer.color = Color.white;
+		}
+	}
+	else{
+		if (isChargingBoom) {
+			character.weapon.toss(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+			chargingBoomTimer = 0;
+			isChargingBoom = false;
+		}
+	
+	
+	}
+	if(Input.GetMouseButtonDown(0) && !character.weapon.swinging && !character.weapon.recovering && yellow){
  			if(jumping){
  				if(!red){
  					character.weapon.spin(.5, .7, 110);
@@ -282,8 +310,13 @@ function Update () {
  		}
  	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
  			//toss(4, .8, 1000, 1);
- 			if (boostRaRo) character.weapon.toss(character.weapon.throwDistance*1.5, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
- 			else character.weapon.toss(character.weapon.throwDistance, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 			if (red) {
+ 				
+ 			}
+ 			else {
+ 				if (boostRaRo) character.weapon.toss(character.weapon.throwDistance*1.5, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 				else character.weapon.toss(character.weapon.throwDistance, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 			}
  		}
 			
 	if (!rolling){
@@ -374,10 +407,12 @@ function changeRed(){
 	if (red){
 		red = false; 
 		toSmall();
+		if (!yellow) character.weapon.toStick(); // stick weapon!
 	}
 	else {
 		red = true;
 		toBig();
+		if (!yellow) character.weapon.toBoomerang(); // boomerang weapon!	
 	}
 	//print("Red: " + red);
 
@@ -385,9 +420,13 @@ function changeRed(){
 function changeYellow(){
 	if (yellow) {
 		yellow = false;
+		if (red)  character.weapon.toBoomerang(); // boomerang weapon!
+		else character.weapon.toStick(); // stick weapon!
 	}
 	else {
 	  yellow = true;
+	  if (red) character.weapon.toStick(); // stick weapon!	
+	  else character.weapon.toStick(); // stick weapon!
 	}
 //	print("Yellow: " + yellow);
 }
@@ -561,7 +600,7 @@ function spellWall(){
 }
 
 function toBig(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale+=Time.deltaTime*3;
@@ -574,11 +613,11 @@ function toBig(){
 
 
 function toSmall(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.375,.375,5);
 	var counter:float = 0;
 	while (counter < 1){
-		heroScale-=Time.deltaTime*3;
-		counter+= Time.deltaTime*3;
+		heroScale-=Time.deltaTime*2;
+		counter+= Time.deltaTime*2;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
@@ -586,12 +625,12 @@ function toSmall(){
 }
 
 function fallDeath(aim: Vector3){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
+
 	var counter:float = 0;
 	while (counter < 2){
 		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
-		heroScale-=Time.deltaTime*3;
-		counter+= Time.deltaTime*3;
+		heroScale-=Time.deltaTime*2;
+		counter+= Time.deltaTime*2;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
@@ -608,26 +647,23 @@ function shakeCamera(duration:float, intensity:float){
 	var timer:float = 0;
 	cameraShake = true;
 	while (timer < duration){
-		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
-		Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
+		Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
+		Manager.gameObject.GetComponentInChildren(CameraMovement).transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
 		timer+=Time.deltaTime;
 		yield;
 	}
-	
+	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	cameraShake = false;
 }
 
 function boostRR(){
 	if (character.weapon.swinging) return;
 	boostRaRo = true;
-	character.weapon.weaponObject.GetComponent("SpriteRenderer").sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick3", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
- 	
 	character.weapon.model.renderer.material.color = Color(.5,.5,.5); // light up the weapon
 	yield WaitForSeconds(.5);
 	if (!character.weapon.swinging) {
 		character.weapon.model.renderer.material.color = Color(.8,.6,.6);
-		character.weapon.weaponObject.GetComponent("SpriteRenderer").sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
- 	}
+		}
 	boostRaRo = false;
 }
 
