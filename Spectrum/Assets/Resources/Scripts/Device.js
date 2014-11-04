@@ -22,15 +22,15 @@ function init(t: String, manager: GameManager, num : int) {
 		box.size = Vector3(1.3,1.3,5);
 		wmodel.name = "Monster Spawner";
 		wmodel.init(this, manager, num);													// Initialize the device.
-	} else if (type == "cake"){
-		modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
-		modelObject.name = "Cake Object";
-		model = modelObject.AddComponent(CakeModel);						// Add a gemModel script to control visuals of the gem.
-		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
-		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
-		model.name = "Cake Model";											// Name the object.
-		model.init(this, manager, num);
-	} else{
+	} else if(type == "cake"){
+		var cmodel = modelObject.AddComponent("CakeModel");			// Add a script to control direction of the unit.
+		cmodel.name = "Cake";
+		modelObject.AddComponent(BoxCollider);
+		modelObject.GetComponent(BoxCollider).name = "cakes";
+		modelObject.GetComponent(BoxCollider).isTrigger = true;
+		modelObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
+		cmodel.init(this);
+	} else {
 		model = modelObject.AddComponent("DeviceWallModel");			// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
