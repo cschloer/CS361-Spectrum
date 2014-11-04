@@ -22,6 +22,9 @@ var xMin:float;
 var yMax:float;
 var yMin:float;
 
+var curX:float;
+var curY:float;
+
 var squareRadius:float;
 
 function Start () {
@@ -40,7 +43,8 @@ function Start () {
 	this.xMin = character.transform.position.x-squareRadius;
 	this.yMax = character.transform.position.y+squareRadius;
 	this.yMin = character.transform.position.y-squareRadius;
-	
+	curX = character.transform.position.x;
+	curY = character.transform.position.y;
 	this.transform.position.x = character.transform.position.x;
 	this.transform.position.y = character.transform.position.y;
 	
@@ -66,27 +70,27 @@ function doMovement(){
 	var charX:float = character.transform.position.x;
 	var charY:float = character.transform.position.y;
 	if (charX > xMax){ // going over right bound
-		this.transform.position.x += charX - xMax;
+		curX += charX - xMax;
 		xMin += charX - xMax;
 		xMax += charX - xMax;
 	}
 	if (charX < xMin){ // going over left bound
-		this.transform.position.x -= xMin - charX;
+		curX -= xMin - charX;
 		xMax -= xMin - charX;
 		xMin -= xMin - charX;
 	}
 	if (charY > yMax){ // going over top bound
-		
-		this.gameObject.transform.position.y += charY - yMax;
+		curY += charY - yMax;
 		yMin += charY - yMax;
 		yMax += charY - yMax;
 	}
 	if (charY < yMin){ // going over bottom bound
-		this.transform.position.y -= yMin - charY;
+		curY -= yMin - charY;
 		yMax -= yMin - charY;
 		yMin -= yMin - charY;
 	}
-
+	this.transform.position.x = curX;
+	this.transform.position.y = curY;
 }
 
 
