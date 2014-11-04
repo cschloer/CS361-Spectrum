@@ -30,11 +30,12 @@ function init(own : Device, man: GameManager, count: int) {
 	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	breakSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	breakSound.volume = 0;
 	breakSound.clip = Resources.Load("Sounds/rattles");
 }
 
 function Update(){
-	if (spawns.length < counter && Random.value < 0.002 && !broken){
+	if (spawns.length < counter && Random.value < 0.002 && !broken && !owner.frozen){
 		var rType = Random.Range(1,7);
 		var mon = manager.addMonster(transform.position.x,transform.position.y+2,manager.character,rType);
 		//mon.activateDistance = 8;
@@ -48,6 +49,7 @@ function Update(){
 }
 
 function breakage(){
+	breakSound.volume = 1;
 	if(!broken) breakSound.Play();
 	renderer.material.mainTexture = Resources.Load("Textures/cracked", Texture2D);
 	broken = true;

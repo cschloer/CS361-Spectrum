@@ -137,6 +137,7 @@ function addCharacter(x : float , y : float) {
 }
 
 function addCake(x : float , y : float) {
+	/*
 	var cakeObject = new GameObject();					
 	var cakeScript = cakeObject.AddComponent("Cake");		
 	cakeScript.transform.position = Vector3(x,y,0);		
@@ -146,6 +147,9 @@ function addCake(x : float , y : float) {
 	cakeObject.GetComponent(BoxCollider).name = "cakes";
 	cakeObject.GetComponent(BoxCollider).isTrigger = true;
 	cakeObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
+	*/
+	
+	addDevice(x, y, "cake", 0);
 											
 	
 }															
@@ -274,6 +278,7 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
+  roomCreate(-20, -20, 3, "test.txt");
   addDevice(-4,40,"mSpawn", 3);
   addDevice( 4,40,"mSpawn", 3);
   addDevice(-14,38,"mSpawn", 4);
@@ -285,10 +290,12 @@ function protolevelInit(){
 function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
 	var c : char;
+	var xLength = parseInt(stream.ReadLine());
+	var yLength = parseInt(stream.ReadLine());
 	switch( rot ){
 		case 1:
-			for( i = xS+19; i >= xS; i-- ) {
-    			for( j = yS+20; j > yS; j-- ){
+			for( i = xS+xLength -1; i >= xS; i-- ) {
+    			for( j = yS+yLength - 1; j >= yS; j-- ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -297,8 +304,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
 		case 2:
-			for( i = yS+1; i <= yS+20; i++ ) {
-    			for( j = xS+19; j >= xS; j-- ){
+			for( i = yS; i < yS+yLength; i++ ) {
+    			for( j = xS+xLength-1; j >= xS; j-- ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -307,8 +314,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
   		case 3:
-			for( i = xS; i < xS+20; i++ ) {
-    			for( j = yS+1; j <= yS+20; j++ ){
+			for( i = xS; i < xS+xLength; i++ ) {
+    			for( j = yS; j < yS+yLength; j++ ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -317,8 +324,8 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
   			}
   			break;
   		default:
-			for( i = yS+20; i > yS; i-- ) {
-    			for( j = xS; j < xS+20; j++ ){
+			for( i = yS+yLength - 1; i >= yS; i-- ) {
+    			for( j = xS; j < xS+xLength; j++ ){
     				c = stream.Read();
     				if(c == System.Environment.NewLine)
     					c = stream.Read();
@@ -326,7 +333,21 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 				}
   			}
   			break;
+  			
 	}
+	
+	var addLine : String;
+	addLine = stream.ReadLine();
+	var endString = "*end*";
+	while (!addLine.Contains(endString)){
+		if(addLine != null && addLine.Length > 1){
+			var splitString : String[] = addLine.Split(" "[0]);
+			addDevice(float.Parse(splitString[0]) + xS, float.Parse(splitString[1]) + yS, splitString[2], parseInt(splitString[3]));
+		}
+		addLine = stream.ReadLine();
+
+	}
+		
 }
 // pop tile
 // Creates a tile based on character read input
@@ -523,6 +544,8 @@ function OnGUI() {
 	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
 	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
 
-
+	GUI.contentColor = Color.white;
+	if(character.model.red && !character.model.yellow)	GUI.TextField(Rect(Screen.width -60 ,Screen.height-40, 50, 30), "" + character.model.chargingBoomTimer); 
+	
 																	
 }

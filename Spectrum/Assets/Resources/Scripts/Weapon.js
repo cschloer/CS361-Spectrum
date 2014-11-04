@@ -24,6 +24,8 @@ public class Weapon extends MonoBehaviour{
 	public var swingRecovery : float;
 	public var throwDistance : float;
 	public var swingArc : int;
+	public var spriteRenderer: SpriteRenderer;
+	public var vibrating:boolean;
 	//Takes owner (main character) as parameter
 	
 // *******************************************
@@ -31,6 +33,7 @@ public class Weapon extends MonoBehaviour{
 // *******************************************
 
 	function init(c:Character){
+		vibrating = false;
 		this.name = "Weapon";
 		recovering = false;
 		owner = c;
@@ -55,7 +58,7 @@ public class Weapon extends MonoBehaviour{
 		model.transform.parent = weaponObject.transform;
 		model.transform.localPosition = basePosition;
 		model.transform.localEulerAngles = baseRotation;						
-		var spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
+		spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		resetPosition();
 		stopSwinging();
@@ -291,8 +294,7 @@ public class Weapon extends MonoBehaviour{
  			t += Time.deltaTime;
  			yield;
  		}
- 		weaponObject.GetComponent(SpriteRenderer).sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
- 	
+ 		
  		stopRecovery();
  		
  	}
@@ -314,12 +316,56 @@ public class Weapon extends MonoBehaviour{
 	//Constantly places sword at hero. This deals with the issue of the sword moving while the hero runs against an obstacle.
 	function resetPosition(){
 		while (true){
-			if(!swinging)
+			if(!swinging && !vibrating)
 				model.transform.position = owner.model.transform.position;
 			yield WaitForSeconds(.01);
 			//print("Test");
 		}
 	}
+	
+	function toBoomerang(){
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 		
+	
+	}
+	
+	function toStick(){
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 		
+	
+	}
+	
+	function vibrateFor(duration:float){
+		var timer:float =0;
+		vibrating = true;
+		while (timer<duration){
+			timer+=Time.deltaTime;
+			vibrate();
+			yield;
+		}
+		vibrating = false;
+		
+	}
+	
+		
+	function vibrateIntense(intensity:float){
+		model.transform.position = owner.model.transform.position;
+		model.transform.Translate(0, Random.Range(-intensity, intensity), 0);
+		
+	}
+	
+	function vibrate(){
+		vibrateIntense(.2);
+	}
+	
+	function vibrateOnce(){
+		vibrating = true;
+		vibrateIntense(.2);
+		yield;
+		vibrating = false;
+	
+	}
+
 	
 	
 	
