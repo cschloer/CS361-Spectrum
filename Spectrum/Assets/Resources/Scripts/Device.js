@@ -21,6 +21,10 @@ function init(t: String, manager: GameManager, num : int) {
 		box.size = Vector3(1.3,1.3,5);
 		wmodel.name = "Monster Spawner";
 		wmodel.init(this, manager, num);													// Initialize the device.
+	} else if(type == "cake"){
+		var cmodel = modelObject.AddComponent("CakeModel");			// Add a script to control direction of the unit.
+		cmodel.name = "Cake";
+		cmodel.init(this);
 	} else {
 		var model = modelObject.AddComponent("DeviceWallModel");			// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.

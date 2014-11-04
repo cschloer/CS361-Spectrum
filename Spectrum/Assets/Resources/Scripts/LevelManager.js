@@ -528,7 +528,7 @@ function placeAt(xPl : int, yPl : int){
 				addDevice(xPl,yPl,"wall", 1);
 				break;
 			case 5:
-				addCake(xPl,yPl);
+				addDevice(xPl,yPl,"cake", 0);
 				break;
 			case 6:
 				// todo: add color circle

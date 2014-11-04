@@ -285,6 +285,8 @@ function protolevelInit(){
 function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
 	var c : char;
+	var xLength = parseInt(stream.ReadLine());
+	var yLength = parseInt(stream.ReadLine());
 	switch( rot ){
 		case 1:
 			for( i = xS+19; i >= xS; i-- ) {
