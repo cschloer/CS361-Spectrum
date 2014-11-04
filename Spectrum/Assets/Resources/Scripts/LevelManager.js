@@ -176,7 +176,6 @@ function addCharacter(x : float , y : float) {
 }
 
 function addCake(x : float , y : float) {
-/*
 	var cakeObject = new GameObject();					
 	var cakeScript = cakeObject.AddComponent("Cake");		
 	cakeScript.transform.position = Vector3(x,y,0);		
@@ -186,8 +185,6 @@ function addCake(x : float , y : float) {
 	cakeObject.GetComponent(BoxCollider).name = "cakes";
 	cakeObject.GetComponent(BoxCollider).isTrigger = true;
 	cakeObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
-	*/
-	addDevice(x, y, "cake", 0);
 											
 	
 }															
