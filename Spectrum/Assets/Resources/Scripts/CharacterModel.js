@@ -273,6 +273,7 @@ function Update () {
 			if (chargingBoomTimer <= 2) {
 				chargingBoomTimer+=Time.deltaTime; 
 				character.weapon.spriteRenderer.color = Color.white;
+			}
 		}
 	}
 	else{
