@@ -60,7 +60,7 @@ function Start () {
 	colorFolder.name = "Color Circles";
 	
 	
-	addCharacter(10,10);
+	addCharacter(0,-5);
 	addWeapon(character);
 	/*
 	//addCircle(0); // blue circle
@@ -416,7 +416,7 @@ function writeLevel(x : int, y : int, name : String){
 	fileString += x + "\n" + y + "\n";
 	for(var i : int = 0; i < x; i++){
 		for(var j : int = 0; j < y; j++){
-			//print("Getting tiles [" + arrayIndex(i) + "][" + arrayIndex(i) + "]");
+			print("Getting tiles [" + arrayIndex(i) + "][" + arrayIndex(i) + "]");
 			fileString += tileToString(tiles[arrayIndex(i)][arrayIndex(j)]);
 		}
 	}
