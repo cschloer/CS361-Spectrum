@@ -97,7 +97,7 @@ public class Weapon extends MonoBehaviour{
  	function startSwinging(){
  		swinging = true;
  		model.renderer.material.color = Color(1,1,1);
- 		owner.model.rjTimer = owner.model.rollTime;
+ 		//owner.model.rjTimer = owner.model.rollTime;
 
  	}
  	
@@ -338,6 +338,71 @@ public class Weapon extends MonoBehaviour{
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
+ 	
+ 	
+ 	// h is the heading vector, fromChar is a boolean saying whether this function was called from the character
+function tossBoomerang(distance : float, time : float, spinSpeed : float, recovery : float, h:Vector3, fromChar:boolean) : IEnumerator{ // toss function	
+ 		model.transform.parent = null;
+ 		var heading : Vector3 = h;
+ 		Vector3.Normalize(heading);
+ 		startSwinging();
+
+ 		tossSpeed = distance/time;
+ 		tossTime = 0;
+ 		//Throw outward
+ 		var moveAdder : Vector3 = Vector3.zero;
+ 		if (fromChar) moveAdder = character.model.heading/8;// 8 was a guess and check arbitrary number. Print out "tosstime" to see how
+ 		// similar the tosstime is for each movement pattern
+ 		while (tossTime < time && !hasHit){
+ 			if(!tossSound.isPlaying) tossSound.Play();
+ 			tossTime += Time.deltaTime;
+ 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+ 			model.transform.position += (heading * tossSpeed * Time.deltaTime)+moveAdder; 
+ 			yield;
+ 		}
+ 		
+ 		hasHit = false;
+ 		var t:float=0;
+ 		//Recover until sword reaches hero
+ 		while (distanceFromOwner() > .1){
+ 			t += Time.deltaTime;
+ 			 if(!tossSound.isPlaying) tossSound.Play();
+
+ 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+ 			heading = model.transform.position - owner.model.transform.position;
+ 			model.transform.position -= (heading.normalized * tossSpeed * Time.deltaTime);
+ 			yield;
+ 		}
+ 
+ 		if (character.model.jumping) {
+ 			Time.timeScale = .25; // slow motion
+			//stopSwinging();
+ 			tossBoomerang(distance, time,spinSpeed, recovery, -h.normalized, false);
+ 			yield WaitForSeconds(.5);
+ 			Time.timeScale = 1;
+ 			return;
+ 		}
+ 
+ 		model.transform.parent = owner.model.transform;
+		model.transform.localEulerAngles = baseRotation;
+ 		model.transform.localPosition = basePosition;
+ 		model.transform.position = owner.model.transform.position;
+ 		model.transform.localScale = Vector3.one;
+ 		
+ 		stopSwinging();
+ 
+ 		
+ 		startRecovery();
+
+ 		t=0;
+ 		while (t < recovery){
+ 			t += Time.deltaTime;
+ 			yield;
+ 		}
+ 		
+ 		stopRecovery();
+ 		
+ 	}
  	
 // *******************************************
 // 			   Key Input

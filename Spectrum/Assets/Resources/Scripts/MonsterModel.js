@@ -27,3 +27,7 @@ function OnTriggerEnter(col:Collider){
 		}
 		//print(col.gameObject.name);
 }
+
+function OnDrawGizmos() {
+		
+}

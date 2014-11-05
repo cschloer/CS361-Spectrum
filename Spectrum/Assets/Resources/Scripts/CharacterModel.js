@@ -64,9 +64,11 @@ var boostRoll:boolean; // increase roll
 
 var isChargingBoom:boolean; // boomerang charging
 var chargingBoomTimer:float;
+var hasBoomBoosted:boolean; // boomerang boosted already this time around
 
 // Use this for initialization
 function Start () {
+	hasBoomBoosted = false;
 	cameraShake = false;
 	cakesCollected = 0;
 	isHook = false;
@@ -233,19 +235,24 @@ function Update () {
 	}
 	if (Input.GetKeyDown("space")) {
 		if (!jumping && !rolling) { 
-			if (!blue && rjTimer >= rollCooldown){ // roll because blue
+			if (!blue && rjTimer >= rollCooldown){ // roll because not blue
 				// todo: roll animation
 				rollSound.Play();
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
 				rolling = true;
-				rjTimer = 0;													
+				rjTimer = 0;
+				if (red && !yellow && !hasBoomBoosted) { // big
+					hasBoomBoosted = true;
+					chargingBoomTimer += 1;
+					rollBoomBonus(1);																									
+				}																						
 				if (boostMeRo2) { 
 					boostRoll = true;
 					boostMeRoClear();	
 				}
 			}
-			else if (blue && rjTimer >= jumpCooldown){ // jump because not blue
+			else if (blue && rjTimer >= jumpCooldown){ // jump because blue
 				// todo: jump animation
 				jumpSound.Play();
 				//colorStore = this.renderer.material.color;
@@ -273,7 +280,7 @@ function Update () {
 		else if (isChargingBoom){
 			if (chargingBoomTimer <= 2) {
 				chargingBoomTimer+=Time.deltaTime; 
-				character.weapon.spriteRenderer.color = Color.white;
+				//character.weapon.spriteRenderer.color = Color.black;
 			}
 			character.weapon.vibrateIntense(.05*chargingBoomTimer);
 				
@@ -282,9 +289,10 @@ function Update () {
 	else{
 		if (isChargingBoom) {
 			character.weapon.vibrating = false;
-			character.weapon.toss(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+			character.weapon.tossBoomerang(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery, this.transform.up, true);
 			chargingBoomTimer = 0;
 			isChargingBoom = false;
+			hasBoomBoosted = false;
 		}
 	
 	
@@ -697,4 +705,14 @@ function boostMeRoClear(){ // sets all of the boostMeRo's to false, combo stops
 
 }
 
+function rollBoomBonus(duration:float){  // a timer that sets the boomerang boosting timer back to 0 if you don't start charging
+	var timer:float = 0;
+	while (timer < duration){
+		if (isChargingBoom) return;
+		timer += Time.deltaTime;
+		yield;
+	}
+	chargingBoomTimer -= 1;
+	hasBoomBoosted = false;
 
+}
