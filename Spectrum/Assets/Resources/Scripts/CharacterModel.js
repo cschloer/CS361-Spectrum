@@ -267,17 +267,21 @@ function Update () {
 	if (Input.GetMouseButton(0) && !character.weapon.swinging && !character.weapon.recovering && !yellow && red){ // holding down
 		if (!character.weapon.swinging && !character.weapon.recovering && !yellow && red && !isChargingBoom){
 			isChargingBoom = true;
-			character.weapon.vibrateFor(2);
+			character.weapon.vibrating = true;
+
 		}
 		else if (isChargingBoom){
 			if (chargingBoomTimer <= 2) {
 				chargingBoomTimer+=Time.deltaTime; 
 				character.weapon.spriteRenderer.color = Color.white;
 			}
+			character.weapon.vibrateIntense(.05*chargingBoomTimer);
+				
 		}
 	}
 	else{
 		if (isChargingBoom) {
+			character.weapon.vibrating = false;
 			character.weapon.toss(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery);
 			chargingBoomTimer = 0;
 			isChargingBoom = false;

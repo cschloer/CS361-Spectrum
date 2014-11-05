@@ -101,7 +101,7 @@ function Start () {
 	levelXString = "20";
 	levelYString = "20";
 	rotater = 3;
-	rotaterString = "0";
+	rotaterString = "3";
 	currentThing = 0;
 	selectX = 0;
 	selectY = 0;
@@ -369,7 +369,7 @@ function protolevelInit(){
 // Room Creation
 // Initiates room off of a txt file.
 function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
-	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
+	var stream = new StreamReader(Application.dataPath +"/Levels/"+fileName);
 	var c : char;
 	var xLength = parseInt(stream.ReadLine());
 	var yLength = parseInt(stream.ReadLine());
@@ -490,7 +490,7 @@ function writeLevel(x : int, y : int, name : String){
 	}
 	fileString += "*end*";
 	//var bytes = System.Text.Encoding.UTF8.GetBytes(fileString);
-	File.WriteAllText("Assets/Resources/Levels/" + name + ".txt", fileString);
+	File.WriteAllText(Application.dataPath +"/Levels/" + name + ".txt", fileString);
 	
 	
 }
@@ -591,7 +591,7 @@ function OnGUI() {
 	levelString = GUI.TextField (Rect (Screen.width - 120, Screen.height-30, 100, 20), levelString, 25);
 	if (GUI.Button(Rect(Screen.width - 120, Screen.height-50, 100, 20),"Load/Create")){
 			clearRoom();
-			if(File.Exists("Assets/Resources/Levels/"+levelString + ".txt")) roomCreate(0,0, (parseInt(rotaterString)%4), levelString + ".txt");
+			if(File.Exists(Application.dataPath +"/Levels/"+levelString + ".txt")) roomCreate(0,0, (parseInt(rotaterString)%4), levelString + ".txt");
 			else {
 				blankRoom(parseInt(levelXString), parseInt(levelYString));
 			}

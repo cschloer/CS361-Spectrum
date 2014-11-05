@@ -288,7 +288,7 @@ function protolevelInit(){
 // Room Creation
 // Initiates room off of a txt file.
 function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
-	var stream = new StreamReader("Assets/Resources/Levels/"+fileName);
+	var stream = new StreamReader(Application.dataPath +"/Levels/"+fileName);
 	var c : char;
 	var xLength = parseInt(stream.ReadLine());
 	var yLength = parseInt(stream.ReadLine());
