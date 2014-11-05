@@ -26,9 +26,8 @@ public class Weapon extends MonoBehaviour{
 	public var swingArc : int;
 	public var spriteRenderer: SpriteRenderer;
 	public var vibrating:boolean;
-	public var throwingStar: boolean;
-	public var numberOfThrowingStars : int;
-	public var throwingStarTimer : float;
+	
+	
 	//Takes owner (main character) as parameter
 	
 // *******************************************
@@ -41,7 +40,6 @@ public class Weapon extends MonoBehaviour{
 		recovering = false;
 		owner = c;
 		character = c;
-		owner.setWeapon(this);
 		weaponObject = new GameObject();
 		weaponObject.name = "WeaponObject";
 		//weaponObject.collider.enabled = false;
@@ -79,10 +77,7 @@ public class Weapon extends MonoBehaviour{
 		swingTime = .2;
 		swingRecovery = .2;
 		swingArc = 110;
-		throwingStar = true;
-		numberOfThrowingStars = 4;
-		toThrowingStar();
-		throwingStarTimer = 0;
+
  		}
 // *******************************************
 // 			   Helper Functions
@@ -256,8 +251,9 @@ public class Weapon extends MonoBehaviour{
 	//Subroutine
 	//Throw sword directly forward by (distance) over (time), spinning at rate (spinSpeed). Recover for time (recovery). 
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
-  	function toss(distance : float, time : float, spinSpeed : float, recovery : float){	
- 		if((throwingStar == true && numberOfThrowingStars > 0) || throwingStar == false){
+  	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float){	
+ 
+ 		character.starsAvailable--;
  		model.transform.parent = null;
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
@@ -271,46 +267,30 @@ public class Weapon extends MonoBehaviour{
  		while (tossTime < time && !hasHit){
  			if(!tossSound.isPlaying) tossSound.Play();
  			tossTime += Time.deltaTime;
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
- 			model.transform.position += (heading * tossSpeed * Time.deltaTime)+moveAdder; 
+ 			//model.transform.Rotate(Vector3(0, 0, spinSpeed * Time.deltaTime));
+ 			//model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+ 			model.transform.position += (heading * tossSpeed * Time.deltaTime);//+moveAdder; // i think move adder isn't needed for these 
  			yield;
  		}
  		
  		hasHit = false;
  		var t:float=0;
- 		//Recover until sword reaches hero
- 		if (throwingStar == false) {
- 		while (distanceFromOwner() > .1){
+ 		
+ 	
+ 		
+ 		while (t < recovery){
  			t += Time.deltaTime;
- 			 if(!tossSound.isPlaying) tossSound.Play();
-
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
- 			heading = model.transform.position - owner.model.transform.position;
- 			model.transform.position -= (heading.normalized * tossSpeed * Time.deltaTime);
  			yield;
  		}
- 		} else{
- 			numberOfThrowingStars--;
- 				
- 		}
+ 		stopSwinging();
  		//resetPosition();
  		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
  		model.transform.position = owner.model.transform.position;
  		model.transform.localScale = Vector3.one;
- 		stopSwinging();
- 		startRecovery();
-
- 		t=0;
- 		while (t < recovery){
- 			t += Time.deltaTime;
- 			yield;
- 		}
+ 		character.starsAvailable++;
  		
- 		stopRecovery();
- 		
- 	}
  	}
  	
  	function attack(range : float, speed : float, home : float, width :float, depth : float, headingOffset : float, color : Color, destructible : boolean, fade : boolean, keyword : String, texture : String){
@@ -410,15 +390,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 
  	//Looks for key input, executes proper function depending on color.
  	function Update(){
-		// Recharges the throwing stars if necessary
- 		if ((throwingStar == true) && numberOfThrowingStars < 4) {
- 			if (throwingStarTimer < 2){
- 				throwingStarTimer += Time.deltaTime;
- 			} else {
- 				numberOfThrowingStars++;
- 				throwingStarTimer = 0;
- 			}
- 		}
+	
  	}
  	
 // *******************************************
@@ -438,20 +410,17 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toBoomerang(){
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
- 		throwingStar = false;
-	
+ 		
 	}
 	
 	function toThrowingStar(){
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,290,290), new Vector2(0.5f, 0), 280f);
-		throwingStar = true;
 	
 	}
 	
 	function toStick(){
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
- 		throwingStar = false;
-	
+ 	
 	}
 	
 	function vibrateFor(duration:float){

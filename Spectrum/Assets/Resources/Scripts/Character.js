@@ -7,6 +7,12 @@ var modelObject : GameObject;
 var oofSound : AudioSource;
 var killedMonsters : int;
 var manager:GameManager;
+var throwingStars:Array;
+var numThrowingStars:int; 
+var curStar:int; // current star to throw
+var starsAvailable:int;
+var isThrowingStar:boolean;
+
 function init(m) {
 	manager = m;
 	health = 100; //For testing purposes
@@ -29,6 +35,7 @@ function init(m) {
 	modelObject.GetComponent(Rigidbody).freezeRotation = true;
 	modelObject.AddComponent(Animation);
 
+	manager.addWeapon(this); // add weapon
 		
 	model.character = this;			
 	model.transform.parent = transform;									// Set the model's parent to the gem (this object).
@@ -44,6 +51,29 @@ function init(m) {
 	oofSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	oofSound.clip = Resources.Load("Sounds/oof");
 	killedMonsters = 0;
+	
+	throwingStars = new Array();
+	numThrowingStars = 4;
+	starsAvailable = numThrowingStars;
+	
+	for (var i=0; i < numThrowingStars; i++){
+		var weaponObject = new GameObject();
+		var weaponScript = weaponObject.AddComponent("Weapon");
+	
+		weaponScript.transform.position = this.transform.position;
+		weaponScript.init(this);
+		weaponScript.name = 'ThrowingStar ' + (i+1);
+		weaponScript.toThrowingStar();
+		weaponScript.model.active = false;
+		weaponScript.active = false;
+		//weaponScript.gameObject.renderer.active = false;
+		throwingStars.Add(weaponScript);
+	
+	}
+	curStar = 0;
+	isThrowingStar = false;
+	
+	activateStars(); // function to start out with stars
 }
 
 public function hurt(){
@@ -94,5 +124,28 @@ function checkHealth(){
 	//Application.LoadLevel("Spectrum");
 	//todo: respawn
 	manager.lose();
+}
+
+function deactivateStars(){ // functions to set all of the shurekins as inactive
+	for (var i=0; i < numThrowingStars; i++){
+		throwingStars[i].active = false;
+		throwingStars[i].model.active = false;
+	
+	}
+	weapon.active = true;
+	weapon.model.active = true;
+	isThrowingStar = false;
+}
+
+function activateStars(){
+	weapon.active = false;
+	weapon.model.active = false;
+	for (var i=0; i < numThrowingStars; i++){
+		throwingStars[i].active = true;
+		throwingStars[i].model.active = true;
+	
+	}
+	isThrowingStar = true;
+
 }
 

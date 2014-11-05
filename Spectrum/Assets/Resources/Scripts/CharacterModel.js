@@ -64,7 +64,9 @@ var boostRoll:boolean; // increase roll
 
 var isChargingBoom:boolean; // boomerang charging
 var chargingBoomTimer:float;
-var hasBoomBoosted:boolean; // boomerang boosted already this time around
+var hasBoomBoosted:boolean; // boomerang boosted from a roll already during this charge
+
+
 
 // Use this for initialization
 function Start () {
@@ -322,13 +324,10 @@ function Update () {
  			}
  		}
  	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
- 			//toss(4, .8, 1000, 1);
- 			if (red) {
- 				
- 			}
- 			else {
- 				if (boostRaRo) character.weapon.toss(character.weapon.throwDistance*1.5, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
- 				else character.weapon.toss(character.weapon.throwDistance, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 			
+ 			if (!red && !character.throwingStars[character.curStar].swinging) { // throw stars!!
+ 				character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 				character.curStar = (character.curStar+1)%character.numThrowingStars;
  			}
  		}
 			
@@ -420,12 +419,26 @@ function changeRed(){
 	if (red){
 		red = false; 
 		toSmall();
-		if (!yellow) character.weapon.toThrowingStar();
+		if (!yellow){ // throwing star!
+			character.activateStars();
+		}
+		else { // meele
+			character.deactivateStars(); // deactivate stars and set current weapon to active
+			character.weapon.toStick();
+		
+		}
 	}
 	else {
 		red = true;
 		toBig();
-		if (!yellow) character.weapon.toBoomerang(); // boomerang weapon!	
+		character.deactivateStars();
+		if (!yellow){	
+			character.weapon.toBoomerang(); // boomerang weapon!
+			
+		}
+		else {
+		
+		}
 	}
 	//print("Red: " + red);
 
@@ -433,13 +446,19 @@ function changeRed(){
 function changeYellow(){
 	if (yellow) {
 		yellow = false;
-		if (red)  character.weapon.toBoomerang(); // boomerang weapon!
-		else character.weapon.toThrowingStar(); // stick weapon!
+		if (red){
+			character.deactivateStars();
+			character.weapon.toBoomerang(); // boomerang weapon!
+		}
+		else {
+			character.activateStars(); // star!
+			}
 	}
 	else {
-	  yellow = true;
-	  if (red) character.weapon.toStick(); // stick weapon!	
-	  else character.weapon.toStick(); // stick weapon!
+		yellow = true;
+		character.deactivateStars(); // deactivate stars and set current weapon to active
+		if (red) character.weapon.toStick(); // stick weapon!	
+		else character.weapon.toStick(); // stick weapon!
 	}
 //	print("Yellow: " + yellow);
 }

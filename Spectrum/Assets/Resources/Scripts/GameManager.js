@@ -58,8 +58,7 @@ function Start () {
 	//addCircle(0); // blue circle
 	//addCircle(1); // red circle
 	//addCircle(2); // yellow circle	
-	
-	addWeapon(character);
+
 	
 	addCake(1,0);
 	addCake(2,0);
@@ -233,9 +232,10 @@ function addWeapon(c : Character){
 	var weaponObject = new GameObject();
 	var weaponScript = weaponObject.AddComponent("Weapon");
 	
-	weaponScript.transform.position = character.transform.position;
+	weaponScript.transform.position = c.transform.position;
 	
 	weaponScript.init(c);
+	c.setWeapon(weaponScript);
 }
 
 function addDevice(x : float, y :float, t : String, n : int){
@@ -550,10 +550,10 @@ function OnGUI() {
 	if(character.model.red && !character.model.yellow)	GUI.TextField(Rect(Screen.width -60 ,Screen.height-40, 50, 30), "" + character.model.chargingBoomTimer); 
 	
 	// ----------> Trowing Stars
-	if (character.weapon.throwingStar == true) {
+	if (character.isThrowingStar == true) {
 		var textStars : Texture2D;
 		GUI.color.a = 1;
-		var currentStars = character.weapon.numberOfThrowingStars;
+		var currentStars = character.starsAvailable;
 		if (currentStars < 0){
 			currentStars = 0;
 		}
