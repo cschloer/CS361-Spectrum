@@ -2,16 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\TileWallModel.js">
     <Files>
-      <File FileName="Assets\Resources\Scripts\TileFloorModel.js" Line="25" Column="2" />
+      <File FileName="Assets\EndScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\TileFloorModel.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Minion.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="493" Column="2" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Cake.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\CakeModel.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Monster.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\WeaponModel.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\SpellMine.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="662" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Character.js" Line="99" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\TileWallModel.js" Line="42" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>

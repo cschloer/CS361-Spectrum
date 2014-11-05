@@ -1,4 +1,4 @@
-﻿var moveN:boolean;
+var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
 var moveE:boolean;
@@ -408,7 +408,7 @@ function changeRed(){
 	if (red){
 		red = false; 
 		toSmall();
-		if (!yellow) character.weapon.toStick(); // stick weapon!
+		if (!yellow) character.weapon.toThrowingStar();
 	}
 	else {
 		red = true;
@@ -422,7 +422,7 @@ function changeYellow(){
 	if (yellow) {
 		yellow = false;
 		if (red)  character.weapon.toBoomerang(); // boomerang weapon!
-		else character.weapon.toStick(); // stick weapon!
+		else character.weapon.toThrowingStar(); // stick weapon!
 	}
 	else {
 	  yellow = true;

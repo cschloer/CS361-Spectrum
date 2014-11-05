@@ -543,9 +543,23 @@ function OnGUI() {
 	
 	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
 	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
+	
+	// ----------> Throwing Stars
 
 	GUI.contentColor = Color.white;
 	if(character.model.red && !character.model.yellow)	GUI.TextField(Rect(Screen.width -60 ,Screen.height-40, 50, 30), "" + character.model.chargingBoomTimer); 
 	
-																	
+	// ----------> Trowing Stars
+	if (character.weapon.throwingStar == true) {
+		var textStars : Texture2D;
+		GUI.color.a = 1;
+		var currentStars = character.weapon.numberOfThrowingStars;
+		if (currentStars < 0){
+			currentStars = 0;
+		}
+		textCake = Resources.Load("Textures/Tstars" + currentStars, Texture2D);
+		GUI.DrawTexture(Rect(width1, (Screen.height/7)*3, Screen.height/6, Screen.height/8), textCake, ScaleMode.StretchToFill, true, 0);
+
+	}
+																
 }
