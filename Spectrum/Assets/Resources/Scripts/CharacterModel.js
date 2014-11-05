@@ -325,9 +325,13 @@ function Update () {
  		}
  	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
  			
- 			if (!red && !character.throwingStars[character.curStar].swinging) { // throw stars!!
+ 			if (!red && character.starsAvailable != 0) { // throw stars!!
+ 				character.starsAvailable--;
  				character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
  				character.curStar = (character.curStar+1)%character.numThrowingStars;
+ 			}
+ 			if (character.starsAvailable > 0) { // make the next star avaiable
+ 				if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
  			}
  		}
 			

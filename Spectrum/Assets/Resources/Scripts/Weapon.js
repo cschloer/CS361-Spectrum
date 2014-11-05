@@ -27,6 +27,7 @@ public class Weapon extends MonoBehaviour{
 	public var spriteRenderer: SpriteRenderer;
 	public var vibrating:boolean;
 	
+	public var canThrow:boolean; // boolean for being able to throw this star 
 	
 	//Takes owner (main character) as parameter
 	
@@ -35,6 +36,7 @@ public class Weapon extends MonoBehaviour{
 // *******************************************
 
 	function init(c:Character){
+		canThrow = false;
 		vibrating = false;
 		this.name = "Weapon";
 		recovering = false;
@@ -63,7 +65,6 @@ public class Weapon extends MonoBehaviour{
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		resetPosition();
 		stopSwinging();
-		
 		swingSound = gameObject.AddComponent("AudioSource") as AudioSource; //Initialized AudioSource
 		swingSound.clip = Resources.Load("Sounds/woosh") as AudioClip; //Loads proper clip. In Unity Editor make sure "3D Sound" is UNCHECKED. It's checked by default. MP3s seem to work well and Audacity can export them.
 		swingSound.volume = .7;
@@ -78,7 +79,13 @@ public class Weapon extends MonoBehaviour{
 		swingRecovery = .2;
 		swingArc = 110;
 
+
+	//	weaponObject.GetComponent(Rigidbody).active = false;
+	//	weaponObject.GetComponent(BoxCollider).active = false;
+
+
  		}
+ 		
 // *******************************************
 // 			   Helper Functions
 // *******************************************
@@ -252,12 +259,12 @@ public class Weapon extends MonoBehaviour{
 	//Throw sword directly forward by (distance) over (time), spinning at rate (spinSpeed). Recover for time (recovery). 
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
   	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float){	
- 
- 		character.starsAvailable--;
+ 		canThrow = false;
+
  		model.transform.parent = null;
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
- 		startSwinging();
+ 		swinging = true;
 
  		tossSpeed = distance/time;
  		tossTime = 0;
@@ -282,15 +289,11 @@ public class Weapon extends MonoBehaviour{
  			t += Time.deltaTime;
  			yield;
  		}
- 		stopSwinging();
+ 		swinging = false;
  		//resetPosition();
- 		model.transform.parent = owner.model.transform;
-		model.transform.localEulerAngles = baseRotation;
- 		model.transform.localPosition = basePosition;
- 		model.transform.position = owner.model.transform.position;
- 		model.transform.localScale = Vector3.one;
- 		character.starsAvailable++;
+ 	
  		
+ 	
  	}
  	
  	function attack(range : float, speed : float, home : float, width :float, depth : float, headingOffset : float, color : Color, destructible : boolean, fade : boolean, keyword : String, texture : String){
@@ -372,15 +375,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		stopSwinging();
  
  		
- 		startRecovery();
-
- 		t=0;
- 		while (t < recovery){
- 			t += Time.deltaTime;
- 			yield;
- 		}
  		
- 		stopRecovery();
  		
  	}
  	
@@ -401,7 +396,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	//Constantly places sword at hero. This deals with the issue of the sword moving while the hero runs against an obstacle.
 	function resetPosition(){
 		while (true){
-			if(!swinging && !vibrating)
+			if(!swinging && !vibrating && canThrow)
 				model.transform.position = owner.model.transform.position;
 			yield WaitForSeconds(.01);
 			//print("Test");
@@ -452,6 +447,16 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 		yield;
 		vibrating = false;
 	
+	}
+	
+	function starActive(){
+		canThrow = true;
+		swinging = false;
+		model.transform.position = owner.model.transform.position;
+		model.transform.parent = owner.model.transform;
+		model.transform.localEulerAngles = baseRotation;
+ 		model.transform.localPosition = basePosition;
+ 		model.transform.localScale = Vector3.one;
 	}
 
 	

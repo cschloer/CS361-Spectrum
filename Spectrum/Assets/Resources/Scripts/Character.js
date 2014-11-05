@@ -12,6 +12,9 @@ var numThrowingStars:int;
 var curStar:int; // current star to throw
 var starsAvailable:int;
 var isThrowingStar:boolean;
+var starTimer:float;
+var starCool:int; // cooldown on stars
+
 
 function init(m) {
 	manager = m;
@@ -55,6 +58,7 @@ function init(m) {
 	throwingStars = new Array();
 	numThrowingStars = 4;
 	starsAvailable = numThrowingStars;
+	starTimer = 0;
 	
 	for (var i=0; i < numThrowingStars; i++){
 		var weaponObject = new GameObject();
@@ -72,8 +76,29 @@ function init(m) {
 	}
 	curStar = 0;
 	isThrowingStar = false;
+	starCool = 1;
 	
 	activateStars(); // function to start out with stars
+	
+	
+}
+
+
+function Update(){
+
+
+	if (starTimer > starCool && starsAvailable < numThrowingStars){
+		starsAvailable++;
+		starTimer = 0;
+		for (var j:int = 0; j<numThrowingStars; j++){ 
+			if (!throwingStars[(curStar+j)%numThrowingStars].canThrow){
+				throwingStars[(curStar+j)%numThrowingStars].starActive();		
+				break;
+			}
+		}
+	}
+	starTimer+=Time.deltaTime;
+	
 }
 
 public function hurt(){
@@ -134,6 +159,7 @@ function deactivateStars(){ // functions to set all of the shurekins as inactive
 	}
 	weapon.active = true;
 	weapon.model.active = true;
+	weapon.resetPosition();
 	isThrowingStar = false;
 }
 
@@ -143,6 +169,8 @@ function activateStars(){
 	for (var i=0; i < numThrowingStars; i++){
 		throwingStars[i].active = true;
 		throwingStars[i].model.active = true;
+		throwingStars[i].resetPosition();
+		throwingStars[i].starActive();
 	
 	}
 	isThrowingStar = true;
