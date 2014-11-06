@@ -163,7 +163,19 @@ function Update () {
 			rjTimer = 0;
 			landSound.Play();
 			landing();
+			if (!yellow && !red){
+				if (!red && character.starsAvailable != 0) { // throw stars!!
+ 					character.starsAvailable--;
+ 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 					character.curStar = (character.curStar+1)%character.numThrowingStars;
+ 				}
+ 				if (character.starsAvailable > 0) { // make the next star avaiable
+ 				if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
+ 		}
+	} 
+			
 		}
+		
 	}
 	if (Input.GetKeyUp("w")){
 		 moveN = false;
@@ -257,6 +269,8 @@ function Update () {
 			else if (blue && rjTimer >= jumpCooldown){ // jump because blue
 				// todo: jump animation
 				jumpSound.Play();
+				
+				
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
@@ -266,6 +280,8 @@ function Update () {
 				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
 				character.modelObject.layer = 6;	// Allows player to jump through cliffs.
+				
+				
 			}
 		
 		}
@@ -559,7 +575,8 @@ function landing(){
 																																							// We can now refer to the object via this script.
 	landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
 	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject, this.red);				
-
+	
+	
 }
 
 function castSpell(){
@@ -568,7 +585,6 @@ function castSpell(){
 	else if (yellow && blue) spellAOE(); // jumping melee
 	else if (!yellow && blue) spellWall();
 }
-
 function spellHook(){ // hook spell, currently when meele
 	if (coolSpellHook) return;
 	coolSpellHook = true;
