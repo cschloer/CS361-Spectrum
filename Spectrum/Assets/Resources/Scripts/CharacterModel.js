@@ -153,6 +153,8 @@ function Update () {
 		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
 							
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
+			character.modelObject.layer = 3;
+			
 			jumping = false;
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
@@ -163,16 +165,32 @@ function Update () {
 			rjTimer = 0;
 			landSound.Play();
 			landing();
-			if (!yellow && !red){
-				if (!red && character.starsAvailable != 0) { // throw stars!!
- 					character.starsAvailable--;
- 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
- 					character.curStar = (character.curStar+1)%character.numThrowingStars;
- 				}
- 				if (character.starsAvailable > 0) { // make the next star avaiable
- 				if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
- 		}
-	} 
+			/*-----------------------------------------------------------------
+			
+			This function shoots a star in the given direction. YAYYYY
+			------------------------------------------------------------------
+			*/
+			if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering){
+					print("11111");
+					if (!red && character.starsAvailable != 0) { // throw stars!!
+						print("22222");
+	 					character.starsAvailable--;
+	 					//character.throwingStars[character.curStar].canThrow = true;
+	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+	 					character.throwingStars[character.curStar].canThrow = true;
+	 					character.curStar = (character.curStar+1)%character.numThrowingStars;
+	 					if (character.starsAvailable > 0) { // make the next star avaiable
+	 						if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
+	 					}
+	 				}
+	 			
+			}
+			
+			/*-----------------------------------------------------------------
+			
+			
+			------------------------------------------------------------------
+			*/
 			
 		}
 		
@@ -754,4 +772,23 @@ function rollBoomBonus(duration:float){  // a timer that sets the boomerang boos
 	chargingBoomTimer -= 1;
 	hasBoomBoosted = false;
 
+}
+
+function landingStar(){
+	yield;
+		if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering){
+					print("11111");
+					if (!red && character.starsAvailable != 0) { // throw stars!!
+						print("22222");
+	 					character.starsAvailable--;
+	 					//character.throwingStars[character.curStar].canThrow = true;
+	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+	 					character.throwingStars[character.curStar].canThrow = true;
+	 					character.curStar = (character.curStar+1)%character.numThrowingStars;
+	 					if (character.starsAvailable > 0) { // make the next star avaiable
+	 						if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
+	 					}
+	 				}
+	 			
+	}
 }

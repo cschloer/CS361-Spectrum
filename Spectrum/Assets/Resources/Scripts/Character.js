@@ -67,6 +67,7 @@ function init(m) {
 		weaponScript.transform.position = this.transform.position;
 		weaponScript.init(this);
 		weaponScript.name = 'ThrowingStar ' + (i+1);
+		weaponScript.model.name = 'ThrowingStar ' + (i+1) + ' WeaponObject';
 		weaponScript.toThrowingStar();
 		weaponScript.model.active = false;
 		weaponScript.active = false;
@@ -97,7 +98,7 @@ function Update(){
 			}
 		}
 	}
-	starTimer+=Time.deltaTime;
+	if (starsAvailable < numThrowingStars) starTimer+=Time.deltaTime;
 	
 }
 
@@ -160,7 +161,14 @@ function deactivateStars(){ // functions to set all of the shurekins as inactive
 	weapon.active = true;
 	weapon.model.active = true;
 	weapon.resetPosition();
-	isThrowingStar = false;
+	swinging = false;
+	weapon.model.transform.position = weapon.owner.model.transform.position;
+	weapon.model.transform.parent = weapon.owner.model.transform;
+	weapon.model.transform.localEulerAngles = weapon.baseRotation;
+ 	weapon.model.transform.localPosition = weapon.basePosition;
+ 	weapon.model.transform.localScale = Vector3.one;
+ 	weapon.canThrow = true;
+
 }
 
 function activateStars(){
