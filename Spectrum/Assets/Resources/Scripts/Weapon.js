@@ -260,7 +260,6 @@ public class Weapon extends MonoBehaviour{
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
   	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float){	
  		canThrow = false;
-		print("44444");
  		model.transform.parent = null;
  		var heading : Vector3 = owner.model.transform.up;
  		Vector3.Normalize(heading);
@@ -298,7 +297,6 @@ public class Weapon extends MonoBehaviour{
  		//model.transform.parent = owner.model.transform;
  		//model.transform.parent = character.model.transform;
  		//resetPosition();
- 		print("donethrowing");
  		
  	
  	}

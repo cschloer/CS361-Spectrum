@@ -171,9 +171,7 @@ function Update () {
 			------------------------------------------------------------------
 			*/
 			if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering){
-					print("11111");
 					if (!red && character.starsAvailable != 0) { // throw stars!!
-						print("22222");
 	 					character.starsAvailable--;
 	 					//character.throwingStars[character.curStar].canThrow = true;
 	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
