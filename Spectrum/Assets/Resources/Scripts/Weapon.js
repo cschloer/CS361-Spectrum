@@ -28,6 +28,8 @@ public class Weapon extends MonoBehaviour{
 	public var vibrating:boolean;
 	
 	public var canThrow:boolean; // boolean for being able to throw this star 
+	public var isDual:boolean;
+	public var isMeele = false;
 	
 	//Takes owner (main character) as parameter
 	
@@ -36,6 +38,7 @@ public class Weapon extends MonoBehaviour{
 // *******************************************
 
 	function init(c:Character){
+		isDual = false;
 		canThrow = false;
 		vibrating = false;
 		this.name = "Weapon";
@@ -183,9 +186,8 @@ public class Weapon extends MonoBehaviour{
  		stopRecovery();
  	}
  	
- 	function comboSwing(angle : int, time : float, recovery : float){ // swing for the meele/roll combo swing
+ 	function dualSwing(angle : int, time : float, recovery : float){ // swing for the dual weild sword
  		swingSound.Play(); // Plays the sound
-
  		startSwinging();
  		var t : float = 0;
  		//Swinging motion
@@ -197,36 +199,19 @@ public class Weapon extends MonoBehaviour{
  			yield;
  		}
  		stopSwinging();
- 		while (character.model.boostMeRo1 && !character.model.boostMeRo2){ // until something changes in the boostMeRo variables
+		startRecovery();
+		//Recovery motion
+ 		while (t < time + recovery){
+ 			t += Time.deltaTime;
+ 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
  			yield;
  		}
+ 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
- 		if (character.model.boostMeRo2){ // swing was casted, so swing back the other way!
- 			startSwinging();
- 			character.lunge();
- 			var speedIncrease:float = 4;
- 			while (t < time + time/speedIncrease){
-	 			t += Time.deltaTime;
-	 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/time * Time.deltaTime*speedIncrease);
-	 			yield;
-	 		}
-	 		model.transform.localEulerAngles = baseRotation;
-	 		model.transform.localPosition = basePosition;
-	 		stopSwinging();
- 		}
- 		else {
-			startRecovery();
-			//Recovery motion
-	 		while (t < time + recovery){
-	 			t += Time.deltaTime;
-	 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
-	 			yield;
-	 		}
-	 		model.transform.localEulerAngles = baseRotation;
-	 		model.transform.localPosition = basePosition;
-	 		stopRecovery();
- 		}
+ 		stopRecovery();
+
  	}
+ 	
 
 	//Subroutine
 	//Hero executes spin attack over time (time), recovers for (recovery) seconds. Sword rotates by 360 plus (overshoot). 
@@ -289,12 +274,12 @@ public class Weapon extends MonoBehaviour{
  			yield;
  		}
  		swinging = false;
- 		model.transform.position = owner.model.transform.position;
+ 		/*model.transform.position = owner.model.transform.position;
 		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
  		model.transform.localScale = Vector3.one;
- 		//model.transform.parent = owner.model.transform;
+ 		*///model.transform.parent = owner.model.transform;
  		//model.transform.parent = character.model.transform;
  		//resetPosition();
  		
@@ -401,7 +386,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	//Constantly places sword at hero. This deals with the issue of the sword moving while the hero runs against an obstacle.
 	function resetPosition(){
 		while (true){
-			if(!swinging && !vibrating && canThrow)
+			if(isMeele || (!swinging && !vibrating && canThrow))
 				model.transform.position = owner.model.transform.position;
 				
 			yield WaitForSeconds(.01);

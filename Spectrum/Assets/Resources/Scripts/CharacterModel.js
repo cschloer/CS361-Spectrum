@@ -57,9 +57,9 @@ var cakesCollected : int;
 var boostRaRo:boolean; // a range boost that happens after a roll
 var boostRaRoTimer:float;
 
-var boostMeRo1:boolean; // booleans associated with combo meele attack
-var boostMeRo2:boolean;
-var boostMeRoTimer:float; // Timer used for each of the combos
+var comboSmall1:boolean; // booleans associated with combo meele attack
+var comboSmall2:boolean;
+var comboSmallTimer:float; // Timer used for each of the combos
 var boostRoll:boolean; // increase roll
 
 var isChargingBoom:boolean; // boomerang charging
@@ -118,9 +118,9 @@ function Start () {
 	boostRaRo = false; // boost when a rolling ranged character rolls
 	boostRaRoTimer = 0;
 	
-	boostMeRo1 = false;
-	boostMeRo2 = false;
-	boostMeRoTimer = 0;
+	comboSmall1 = false;
+	comboSmall2 = false;
+	comboSmallTimer = 0;
 	boostRoll = false;
 	
 	isChargingBoom = false;
@@ -129,8 +129,8 @@ function Start () {
 
 // Update is called once per frame
 function Update () {
-	boostMeRoTimer += Time.deltaTime;
-	if (boostMeRoTimer > .75) boostMeRoClear(); // clear the boostMeRoTimer and values if the timer has gone off
+	comboSmallTimer += Time.deltaTime;
+	if (comboSmallTimer > .75) comboSmallClear(); // clear the comboSmallTimer and values if the timer has gone off
 	updateColor();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
@@ -277,12 +277,19 @@ function Update () {
 					chargingBoomTimer += 1;
 					rollBoomBonus(1);																									
 				}																						
-				if (boostMeRo2) { 
+				if (comboSmall2) { 
+					character.weapon.pauseSwing(-70, character.weapon.swingTime/2, character.weapon.swingRecovery, rollTime);
+					character.weaponDual.pauseSwing(70,  character.weapon.swingTime/2, character.weapon.swingRecovery, rollTime);
 					boostRoll = true;
-					boostMeRoClear();	
+					comboSmallClear();	
 				}
 			}
 			else if (blue && rjTimer >= jumpCooldown){ // jump because blue
+				if (comboSmall2){
+					character.weapon.spin(.5, .7, 110);
+					character.weaponDual.spin(.5, .7, 110);
+				
+				}
 				// todo: jump animation
 				jumpSound.Play();
 				
@@ -332,29 +339,25 @@ function Update () {
 	
 	}
 	if(Input.GetMouseButtonDown(0) && !character.weapon.swinging && !character.weapon.recovering && yellow){
- 			if(jumping){
+ 			/*if(jumping){
  				if(!red){
  					character.weapon.spin(.5, .7, 110);
  				} else{
  					character.weapon.spin(1, 1, 110);
  				}
  			} else{
-
+*/
  		
 
- 				if (!blue){ // if rolling, we can do a cool combo
- 					boostMR();
+ 				if (!red){ // if small, we can do a cool combo
+ 					comboSM();
 
- 				}
- 				else if(!red){
- 					//swing(110, .3, .5);
- 					character.weapon.swing(character.weapon.swingArc, character.weapon.swingTime, character.weapon.swingRecovery);
  				} else {
  					//swing(110, .5, 1);
  					character.weapon.swing(character.weapon.swingArc, character.weapon.swingTime, character.weapon.swingRecovery);
  				}
  			}
- 		}
+ 		
  	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
  			
  			if (!red && character.starsAvailable != 0) { // throw stars!!
@@ -459,21 +462,19 @@ function changeRed(){
 			character.activateStars();
 		}
 		else { // meele
-			character.deactivateStars(); // deactivate stars and set current weapon to active
-			character.weapon.toStick();
+			character.activateDual(); // activate dual weilding!
 		
 		}
 	}
 	else {
 		red = true;
 		toBig();
-		character.deactivateStars();
+
 		if (!yellow){	
-			character.weapon.toBoomerang(); // boomerang weapon!
-			
+			character.activateBoomerang(); // boomerang weapon!
 		}
 		else {
-		
+			character.activateHammer();
 		}
 	}
 	//print("Red: " + red);
@@ -483,18 +484,16 @@ function changeYellow(){
 	if (yellow) {
 		yellow = false;
 		if (red){
-			character.deactivateStars();
-			character.weapon.toBoomerang(); // boomerang weapon!
+			character.activateBoomerang();
 		}
 		else {
 			character.activateStars(); // star!
-			}
+		}
 	}
 	else {
 		yellow = true;
-		character.deactivateStars(); // deactivate stars and set current weapon to active
-		if (red) character.weapon.toStick(); // stick weapon!	
-		else character.weapon.toStick(); // stick weapon!
+		if (red) character.activateHammer(); // stick weapon!	
+		else character.activateDual(); // stick weapon!
 	}
 //	print("Yellow: " + yellow);
 }
@@ -735,27 +734,31 @@ function boostRR(){
 	boostRaRo = false;
 }
 
-function boostMR(){
-	boostMeRoTimer = 0;
- 	if (!boostMeRo1){
- 		boostMeRo1 = true;
+function comboSM(){ // combo for small
+	comboSmallTimer = 0;
+ 	if (!comboSmall1){
+ 		comboSmall1 = true;
  	
- 		character.weapon.comboSwing(character.weapon.swingArc, character.weapon.swingTime*2, character.weapon.swingRecovery);
- 			
+ 		character.weapon.dualSwing(3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);
+ 		
  	}
- 	else if (!boostMeRo2) boostMeRo2 = true;
+ 	else if (!comboSmall2) {
+ 		comboSmall2 = true;
+ 		character.lunge();
+ 		character.weaponDual.dualSwing(-3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);	
+ 	}
  	else { // combo ended
- 		boostMeRoClear();
- 		boostMR();
+ 		comboSmallClear();
+ 		comboSM();
  		
  	}
  
 }
 
-function boostMeRoClear(){ // sets all of the boostMeRo's to false, combo stops
-	boostMeRo1 = false;
-	boostMeRo2 = false;
-	boostMeRoTimer = 0;
+function comboSmallClear(){ // sets all of the comboSmall's to false, combo stops
+	comboSmall1 = false;
+	comboSmall2 = false;
+	comboSmallTimer = 0;
 
 
 }
