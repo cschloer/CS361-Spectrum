@@ -66,7 +66,8 @@ var isChargingBoom:boolean; // boomerang charging
 var chargingBoomTimer:float;
 var hasBoomBoosted:boolean; // boomerang boosted from a roll already during this charge
 
-
+var rollThrowTimer : float = 0; // Timer for when rolling and shootin'
+var lastAngle: int = 90; //Just for the rolling thingy
 
 // Use this for initialization
 function Start () {
@@ -170,15 +171,21 @@ function Update () {
 			This function shoots a star in the given direction. YAYYYY
 			------------------------------------------------------------------
 			*/
+			var currentAngle : int;
+			currentAngle = 0;
 			if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering){
-					if (!red && character.starsAvailable != 0) { // throw stars!!
+					while (!red && character.starsAvailable != 0) { // throw stars!!
 	 					character.starsAvailable--;
 	 					//character.throwingStars[character.curStar].canThrow = true;
-	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, currentAngle);
 	 					character.throwingStars[character.curStar].canThrow = true;
 	 					character.curStar = (character.curStar+1)%character.numThrowingStars;
 	 					if (character.starsAvailable > 0) { // make the next star avaiable
 	 						if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
+	 					}
+	 					currentAngle = (currentAngle + 90);
+	 					if (currentAngle >=360) {
+	 						currentAngle = currentAngle - 360;
 	 					}
 	 				}
 	 			
@@ -191,6 +198,27 @@ function Update () {
 			*/
 			
 		}
+	
+	// Shoots out stars as you roll		
+	} else if (rolling && !red && !blue && !yellow) {
+		rollThrowTimer = rollThrowTimer + Time.deltaTime;
+		if (rollThrowTimer > .05 ) {
+			if (!red && character.starsAvailable != 0){
+			character.starsAvailable--; 
+	 		//character.throwingStars[character.curStar].canThrow = true;
+	 		character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, lastAngle);
+	 	 	character.throwingStars[character.curStar].canThrow = true;
+	 		character.curStar = (character.curStar+1)%character.numThrowingStars;
+	 		if (character.starsAvailable > 0) { // make the next star avaiable
+	 			if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
+	 			}
+	 			lastAngle = (lastAngle + 180);
+	 			if (lastAngle >=360) {
+	 				lastAngle = lastAngle - 360;
+	 			}
+	 		rollThrowTimer = 0;
+	 		}
+	 } 
 		
 	}
 	if (Input.GetKeyUp("w")){
@@ -362,7 +390,7 @@ function Update () {
  			
  			if (!red && character.starsAvailable != 0) { // throw stars!!
  				character.starsAvailable--;
- 				character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+ 				character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, 0);
  				character.curStar = (character.curStar+1)%character.numThrowingStars;
  			}
  			if (character.starsAvailable > 0) { // make the next star avaiable
@@ -783,7 +811,7 @@ function landingStar(){
 						print("22222");
 	 					character.starsAvailable--;
 	 					//character.throwingStars[character.curStar].canThrow = true;
-	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery);
+	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery,0);
 	 					character.throwingStars[character.curStar].canThrow = true;
 	 					character.curStar = (character.curStar+1)%character.numThrowingStars;
 	 					if (character.starsAvailable > 0) { // make the next star avaiable

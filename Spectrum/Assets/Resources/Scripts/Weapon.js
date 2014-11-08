@@ -243,10 +243,19 @@ public class Weapon extends MonoBehaviour{
 	//Subroutine
 	//Throw sword directly forward by (distance) over (time), spinning at rate (spinSpeed). Recover for time (recovery). 
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
-  	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float){	
+  	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float, rotation: int){	
  		canThrow = false;
  		model.transform.parent = null;
- 		var heading : Vector3 = owner.model.transform.up;
+ 		if (rotation == 0) {
+ 			var heading : Vector3 = owner.model.transform.up;
+ 		} else if (rotation == 180) {
+ 			heading = -owner.model.transform.up;
+ 		} else if (rotation == 90) {
+ 			heading = owner.model.transform.right;
+ 		}
+ 		else if (rotation == 270) {
+ 			heading = -owner.model.transform.right;
+ 		}
  		Vector3.Normalize(heading);
  		swinging = true;
 
