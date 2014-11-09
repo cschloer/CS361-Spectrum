@@ -416,7 +416,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	}
 	
 	function toThrowingStar(){
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,290,290), new Vector2(0.5f, 0), 280f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 280f);
 		model.renderer.material.color = Color(1,1,1);
 
 	}
