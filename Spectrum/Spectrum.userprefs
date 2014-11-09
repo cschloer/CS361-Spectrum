@@ -1,26 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/HeroAttack.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\CharacterModel.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/Minion.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="552" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Tile.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Device.js" Line="1" Column="1" />
-      <File FileName="Assets/StartScript.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/DeviceSpawnModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CakeModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/DeviceWallModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SelectorModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SpellAOE.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterAttack.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/HeroAttack.js" Line="14" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/TileCliffModel.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Weapon.js" Line="254" Column="15" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="106" Column="40" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="209" Column="56" />
+      <File FileName="..\..\..\Documents\College\Junior Year\Game Design\GemTrain\Assets\Resources\Scripts\GameManager.js" Line="73" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
