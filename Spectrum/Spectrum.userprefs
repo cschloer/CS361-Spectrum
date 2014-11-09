@@ -1,19 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\TileWallModel.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/HeroAttack.js">
     <Files>
-      <File FileName="Assets\EndScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\TileFloorModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Minion.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Cake.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\CakeModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Monster.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\WeaponModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\SpellMine.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Character.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\TileWallModel.js" Line="42" Column="2" />
+      <File FileName="Assets/Resources/Scripts/Minion.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="552" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/MonsterModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Tile.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Device.js" Line="1" Column="1" />
+      <File FileName="Assets/StartScript.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/DeviceSpawnModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CakeModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/DeviceWallModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/SelectorModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/SpellAOE.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/MonsterAttack.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/HeroAttack.js" Line="14" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Monster.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/TileCliffModel.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
