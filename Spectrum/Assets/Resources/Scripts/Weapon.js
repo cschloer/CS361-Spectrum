@@ -288,7 +288,8 @@ public class Weapon extends MonoBehaviour{
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
  		model.transform.localScale = Vector3.one;
- 		*///model.transform.parent = owner.model.transform;
+ 		*/
+ 		
  		//model.transform.parent = character.model.transform;
  		//resetPosition();
  		
@@ -452,6 +453,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	function starActive(){
 		canThrow = true;
 		swinging = false;
+		
 		model.transform.position = owner.model.transform.position;
 		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
