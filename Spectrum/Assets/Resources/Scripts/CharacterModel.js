@@ -69,8 +69,11 @@ var hasBoomBoosted:boolean; // boomerang boosted from a roll already during this
 var rollThrowTimer : float = 0; // Timer for when rolling and shootin'
 var lastAngle: int = 90; //Just for the rolling thingy
 
+var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
+
 // Use this for initialization
 function Start () {
+	monsterHere = false;
 	hasBoomBoosted = false;
 	cameraShake = false;
 	cakesCollected = 0;
@@ -468,9 +471,6 @@ function updateColor(){
 	
 
 
-function OnCollisionExit(collisionInfo : Collision){
-	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
-}
 
 function changeBlue(){
 	if (blue){
@@ -605,6 +605,23 @@ function OnTriggerEnter(col:Collider){
 	}
 }
 
+function OnCollisionStay(col:Collision){
+	if(col.gameObject.name.Contains("Monster")){
+		monsterHere = true;
+	}
+
+
+}
+
+function OnCollisionExit(col:Collision){
+	if(col.gameObject.name.Contains("Monster")){
+		monsterHere = false;
+	}	
+	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
+
+}
+
+
 function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
 		Gizmos.color = Color.yellow;
@@ -613,12 +630,42 @@ function OnDrawGizmos() {
 }
 
 function landing(){
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
-	var landingScript = modelObject.AddComponent("Landing");		// Add the landing.js script to the object.
+	if (red){
+		var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
+		var landingScript = modelObject2.AddComponent("Landing");		// Add the landing.js script to the object.
+		
+																																								// We can now refer to the object via this script.
+		landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
+		landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this.red);	
+	}			
+	else {
+		if (monsterHere){
+			if (comboSmall2){
+				character.weapon.spin(.5, .7, 110);
+				character.weaponDual.spin(.5, .7, 110);
+			
+			}
+			// todo: jump animation
+			jumpSound.Play();
+			
+			
+			//colorStore = this.renderer.material.color;
+			//this.renderer.material.color = Color(2,2,2);
+			jumping = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
+			rjTimer = 0;
+			print(modelObject);
+			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
+			vincible = false;													// Player invincible without passing through walls.
+			character.modelObject.layer = 6;	// Allows player to jump through cliffs.
+			
+				
+		
+		
+		}
 	
-																																							// We can now refer to the object via this script.
-	landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
-	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject, this.red);				
+	}
 	
 	
 }
@@ -629,25 +676,27 @@ function castSpell(){
 	else if (yellow && blue) spellAOE(); // jumping melee
 	else if (!yellow && blue) spellWall();
 }
+
+
 function spellHook(){ // hook spell, currently when meele
 	if (coolSpellHook) return;
 	coolSpellHook = true;
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
-	var hookScript = modelObject.AddComponent("SpellHook");		// Add the hook.js script to the object.
+	var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the hook texture.
+	var hookScript = modelObject2.AddComponent("SpellHook");		// Add the hook.js script to the object.
 	
 																																							// We can now refer to the object via this script.
 	hookScript.transform.parent = this.transform.parent;	// Set the hook's parent object to be the hook folder.							
-	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+	hookScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this);	
 }
 
 function spellMine(){	// mine spell, currently when ranged
 	if (coolSpellMine) return;
 	coolSpellMine = true;
-	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the mine texture.
-	var mineScript = modelObject.AddComponent("SpellMine");		// Add the mine.js script to the object.
+	var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the mine texture.
+	var mineScript = modelObject2.AddComponent("SpellMine");		// Add the mine.js script to the object.
 																																							// We can now refer to the object via this script.
 	mineScript.transform.parent = this.transform.parent;	// Set the mine's parent object to be the mine folder.							
-	mineScript.init(this.transform.position.x, this.transform.position.y, modelObject, this);	
+	mineScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this);	
 
 }
 
@@ -678,13 +727,13 @@ function spellWall(){
 	var curPosition = this.transform.position;
 	for (var i=2; i < 50; i++){
 	
-		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the wall texture.
-		var wallScript = modelObject.AddComponent("SpellWall");		// Add the wall.js script to the object.
+		var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the wall texture.
+		var wallScript = modelObject2.AddComponent("SpellWall");		// Add the wall.js script to the object.
 		wallScript.transform.rotation = curRotate;
 																																						// We can now refer to the object via this script.
 		wallScript.transform.parent = this.transform.parent;	// Set the wall's parent object to be the wall folder.	
 		walls.Add(wallScript);	
-		wallScript.init(curPosition.x, curPosition.y, modelObject, this, i);	
+		wallScript.init(curPosition.x, curPosition.y, modelObject2, this, i);	
 		yield WaitForSeconds(.01);
 	}
 	for (var j=0; j<walls.length; j++){
