@@ -1,19 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\TileWallModel.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\CharacterModel.js">
     <Files>
-      <File FileName="Assets\EndScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\TileFloorModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Minion.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Cake.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\CakeModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Monster.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\WeaponModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\SpellMine.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\Character.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\TileWallModel.js" Line="42" Column="2" />
+      <File FileName="Assets\Resources\Scripts\Weapon.js" Line="254" Column="15" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="106" Column="40" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="209" Column="56" />
+      <File FileName="..\..\..\Documents\College\Junior Year\Game Design\GemTrain\Assets\Resources\Scripts\GameManager.js" Line="73" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

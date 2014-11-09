@@ -26,7 +26,7 @@ function init(own : Device, man: GameManager, count: int) {
 	transform.localScale = Vector3(2,2,1);
 	name = "Device Spawner Model";					// Name the object.
 	
-	renderer.material.mainTexture = Resources.Load("Textures/spawner", Texture2D);		// Set the texture.  Must be in Resources folder.
+	renderer.material.mainTexture = Resources.Load("Textures/spawner_02", Texture2D);		// Set the texture.  Must be in Resources folder.
 	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	breakSound = gameObject.AddComponent("AudioSource") as AudioSource;
@@ -51,7 +51,7 @@ function Update(){
 function breakage(){
 	breakSound.volume = 1;
 	if(!broken) breakSound.Play();
-	renderer.material.mainTexture = Resources.Load("Textures/cracked", Texture2D);
+	renderer.material.mainTexture = Resources.Load("Textures/cracked_02", Texture2D);
 	broken = true;
 	owner.box.isTrigger = true;
 	
