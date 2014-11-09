@@ -1,6 +1,5 @@
 var model : CharacterModel;
 var weapon : Weapon;
-var weaponDual : Weapon; // dual wield weapon for small meele
 var hurtRecovery : float;
 var hurting : boolean;
 var health : int;
@@ -19,7 +18,7 @@ var starCool:int; // cooldown on stars
 
 function init(m) {
 	manager = m;
-	health = 100; //For testing purposes
+	health = 3; //For testing purposes
 	hurtRecovery = .5;
 	enabled = false;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
@@ -68,7 +67,6 @@ function init(m) {
 		weaponScript.transform.position = this.transform.position;
 		weaponScript.init(this);
 		weaponScript.name = 'ThrowingStar ' + (i+1);
-		weaponScript.model.name = 'ThrowingStar ' + (i+1) + ' WeaponObject';
 		weaponScript.toThrowingStar();
 		weaponScript.model.active = false;
 		weaponScript.active = false;
@@ -80,21 +78,7 @@ function init(m) {
 	isThrowingStar = false;
 	starCool = 1;
 	
-	var weaponObject2 = new GameObject();
-	var weaponScript2 = weaponObject2.AddComponent("Weapon");
-	
-	weaponScript2.transform.position = this.transform.position;
-	weaponScript2.init(this);
-	weaponScript2.name = 'Dual Sword';
-	weaponScript2.model.name = 'DualSword' + ' WeaponObject' ;
-	weaponScript2.baseRotation.z = 55;
-	weaponScript2.isDual = true;
-	//weaponScript.model.active = false;
-	//weaponScript.active = false;	
-	weaponDual = weaponScript2;
-	
 	activateStars(); // function to start out with stars
-	
 	
 	
 }
@@ -113,7 +97,7 @@ function Update(){
 			}
 		}
 	}
-	if (starsAvailable < numThrowingStars) starTimer+=Time.deltaTime;
+	starTimer+=Time.deltaTime;
 	
 }
 
@@ -176,33 +160,12 @@ function deactivateStars(){ // functions to set all of the shurekins as inactive
 	weapon.active = true;
 	weapon.model.active = true;
 	weapon.resetPosition();
-	swinging = false;
-	weapon.model.transform.position = weapon.owner.model.transform.position;
-	weapon.model.transform.parent = weapon.owner.model.transform;
-	weapon.model.transform.localEulerAngles = weapon.baseRotation;
- 	weapon.model.transform.localPosition = weapon.basePosition;
- 	weapon.model.transform.localScale = Vector3.one;
- 	weapon.canThrow = true;
-
-}
-
-function activateBoomerang(){
-	deactivateAll();
-	weapon.active = true;
-	weapon.model.active = true;
-	weapon.model.transform.position = weapon.owner.model.transform.position;
-	weapon.model.transform.parent = weapon.owner.model.transform;
-	weapon.model.transform.localEulerAngles = weapon.baseRotation;
- 	weapon.model.transform.localPosition = weapon.basePosition;
- 	weapon.model.transform.localScale = Vector3.one;
- 	weapon.canThrow = true;
- 	weapon.resetPosition();
-	weapon.toBoomerang(); // boomerang weapon!
-
+	isThrowingStar = false;
 }
 
 function activateStars(){
-	deactivateAll();
+	weapon.active = false;
+	weapon.model.active = false;
 	for (var i=0; i < numThrowingStars; i++){
 		throwingStars[i].active = true;
 		throwingStars[i].model.active = true;
@@ -211,55 +174,6 @@ function activateStars(){
 	
 	}
 	isThrowingStar = true;
-
-}
-
-function deactivateAll(){
-	weapon.active = false;
-	weapon.model.active = false;
-	for (var i=0; i < numThrowingStars; i++){
-		throwingStars[i].active = false;
-		throwingStars[i].model.active = false;
-	
-	}
-	weapon.isMeele = false;
-	isThrowingStar = false;
-	weaponDual.active = false;
-	weaponDual.model.active = false;
-
-}
-
-function activateDual(){
-	deactivateAll();
-	weapon.active = true;
-	weapon.model.active = true;
-	weapon.model.transform.position = weapon.owner.model.transform.position;
-	weapon.model.transform.parent = weapon.owner.model.transform;
-	weapon.model.transform.localEulerAngles = weapon.baseRotation;
- 	weapon.model.transform.localPosition = weapon.basePosition;
- 	weapon.model.transform.localScale = Vector3.one;
- 	weapon.canThrow = true;
- 	weapon.resetPosition();
-	weapon.isMeele = true;
-	weapon.toStick();
-	weaponDual.active = true;
-	weaponDual.model.active = true;
-	weaponDual.model.transform.position = weaponDual.owner.model.transform.position;
-	weaponDual.model.transform.parent = weaponDual.owner.model.transform;
-	weaponDual.model.transform.localEulerAngles = weaponDual.baseRotation;
- 	weaponDual.model.transform.localPosition = weaponDual.basePosition;
- 	weaponDual.model.transform.localScale = Vector3.one;
- 	weaponDual.canThrow = true;
- 	weaponDual.resetPosition();
-	weaponDual.toStick();
-	weaponDual.isMeele = true;
-
-}
-
-function activateHammer(){
-	deactivateAll();
-	print("Not yet implemented");
-	// nothing here
 
 }
 
