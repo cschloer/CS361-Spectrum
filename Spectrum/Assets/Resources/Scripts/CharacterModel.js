@@ -178,11 +178,10 @@ function Update () {
 	 					character.starsAvailable--;
 	 					//character.throwingStars[character.curStar].canThrow = true;
 	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, currentAngle);
-	 					//character.throwingStars[character.curStar].canThrow = true;
+	 					character.throwingStars[character.curStar].canThrow = true;
 	 					character.curStar = (character.curStar+1)%character.numThrowingStars;
 	 					if (character.starsAvailable > 0) { // make the next star avaiable
-	 						//if (!character.throwingStars[character.curStar].canThrow) 
-	 						character.throwingStars[character.curStar].starActive();
+	 						if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
 	 					}
 	 					currentAngle = (currentAngle + 90);
 	 					if (currentAngle >=360) {
@@ -208,7 +207,7 @@ function Update () {
 			character.starsAvailable--; 
 	 		//character.throwingStars[character.curStar].canThrow = true;
 	 		character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, lastAngle);
-	 	 //	character.throwingStars[character.curStar].canThrow = true;
+	 	 	character.throwingStars[character.curStar].canThrow = true;
 	 		character.curStar = (character.curStar+1)%character.numThrowingStars;
 	 		if (character.starsAvailable > 0) { // make the next star avaiable
 	 			if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
