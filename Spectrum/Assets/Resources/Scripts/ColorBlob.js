@@ -4,14 +4,16 @@ var blue : float;
 var red : float;
 var yellow : float;
 var eatSound : AudioSource;
+var timeToFEED:boolean;
+var character:CharacterModel;
+
 function Start () {
 	eatSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	eatSound.clip = Resources.Load("Sounds/slurp") as AudioClip;
+	timeToFEED = false;
 }
 
-function Update () {
-	
-}
+
 function init(r : float, y : float, b : float, duration : float) {
 	red = r;
 	blue = b;
@@ -61,13 +63,33 @@ function disappear(time : float){
 function OnTriggerEnter(col:Collider){
 		//print(col.gameObject.name);
 		if(col.gameObject.name == "Character Model"){
-			var character : CharacterModel = col.gameObject.GetComponent(CharacterModel);
-
-			if((character.blue && blue == 1) || (!character.blue && blue == 1)) character.changeBlue();
-			if((character.red && red == 1) || (!character.red && red == 1)) character.changeRed();
-			if((character.yellow && yellow == 1) || (!character.yellow && yellow == 1)) character.changeYellow();
-			timeLeft = 0;
-			eatSound.Play();
+			character = col.gameObject.GetComponent(CharacterModel);
+			timeToFEED = true;
 		}
 		
+}
+
+function OnTriggerExit(col:Collider){
+		//print(col.gameObject.name);
+		if(col.gameObject.name == "Character Model"){
+			timeToFEED = false;
+		}
+		
+}
+
+function Update(){
+
+
+	if (timeToFEED && Input.GetKeyDown("f")) {
+		
+
+
+		if((character.blue && blue == 1) || (!character.blue && blue == 1)) character.changeBlue();
+		if((character.red && red == 1) || (!character.red && red == 1)) character.changeRed();
+		if((character.yellow && yellow == 1) || (!character.yellow && yellow == 1)) character.changeYellow();
+		timeLeft = 0;
+		eatSound.Play();
+	
+	}
+
 }

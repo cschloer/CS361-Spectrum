@@ -290,7 +290,7 @@ function Update () {
 	}
 	if (Input.GetKeyDown("f")){
 	
-		castSpell();
+	//	castSpell();
 	}
 	if (Input.GetKeyDown("space")) {
 		if (!jumping && !rolling) { 
