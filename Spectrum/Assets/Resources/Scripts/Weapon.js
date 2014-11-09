@@ -93,7 +93,7 @@ public class Weapon extends MonoBehaviour{
 // 			   Helper Functions
 // *******************************************
 
- 	//Returns distance to hero
+ 	//Returns distance to hero.
  	function distanceFromOwner(){
  		return Vector3.Magnitude(model.transform.position - owner.model.transform.position);
  	}
@@ -109,20 +109,26 @@ public class Weapon extends MonoBehaviour{
  	//Used when weapon can no longer inflict damage
  	function stopSwinging(){
  		swinging = false;
- 		model.renderer.material.color = Color(.8,.6,.6);
+ 		if (character.isThrowingStar == false){
+ 			model.renderer.material.color = Color(.8,.6,.6);
+ 		}
  	}
  	
  	//Used when recovery begins
  	function startRecovery(){
  		recovering = true;
+ 		if (character.isThrowingStar == false){
  		model.renderer.material.color = Color(.7,.5,.5);
+ 		}
 
  	}
  	
  	//Used when recovery ends
  	function stopRecovery(){
  		recovering = false;
+ 		if (character.isThrowingStar == false){
  		model.renderer.material.color = Color(.8,.6,.6);
+ 		}
  	}
  	
 // *******************************************
@@ -411,7 +417,8 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toThrowingStar(){
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,290,290), new Vector2(0.5f, 0), 280f);
-	
+		model.renderer.material.color = Color(1,1,1);
+
 	}
 	
 	function toStick(){
