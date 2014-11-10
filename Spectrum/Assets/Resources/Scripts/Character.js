@@ -32,11 +32,11 @@ function init(m) {
 	modelObject.AddComponent(Rigidbody);
 	//modelObject.GetComponent(Rigidbody).collisionDetectionMode = CollisionDetectionMode.Continuous; 
 	//modelObject.GetComponent(Rigidbody).interpolation = RigidbodyInterpolation.Interpolate;
+	//modelObject.GetComponent(Rigidbody).collisionDetectionMode = CollisionDetectionMode.Continuous;
 	modelObject.GetComponent(Rigidbody).isKinematic = false;
 	modelObject.GetComponent(Rigidbody).useGravity = false;
-	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.5, .5, 1);
+	//modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.5, .5, 1);
 	modelObject.GetComponent(Rigidbody).freezeRotation = true;
-	modelObject.AddComponent(Animation);
 
 	manager.addWeapon(this); // add weapon
 		

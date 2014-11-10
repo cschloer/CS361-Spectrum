@@ -250,16 +250,27 @@ function addDevice(x : float, y :float, t : String, n : int){
 	deviceScript.name = "Device" + tiles.length;
 }
 
-function addTile(x : float, y :float, t : String){
+function addTile(xSpacial : float, ySpacial :float, t : String, or: int){
+	var x : int = arrayIndex(xSpacial);
+	var y : int = arrayIndex(ySpacial);
+
+	if(tiles.length <= x) tiles.length = x+1;
+	if(tiles[x] == null) tiles[x] = new Array();
+	if(tiles[x].length <= y) tiles[x].length = y+1;
 	var tileObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var tileScript = tileObject.AddComponent("Tile");		// Add the character.js script to the object.
 	
 	tileScript.transform.parent = tileFolder.transform;
-	tileScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
+	tileScript.transform.position = Vector3(xSpacial,ySpacial,1);			// Position the character at x,y.								
 	
-	tileScript.init(t, 0);
-	tiles.Add(tileScript);
-	tileScript.name = "Tile" + tiles.length;
+	tileScript.init(t, or, tiles);
+	tiles[x][y] = tileScript;
+	tileScript.name = "Tile " + xSpacial + ", " + ySpacial;
+	
+}
+function arrayIndex(n : int){
+	if(n <= 0) return -n * 2;
+	else return n*2-1;
 }
 
 // *******************************************
@@ -278,12 +289,11 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
-  roomCreate(-20, -20, 3, "test.txt");
   addDevice(-4,40,"mSpawn", 3);
   addDevice( 4,40,"mSpawn", 3);
   addDevice(-14,38,"mSpawn", 4);
   addDevice(20,5,"mSpawn", 4);
-  addDevice(30,20.5,"barrier",0);
+  addDevice(30,19.5,"barrier",0);
 }
 // Room Creation
 // Initiates room off of a txt file.
@@ -333,7 +343,6 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 				}
   			}
   			break;
-  			
 	}
 	
 	var addLine : String;
@@ -345,7 +354,6 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 			addDevice(float.Parse(splitString[0]) + xS, float.Parse(splitString[1]) + yS, splitString[2], parseInt(splitString[3]));
 		}
 		addLine = stream.ReadLine();
-
 	}
 		
 }
@@ -353,13 +361,13 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 // Creates a tile based on character read input
 function popTile(c: char, xpos: float, ypos: float){
    	if(c == 'W'){
-    	addTile(xpos,ypos,"Wall");
+    	addTile(xpos,ypos,"Wall",0);
     }
     else if(c == 'H'){
-    	addTile(xpos,ypos,"Hole");
+    	addTile(xpos,ypos,"Hole",0);
     }
     else if (c == "T"){
-    	addTile(xpos,ypos,"Floor");
+    	addTile(xpos,ypos,"Floor",0);
     }
 }
 
