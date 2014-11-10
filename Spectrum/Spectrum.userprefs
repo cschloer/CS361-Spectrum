@@ -3,7 +3,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Weapon.js">
     <Files>
       <File FileName="Assets/Resources/Scripts/Minion.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Character.js" Line="25" Column="50" />
+      <File FileName="Assets/Resources/Scripts/Character.js" Line="19" Column="19" />
       <File FileName="Assets/Resources/Scripts/MonsterModel.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Tile.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Device.js" Line="1" Column="1" />
@@ -18,9 +18,10 @@
       <File FileName="Assets/Resources/Scripts/HeroAttack.js" Line="14" Column="13" />
       <File FileName="Assets/Resources/Scripts/Monster.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/TileCliffModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="162" Column="34" />
-      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="76" Column="17" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="16" Column="50" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="344" Column="34" />
+      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="353" Column="26" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="41" Column="26" />
+      <File FileName="Assets/Resources/Scripts/WeaponModel.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
