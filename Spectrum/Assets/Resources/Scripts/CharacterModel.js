@@ -73,6 +73,7 @@ var lastAngle: int = 90; //Just for the rolling thingy
 var abilityPrimed : boolean = false;
 
 var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
+var frozen : boolean;
 
 // Use this for initialization
 function Start () {
@@ -88,6 +89,7 @@ function Start () {
 	yellow = false;
 	rolling = false;
 	vincible = true;
+	frozen = false;
 	colorStore = Color(1,1,1);
 	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
@@ -782,10 +784,11 @@ function toSmall(){
 function fallDeath(aim: Vector3){
 
 	var counter:float = 0;
-	while (counter < 2){
+	while (counter < 1){
 		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
-		heroScale-=Time.deltaTime*2;
-		counter+= Time.deltaTime*2;
+		frozen = true;
+		heroScale-=Time.deltaTime*.5;
+		counter+= Time.deltaTime;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}

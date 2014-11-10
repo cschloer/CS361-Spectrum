@@ -67,6 +67,7 @@ function OnDrawGizmos() {
 }
 
 function doMovement(){
+	if(!character.frozen){
 	var charX:float = character.transform.position.x;
 	var charY:float = character.transform.position.y;
 	if (charX > xMax){ // going over right bound
@@ -91,6 +92,7 @@ function doMovement(){
 	}
 	this.transform.position.x = curX;
 	this.transform.position.y = curY;
+	}
 }
 
 
