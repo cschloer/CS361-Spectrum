@@ -6,7 +6,7 @@
 var modelObject : GameObject; 
 var box : BoxCollider;			// For walls and cliffs
 var type : String;
-function init(t: String, or: int) {
+function init(t: String, or: int, tiles: Array) {
 	type = t;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
 	modelObject.collider.enabled = false;								// Turn off MeshCollider
@@ -16,7 +16,8 @@ function init(t: String, or: int) {
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = wmodel.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(1.3,1.3,20);
-		wmodel.init(this);													// Initialize the tileModel.
+		wmodel.transform.position.z += -0.1;
+		wmodel.init(this, tiles);													// Initialize the tileModel.
 	} else if(type == "Hole") {
 		var hmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
@@ -28,7 +29,7 @@ function init(t: String, or: int) {
 		var cmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = cmodel.transform.position;								// Center the boxcollider on the unit.
-		box.size = Vector3(1.3,1.3,4);
+		box.size = Vector3(1,1,4);
 		cmodel.init(this, or);													// Initialize the tileModel.
 	} else {
 		var model = modelObject.AddComponent("TileFloorModel");					// Add a script to control direction of the unit.

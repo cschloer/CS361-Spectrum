@@ -36,7 +36,7 @@ function init(t: String, manager: GameManager, num : int) {
 		model = modelObject.AddComponent("DeviceWallModel");			// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
-		box.size = Vector3(2.5,.5,15);
+		box.size = Vector3(2.5,1,15);
 		model.init(this, manager, num);													// Initialize the tileModel.
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
