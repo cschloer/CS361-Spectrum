@@ -16,7 +16,6 @@ var isThrowingStar:boolean;
 var starTimer:float;
 var starCool:int; // cooldown on stars
 
-
 function init(m) {
 	manager = m;
 	health = 100; //For testing purposes
@@ -258,8 +257,16 @@ function activateDual(){
 
 function activateHammer(){
 	deactivateAll();
-	print("Not yet implemented");
-	// nothing here
+	weapon.active = true;
+	weapon.model.active = true;
+	weapon.model.transform.position = weapon.owner.model.transform.position;
+	weapon.model.transform.parent = weapon.owner.model.transform;
+	weapon.model.transform.localEulerAngles = weapon.baseRotation;
+ 	weapon.model.transform.localPosition = weapon.basePosition;
+ 	weapon.model.transform.localScale = Vector3.one;
+ 	weapon.canThrow = true;
+ 	weapon.resetPosition();
+	weapon.toHammer();
 
 }
 

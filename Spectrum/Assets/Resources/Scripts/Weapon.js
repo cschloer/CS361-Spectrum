@@ -14,6 +14,7 @@ public class Weapon extends MonoBehaviour{
 	public var recovering : boolean;	//Boolean used to decide if sword is still recovering
 	public var swingSound : AudioSource; //Need one of these for each different clip.
 	public var tossSound : AudioSource; 
+	public var clubSound : AudioSource; 
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 	public var hasHit : boolean;
 	
@@ -30,6 +31,7 @@ public class Weapon extends MonoBehaviour{
 	public var canThrow:boolean; // boolean for being able to throw this star 
 	public var isDual:boolean;
 	public var isMeele = false;
+	public var clubAttackColor : Color;
 	
 	//Takes owner (main character) as parameter
 	
@@ -74,15 +76,21 @@ public class Weapon extends MonoBehaviour{
 		tossSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		tossSound.clip = Resources.Load("Sounds/woosh-woosh") as AudioClip;
 		tossSound.volume = .5;
-		
+		clubSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		clubSound.clip = Resources.Load("Sounds/crash") as AudioClip;
+		swingSound.playOnAwake = false;
+		tossSound.playOnAwake = false;
+		clubSound.playOnAwake = false;
+
 		throwTime = .37;
 		throwRecovery = 1;
 		throwDistance = 3;
 		swingTime = .2;
 		swingRecovery = .2;
 		swingArc = 110;
-
-
+		clubAttackColor = Color(1, 1, .8);
+		clubAttackColor.a = .2;
+ 		
 	//	weaponObject.GetComponent(Rigidbody).active = false;
 	//	weaponObject.GetComponent(BoxCollider).active = false;
 
@@ -302,13 +310,45 @@ public class Weapon extends MonoBehaviour{
  	
  	}
  	
+ 	function clubSwing(angle : int, time : float, recovery : float){
+ 		swingSound.Play(); // Plays the sound
+
+ 		//startSwinging();
+ 		var t : float = 0;
+ 		//Swinging motion
+ 		while (t < time/1.25){
+ 				t += Time.deltaTime;
+ 			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
+ 				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
+ 				 model.transform.RotateAround(model.transform.position, Vector3.right, 1.0*angle/time * Time.deltaTime);
+
+ 			
+ 			yield;
+ 		}
+ 		
+ 		//stopSwinging();
+		//startRecovery();
+		clubStrike();
+		clubSound.Play();
+		//Recovery motion
+ 		while (t < time + recovery){
+ 			t += Time.deltaTime;
+ 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
+ 			model.transform.RotateAround(model.transform.position, Vector3.right, -1.0*angle/time * Time.deltaTime);
+
+ 			yield;
+ 		}
+ 		model.transform.localEulerAngles = baseRotation;
+ 		model.transform.localPosition = basePosition;
+ 		//stopRecovery();
+ 	}
  	function attack(range : float, speed : float, home : float, width :float, depth : float, headingOffset : float, color : Color, destructible : boolean, fade : boolean, keyword : String, texture : String){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 		var attack : HeroAttack = attackObject.AddComponent("HeroAttack") as HeroAttack;						
 		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
-		attack.transform.position = model.transform.position + headingOffset * character.model.heading;
-		attack.transform.rotation = model.transform.rotation;
-		attack.name = "Hero Attack";											// Name the object.
+		attack.transform.position = character.model.transform.position + headingOffset * character.model.lookDirection;
+		attack.transform.rotation = character.model.transform.rotation;
+		attack.name = "HeroAttack";											// Name the object.
 		attack.renderer.material.mainTexture = Resources.Load("Textures/" + texture, Texture2D);	// Set the texture.  Must be in Resources folder.
 		attack.renderer.material.color = color;												// Set the color (easy way to tint things).
 		attack.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
@@ -318,7 +358,7 @@ public class Weapon extends MonoBehaviour{
 		//attack.transform.parent = bulletFolder.transform;
 		attackObject.collider.enabled = false;
 		attackObject.AddComponent(BoxCollider);
-		attackObject.GetComponent(BoxCollider).name = "heroAttack d:" + destructible + " " + keyword;
+		attackObject.GetComponent(BoxCollider).name = "HeroAttack d:" + destructible + " " + keyword;
 		attackObject.GetComponent(BoxCollider).isTrigger = true;
 		attackObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
 		attackObject.AddComponent(Rigidbody);
@@ -326,7 +366,19 @@ public class Weapon extends MonoBehaviour{
 		attackObject.GetComponent(Rigidbody).useGravity = false;
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
+
 	}
+	
+	function attack(range:float, speed:float, width : float, depth : float, color:Color){
+		attack(range, speed, 0, width, depth, 0, color, false, false, "", "ball");
+	}
+	function attack(range:float, speed:float, width:float, depth : float){
+		attack(range, speed, 0, width, depth, 0, Color.white, false, false, "", "ball");
+	}
+	function clubStrike(){
+		attack(.2, 1, 0, 2, 2.5, 1, clubAttackColor, false, true, "club", "ball");
+	}
+
  	
  	
  	// h is the heading vector, fromChar is a boolean saying whether this function was called from the character
@@ -391,7 +443,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 
  	//Looks for key input, executes proper function depending on color.
  	function Update(){
-	
+		
  	}
  	
 // *******************************************
@@ -414,9 +466,13 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		
 	}
-	
+	function toHammer(){
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/club", Texture2D), new Rect(0,0,256,512), new Vector2(0.5f, 0), 400f);
+ 		model.renderer.material.color = Color(1,1,1);
+
+	}
 	function toThrowingStar(){
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 280f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 200f);
 		model.renderer.material.color = Color(1,1,1);
 
 	}
