@@ -29,6 +29,7 @@ var walkclip : AnimationClip;
 
 var colorStore : Color;
 var heading : Vector3;
+var lookDirection : Vector3;
 var rollTime : float; 
 var rollSpeedMultiplier : float;
 var rollCooldown : float;
@@ -39,6 +40,7 @@ var rollSound : AudioSource;
 var jumpSound : AudioSource;
 var landSound : AudioSource;
 var cakeSound : AudioSource;
+var primeSound : AudioSource;
 
 var shadow : GameObject;
 var shadowOffset : float;
@@ -68,6 +70,7 @@ var hasBoomBoosted:boolean; // boomerang boosted from a roll already during this
 
 var rollThrowTimer : float = 0; // Timer for when rolling and shootin'
 var lastAngle: int = 90; //Just for the rolling thingy
+var abilityPrimed : boolean = false;
 
 var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
 
@@ -105,6 +108,8 @@ function Start () {
 	landSound.clip = Resources.Load("Sounds/thump");
 	cakeSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	cakeSound.clip = Resources.Load("Sounds/cake");
+	primeSound = gameObject.AddComponent("AudioSource") as AudioSource;
+	primeSound.clip = Resources.Load("Sounds/metalShing");
 	character.modelObject.layer = 3;											// Character layer.
 	
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -155,7 +160,7 @@ function Update () {
 	 }
 	if (jumping){
 		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
-							
+					
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
 			character.modelObject.layer = 3;
 			
@@ -176,7 +181,7 @@ function Update () {
 			*/
 			var currentAngle : int;
 			currentAngle = 0;
-			if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering){
+			if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering && abilityPrimed){
 					while (!red && character.starsAvailable != 0) { // throw stars!!
 	 					character.starsAvailable--;
 	 					//character.throwingStars[character.curStar].canThrow = true;
@@ -187,13 +192,12 @@ function Update () {
 	 						//if (!character.throwingStars[character.curStar].canThrow) 
 	 						character.throwingStars[character.curStar].starActive();
 	 					}
-	 					currentAngle = (currentAngle + 90);
-	 					if (currentAngle >=360) {
-	 						currentAngle = currentAngle - 360;
-	 					}
+	 					currentAngle = (currentAngle + 90) % 360;
+	 					
 	 				}
 	 			
 			}
+			abilityPrimed = false;
 			
 			/*-----------------------------------------------------------------
 			
@@ -386,17 +390,21 @@ function Update () {
 
  				} else {
  					//swing(110, .5, 1);
- 					character.weapon.swing(character.weapon.swingArc, character.weapon.swingTime, character.weapon.swingRecovery);
+ 					character.weapon.clubSwing(character.weapon.swingArc*.6, character.weapon.swingTime*2, character.weapon.swingRecovery*2);
  				}
  			}
  		
  	else if((Input.GetMouseButtonDown(0) || Input.GetKeyDown("up")) && !character.weapon.swinging && !character.weaponrecovering && !yellow){
  			
- 			if (!red && character.starsAvailable != 0) { // throw stars!!
+ 			if (!red && character.starsAvailable != 0 && !jumping) { // throw stars!!
  				character.starsAvailable--;
  				character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, 0);
  				character.curStar = (character.curStar+1)%character.numThrowingStars;
  			}
+ 			if(jumping){
+ 				 abilityPrimed = true; //Arm landing ability
+ 				 primeSound.Play();
+ 				}
  			if (character.starsAvailable > 0) { // make the next star avaiable
  				if (!character.throwingStars[character.curStar].canThrow) character.throwingStars[character.curStar].starActive();
  			}
@@ -443,7 +451,9 @@ function Update () {
      var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
      this.transform.LookAt(mouseWorldSpace, Camera.mainCamera.transform.forward);
      this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
-	
+	lookDirection = mouseWorldSpace - transform.position;
+	lookDirection.z = 0;
+	lookDirection.Normalize();
 	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	updateShadow(); //Position shadow and rescale hero for jumping
 }

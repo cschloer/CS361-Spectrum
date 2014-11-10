@@ -8,8 +8,7 @@ function Update () {
 
 }
 function OnTriggerEnter(col:Collider){
-	
-		//Hurts monster if it hits the weapon while swinging
+		//print (col.gameObject.name);
 		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.GetComponent(WeaponModel).weapon.swinging && !monster.hurting && monster.health > 0){
 			monster.hurt();
 			col.gameObject.GetComponent(WeaponModel).weapon.hasHit = true;
@@ -20,7 +19,9 @@ function OnTriggerEnter(col:Collider){
 		//destroyMe();
 		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
 	}
-		
+		if(col.gameObject.name.Contains("HeroAttack") && !monster.hurting && monster.health > 0){
+			monster.hurt();
+		}
 		if (monster instanceof Minion){
 			var minion = monster as Minion;
 			minion.passCollision(col);
