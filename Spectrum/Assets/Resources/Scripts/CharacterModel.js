@@ -112,6 +112,7 @@ function Start () {
 	cakeSound.clip = Resources.Load("Sounds/cake");
 	primeSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	primeSound.clip = Resources.Load("Sounds/metalShing");
+	
 	character.modelObject.layer = 3;											// Character layer.
 	
 	shadow = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -159,7 +160,41 @@ function Update () {
 			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
 			rjTimer = 0;
 		}
-	 }
+		if(character.weapon.clubSound.isPlaying){
+			 character.weapon.clubCharging = true;
+		}
+		
+
+		this.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
+	 } else {
+	 //if not rolling
+	 /* // uncomment to add rotation with a keyboard 
+		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(turnSpeed)));
+		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(turnSpeed)));
+		*/
+		
+		
+		heading = Vector3.zero;
+		/*if (moveN) heading += this.transform.left; // uncomment these to move in direction of rotation
+		if (moveE) heading += this.transform.right;
+		if (moveS) heading += this.transform.down;
+		if (moveW) heading += this.transform.left;
+		*/
+		if (moveN) heading += Vector3(0, 1, 0);
+		if (moveE) heading += Vector3(1, 0, 0);
+		if (moveS) heading += Vector3(0, -1, 0);
+		if (moveW) heading += Vector3(-1, 0, 0);
+		heading.Normalize();
+		if(jumping){
+			//this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
+			this.transform.position += heading*Time.deltaTime*moveSpeed*jumpSpeedMultiplier;
+		}else{
+			//this.transform.Translate(heading*Time.deltaTime*moveSpeed);
+			this.transform.position += heading*Time.deltaTime*moveSpeed;
+		}
+		if(yellow&&!blue&&red) character.weapon.swinging = false;
+	}
+	
 	if (jumping){
 		shadowOffset = rjTimer * (jumpTime - rjTimer); //Sets shadow offset quadratically over the course of the jump
 					
@@ -181,6 +216,8 @@ function Update () {
 			This function shoots a star in the given direction. YAYYYY
 			------------------------------------------------------------------
 			*/
+			
+			//Small jumping throw ability
 			var currentAngle : int;
 			currentAngle = 0;
 			if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering && abilityPrimed){
@@ -197,6 +234,11 @@ function Update () {
 	 					currentAngle = (currentAngle + 90) % 360;
 	 					
 	 				}
+	 			
+			}
+			//big jumping swinging ability
+			if (yellow && red && !character.weapon.swinging && !character.weaponrecovering && abilityPrimed){
+					character.weapon.jumpClubSwing();
 	 			
 			}
 			abilityPrimed = false;
@@ -302,7 +344,7 @@ function Update () {
 	//	castSpell();
 	}
 	if (Input.GetKeyDown("space")) {
-		if (!jumping && !rolling) { 
+		if (!jumping && !rolling && !character.weapon.clubSwinging) { 
 			if (!blue && rjTimer >= rollCooldown){ // roll because not blue
 				// todo: roll animation
 				rollSound.Play();
@@ -392,7 +434,12 @@ function Update () {
 
  				} else {
  					//swing(110, .5, 1);
- 					character.weapon.clubSwing(character.weapon.swingArc*.6, character.weapon.swingTime*2, character.weapon.swingRecovery*2);
+ 					if(jumping){
+ 				 		abilityPrimed = true; //Arm landing ability
+ 				 		character.weapon.jumpClubReady();
+ 					}else{ //If on ground, swing club!
+ 						character.weapon.clubSwing(character.weapon.swingArc*.6, character.weapon.swingTime*2, character.weapon.swingRecovery*2);
+ 					}
  				}
  			}
  		
@@ -412,36 +459,7 @@ function Update () {
  			}
  		}
 			
-	if (!rolling){
-		/* // uncomment to add rotation with a keyboard 
-		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(turnSpeed)));
-		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(turnSpeed)));
-		*/
-		
-		
-		heading = Vector3.zero;
-		/*if (moveN) heading += this.transform.left; // uncomment these to move in direction of rotation
-		if (moveE) heading += this.transform.right;
-		if (moveS) heading += this.transform.down;
-		if (moveW) heading += this.transform.left;
-		*/
-		if (moveN) heading += Vector3(0, 1, 0);
-		if (moveE) heading += Vector3(1, 0, 0);
-		if (moveS) heading += Vector3(0, -1, 0);
-		if (moveW) heading += Vector3(-1, 0, 0);
-		heading.Normalize();
-		if(jumping){
-			//this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
-			this.transform.position += heading*Time.deltaTime*moveSpeed*jumpSpeedMultiplier;
-		}else{
-			//this.transform.Translate(heading*Time.deltaTime*moveSpeed);
-			this.transform.position += heading*Time.deltaTime*moveSpeed;
-		}
 	
-	}else{
-		
-		this.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
-	}
 	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
 	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
 	//Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;

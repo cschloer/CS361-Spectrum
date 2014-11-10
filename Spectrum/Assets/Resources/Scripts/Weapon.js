@@ -15,6 +15,9 @@ public class Weapon extends MonoBehaviour{
 	public var swingSound : AudioSource; //Need one of these for each different clip.
 	public var tossSound : AudioSource; 
 	public var clubSound : AudioSource; 
+	public var clubPrimeSound : AudioSource;
+	public var clubJumpSound : AudioSource;
+	public var clubRollSound : AudioSource;
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 	public var hasHit : boolean;
 	
@@ -28,10 +31,12 @@ public class Weapon extends MonoBehaviour{
 	public var spriteRenderer: SpriteRenderer;
 	public var vibrating:boolean;
 	
+	public var clubSwinging : boolean = false;
 	public var canThrow:boolean; // boolean for being able to throw this star 
 	public var isDual:boolean;
 	public var isMeele = false;
 	public var clubAttackColor : Color;
+	public var clubCharging : boolean = false;
 	
 	//Takes owner (main character) as parameter
 	
@@ -78,9 +83,19 @@ public class Weapon extends MonoBehaviour{
 		tossSound.volume = .5;
 		clubSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		clubSound.clip = Resources.Load("Sounds/crash") as AudioClip;
+		clubJumpSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		clubJumpSound.clip = Resources.Load("Sounds/crashBig") as AudioClip;
+		clubPrimeSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		clubPrimeSound.clip = Resources.Load("Sounds/wooshLow") as AudioClip;
+		clubRollSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		clubRollSound.clip = Resources.Load("Sounds/whisk") as AudioClip;
+
 		swingSound.playOnAwake = false;
 		tossSound.playOnAwake = false;
 		clubSound.playOnAwake = false;
+		clubJumpSound.playOnAwake = false;
+		clubPrimeSound.playOnAwake = false;
+		clubRollSound.playOnAwake = false;
 
 		throwTime = .37;
 		throwRecovery = 1;
@@ -312,36 +327,78 @@ public class Weapon extends MonoBehaviour{
  	
  	function clubSwing(angle : int, time : float, recovery : float){
  		swingSound.Play(); // Plays the sound
-
- 		//startSwinging();
+		clubSwinging = true;
  		var t : float = 0;
  		//Swinging motion
+ 		recovering = true;
  		while (t < time/1.25){
  				t += Time.deltaTime;
- 			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
  				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
- 				 model.transform.RotateAround(model.transform.position, Vector3.right, 1.0*angle/time * Time.deltaTime);
+ 				model.transform.RotateAround(model.transform.position, Vector3.right, 1.0*angle/time * Time.deltaTime);			
+ 				yield;
+ 		}
+ 		clubSwinging = false;
+		clubStrike();
+		clubSound.Play();
+		recovering = false;
+		//Recovery motion
+ 		while (t < time + recovery && !clubCharging){
+ 			t += Time.deltaTime;
+ 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
+ 			model.transform.RotateAround(model.transform.position, Vector3.right, -1.0*angle/time * Time.deltaTime);
+ 			yield;
+ 		}
+ 		//Optional lunge if roll during recovery
+ 		if(clubCharging){
+ 			swinging = true;
+ 			clubRollSound.Play();
+ 			while(character.model.rolling){
+     			model.transform.localEulerAngles.z = 0; 
+     			model.transform.eulerAngles.z = -Vector3.Angle(Vector3.up, character.model.heading);
+     			if (character.model.heading.x < 0) model.transform.eulerAngles.z = 360-model.transform.eulerAngles.z;
+				model.transform.position = character.model.transform.position;
+
+ 				yield;
+ 			}
+
+ 		}
+ 		clubCharging = false;
+ 		swinging = false;
+ 		model.transform.localEulerAngles = baseRotation;
+ 		model.transform.localPosition = basePosition;
+
+ 	}
+ 	
+ 	function jumpClubReady(){
+ 		clubPrimeSound.Play();
+ 		var t : float = 0;
+ 		while (t < .5){
+ 				t += Time.deltaTime;
+ 			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
+ 				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*60/.5 * Time.deltaTime);
+ 				 model.transform.RotateAround(model.transform.position, Vector3.right, 1.0*60/.5 * Time.deltaTime);
 
  			
  			yield;
  		}
- 		
- 		//stopSwinging();
-		//startRecovery();
-		clubStrike();
-		clubSound.Play();
-		//Recovery motion
- 		while (t < time + recovery){
- 			t += Time.deltaTime;
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
- 			model.transform.RotateAround(model.transform.position, Vector3.right, -1.0*angle/time * Time.deltaTime);
-
+ 	}
+ 	
+ 	function jumpClubSwing(){
+ 		clubJumpSound.Play();
+ 		clubJumpStrike();
+ 		character.model.shakeCamera(1);
+ 		var t : float = 1;
+ 		var pos : Vector3 = character.model.transform.position;
+ 		while(t>0){
+ 			character.model.transform.position = pos;
+ 			t -= Time.deltaTime;
  			yield;
  		}
  		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
- 		//stopRecovery();
+ 		
  	}
+ 	
  	function attack(range : float, speed : float, home : float, width :float, depth : float, headingOffset : float, color : Color, destructible : boolean, fade : boolean, keyword : String, texture : String){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 		var attack : HeroAttack = attackObject.AddComponent("HeroAttack") as HeroAttack;						
@@ -379,7 +436,9 @@ public class Weapon extends MonoBehaviour{
 		attack(.2, 1, 0, 2, 2.5, 1, clubAttackColor, false, true, "club", "ball");
 	}
 
- 	
+ 	function clubJumpStrike(){
+ 		attack(.2, .5, 0, 3, 3.5, 1, clubAttackColor, false, true, "club", "ball");
+ 	}
  	
  	// h is the heading vector, fromChar is a boolean saying whether this function was called from the character
 function tossBoomerang(distance : float, time : float, spinSpeed : float, recovery : float, h:Vector3, fromChar:boolean) : IEnumerator{ // toss function	
