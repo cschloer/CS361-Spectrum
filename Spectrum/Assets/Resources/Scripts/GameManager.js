@@ -74,15 +74,12 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
-<<<<<<< HEAD
 	addMonster(0, 0, character, 10);
-=======
 	addMonster(0, 2, character, 7);
 	addMonster(1, 3, character, 7);
 	addMonster(-4, 0, character, 7);
 	addMonster(0, -3, character, 7);
 
->>>>>>> origin/master
 }
 
 // Update

@@ -34,8 +34,8 @@ public class Monster7 extends Monster{
 			 	
 		if(Random.value > .995 && buddy == null) findBuddy();
 		if(Random.value > .99 && !buddyAttacking && buddy != null){
-			buddyAttack(1.5, 1.8, .1);
-			buddy.buddyAttack(1.5, 1.8, .1);
+			buddyAttack(1.5, 1, .1);
+			buddy.buddyAttack(1.5, 1, .1);
 		}
 		
 	}
@@ -64,7 +64,7 @@ public class Monster7 extends Monster{
 		buddyAttacking = true;
 		var t : float = 0;
 		model.renderer.material.color = Color(1.3, 1.3, 1.3);
-		while(t<waitDuration){
+		while(t<waitDuration && health > 0){
 			t += Time.deltaTime;
 			drift(2);
 			yield;
