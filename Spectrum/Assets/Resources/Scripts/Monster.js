@@ -314,14 +314,14 @@ public class Monster extends MonoBehaviour
 	//If fade is true, attack becomes translucent as it moves.
 	//If destructible is true, the sword can destroy the bullets.
 	//Keywords can be used for specific hit behaviours (stun, slow, knockback, etc) to be implemented in CharacterModel's (or WeaponModel's) OnTriggerEnter.
-	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String){
+	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack") as MonsterAttack;						
 		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		attack.transform.position = model.transform.position;
 		attack.transform.rotation = model.transform.rotation;
 		attack.name = "Monster Attack";											// Name the object.
-		attack.renderer.material.mainTexture = Resources.Load("Textures/ball", Texture2D);	// Set the texture.  Must be in Resources folder.
+		attack.renderer.material.mainTexture = Resources.Load("Textures/" + bulletTexture, Texture2D);	// Set the texture.  Must be in Resources folder.
 		attack.renderer.material.color = color;												// Set the color (easy way to tint things).
 		attack.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 		attack.transform.localScale = Vector3(width,depth,1); 
@@ -339,6 +339,12 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
+	
+	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String){
+			 attack(range, speed, home, width, depth, color, destructible, fade, keyword, "ball");
+
+	}
+
 	function dropColor(){
 		//print("Dropping Random Color");
 		var rand : float = Random.value;
