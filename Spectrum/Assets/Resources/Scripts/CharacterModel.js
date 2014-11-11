@@ -775,11 +775,11 @@ function spellWall(){
 }
 
 function toBig(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.55,.55,5);
 	var counter:float = 0;
 	while (counter < 1){
-		heroScale+=Time.deltaTime*3;
-		counter+= Time.deltaTime*3;
+		heroScale+=Time.deltaTime*1.5;
+		counter+= Time.deltaTime*1.5;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
@@ -791,8 +791,8 @@ function toSmall(){
 	modelObject.GetComponent(BoxCollider).size = Vector3(.375,.375,5);
 	var counter:float = 0;
 	while (counter < 1){
-		heroScale-=Time.deltaTime*2;
-		counter+= Time.deltaTime*2;
+		heroScale-=Time.deltaTime*1.5;
+		counter+= Time.deltaTime*1.5;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}

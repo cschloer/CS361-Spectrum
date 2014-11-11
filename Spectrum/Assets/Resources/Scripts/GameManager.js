@@ -58,17 +58,6 @@ function Start () {
 	//addCircle(0); // blue circle
 	//addCircle(1); // red circle
 	//addCircle(2); // yellow circle	
-
-	
-	addCake(1,0);
-	addCake(2,0);
-	addCake(3,0);
-	addCake(4,0);
-	
-	addCake(-16,21);
-	addCake(25,21);
-	addCake(-16,42);
-	addCake(8,49);
 	
 	addCircle(0); 
 	addCircle(1);
@@ -247,7 +236,7 @@ function addDevice(x : float, y :float, t : String, n : int){
 	
 	deviceScript.init(t, this, n);
 	devices.Add(deviceScript);
-	deviceScript.name = "Device" + tiles.length;
+	deviceScript.name = "Device: " + t + ", "+ devices.length;
 }
 
 function addTile(xSpacial : float, ySpacial :float, t : String, or: int){
@@ -294,6 +283,14 @@ function protolevelInit(){
   addDevice(-14,38,"mSpawn", 4);
   addDevice(20,5,"mSpawn", 4);
   addDevice(30,19.5,"barrier",0);
+  addCake(1,0);
+  addCake(2,0);
+  addCake(3,0);
+  addCake(4,0);
+  addCake(-17,20);
+  addCake(25,21);
+  addCake(-16,42);
+  addCake(8,48);
 }
 // Room Creation
 // Initiates room off of a txt file.

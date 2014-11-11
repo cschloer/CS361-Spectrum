@@ -38,6 +38,7 @@ function init(t: String, manager: GameManager, num : int) {
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(2.5,1,15);
 		model.init(this, manager, num);													// Initialize the tileModel.
+		model.name = "Color Wall";
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
 }
