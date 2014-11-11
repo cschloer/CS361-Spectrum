@@ -4,6 +4,7 @@ var weaponDual : Weapon; // dual wield weapon for small meele
 var hurtRecovery : float;
 var hurting : boolean;
 var health : int;
+var dead : boolean;
 var modelObject : GameObject;
 var oofSound : AudioSource;
 var killedMonsters : int;
@@ -18,9 +19,10 @@ var starCool:int; // cooldown on stars
 
 function init(m) {
 	manager = m;
-	health = 100; //For testing purposes
+	health = 3; //For testing purposes
 	hurtRecovery = .5;
 	enabled = false;
+	dead = false;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
 	model = modelObject.AddComponent("CharacterModel");						// Add a gemModel script to control visuals of the gem.
 	//gemType = 1;
@@ -161,9 +163,8 @@ function checkHealth(){
 		weapon.model.renderer.material.color.a = 1-(t/2);
 		yield;
 	}
-	//Application.LoadLevel("Spectrum");
-	//todo: respawn
-	manager.lose();
+	dead = true;
+	manager.death();	//respawn
 }
 
 function deactivateStars(){ // functions to set all of the shurekins as inactive

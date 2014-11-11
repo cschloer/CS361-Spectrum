@@ -22,7 +22,7 @@ function init(own : Device, man: GameManager, count: int) {
 	counter = count;
 	
 	transform.parent = owner.transform;				// Set the model's parent to the gem (this object).
-	transform.localPosition = Vector3(0,0,-0.1);		// Center the model on the parent.
+	transform.localPosition = Vector3(0,0,0);		// Center the model on the parent.
 	transform.localScale = Vector3(2,2,1);
 	name = "Device Spawner Model";					// Name the object.
 	

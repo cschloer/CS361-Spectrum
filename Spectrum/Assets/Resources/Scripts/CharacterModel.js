@@ -630,6 +630,7 @@ function OnTriggerEnter(col:Collider){
 	}
 	
 	if(col.gameObject.name.Contains("Cake")){
+		Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").relocate(col.gameObject.transform.position);
 		Destroy(col.gameObject);
 		cakesCollected++;
 		cakeSound.Play();
@@ -819,13 +820,14 @@ function fallDeath(aim: Vector3){
 	while (counter < 1){
 		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
 		frozen = true;
-		heroScale-=Time.deltaTime*.5;
+		//heroScale-=Time.deltaTime*.5;
 		counter+= Time.deltaTime;
-		shadow.transform.localScale = Vector3.one * heroScale;
+		//shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
 	//todo: respawn
-	Manager.lose();
+	character.dead = true;
+	Manager.death();
 }
 
 //Shakes the camera for the given duration with default intensity (.2)

@@ -25,6 +25,8 @@ var yMin:float;
 var curX:float;
 var curY:float;
 
+var freeze : boolean;
+
 var squareRadius:float;
 
 function Start () {
@@ -33,6 +35,7 @@ function Start () {
 	character = Manager.character.model;
 //	character.camera = this.gameObject;
 	speed = 2;
+	freeze = false;
 	rolling = false;
 	jumping = false;
 	this.transform.position = Vector3(0,0,-10);
@@ -51,11 +54,15 @@ function Start () {
 }
 
 function Update(){
-	
+	if(freeze)
+		recenter();
+}
 
-	
+function recenter(){
+	character = Manager.character.model;
+	this.transform.position.x = character.transform.position.x;
+	this.transform.position.y = character.transform.position.y;
 
-	
 }
 
 
@@ -92,6 +99,8 @@ function doMovement(){
 	}
 	this.transform.position.x = curX;
 	this.transform.position.y = curY;
+	} else{
+		freeze = true;
 	}
 }
 
