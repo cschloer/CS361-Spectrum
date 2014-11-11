@@ -7,6 +7,7 @@
 var owner : Device;
 var manager : GameManager;
 var spawns : Array;
+var typeVal : int;
 var broken : boolean;
 var breakSound : AudioSource;
 var counter : int;
@@ -14,12 +15,13 @@ var counter : int;
 function Start(){
 }
 
-function init(own : Device, man: GameManager, count: int) {
+function init(own : Device, man: GameManager, count: int, typev: int) {
 	owner = own;									// Set up a pointer to the device object containing this model.
 	manager = man;									// Set up a pointer to the game manager
 	broken = false;
 	spawns = new Array();
-	counter = count;
+	counter = count;								// number of maximum monsters alive at one time from this spawner.
+	typeVal = typev;
 	
 	transform.parent = owner.transform;				// Set the model's parent to the gem (this object).
 	transform.localPosition = Vector3(0,0,0);		// Center the model on the parent.
@@ -36,7 +38,12 @@ function init(own : Device, man: GameManager, count: int) {
 
 function Update(){
 	if (spawns.length < counter && Random.value < 0.002 && !broken && !owner.frozen){
-		var rType = Random.Range(1,7);
+		var rType : int;
+		if(typeVal > 0){			// Number of monster you'd like the spanwer to spawn
+			rType = typeVal;
+		} else{
+			rType = Random.Range(1,7);
+		}
 		var mon = manager.addMonster(transform.position.x,transform.position.y+2,manager.character,rType);
 		//mon.activateDistance = 8;
 		spawns.Add(mon);

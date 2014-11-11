@@ -23,7 +23,7 @@ function init(t: String, manager: GameManager, numA : int, numB : int) {	// NumA
 		box.center = wmodel.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(1.3,1.3,5);
 		wmodel.name = "Monster Spawner";
-		wmodel.init(this, manager, numA);													// Initialize the device.
+		wmodel.init(this, manager, numA, numB);													// Initialize the device.
 	} else if(type == "cake"){
 		var cmodel = modelObject.AddComponent("CakeModel");			// Add a script to control direction of the unit.
 		cmodel.name = "Cake";
@@ -41,7 +41,7 @@ function init(t: String, manager: GameManager, numA : int, numB : int) {	// NumA
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(2.5,1,15);
-		model.init(this, manager, numA);													// Initialize the tileModel.
+		model.init(this, manager, numA, numB);													// Initialize the tileModel.
 		model.name = "Color Wall";
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
