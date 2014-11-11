@@ -74,11 +74,15 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+<<<<<<< HEAD
+	addMonster(0, 0, character, 10);
+=======
 	addMonster(0, 2, character, 7);
 	addMonster(1, 3, character, 7);
 	addMonster(-4, 0, character, 7);
 	addMonster(0, -3, character, 7);
 
+>>>>>>> origin/master
 }
 
 // Update
@@ -208,6 +212,16 @@ function addMonster(x : float, y :float, c : Character, type: int){
 		case 6:
 			monsterScript = monsterObject.AddComponent("Monster6");		// Add the monster2.js script to the object.
 			break;
+
+		case 8:
+			monsterScript = monsterObject.AddComponent("Monster8");		// Add the monster2.js script to the object.
+			break;
+		case 9:
+			monsterScript = monsterObject.AddComponent("Monster9");		// Add the monster2.js script to the object.
+			break;
+		case 10:
+			monsterScript = monsterObject.AddComponent("Monster10");
+			break;		// Add the monster2.js script to the object.
 		case 7:
 			monsterScript = monsterObject.AddComponent("Monster7");
 			break;
