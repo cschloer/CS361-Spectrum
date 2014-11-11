@@ -40,7 +40,11 @@ public class Monster10 extends Monster {
 		}
 		
 		if (firing) {	
-			attack(10, 5, 0, .5, .5, Color(255,137,0), false, true, bullet){
+			attack(10, 5, 0, .5, .5, Color(255,137,0), false, true, "ball",0);
+			attack(10, 5, 0, .5, .5, Color(255,137,0), false, true, "ball",72);
+			attack(10, 5, 0, .5, .5, Color(255,137,0), false, true, "ball",144);
+			attack(10, 5, 0, .5, .5, Color(255,137,0), false, true, "ball",216);
+			attack(10, 5, 0, .5, .5, Color(255,137,0), false, true, "ball",288);
 
 		}
 	}
