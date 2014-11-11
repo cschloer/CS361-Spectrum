@@ -20,7 +20,7 @@ public class Monster10 extends Monster {
 		timer = timer + Time.deltaTime;
 		var willItCharge : float = Random.value;
 		
-		if (!charging10 && willItCharge > .85 && !firing){
+		if (!charging10 && willItCharge > .3 && !firing){
 			charging10 = true;
 			startChargingTime = timer;
 			timeElapsed = 0;
