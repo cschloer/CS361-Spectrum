@@ -95,6 +95,7 @@
      <Compile Include="Assets\Resources\Scripts\gem.js" />
      <Compile Include="Assets\Resources\Scripts\gemModel.js" />
      <Compile Include="Assets\StartScript.js" />
+     <Compile Include="Assets\controlScreen.js" />
      <None Include="Assets\Resources\Levels\test.txt" />
      <None Include="Assets\Levels\Hole3Tri.txt" />
      <None Include="Assets\Levels\wd.txt" />

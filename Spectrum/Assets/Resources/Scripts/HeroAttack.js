@@ -24,3 +24,8 @@ function Update () {
 	if(traveled >= range) Destroy(gameObject);
 	if(fade) renderer.material.color.a = initialA*(1-(traveled/range));
 }
+
+function onTriggerEnter (col:Collision){
+		if(col.gameObject.name.Contains("d:True")) Destroy(col.gameObject);
+		if(col.gameObject.name.Contains("Spawn")) col.gameObject.GetComponent(DeviceSpawnModel).breakage();
+}

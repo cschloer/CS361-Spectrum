@@ -12,7 +12,7 @@ public class MonsterBoss extends Monster{
 		health = 3;
 		model.renderer.material.mainTexture = Resources.Load("Textures/bossProto", Texture2D);	// Set the texture.  Must be in Resources folder.
 		setSize(2, 2.5);
-		activateDistance = 2;
+		activateDistance = 5;
 		//Add sound
 //		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 //		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
@@ -144,5 +144,19 @@ public class MonsterBoss extends Monster{
 			hurt();
 			invincible = true;
 		}
+	}
+	
+	function die(deathTime : float){
+		hero.killedMonsters++;
+		var t : float = 0;
+		splatSound.Play();
+		dropColor();
+		while (t < 3){
+			t += Time.deltaTime;
+			model.renderer.material.color.a = 1-(t/deathTime);
+			yield;
+		}
+		Destroy(this.gameObject);
+		Application.LoadLevel("LevelComplete");
 	}
 }

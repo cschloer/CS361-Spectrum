@@ -1,19 +1,23 @@
 ﻿#pragma strict
-//Sneaks behind hero and attacks
-
+//Lighting strikes with partners
 public class Monster7 extends Monster{
 	var driftPeriod : float;
 	var driftSpeed : float;
 	var buddy : Monster7;
 	var buddyAttacking : boolean;
 	var spot: Vector3;
+	var bingSound : AudioSource;
+	var shotSound : AudioSource;
 	function init(c : Character){
 		super.init(c);
 		health = 1;	
 		moveSpeed = 1;	//Moves faster
 		model.renderer.material.mainTexture = Resources.Load("Textures/lightningRobot", Texture2D);	// Set the texture.  Must be in Resources folder.
-		//laughSound = gameObject.AddComponent("AudioSource") as AudioSource;
-		//laughSound.clip = Resources.Load("Sounds/laugh") as AudioClip;
+		bingSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		bingSound.clip = Resources.Load("Sounds/bing") as AudioClip;
+		shotSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		shotSound.clip = Resources.Load("Sounds/oing") as AudioClip;
+		shotSound.volume = .4;
 		driftPeriod = .5 + Random.value;
 		driftSpeed = .5 + Random.value;
 		buddyAttacking = false;
@@ -62,6 +66,7 @@ public class Monster7 extends Monster{
 	
 	function buddyAttack(waitDuration : float, attackDuration : float, attackPause : float){
 		buddyAttacking = true;
+		bingSound.Play();
 		var t : float = 0;
 		model.renderer.material.color = Color(1.3, 1.3, 1.3);
 		while(t<waitDuration && health > 0){
@@ -90,6 +95,7 @@ public class Monster7 extends Monster{
 	
 	function buddyShot(){
 		if (buddy == null) return;
+		shotSound.Play();
 		attack(Vector3.Magnitude(model.transform.position - buddy.model.transform.position), 15, 0, .3, 1, Color.yellow, false, false, "");
 	}
 		

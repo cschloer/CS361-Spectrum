@@ -274,6 +274,7 @@ public class Weapon extends MonoBehaviour{
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
   	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float, rotation: int){	
  		canThrow = false;
+ 		swinging = true;
  		model.transform.parent = null;
  		if (rotation == 0) {
  			var heading : Vector3 = owner.model.transform.up;
@@ -301,6 +302,7 @@ public class Weapon extends MonoBehaviour{
  			model.transform.position += (heading * tossSpeed * Time.deltaTime);//+moveAdder; // i think move adder isn't needed for these 
  			yield;
  		}
+ 		swinging = false;
  		
  		hasHit = false;
  		var t:float=0;

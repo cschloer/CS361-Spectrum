@@ -74,12 +74,13 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+	/*
 	addMonster(0, 0, character, 10);
 	addMonster(0, 2, character, 7);
 	addMonster(1, 3, character, 7);
 	addMonster(-4, 0, character, 7);
 	addMonster(0, -3, character, 7);
-
+	*/
 }
 
 // Update
@@ -311,10 +312,15 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
-  addDevice(-4,40,"mSpawn", 3, 0);
-  addDevice( 4,40,"mSpawn", 3, 0);
-  addDevice(-14,38,"mSpawn", 4, 0);
-  addDevice(20,5,"mSpawn", 4, 0);
+  addDevice(-4,40,"mSpawn", 3, 8);
+  addDevice( 4,40,"mSpawn", 3, 1);
+  addDevice(-14,38,"mSpawn", 4, 7);
+  addDevice(20,5,"mSpawn", 4, 3);
+  addDevice(-25,41,"mSpawn", 4, 9);
+  addDevice(1,-13,"mSpawn", 4, 5);//first one
+  addDevice(-21, 25, "mSpawn", 4, 3);
+  addDevice(46, 20,"mSpawn", 4, 6); //boss room
+  addDevice(19, 17,"mSpawn", 4, 5);
   addDevice(30,19.5,"barrier", 0, 7);
   addDevice(-0.5,16,"barrier", 3, 1);
   addCake(-0.5,15);

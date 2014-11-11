@@ -74,6 +74,7 @@ var abilityPrimed : boolean = false;
 
 var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
 var frozen : boolean;
+var isPushed : boolean = false;
 
 // Use this for initialization
 function Start () {

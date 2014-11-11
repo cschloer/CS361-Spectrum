@@ -70,7 +70,7 @@ public class Monster1 extends Monster {
 	}
 	
 	function minionCollision(minion : Minion, col : Collider){
-		if(col.gameObject.name == "WeaponObject" && col.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0){
+		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0){
 			shield(1);
 		}
 	}

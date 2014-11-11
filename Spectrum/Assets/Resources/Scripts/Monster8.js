@@ -6,13 +6,15 @@ public class Monster8 extends Monster {
 	
 	var rotateTimer : float;
 	var currMovement : int;
-	
+	var magnetSound : AudioSource;
+	var soundTime : float = 0;
 	function init(c : Character) {
 		super.init(c);
 		model.renderer.material.mainTexture = Resources.Load("Textures/magnetmate_pull", Texture2D);	// Set the texture.  Must be in Resources folder.
-		
+		magnetSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		magnetSound.clip = Resources.Load("Sounds/wum") as AudioClip;
 		rotateTimer = 0.0;
-	
+		health = 1;
 	}
 	
 	function act() {
@@ -47,9 +49,14 @@ public class Monster8 extends Monster {
 				
 		}		
 		
-		if (distanceToHero() <= 10 && distanceToHero() >= 2) {
+		if (distanceToHero() <= 6 && distanceToHero() >= 2) {
+			soundTime += Time.deltaTime;
 			var heroTo : Vector3 = model.transform.position - hero.model.transform.position;
-			hero.model.transform.position += heroTo.normalized * Time.deltaTime*freeze*moveSpeed *3;
+			hero.model.transform.position += heroTo.normalized * Time.deltaTime*freeze*moveSpeed *1.5;
 		}	
+		if(soundTime > .65){
+			soundTime = 0;
+			magnetSound.Play();
+		}
 	}
 }

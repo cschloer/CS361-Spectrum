@@ -296,7 +296,6 @@ public class Monster extends MonoBehaviour
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
-		manager.monsters.Remove(this);
 		Destroy(this.gameObject);
 	}
 	function act(){
@@ -340,6 +339,7 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
+
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
 			attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture, 0);
 
