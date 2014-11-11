@@ -352,6 +352,7 @@ function Update () {
 				//this.renderer.material.color = Color(.5,.5,.5);
 				rolling = true;
 				rjTimer = 0;
+				if (red) rollKnock();
 				if (red && !yellow && !hasBoomBoosted) { // big
 					hasBoomBoosted = true;
 					chargingBoomTimer += 1;
@@ -659,14 +660,27 @@ function OnDrawGizmos() {
 	
 }
 
+function rollKnock(){ // knock back for roll
+	var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
+	var landingScript = modelObject2.AddComponent("Landing");		// Add the landing.js script to the object.
+		
+																																								// We can now refer to the object via this script.
+			
+	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, 1, rollTime);
+	landingScript.gameObject.transform.parent = this.gameObject.transform;	// Set the landing's parent object to be the landing folder.							
+
+
+}
+
 function landing(){
 	if (red){
 		var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
 		var landingScript = modelObject2.AddComponent("Landing");		// Add the landing.js script to the object.
 		
 																																								// We can now refer to the object via this script.
-		landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
-		landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this.red);	
+			
+		landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, 2, .2);
+		landingScript.gameObject.transform.parent = this.transform.parent.transform;	// Set the landing's parent object to be the landing folder.							
 	}			
 	else {
 		if (monsterHere){

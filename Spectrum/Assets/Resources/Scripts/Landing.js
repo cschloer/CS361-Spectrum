@@ -5,14 +5,15 @@ var x:float;
 var y:float;
 var colliderSize:float;
 var knockBackRange:float;
-var isBig:boolean;
+var duration:float;
 
 
-function init(x:float, y:float, m:GameObject, r:boolean){
+function init(x:float, y:float, m:GameObject, sizeIncrease:float, d:float){
 	clock = 0;
-	isBig = r;
-	colliderSize = 1.5;
-	if (isBig) colliderSize = 3;
+	print("here");	
+	colliderSize = 1.5*sizeIncrease;
+	duration = d;
+//	if (isBig) colliderSize = 3;
 	knockBackRange = Mathf.Sqrt(colliderSize*colliderSize);
 	modelObject = m;										
 	modelObject.collider.enabled = false;
@@ -28,15 +29,15 @@ function init(x:float, y:float, m:GameObject, r:boolean){
 	
 	//this.renderer.material.mainTexture = Resources.Load("Textures/landing", Texture2D);	// Uncomment this line to add a texture showing the approximate size of the landing
 	this.transform.position = Vector3(x, y, -1);	
-	this.transform.localScale = Vector3(2, 2, 2);
-	if (isBig) this.transform.localScale = Vector3(4, 4, 4);	 
+	//this.transform.localScale = Vector3(2, 2, 2);
+	//if (isBig) this.transform.localScale = Vector3(4, 4, 4);	 
 	
 	this.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	this.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 }
 
 function Update(){
-	if (clock > .2) Destroy(this.gameObject);
+	if (clock > duration) Destroy(this.gameObject);
 	clock+=Time.deltaTime;
  
 }
