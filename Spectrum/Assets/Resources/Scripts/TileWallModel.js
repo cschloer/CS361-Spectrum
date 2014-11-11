@@ -101,15 +101,20 @@ function getTexture(){
 		return 3;
 	}else if( nW && eW && !sW && !wW){
 		rot = 0;
+		owner.box.size.x = 1;
+		owner.box.size.y = 1;
 		return 2;
 	}else if( nW && !eW && sW && wW){
 		rot = 1;
 		return 3;
 	}else if( nW && !eW && sW && !wW){
 		rot = 0;
+		owner.box.size.y = 1;
 		return 1;
 	}else if( nW && !eW && !sW && wW){
 		rot = 1;
+		owner.box.size.x = 1;
+		owner.box.size.y = 1;
 		return 2;
 	}else if( nW && !eW && !sW && !wW){
 		rot = 1;
@@ -119,15 +124,20 @@ function getTexture(){
 		return 3;
 	}else if( !nW && eW && sW && !wW){
 		rot = 3;
+		owner.box.size.x = 1;
+		owner.box.size.y = 1;
 		return 2;
 	}else if( !nW && eW && !sW && wW){
 		rot = 1;
+		owner.box.size.x = 1;
 		return 1;
 	}else if( !nW && eW && !sW && !wW){
 		rot = 0;
 		return 7;
 	}else if( !nW && !eW && sW && wW){
 		rot = 2;
+		owner.box.size.x = 1;
+		owner.box.size.y = 1;
 		return 2;
 	}else if( !nW && !eW && sW && !wW){
 		rot = 3;

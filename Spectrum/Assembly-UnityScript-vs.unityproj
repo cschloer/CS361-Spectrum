@@ -76,6 +76,7 @@
      <Compile Include="Assets\Resources\Scripts\MonsterModel.js" />
      <Compile Include="Assets\Resources\Scripts\Selector.js" />
      <Compile Include="Assets\Resources\Scripts\SelectorModel.js" />
+     <Compile Include="Assets\Resources\Scripts\SpawnPointModel.js" />
      <Compile Include="Assets\Resources\Scripts\SpellAOE.js" />
      <Compile Include="Assets\Resources\Scripts\SpellHook.js" />
      <Compile Include="Assets\Resources\Scripts\SpellMine.js" />

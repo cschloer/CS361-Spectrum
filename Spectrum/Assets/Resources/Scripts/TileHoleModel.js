@@ -27,6 +27,7 @@ function init(own : Tile) {
 function OnTriggerEnter(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
 		character = col.gameObject.GetComponent(CharacterModel);
+		character.shakeCamera(.5,.1);
 		character.stopMovement();
 		character.fallDeath(transform.position);
 	}

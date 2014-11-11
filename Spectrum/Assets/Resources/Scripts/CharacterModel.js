@@ -73,6 +73,7 @@ var lastAngle: int = 90; //Just for the rolling thingy
 var abilityPrimed : boolean = false;
 
 var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
+var frozen : boolean;
 
 // Use this for initialization
 function Start () {
@@ -88,6 +89,7 @@ function Start () {
 	yellow = false;
 	rolling = false;
 	vincible = true;
+	frozen = false;
 	colorStore = Color(1,1,1);
 	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
@@ -350,6 +352,7 @@ function Update () {
 				//this.renderer.material.color = Color(.5,.5,.5);
 				rolling = true;
 				rjTimer = 0;
+				if (red) rollKnock();
 				if (red && !yellow && !hasBoomBoosted) { // big
 					hasBoomBoosted = true;
 					chargingBoomTimer += 1;
@@ -627,6 +630,7 @@ function OnTriggerEnter(col:Collider){
 	}
 	
 	if(col.gameObject.name.Contains("Cake")){
+		Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").relocate(col.gameObject.transform.position);
 		Destroy(col.gameObject);
 		cakesCollected++;
 		cakeSound.Play();
@@ -657,14 +661,27 @@ function OnDrawGizmos() {
 	
 }
 
+function rollKnock(){ // knock back for roll
+	var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
+	var landingScript = modelObject2.AddComponent("Landing");		// Add the landing.js script to the object.
+		
+																																								// We can now refer to the object via this script.
+			
+	landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, 1, rollTime);
+	landingScript.gameObject.transform.parent = this.gameObject.transform;	// Set the landing's parent object to be the landing folder.							
+
+
+}
+
 function landing(){
 	if (red){
 		var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
 		var landingScript = modelObject2.AddComponent("Landing");		// Add the landing.js script to the object.
 		
 																																								// We can now refer to the object via this script.
-		landingScript.transform.parent = this.transform.parent;	// Set the landing's parent object to be the landing folder.							
-		landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this.red);	
+			
+		landingScript.init(this.transform.position.x, this.transform.position.y, modelObject2, 2, .2);
+		landingScript.gameObject.transform.parent = this.transform.parent.transform;	// Set the landing's parent object to be the landing folder.							
 	}			
 	else {
 		if (monsterHere){
@@ -773,11 +790,11 @@ function spellWall(){
 }
 
 function toBig(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.55,.55,5);
 	var counter:float = 0;
 	while (counter < 1){
-		heroScale+=Time.deltaTime*3;
-		counter+= Time.deltaTime*3;
+		heroScale+=Time.deltaTime*1.5;
+		counter+= Time.deltaTime*1.5;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
@@ -789,8 +806,8 @@ function toSmall(){
 	modelObject.GetComponent(BoxCollider).size = Vector3(.375,.375,5);
 	var counter:float = 0;
 	while (counter < 1){
-		heroScale-=Time.deltaTime*2;
-		counter+= Time.deltaTime*2;
+		heroScale-=Time.deltaTime*1.5;
+		counter+= Time.deltaTime*1.5;
 		shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
@@ -800,15 +817,17 @@ function toSmall(){
 function fallDeath(aim: Vector3){
 
 	var counter:float = 0;
-	while (counter < 2){
+	while (counter < 1){
 		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
-		heroScale-=Time.deltaTime*2;
-		counter+= Time.deltaTime*2;
-		shadow.transform.localScale = Vector3.one * heroScale;
+		frozen = true;
+		//heroScale-=Time.deltaTime*.5;
+		counter+= Time.deltaTime;
+		//shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
 	//todo: respawn
-	Manager.lose();
+	character.dead = true;
+	Manager.death();
 }
 
 //Shakes the camera for the given duration with default intensity (.2)
