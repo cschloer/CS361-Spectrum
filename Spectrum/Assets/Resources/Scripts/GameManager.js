@@ -12,7 +12,10 @@ var tileFolder : GameObject;		// This will be an empty game object used for orga
 var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
 var deviceFolder : GameObject;		// This will be an empty game object used for organizing devices in the hierarchy pane.
 var character : Character;			// This is the hero character.
+var boss : Monster;					// This is the level boss.
 var devices : Array;				// This array holds devices.
+var charSpawner : Device;				// Special Device for character spawning.
+var bossSpawner : Device;				// Special Device for boss spawning.
 var monsters : Array;				// This array holds monsters.
 var tiles : Array;					// This array holds tiles.
 var camera:GameObject;				// Camera GameObject for look control
@@ -47,34 +50,18 @@ function Start () {
 	tileFolder.name = "Tiles";
 	tiles = new Array();
 	
-	Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
+	//Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
 
 	colorFolder = new GameObject();
 	colorFolder.name = "Color Circles";
 	
+	protolevelInit();
 
-	addCharacter(0,-5);
+	//addCharacter(0,-5);
 
 	//addCircle(0); // blue circle
 	//addCircle(1); // red circle
 	//addCircle(2); // yellow circle	
-
-	
-	addCake(1,0);
-	addCake(2,0);
-	addCake(3,0);
-	addCake(4,0);
-	
-	addCake(-16,21);
-	addCake(25,21);
-	addCake(-16,42);
-	addCake(8,49);
-	
-	addCircle(0); 
-	addCircle(1);
-	addCircle(2);
-	
-	protolevelInit();
 	
 	paused = false;
 	clock = 0.0;
@@ -87,7 +74,15 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+<<<<<<< HEAD
 	addMonster(0, 0, character, 10);
+=======
+	addMonster(0, 2, character, 7);
+	addMonster(1, 3, character, 7);
+	addMonster(-4, 0, character, 7);
+	addMonster(0, -3, character, 7);
+
+>>>>>>> origin/master
 }
 
 // Update
@@ -114,7 +109,9 @@ function Update () {
 		}
 	}
 	clock = clock + Time.deltaTime;
-	//spawnMonster();
+	if(boss == null && clock > 1){
+		win();
+	}
 }
 
 
@@ -148,7 +145,7 @@ function addCake(x : float , y : float) {
 	cakeObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
 	*/
 	
-	addDevice(x, y, "cake", 0);
+	addDevice(x, y, "cake", 0, 0);
 											
 	
 }															
@@ -215,6 +212,7 @@ function addMonster(x : float, y :float, c : Character, type: int){
 		case 6:
 			monsterScript = monsterObject.AddComponent("Monster6");		// Add the monster2.js script to the object.
 			break;
+
 		case 8:
 			monsterScript = monsterObject.AddComponent("Monster8");		// Add the monster2.js script to the object.
 			break;
@@ -222,7 +220,10 @@ function addMonster(x : float, y :float, c : Character, type: int){
 			monsterScript = monsterObject.AddComponent("Monster9");		// Add the monster2.js script to the object.
 			break;
 		case 10:
-			monsterScript = monsterObject.AddComponent("Monster10");		// Add the monster2.js script to the object.
+			monsterScript = monsterObject.AddComponent("Monster10");
+			break;		// Add the monster2.js script to the object.
+		case 7:
+			monsterScript = monsterObject.AddComponent("Monster7");
 			break;
 		default:
 			monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
@@ -230,11 +231,25 @@ function addMonster(x : float, y :float, c : Character, type: int){
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
-	
 	monsterScript.init(c);
+	monsterScript.manager = this;
 	monsters.Add(monsterScript);
 	monsterScript.name = "Monster"+ monsters.length;
 	return monsterObject;
+}
+
+function addBoss(x : float, y :float, c : Character){
+	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
+	var monsterScript;
+	monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
+	
+	monsterScript.transform.parent = monsterFolder.transform;
+	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
+	
+	monsterScript.init(c);
+	boss = monsterScript;
+	monsterScript.name = "Boss";
+	return monsterScript;
 }
 
 function addWeapon(c : Character){
@@ -247,16 +262,17 @@ function addWeapon(c : Character){
 	c.setWeapon(weaponScript);
 }
 
-function addDevice(x : float, y :float, t : String, n : int){
+function addDevice(x : float, y :float, t : String, na : int, nb){
 	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
 	deviceScript.transform.parent = deviceFolder.transform;
-	deviceScript.transform.position = Vector3(x,y,1);			// Position the character at x,y.								
+	deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
 	
-	deviceScript.init(t, this, n);
+	deviceScript.init(t, this, na, nb);
 	devices.Add(deviceScript);
-	deviceScript.name = "Device" + tiles.length;
+	deviceScript.name = "Device: " + t + ", "+ devices.length;
+	return deviceScript;
 }
 
 function addTile(xSpacial : float, ySpacial :float, t : String, or: int){
@@ -298,11 +314,24 @@ function protolevelInit(){
   roomCreate( 10,-10,0,"Plain2End.txt");
   roomCreate( 30, 10,3,"Plain1End.txt");
   roomCreate(-10, 30,2,"Plain1End.txt");
-  addDevice(-4,40,"mSpawn", 3);
-  addDevice( 4,40,"mSpawn", 3);
-  addDevice(-14,38,"mSpawn", 4);
-  addDevice(20,5,"mSpawn", 4);
-  addDevice(30,19.5,"barrier",0);
+  addDevice(-4,40,"mSpawn", 3, 0);
+  addDevice( 4,40,"mSpawn", 3, 0);
+  addDevice(-14,38,"mSpawn", 4, 0);
+  addDevice(20,5,"mSpawn", 4, 0);
+  addDevice(30,19.5,"barrier", 0, 7);
+  addDevice(-0.5,16,"barrier", 3, 1);
+  addCake(-0.5,15);
+  addCake(-0.5,0);
+  addCake(-0.5,25);
+  addCake(-22,16);
+  addCake(-20.5,4.5);
+  addCake(25,22);
+  addCake(-16,42);
+  addCake(8,48);
+  charSpawner = addDevice(-0.5,-5,"aSpawn",0,0);
+  bossSpawner = addDevice(40,21,"aSpawn",1,0);
+  charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+  bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
 }
 // Room Creation
 // Initiates room off of a txt file.
@@ -360,7 +389,7 @@ function roomCreate (xS: float, yS: float, rot: int, fileName: String) {
 	while (!addLine.Contains(endString)){
 		if(addLine != null && addLine.Length > 1){
 			var splitString : String[] = addLine.Split(" "[0]);
-			addDevice(float.Parse(splitString[0]) + xS, float.Parse(splitString[1]) + yS, splitString[2], parseInt(splitString[3]));
+			addDevice(float.Parse(splitString[0]) + xS, float.Parse(splitString[1]) + yS, splitString[2], parseInt(splitString[3]), 0);
 		}
 		addLine = stream.ReadLine();
 	}
@@ -383,6 +412,17 @@ function popTile(c: char, xpos: float, ypos: float){
 // *******************************************
 // 			   Win and Lose Screens
 // *******************************************
+function death(){
+	if(character.dead)
+		character.model.transform.position = charSpawner.modelObject.GetComponent("SpawnPointModel").transform.position;
+		character.dead = false;
+		character.health = 3;
+		character.model.renderer.material.color.a = 1;
+		character.weapon.model.renderer.material.color.a = 1;
+		character.model.frozen = false;
+		Destroy(boss.gameObject);
+		bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+}
 
 function lose(){
 	loseScreen = true;
