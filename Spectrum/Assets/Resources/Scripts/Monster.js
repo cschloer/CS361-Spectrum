@@ -13,6 +13,7 @@ public class Monster extends MonoBehaviour
 	public var minionFolder : GameObject;
 	public var invincible : boolean; //Monster cannot be hurt while invincible.
 	public var activateDistance : float; //Monster waits till hero is within this distance to activate.
+	public var manager : GameManager;
 	
 	public var hurtSound : AudioSource;
 	public var splatSound : AudioSource;
@@ -295,7 +296,7 @@ public class Monster extends MonoBehaviour
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
-		
+		manager.monsters.remove(this);
 		Destroy(this.gameObject);
 	}
 	function act(){

@@ -87,7 +87,10 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
-	addMonster(40, 20, character, 7);
+	addMonster(0, 2, character, 7);
+	addMonster(1, 3, character, 7);
+	addMonster(-4, 0, character, 7);
+	addMonster(0, -3, character, 7);
 }
 
 // Update
@@ -215,14 +218,17 @@ function addMonster(x : float, y :float, c : Character, type: int){
 		case 6:
 			monsterScript = monsterObject.AddComponent("Monster6");		// Add the monster2.js script to the object.
 			break;
+		case 7:
+			monsterScript = monsterObject.AddComponent("Monster7");
+			break;
 		default:
 			monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
 	}
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
-	
 	monsterScript.init(c);
+	monsterScript.manager = this;
 	monsters.Add(monsterScript);
 	monsterScript.name = "Monster"+ monsters.length;
 	return monsterObject;
