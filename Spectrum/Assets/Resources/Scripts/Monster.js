@@ -296,7 +296,7 @@ public class Monster extends MonoBehaviour
 			model.renderer.material.color.a = 1-(t/deathTime);
 			yield;
 		}
-		manager.monsters.remove(this);
+		manager.monsters.Remove(this);
 		Destroy(this.gameObject);
 	}
 	function act(){
@@ -314,12 +314,13 @@ public class Monster extends MonoBehaviour
 	//If fade is true, attack becomes translucent as it moves.
 	//If destructible is true, the sword can destroy the bullets.
 	//Keywords can be used for specific hit behaviours (stun, slow, knockback, etc) to be implemented in CharacterModel's (or WeaponModel's) OnTriggerEnter.
-	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
+	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String, offsetAngle : float){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack") as MonsterAttack;						
 		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		attack.transform.position = model.transform.position;
 		attack.transform.rotation = model.transform.rotation;
+		attack.transform.eulerAngles.z += offsetAngle;
 		attack.name = "Monster Attack";											// Name the object.
 		attack.renderer.material.mainTexture = Resources.Load("Textures/" + bulletTexture, Texture2D);	// Set the texture.  Must be in Resources folder.
 		attack.renderer.material.color = color;												// Set the color (easy way to tint things).
@@ -339,7 +340,11 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 	}
-	
+	function attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture){
+			function attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture, 0){
+
+	}
+
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String){
 			 attack(range, speed, home, width, depth, color, destructible, fade, keyword, "ball");
 
