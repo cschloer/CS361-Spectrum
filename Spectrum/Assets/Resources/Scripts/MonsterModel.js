@@ -9,9 +9,9 @@ function Update () {
 }
 function OnTriggerEnter(col:Collider){
 		//print (col.gameObject.name);
-		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.GetComponent(WeaponModel).weapon.swinging && !monster.hurting && monster.health > 0){
+		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && !monster.hurting && monster.health > 0){
 			monster.hurt();
-			col.gameObject.GetComponent(WeaponModel).weapon.hasHit = true;
+			col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.hasHit = true;
 		}
 		if (col.gameObject.name.Contains("Mine")){ // If it runs into a mine, damage it
 		//var mine:SpellMine = col.gameObject.GetComponent(SpellMine).monster;

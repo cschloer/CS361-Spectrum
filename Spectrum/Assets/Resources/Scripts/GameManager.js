@@ -59,9 +59,9 @@ function Start () {
 
 	//addCharacter(0,-5);
 
-	//addCircle(0); // blue circle
-	//addCircle(1); // red circle
-	//addCircle(2); // yellow circle	
+	addCircle(0); // blue circle
+	addCircle(1); // red circle
+	addCircle(2); // yellow circle	
 	
 	paused = false;
 	clock = 0.0;
