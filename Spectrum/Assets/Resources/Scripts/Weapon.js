@@ -38,7 +38,8 @@ public class Weapon extends MonoBehaviour{
 	public var isMeele = false;
 	public var clubAttackColor : Color;
 	public var clubCharging : boolean = false;
-	
+	public var isBoomerang:boolean;
+	public var chargingBoomTimer:float;
 	//Takes owner (main character) as parameter
 	
 // *******************************************
@@ -46,6 +47,7 @@ public class Weapon extends MonoBehaviour{
 // *******************************************
 
 	function init(c:Character){
+		chargingBoomTimer = 0;
 		isDual = false;
 		canThrow = false;
 		vibrating = false;
@@ -62,13 +64,13 @@ public class Weapon extends MonoBehaviour{
 	 	/*weaponObject.AddComponent(BoxCollider);
 	 	weaponObject.GetComponent(BoxCollider).isTrigger = true;
 	 	weaponObject.GetComponent(BoxCollider).size = Vector3(.1, 2, .5);
-	 	weaponObject.AddComponent(Rigidbody);
+	 	*/weaponObject.AddComponent(Rigidbody);
 	 	weaponObject.GetComponent(Rigidbody).isKinematic = false;
 	 	weaponObject.GetComponent(Rigidbody).useGravity = false;
 	 	weaponObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 	 	weaponObject.transform.parent = owner.model.transform;
-		*/model = weaponObject.AddComponent("WeaponModel") as WeaponModel;
-		
+		model = weaponObject.AddComponent("WeaponModel") as WeaponModel;
+		isBoomerang = false;
 		
 		model.weapon = this;
 		model.transform.parent = weaponObject.transform;
@@ -463,7 +465,8 @@ public class Weapon extends MonoBehaviour{
  	}
  	
  	// h is the heading vector, fromChar is a boolean saying whether this function was called from the character
-function tossBoomerang(distance : float, time : float, spinSpeed : float, recovery : float, h:Vector3, fromChar:boolean) : IEnumerator{ // toss function	
+function tossBoomerang(distance : float, time : float, spinSpeed : float, recovery : float, h:Vector3, fromChar:boolean, chargeTimer) : IEnumerator{ // toss function	
+ 		chargingBoomTimer = chargeTimer;
  		model.transform.parent = null;
  		var heading : Vector3 = h;
  		Vector3.Normalize(heading);
@@ -478,7 +481,8 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		while (tossTime < time && !hasHit){
  			if(!tossSound.isPlaying) tossSound.Play();
  			tossTime += Time.deltaTime;
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+ 			model.transform.Rotate(this.transform.forward*Time.deltaTime*tossSpeed*50);
+ 			//model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			model.transform.position += (heading * tossSpeed * Time.deltaTime)+moveAdder; 
  			yield;
  		}
@@ -486,20 +490,20 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		hasHit = false;
  		var t:float=0;
  		//Recover until sword reaches hero
- 		while (distanceFromOwner() > .1){
+ 		while (distanceFromOwner() > .3){
  			t += Time.deltaTime;
  			 if(!tossSound.isPlaying) tossSound.Play();
-
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+			model.transform.Rotate(this.transform.forward*Time.deltaTime*tossSpeed*50);
+ 		//	model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			heading = model.transform.position - owner.model.transform.position;
  			model.transform.position -= (heading.normalized * tossSpeed * Time.deltaTime);
- 			yield;
+ 			if (distanceFromOwner() > .3) yield;
  		}
  
  		if (character.model.jumping) {
  			Time.timeScale = .25; // slow motion
 			//stopSwinging();
- 			tossBoomerang(distance, time,spinSpeed, recovery, -h.normalized, false);
+ 			tossBoomerang(distance, time,spinSpeed, recovery, -h.normalized, false, chargeTimer);
  			yield WaitForSeconds(.5);
  			Time.timeScale = 1;
  			return;
@@ -512,7 +516,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		model.transform.localScale = Vector3.one;
  		
  		stopSwinging();
- 
+ 		chargingBoomTimer = 0;
  		
  		
  		

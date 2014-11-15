@@ -188,7 +188,9 @@ function deactivateStars(){ // functions to set all of the shurekins as inactive
 
 function activateBoomerang(){
 	deactivateAll();
+	weapon.cube.transform.localPosition = Vector3(-.1, 0.4, 0);
 	weapon.active = true;
+	weapon.isBoomerang = true;
 	weapon.model.active = true;
 	weapon.model.transform.position = weapon.owner.model.transform.position;
 	weapon.model.transform.parent = weapon.owner.model.transform;
@@ -215,12 +217,14 @@ function activateStars(){
 }
 
 function deactivateAll(){
+	weapon.cube.transform.localPosition = Vector3(0.1, 0.7, 0);
 	weapon.active = false;
+	weapon.isBoomerang = false;
 	weapon.model.active = false;
 	for (var i=0; i < numThrowingStars; i++){
 		throwingStars[i].active = false;
 		throwingStars[i].model.active = false;
-	
+		throwingStars[i].cube.transform.localPosition = Vector3(0.1, 0.7, 0);
 	}
 	weapon.isMeele = false;
 	isThrowingStar = false;

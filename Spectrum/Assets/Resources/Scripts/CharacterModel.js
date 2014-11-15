@@ -138,6 +138,7 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
+	changeRed();
 }
 
 // Update is called once per frame
@@ -412,7 +413,7 @@ function Update () {
 	else{
 		if (isChargingBoom) {
 			character.weapon.vibrating = false;
-			character.weapon.tossBoomerang(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery, this.transform.up, true);
+			character.weapon.tossBoomerang(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery, this.transform.up, true, chargingBoomTimer);
 			chargingBoomTimer = 0;
 			isChargingBoom = false;
 			hasBoomBoosted = false;
@@ -742,7 +743,7 @@ function spellMine(){	// mine spell, currently when ranged
 	var mineScript = modelObject2.AddComponent("SpellMine");		// Add the mine.js script to the object.
 																																							// We can now refer to the object via this script.
 	mineScript.transform.parent = this.transform.parent;	// Set the mine's parent object to be the mine folder.							
-	mineScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this);	
+	mineScript.init(this.transform.position.x, this.transform.position.y, modelObject2, this, 10);	
 
 }
 
