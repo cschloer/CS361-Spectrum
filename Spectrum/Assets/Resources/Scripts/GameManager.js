@@ -66,6 +66,9 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+	
+	addMonster(0,0,character,-1);
+
 }
 
 // Update
@@ -172,6 +175,9 @@ function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterScript;
 	//type = 1;
 	switch(type){
+		case -1:
+			monsterScript = monsterObject.AddComponent("TutorialMonster1");
+			break;
 		case 1:
 			monsterScript = monsterObject.AddComponent("Monster1");
 			break;
