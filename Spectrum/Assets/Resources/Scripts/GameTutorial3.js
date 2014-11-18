@@ -1,54 +1,35 @@
-﻿
+public class GameTutorial3 extends GameManager {
 
-public class GameTutorial1 extends GameManager {
+var yellowchange : boolean = true;
 
-	var displayText : String;
-	
 function levelInit(){
-  roomCreate(-10,-10,0,"Plain3End.txt");
-  roomCreate(-10, 10,1,"Plain3Adj.txt");
-  roomCreate( 10, 10,0,"Plain3Tri.txt");
-  roomCreate( 30, 10,3,"Plain2End.txt");
-  roomCreate( 10, 30,0,"Plain4Opp.txt");
-  addDevice(19.5,28.5,"barrier", 3, 7);
-  charSpawner = addDevice(-0.5,-6.5,"aSpawn",0,0);
-  bossSpawner = addDevice(18,45,"aSpawn",1,0);
+  roomCreate(-10, 30,2,"Plain2End.txt");
+  roomCreate(-10, 10,0,"Plain2Opp.txt");
+  roomCreate(-10,-10,0,"Hole3Opp.txt");
+  roomCreate(-10,-30,0,"Plain1End.txt");
+  charSpawner = addDevice(-0.5,33,"aSpawn",0,0);
+  bossSpawner = addDevice(0,-23,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  addCake(34,19);
-    addCake(-.5,-4);
-    addCake(-.5,-1);
-	addCake(-.5,2);
-	addCake(-.5, 5);
-	addCake(-.5,8);
-    addCake(-.5,11);
-    addCake(-.5,14);
-
-    displayText = "Use arrow keys to move! Collect cake!";
-
-
 }
 
 
 function addBoss(x : float, y :float, c : Character){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	monsterScript = monsterObject.AddComponent("TutorialMonster1");		// Add the monster.js script to the object.
+	monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
 	
 	monsterScript.init(c);
-	
+	monsterScript.activateDistance = 6;
 	boss = monsterScript;
 	monsterScript.name = "Boss";
 	return monsterScript;
 }
 
 function Update () {
-	if (character.model.cakesCollected == 8) {
-		displayText = "Click to fire at the boss monster!";
-	}
 	if (winScreen || loseScreen){
 		losewinTimer += Time.deltaTime;
 		if (losewinTimer >= 2) {
@@ -76,15 +57,13 @@ function Update () {
 		}
 	}
 	clock = clock + Time.deltaTime;
+	if(clock < .5 && yellowchange){
+		character.model.changeYellow();
+		yellowchange=false;
+	}
 	if(boss == null && clock > 1){
 		win();
 	}
-}
-
-function OnGUI() {
-	super.OnGUI();
-	GUI.Button (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
-        
 }
 
 }
