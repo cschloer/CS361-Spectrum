@@ -17,6 +17,7 @@ public class TutorialMonster1 extends Monster {
 		rotateTimer = rotateTimer + Time.deltaTime;
 		if (rotateTimer > 3) {
 			rotateTimer = 0;
+			model.transform.Rotate(Vector3(0,0,180));
 			if (currMovement == 1) {
 				currMovement = 0;
 			}else {
