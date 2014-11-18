@@ -9,18 +9,11 @@ function levelInit(){
   roomCreate( 10, 10,0,"Plain3Tri.txt");
   roomCreate( 30, 10,3,"Plain2End.txt");
   roomCreate( 10, 30,0,"Plain4Opp.txt");
-  addDevice(19.5,28.5,"barrier", 3, 0);
-  addCake(35,19.5);
+  addDevice(19.5,28.5,"barrier", 3, 7);
   charSpawner = addDevice(-0.5,-6.5,"aSpawn",0,0);
-<<<<<<< HEAD
   bossSpawner = addDevice(18,45,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-=======
- 	bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
-  charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  	//addMonster(18,45,character,-1);
   addCake(34,19);
     addCake(-.5,-4);
     addCake(-.5,-1);
@@ -29,9 +22,6 @@ function levelInit(){
 	addCake(-.5,8);
     addCake(-.5,11);
     addCake(-.5,14);
-
->>>>>>> FETCH_HEAD
-
 }
 
 
@@ -44,10 +34,7 @@ function addBoss(x : float, y :float, c : Character){
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
 	
 	monsterScript.init(c);
-<<<<<<< HEAD
-=======
-	//monsterScript.activateDistance = 2;
->>>>>>> FETCH_HEAD
+	
 	boss = monsterScript;
 	monsterScript.name = "Boss";
 	return monsterScript;
