@@ -92,6 +92,7 @@
      <Compile Include="Assets\Resources\Scripts\TileFloorModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileHoleModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileWallModel.js" />
+     <Compile Include="Assets\Resources\Scripts\TutorialMonster1.js" />
      <Compile Include="Assets\Resources\Scripts\Weapon.js" />
      <Compile Include="Assets\Resources\Scripts\WeaponModel.js" />
      <Compile Include="Assets\Resources\Scripts\gem.js" />

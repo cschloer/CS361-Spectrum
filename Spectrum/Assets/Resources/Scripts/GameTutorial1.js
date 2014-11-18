@@ -13,7 +13,6 @@ function levelInit(){
   bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  //character.model.changeYellow();
 }
 
 
