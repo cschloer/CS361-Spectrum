@@ -21,7 +21,7 @@ function levelInit(){
 	addCake(-.5, 5);
 	addCake(-.5,8);
     addCake(-.5,11);
-    addCake(-.5,14);
+    addCake(19,25);
 }
 
 

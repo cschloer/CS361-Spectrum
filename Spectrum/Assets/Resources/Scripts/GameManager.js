@@ -169,8 +169,11 @@ function spawnMonster() {
 		//print("spawned monster " + rType + ", " + clockFrequency);
 	}
 }
-
 function addMonster(x : float, y :float, c : Character, type: int){
+	return addMonster(x, y, c, type, -1);
+}
+
+function addMonster(x : float, y :float, c : Character, type: int, data : float){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
 	//type = 1;
@@ -215,7 +218,10 @@ function addMonster(x : float, y :float, c : Character, type: int){
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
-	monsterScript.init(c);
+	if(data == -1)
+		monsterScript.init(c);
+	else 
+		monsterScript.init(c, data);
 	monsterScript.manager = this;
 	monsters.Add(monsterScript);
 	monsterScript.name = "Monster"+ monsters.length;

@@ -1,14 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/CharacterModel.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/TutorialMonster1.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/TutorialMonster1.js" Line="33" Column="13" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="353" Column="20" />
+      <File FileName="Assets/Resources/Scripts/TutorialMonster1.js" Line="20" Column="2" />
+      <File FileName="Assets/Resources/Scripts/Monster.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/GameTutorial1.js" Line="48" Column="1" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="256" Column="29" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="643" Column="21" />
-      <File FileName="Assets/Resources/Scripts/Device.js" Line="39" Column="10" />
-      <File FileName="Assets/Resources/Scripts/DeviceWallModel.js" Line="17" Column="23" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="700" Column="6" />
+      <File FileName="Assets/Resources/Scripts/Device.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/DeviceWallModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/GameTutorial2.js" Line="25" Column="1" />
+      <File FileName="Assets/LevelCompleteScript.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
