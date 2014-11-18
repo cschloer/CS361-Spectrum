@@ -17,6 +17,8 @@ function init(t: String, or: int, tiles: Array) {
 		box.center = wmodel.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(1.3,1.3,20);
 		wmodel.transform.position.z += -0.1;
+		box.isTrigger = true;
+
 		wmodel.init(this, tiles);													// Initialize the tileModel.
 	} else if(type == "Hole") {
 		var hmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
