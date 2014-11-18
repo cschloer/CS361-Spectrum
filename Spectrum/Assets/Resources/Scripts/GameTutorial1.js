@@ -10,9 +10,11 @@ function levelInit(){
   roomCreate( 30, 10,3,"Plain2End.txt");
   roomCreate( 10, 30,0,"Plain4Opp.txt");
   charSpawner = addDevice(-0.5,-6.5,"aSpawn",0,0);
-  bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
+  //bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+  //bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+  	addMonster(18,45,character,-1);
+
 }
 
 
