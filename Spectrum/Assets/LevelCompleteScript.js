@@ -1,11 +1,26 @@
-﻿#pragma strict
+﻿
+
+// Imports:
+import System.IO;
 
 var startButton : Texture2D;
 var exitButton : Texture2D;
+var levelNum : int;
+var levelName: String;
 
 function Start () {
 	startButton = Resources.Load("Textures/NextLevelButton", Texture2D);
 	exitButton = Resources.Load("Textures/ExitButton", Texture2D);
+	var stream = new StreamReader(Application.dataPath +"/Resources/Configuration/data.conf");
+	var lev = stream.ReadLine();
+	levelNum = parseInt(lev.Split(":"[0])[1]);
+	if(levelNum < 3){
+		levelName = "LevelTutorial"+(levelNum+1);
+		print(levelName);
+	}else{
+		levelName = "Level"+(levelNum-2);
+	}
+	
 }
 
 function Update () {

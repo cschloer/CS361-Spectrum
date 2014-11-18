@@ -139,7 +139,7 @@ public class MonsterBoss extends Monster{
 		shielding = false;
 	}
 	function minionCollision(minion : Minion, col : Collider){
-		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0 && !shielding){
+		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0 && !shielding){
 			invincible = false;
 			hurt();
 			invincible = true;

@@ -11,15 +11,17 @@ var explosionParticle:ParticleSystem;
 var resetCool:boolean; // so that the cooldown only gets reset the first time around
 var cycles:int; // how many blinking cycles it's gone through
 var destroying:boolean;
+var time:float;
 
-function init(x:float, y:float, m:GameObject, c:CharacterModel){
+function init(x:float, y:float, m:GameObject, c:CharacterModel, t:float){
 	destroying = false;
 	resetCool = true;
 	cycles = 0;
 	clock = 0;
 	modelObject = m;	
 	character = c;	
-	colliderSize = .5;			
+	colliderSize = .5;	
+	time = t;		
 	modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
@@ -36,15 +38,15 @@ function init(x:float, y:float, m:GameObject, c:CharacterModel){
 	
 	this.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	this.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+
+	if (t==0) this.renderer.enabled = false; // if using this just for the explosion
 }
 
 function Update(){
 	if (clock > 1) {
 		this.renderer.material.mainTexture = Resources.Load("Textures/mine", Texture2D);
 		clock=0;
-		cycles++;
-		if (cycles > 10) destroyMe(); // destroy after 10 cycles, aka 10 seconds
-	}
+		}
 	else if (clock > .5) { 
 		this.renderer.material.mainTexture = Resources.Load("Textures/mineB", Texture2D);
 		if (resetCool) { // reset the cooldown only the first time around
@@ -52,6 +54,9 @@ function Update(){
 			resetCool = false;
 		}
 	}
+	cycles+=Time.deltaTime;
+	if (cycles >= time) destroyMe(); // destroy after 10 cycles, aka 10 seconds
+	
 	clock+=Time.deltaTime;
 	
 }
@@ -79,7 +84,7 @@ function destroyMe(){
 	explosionParticle.transform.localPosition = Vector3(0,0,0);
 	explosionParticle.gameObject.SetActive(true);
 	yield WaitForSeconds(1);
-	if (resetCool) { // if the cooldown hasn't been reset yet, this mine was destroyed very early. Remove mine visually and wait before resetting cooldown.
+	if (resetCool && time !=0) { // if the cooldown hasn't been reset yet, this mine was destroyed very early. Remove mine visually and wait before resetting cooldown.
 		yield WaitForSeconds(.5-clock);
 		character.coolSpellMine = false;
 	}

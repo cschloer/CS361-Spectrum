@@ -46,7 +46,7 @@ public class Monster7 extends Monster{
 	
 	function findBuddy(){
 		for(var m : Monster in manager.monsters){
-			if(m instanceof Monster7 && m != this && Vector3.Magnitude(model.transform.position - m.model.transform.position) < 8){
+			if(m!=null && m instanceof Monster7 && m != this && Vector3.Magnitude(model.transform.position - m.model.transform.position) < 8){
 				var m7 : Monster7 = m;
 				if(m7.buddy == null){
 					buddy = m7;

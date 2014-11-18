@@ -10,7 +10,6 @@ var duration:float;
 
 function init(x:float, y:float, m:GameObject, sizeIncrease:float, d:float){
 	clock = 0;
-	print("here");	
 	colliderSize = 1.5*sizeIncrease;
 	duration = d;
 //	if (isBig) colliderSize = 3;

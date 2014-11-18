@@ -4,6 +4,7 @@
 public class Weapon extends MonoBehaviour{
 
 	public var weaponObject : GameObject; //GameObject for weapon's behavior
+	public var colliderObject:GameObject;
 	public var owner : Character;	//the owner of this weapon (Currently can only be the main character)
 	public var model : WeaponModel;	//Model object for weapon
 	public var baseRotation : Vector3;	//Default offset rotation when weapon is held
@@ -20,7 +21,7 @@ public class Weapon extends MonoBehaviour{
 	public var clubRollSound : AudioSource;
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 	public var hasHit : boolean;
-	
+	public var cube:GameObject;
 	public var throwTime : float;
 	public var tossTime : float; // time current toss has been out
 	public var throwRecovery : float;
@@ -37,7 +38,8 @@ public class Weapon extends MonoBehaviour{
 	public var isMeele = false;
 	public var clubAttackColor : Color;
 	public var clubCharging : boolean = false;
-	
+	public var isBoomerang:boolean;
+	public var chargingBoomTimer:float;
 	//Takes owner (main character) as parameter
 	
 // *******************************************
@@ -45,6 +47,7 @@ public class Weapon extends MonoBehaviour{
 // *******************************************
 
 	function init(c:Character){
+		chargingBoomTimer = 0;
 		isDual = false;
 		canThrow = false;
 		vibrating = false;
@@ -58,21 +61,40 @@ public class Weapon extends MonoBehaviour{
 		hasHit = false;
 		baseRotation = Vector3(0, 0, -55);
 		basePosition = Vector3(0, 0, 0);
-	 	weaponObject.AddComponent(BoxCollider);
+	 	/*weaponObject.AddComponent(BoxCollider);
 	 	weaponObject.GetComponent(BoxCollider).isTrigger = true;
 	 	weaponObject.GetComponent(BoxCollider).size = Vector3(.1, 2, .5);
-	 	weaponObject.AddComponent(Rigidbody);
+	 	*/weaponObject.AddComponent(Rigidbody);
 	 	weaponObject.GetComponent(Rigidbody).isKinematic = false;
 	 	weaponObject.GetComponent(Rigidbody).useGravity = false;
 	 	weaponObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 	 	weaponObject.transform.parent = owner.model.transform;
 		model = weaponObject.AddComponent("WeaponModel") as WeaponModel;
+		isBoomerang = false;
+		
 		model.weapon = this;
 		model.transform.parent = weaponObject.transform;
 		model.transform.localPosition = basePosition;
 		model.transform.localEulerAngles = baseRotation;						
 		spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+ 		
+ 		/*colliderObject = new GameObject();
+		colliderObject.name = "WeaponObject Colliders";
+		colliderObject.AddComponent(BoxCollider);
+	 	colliderObject.GetComponent(BoxCollider).isTrigger = true;
+	 	colliderObject.GetComponent(BoxCollider).size = Vector3(.1, 2, .5);
+		colliderObject.transform.parent = spriteRenderer.transform;
+ 		*/
+ 		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+ 		Destroy(cube.renderer);
+ 		Destroy(cube.GetComponent(MeshFilter));
+ 		cube.name = "WeaponObject Collider";
+ 		cube.GetComponent(BoxCollider).isTrigger = true;
+ 		cube.transform.parent = model.transform;
+ 		cube.transform.localPosition = Vector3(0.1, 0.7, 0);
+ 		cube.transform.localRotation = Quaternion(0,0,0,0);
+ 			
  		resetPosition();
 		stopSwinging();
 		swingSound = gameObject.AddComponent("AudioSource") as AudioSource; //Initialized AudioSource
@@ -443,7 +465,8 @@ public class Weapon extends MonoBehaviour{
  	}
  	
  	// h is the heading vector, fromChar is a boolean saying whether this function was called from the character
-function tossBoomerang(distance : float, time : float, spinSpeed : float, recovery : float, h:Vector3, fromChar:boolean) : IEnumerator{ // toss function	
+function tossBoomerang(distance : float, time : float, spinSpeed : float, recovery : float, h:Vector3, fromChar:boolean, chargeTimer) : IEnumerator{ // toss function	
+ 		chargingBoomTimer = chargeTimer;
  		model.transform.parent = null;
  		var heading : Vector3 = h;
  		Vector3.Normalize(heading);
@@ -458,7 +481,8 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		while (tossTime < time && !hasHit){
  			if(!tossSound.isPlaying) tossSound.Play();
  			tossTime += Time.deltaTime;
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+ 			model.transform.Rotate(this.transform.forward*Time.deltaTime*tossSpeed*50);
+ 			//model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			model.transform.position += (heading * tossSpeed * Time.deltaTime)+moveAdder; 
  			yield;
  		}
@@ -466,20 +490,20 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		hasHit = false;
  		var t:float=0;
  		//Recover until sword reaches hero
- 		while (distanceFromOwner() > .1){
+ 		while (distanceFromOwner() > .3){
  			t += Time.deltaTime;
  			 if(!tossSound.isPlaying) tossSound.Play();
-
- 			model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
+			model.transform.Rotate(this.transform.forward*Time.deltaTime*tossSpeed*50);
+ 		//	model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			heading = model.transform.position - owner.model.transform.position;
  			model.transform.position -= (heading.normalized * tossSpeed * Time.deltaTime);
- 			yield;
+ 			if (distanceFromOwner() > .3) yield;
  		}
  
  		if (character.model.jumping) {
  			Time.timeScale = .25; // slow motion
 			//stopSwinging();
- 			tossBoomerang(distance, time,spinSpeed, recovery, -h.normalized, false);
+ 			tossBoomerang(distance, time,spinSpeed, recovery, -h.normalized, false, chargeTimer);
  			yield WaitForSeconds(.5);
  			Time.timeScale = 1;
  			return;
@@ -492,7 +516,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		model.transform.localScale = Vector3.one;
  		
  		stopSwinging();
- 
+ 		chargingBoomTimer = 0;
  		
  		
  		
@@ -524,21 +548,27 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	}
 	
 	function toBoomerang(){
+		cube.GetComponent(BoxCollider).size = Vector3(1, 1, .5);
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		
 	}
 	function toHammer(){
+		cube.GetComponent(BoxCollider).size = Vector3(2, 3, .5);
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/club", Texture2D), new Rect(0,0,256,512), new Vector2(0.5f, 0), 400f);
  		model.renderer.material.color = Color(1,1,1);
 
 	}
 	function toThrowingStar(){
+		cube.GetComponent(BoxCollider).size = Vector3(1, 1, .5);
+	//	colliderObject.GetComponent(BoxCollider).center = model.transform.position;
+//		colliderObject.GetComponent(BoxCollider).position = model.transform.position;
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 200f);
 		model.renderer.material.color = Color(1,1,1);
 
 	}
 	
 	function toStick(){
+		cube.GetComponent(BoxCollider).size = Vector3(.1, 1, .5);
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  	
 	}
@@ -584,7 +614,13 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		model.transform.localPosition = basePosition;
  		model.transform.localScale = Vector3.one;
 	}
-
+	
+	function OnDrawGizmos() {
+		// Draw a yellow cube at the transforms position
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireCube (cube.transform.position, cube.GetComponent(BoxCollider).size);
+	
+	}
 	
 	
 	
