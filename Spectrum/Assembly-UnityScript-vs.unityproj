@@ -60,6 +60,7 @@
      <Compile Include="Assets\Resources\Scripts\DeviceWallModel.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel1.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
+     <Compile Include="Assets\Resources\Scripts\GameTutorial1.js" />
      <Compile Include="Assets\Resources\Scripts\HeroAttack.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
      <Compile Include="Assets\Resources\Scripts\LevelEditorCamera.js" />
@@ -100,6 +101,7 @@
      <None Include="Assets\Resources\Levels\test.txt" />
      <None Include="Assets\Levels\Hole3Tri.txt" />
      <None Include="Assets\Levels\wd.txt" />
+     <None Include="Assets\Levels\Plain3End.txt" />
      <None Include="Assets\Levels\Plain2End.txt" />
      <None Include="Assets\Levels\rooma.txt" />
      <None Include="Assets\Levels\room3.txt" />
@@ -111,6 +113,8 @@
      <None Include="Assets\Levels\Hole2Tri.txt" />
      <None Include="Assets\Levels\Plain1Adj.txt" />
      <None Include="Assets\Levels\Plain1End.txt" />
+     <None Include="Assets\Levels\Plain3Tri.txt" />
+     <None Include="Assets\Levels\Plain3Adj.txt" />
      <None Include="Assets\Levels\Plain1Opp.txt" />
      <None Include="Assets\Levels\test.txt" />
      <None Include="Assets\Levels\Walls1Adj.txt" />
@@ -124,6 +128,7 @@
      <None Include="Assets\Levels\USER_ERROR.txt" />
      <None Include="Assets\Levels\Walls1Opp.txt" />
      <None Include="Assets\Levels\room4.txt" />
+     <None Include="Assets\Levels\Plain4Opp.txt" />
      <None Include="Assets\Levels\room1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -470,12 +470,12 @@ function OnGUI() {
 	if (loseScreen){
 		 Application.LoadLevel("End");
 	}
-	else if (winScreen){
+	/*else if (winScreen){
 		GUI.backgroundColor = Color.black;
 		GUI.color = Color.white;
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n You win!");
-	} else if(paused){
+	}*/ else if(paused){
 		GUI.backgroundColor = Color.black;
 		GUI.color = Color.white;
 		GUI.skin.box.fontSize = 26;

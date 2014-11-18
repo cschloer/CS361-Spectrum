@@ -1,11 +1,18 @@
-﻿#pragma strict
+﻿
+
+// Imports:
+import System.IO;
 
 var startButton : Texture2D;
 var exitButton : Texture2D;
+var levelNum : int;
+var levelName: String;
 
 function Start () {
 	startButton = Resources.Load("Textures/NextLevelButton", Texture2D);
 	exitButton = Resources.Load("Textures/ExitButton", Texture2D);
+	var stream = new StreamReader(Application.dataPath +"/Resources/Configuration/data.conf");
+	print(stream.ReadLine());
 }
 
 function Update () {

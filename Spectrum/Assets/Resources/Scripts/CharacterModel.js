@@ -138,7 +138,6 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
-	changeRed();
 }
 
 // Update is called once per frame
