@@ -33,6 +33,7 @@ var musicSound : AudioSource;		// Game music.
 var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
+var currentLevel : int;
 
 
 // Start
@@ -54,6 +55,7 @@ function Start () {
 	tiles = new Array();
 	
 	levelInit();
+	currentLevel = -1;
 	
 	paused = false;
 	clock = 0.0;
@@ -463,7 +465,8 @@ function win(){
 // *******************************************
 
 function OnGUI() {
-	return;
+	if(currentLevel==1)
+		return;
 
 	//Balancing sliders
 	/*
