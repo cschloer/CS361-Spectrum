@@ -34,8 +34,15 @@ public class TutorialMonster1 extends Monster {
 		}
 	}
 	
-	function die() {
-		manager.winScreen = true;
+	function die(deathTime: float) {
+		//manager.winScreen = true;
+		var t : float = 0;
+
+		while (t < deathTime){
+			t += Time.deltaTime;
+			model.renderer.material.color.a = 1-(t/deathTime);
+			yield;
+		}
 		Destroy(this.gameObject);
 
 	}
