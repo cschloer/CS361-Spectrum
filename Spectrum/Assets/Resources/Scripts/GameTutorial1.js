@@ -10,10 +10,19 @@ function levelInit(){
   roomCreate( 30, 10,3,"Plain2End.txt");
   roomCreate( 10, 30,0,"Plain4Opp.txt");
   charSpawner = addDevice(-0.5,-6.5,"aSpawn",0,0);
-  //bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
+ 	bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  //bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-  	addMonster(18,45,character,-1);
+  bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+  	//addMonster(18,45,character,-1);
+  addCake(34,19);
+    addCake(-.5,-4);
+    addCake(-.5,-1);
+	addCake(-.5,2);
+	addCake(-.5, 5);
+	addCake(-.5,8);
+    addCake(-.5,11);
+    addCake(-.5,14);
+
 
 }
 
@@ -21,13 +30,13 @@ function levelInit(){
 function addBoss(x : float, y :float, c : Character){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	monsterScript = monsterObject.AddComponent("Monster1");		// Add the monster.js script to the object.
+	monsterScript = monsterObject.AddComponent("TutorialMonster1");		// Add the monster.js script to the object.
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
 	
 	monsterScript.init(c);
-	monsterScript.activateDistance = 2;
+	//monsterScript.activateDistance = 2;
 	boss = monsterScript;
 	monsterScript.name = "Boss";
 	return monsterScript;
