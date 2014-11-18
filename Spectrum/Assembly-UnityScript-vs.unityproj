@@ -61,6 +61,7 @@
      <Compile Include="Assets\Resources\Scripts\GameLevel1.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial1.js" />
+     <Compile Include="Assets\Resources\Scripts\GameTutorial2.js" />
      <Compile Include="Assets\Resources\Scripts\HeroAttack.js" />
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
      <Compile Include="Assets\Resources\Scripts\LevelEditorCamera.js" />
