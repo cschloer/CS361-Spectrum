@@ -2,7 +2,7 @@
 
 public class GameTutorial1 extends GameManager {
 
-	var displayText : String;
+var displayText : String;
 	
 function levelInit(){
   roomCreate(-10,-10,0,"Plain3End.txt");
@@ -22,15 +22,11 @@ function levelInit(){
 	addCake(-.5, 5);
 	addCake(-.5,8);
     addCake(-.5,11);
-<<<<<<< HEAD
     addCake(19,25);
-=======
-    addCake(-.5,14);
 
     displayText = "Use arrow keys to move! Collect cake!";
 
 
->>>>>>> FETCH_HEAD
 }
 
 

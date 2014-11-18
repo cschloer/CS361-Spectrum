@@ -5,6 +5,9 @@ public class TutorialMonster1 extends Monster {
 	var rotateTimer : float;
 	var currMovement : int;
 	var type : float;
+	function init(c:Character){
+		init(c, 0);
+	}
 	function init(c : Character, t : int) {
 		super.init(c);
 		model.renderer.material.mainTexture = Resources.Load("Textures/magnetmate_pull", Texture2D);	// Set the texture.  Must be in Resources folder.
@@ -44,6 +47,7 @@ public class TutorialMonster1 extends Monster {
 		} else if(type == 2){
 			dropColor("blue", 999);
 			manager.addCake(24,-4);
+			manager.displayText = "Tip: Combine to do Combos!";
 
 		}
 		var t : float = 0;

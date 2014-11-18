@@ -1,7 +1,7 @@
 public class GameTutorial3 extends GameManager {
 
-var yellowchange : boolean = true;
-
+var bluechange : boolean = true;
+var displayText : String;
 function levelInit(){
   roomCreate(-10, 30,2,"Plain2End.txt");
   roomCreate(-10, 10,0,"Plain2Opp.txt");
@@ -11,6 +11,7 @@ function levelInit(){
   bossSpawner = addDevice(0,-23,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+  displayText = "Now you're ready for a real fight!";
 }
 
 
@@ -57,13 +58,20 @@ function Update () {
 		}
 	}
 	clock = clock + Time.deltaTime;
-	if(clock < .5 && yellowchange){
-		character.model.changeYellow();
-		yellowchange=false;
+	
+	if(clock < .5 && bluechange && !character.model.blue){
+		character.model.changeBlue();
+		bluechange=false;
 	}
+	
 	if(boss == null && clock > 1){
 		win();
 	}
+}
+function OnGUI() {
+	super.OnGUI();
+	GUI.Button (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
+        
 }
 
 }

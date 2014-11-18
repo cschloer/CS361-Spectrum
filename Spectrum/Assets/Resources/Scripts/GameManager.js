@@ -281,7 +281,7 @@ function addWeapon(c : Character){
 	c.setWeapon(weaponScript);
 }
 
-function addDevice(x : float, y :float, t : String, na : int, nb){
+function addDevice(x : float, y :float, t : String, na : int, nb : int){
 	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	

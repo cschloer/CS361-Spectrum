@@ -39,7 +39,7 @@ function init(own : Device, man: GameManager, count: int, typev: int) {
 function Update(){
 	if (spawns.length < counter && Random.value < 0.002 && !broken && !owner.frozen){
 		var rType : int;
-		if(typeVal > 0){			// Number of monster you'd like the spanwer to spawn
+		if(typeVal != 0){			// Number of monster you'd like the spanwer to spawn
 			rType = typeVal;
 		} else{
 			rType = Random.Range(1,7);

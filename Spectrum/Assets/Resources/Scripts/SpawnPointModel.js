@@ -32,5 +32,6 @@ function spawn(){
 		manager.addBoss(transform.position.x,transform.position.y, manager.character);
 	} else{
 		manager.addCharacter(transform.position.x, transform.position.y);
+		
 	}
 }

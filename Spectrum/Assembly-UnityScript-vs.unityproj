@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\EndScript.js" />
      <Compile Include="Assets\LevelCompleteScript.js" />
+     <Compile Include="Assets\MonsterBossTentacle.js" />
      <Compile Include="Assets\Resources\Scripts\Cake.js" />
      <Compile Include="Assets\Resources\Scripts\CakeModel.js" />
      <Compile Include="Assets\Resources\Scripts\CameraMovement.js" />
@@ -81,6 +82,7 @@
      <Compile Include="Assets\Resources\Scripts\Monster9.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterAttack.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterBoss.js" />
+     <Compile Include="Assets\Resources\Scripts\MonsterBossTentacleArm.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterModel.js" />
      <Compile Include="Assets\Resources\Scripts\Selector.js" />
      <Compile Include="Assets\Resources\Scripts\SelectorModel.js" />
