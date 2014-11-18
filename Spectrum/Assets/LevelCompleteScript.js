@@ -16,11 +16,15 @@ function Start () {
 	levelNum = parseInt(lev.Split(":"[0])[1]);
 	if(levelNum < 3){
 		levelName = "LevelTutorial"+(levelNum+1);
-		print(levelName);
 	}else{
 		levelName = "Level"+(levelNum-2);
 	}
-	
+	lev = "currentLevel:"+(levelNum+1);
+	lev = String.Concat(lev,stream.ReadToEnd());
+	stream.Close();
+	var overwrite = new StreamWriter(Application.dataPath +"/Resources/Configuration/data.conf");
+	overwrite.Write(lev);
+	overwrite.Close();
 }
 
 function Update () {

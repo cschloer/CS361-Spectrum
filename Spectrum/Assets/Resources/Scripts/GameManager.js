@@ -67,7 +67,7 @@ function Start () {
 	winScreen = false;
 	loseScreen = false;
 	
-	addMonster(0,0,character,-1);
+	//addMonster(0,0,character,-1);
 
 }
 
