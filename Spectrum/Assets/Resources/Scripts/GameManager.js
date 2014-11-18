@@ -128,7 +128,6 @@ function addCharacter(x : float , y : float) {
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 
-	
 }
 
 function addCake(x : float , y : float) {
@@ -463,7 +462,6 @@ function win(){
 // *******************************************
 
 function OnGUI() {
-	return;
 
 	//Balancing sliders
 	/*

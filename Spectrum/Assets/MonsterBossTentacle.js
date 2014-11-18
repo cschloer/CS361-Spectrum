@@ -43,7 +43,7 @@ public class MonsterBossTentacle extends Monster{
 		tentacleFolder.transform.parent = transform;
 		tentacles = new Array();
 		var numTentacles:int = 10;
-		var tentacleLength:int = 10;
+		var tentacleLength:int = 15;
 		for (var i=0; i<numTentacles; i++){
 		
 			tentacles.Add(addTentacleArm(Vector3(0,0,i*(360/numTentacles)), tentacleLength));
@@ -57,7 +57,7 @@ public class MonsterBossTentacle extends Monster{
 		var tentacleScript:MonsterBossTentacleArm = modelObject2.AddComponent("MonsterBossTentacleArm");		// Add the tentacle.js script to the object.
 																// We can now refer to the object via this script.
 		tentacleScript.transform.eulerAngles = rotation;
-		tentacleScript.init(this.transform.position.x, this.transform.position.y, length, modelObject2, rotation, Random.Range(.1, 1.25), Random.Range(.1, 1.75), super.manager);	
+		tentacleScript.init(this.transform.position.x, this.transform.position.y, length, modelObject2, rotation, Random.Range(.3, .75), Random.Range(.2, .6), super.manager);	
 		//tentacleScript.transform.parent
 		tentacleScript.transform.parent = tentacleFolder.transform;	// Set the tentacle's parent object to be the tentacle folder.	
 		tentacleScript.transform.position += tentacleScript.transform.up;						
@@ -87,6 +87,7 @@ public class MonsterBossTentacle extends Monster{
 	}
 	
 	function explodeArea() : IEnumerator{
+		super.hero.model.shakeCamera(.1*10);
 		for (var i=1; i<10; i++){
 			makeExplosion(super.model.transform.position+super.model.transform.up*i);
 			yield WaitForSeconds(.1);
@@ -141,7 +142,7 @@ public class MonsterBossTentacle extends Monster{
 	}
 	
 	function switchPhase(){
-		phaseTime = 0;
+		phaseTime = 3;
 		if (!isStraight){
 			isStraight = true;
 			for (var i=0; i < tentacles.length; i++){
