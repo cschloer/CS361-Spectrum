@@ -26,7 +26,6 @@ var character : Character;
 var modelObject;
 
 var walkclip : AnimationClip;
-
 var colorStore : Color;
 var heading : Vector3;
 var lookDirection : Vector3;
@@ -78,6 +77,7 @@ var isPushed : boolean = false;
 
 // Use this for initialization
 function Start () {
+	slowed = false;
 	monsterHere = false;
 	hasBoomBoosted = false;
 	cameraShake = false;
@@ -138,7 +138,7 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
-	changeRed();
+
 }
 
 // Update is called once per frame
@@ -628,7 +628,21 @@ function stopMovement(){
 function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
+		if (col.gameObject.GetComponent("MonsterAttack").slow){
+			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
+		 } 
 		character.hurt();
+	}
+	
+	if (col.gameObject.name.Contains("TentacleArm") && !character.hurting && vincible){
+		electrocute();
+	
+	}
+	
+	if (col.gameObject.name.Contains("Mine") && !character.hurting && vincible){
+		if (col.gameObject.GetComponent("SpellMine").destroying)
+			character.hurt();
+	
 	}
 	
 	if(col.gameObject.name.Contains("Cake")){
@@ -919,4 +933,38 @@ function landingStar(){
 	 				}
 	 			
 	}
+}
+
+
+function electrocute(){ // electrocute player
+	character.hurt();
+	var temp:Color = this.renderer.material.color;
+	var timer:float = 0;
+	while (timer < .5){
+		if (this.renderer.material.color == Color.white) this.renderer.material.color = Color.black;
+		else if (this.renderer.material.color == Color.black) this.renderer.material.color = Color.white;
+		else {
+			temp = this.renderer.material.color;
+			this.renderer.material.color = Color.white;
+		}
+		yield;
+		timer+=Time.deltaTime;
+		yield;
+		timer+=Time.deltaTime;
+		yield;
+		timer+=Time.deltaTime;
+	
+	}
+	this.renderer.material.color = Color.white;
+	yield WaitForSeconds(.1);
+	this.renderer.material.color = temp;
+
+}
+
+function slowMe(duration:float, amount:float){ // slow that stacks
+	moveSpeed /= amount;
+	yield WaitForSeconds(duration);
+	moveSpeed *= amount;
+	
+
 }

@@ -338,10 +338,18 @@ public class Monster extends MonoBehaviour
 		attackObject.GetComponent(Rigidbody).useGravity = false;
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
+		return attack;
+	}
+	
+	function attackSlow(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
+		var temp:MonsterAttack = attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture);
+		temp.slow = true;
+		temp.slowAmount = 2;
+		temp.slowDuration = 1;
 	}
 
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
-			attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture, 0);
+			return attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture, 0);
 
 	}
 
