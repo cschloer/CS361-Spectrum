@@ -5,8 +5,13 @@ var fade : boolean;
 var traveled : float;
 var home : float;
 var hero : Character;
+var slow:boolean;
+var slowAmount:float;
+var slowDuration:float;
+
 
 function init(r : float, s : float, f : boolean, h : float){
+	slow = false;
 	range = r;
 	speed = s;
 	fade = f;

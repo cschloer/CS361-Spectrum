@@ -2,7 +2,8 @@
 
 public class GameTutorial1 extends GameManager {
 
-
+	var displayText : String;
+	
 function levelInit(){
   roomCreate(-10,-10,0,"Plain3End.txt");
   roomCreate(-10, 10,1,"Plain3Adj.txt");
@@ -21,7 +22,15 @@ function levelInit(){
 	addCake(-.5, 5);
 	addCake(-.5,8);
     addCake(-.5,11);
+<<<<<<< HEAD
     addCake(19,25);
+=======
+    addCake(-.5,14);
+
+    displayText = "Use arrow keys to move! Collect cake!";
+
+
+>>>>>>> FETCH_HEAD
 }
 
 
@@ -41,6 +50,9 @@ function addBoss(x : float, y :float, c : Character){
 }
 
 function Update () {
+	if (character.model.cakesCollected == 8) {
+		displayText = "Click to fire at the boss monster!";
+	}
 	if (winScreen || loseScreen){
 		losewinTimer += Time.deltaTime;
 		if (losewinTimer >= 2) {
@@ -71,6 +83,12 @@ function Update () {
 	if(boss == null && clock > 1){
 		win();
 	}
+}
+
+function OnGUI() {
+	super.OnGUI();
+	GUI.Button (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
+        
 }
 
 }

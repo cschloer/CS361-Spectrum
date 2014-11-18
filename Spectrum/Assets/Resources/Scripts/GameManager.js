@@ -66,6 +66,17 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+
+	/*
+	addMonster(0, 0, character, 10);
+	addMonster(0, 2, character, 7);
+	addMonster(1, 3, character, 7);
+	addMonster(-4, 0, character, 7);
+	addMonster(0, -3, character, 7);
+	*/
+	
+	
+
 	
 	//addMonster(0,0,character,-1);
 
@@ -116,6 +127,8 @@ function addCharacter(x : float , y : float) {
 	
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
+
+	
 }
 
 function addCake(x : float , y : float) {
@@ -240,6 +253,22 @@ function addBoss(x : float, y :float, c : Character){
 	boss = monsterScript;
 	monsterScript.name = "Boss";
 	return monsterScript;
+}
+
+function addBossTentacle(x:float, y:float, c:Character){
+	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
+	var monsterScript;
+	monsterScript = monsterObject.AddComponent("MonsterBossTentacle");		// Add the monster.js script to the object.
+	
+	monsterScript.transform.parent = monsterFolder.transform;
+	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
+	
+	monsterScript.init(character, Vector3(x,y,0));
+	boss = monsterScript;
+	monsterScript.name = "BossTentacle";
+	
+
+
 }
 
 function addWeapon(c : Character){
@@ -433,7 +462,8 @@ function win(){
 // 					  GUI
 // *******************************************
 
-function OnGUI() {	
+function OnGUI() {
+	return;
 
 	//Balancing sliders
 	/*

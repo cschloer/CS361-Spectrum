@@ -1,6 +1,7 @@
 ﻿
 public class GameTutorial2 extends GameManager {
 
+	var displayText : String;
 
 function levelInit(){
   roomCreate(-10,-10,0,"Plain2End.txt");
@@ -21,8 +22,13 @@ function levelInit(){
   addDevice(19.5,41,"mSpawn", 3, 1);						//todo: change the last number for a different kind of monster, first number changes # of monster spawned.
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+<<<<<<< HEAD
    addMonster(0, 35, character, -1, 1);
   addMonster(23, -4, character, -1, 2);
+=======
+  
+  displayText = "You're on your own for now, Dot!";
+>>>>>>> FETCH_HEAD
 }
 
 
@@ -72,6 +78,12 @@ function Update () {
 	if(boss == null && clock > 1){
 		win();
 	}
+}
+
+function OnGUI() {
+	super.OnGUI();
+	GUI.Button (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
+        
 }
 
 }
