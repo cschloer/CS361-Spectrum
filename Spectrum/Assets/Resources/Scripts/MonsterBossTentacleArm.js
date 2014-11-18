@@ -26,7 +26,7 @@ function init(x:int, y:int, number:int, m:GameObject, r:Vector3, tt:float, ra:fl
 	modelObject = m;
 	modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
-	modelObject.GetComponent(BoxCollider).isTrigger = true;
+	modelObject.GetComponent(BoxCollider).isTrigger = false;
 	/*modelObject.AddComponent(Rigidbody);
 	modelObject.GetComponent(Rigidbody).isKinematic = false;
  	modelObject.GetComponent(Rigidbody).useGravity = false;

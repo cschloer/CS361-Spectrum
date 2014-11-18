@@ -130,8 +130,10 @@ public function hurt(){
 			t -= Time.deltaTime;
 			yield;
 		}
+		checkHealth();
 		hurting = false;
 		model.renderer.material.color = before;
+		
 
 	}
 
@@ -153,9 +155,7 @@ function lunge(){ // lunge forward , used to attack
 
 }
 function checkHealth(){
-	while(health > 0){
-		yield WaitForSeconds(.5);
-	}
+	if (health > 0 ) return;
 	var t : float = 0;
 	while (t < 2){
 		t += Time.deltaTime;

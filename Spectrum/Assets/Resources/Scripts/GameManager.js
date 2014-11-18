@@ -129,7 +129,7 @@ function addCharacter(x : float , y : float) {
 	
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
-
+	addBossTentacle(2, 2, character);
 }
 
 function addCake(x : float , y : float) {
