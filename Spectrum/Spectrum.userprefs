@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameTutorial1.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Monster.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/TutorialMonster1.js" Line="19" Column="22" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="299" Column="16" />
-      <File FileName="Assets/Resources/Scripts/GameTutorial1.js" Line="16" Column="20" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="70" Column="26" />
+      <File FileName="Assets/Resources/Scripts/TutorialMonster1.js" Line="33" Column="13" />
+      <File FileName="Assets/Resources/Scripts/Monster.js" Line="353" Column="20" />
+      <File FileName="Assets/Resources/Scripts/GameTutorial1.js" Line="15" Column="5" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="70" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
