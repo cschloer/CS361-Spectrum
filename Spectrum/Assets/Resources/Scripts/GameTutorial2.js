@@ -24,7 +24,7 @@ function levelInit(){
    addMonster(0, 35, character, -1, 1);
   addMonster(23, -4, character, -1, 2);
   displayText = "Monsters drop colors. Press F to pick them up!";
-
+  currentLevel = 2;
 }
 
 

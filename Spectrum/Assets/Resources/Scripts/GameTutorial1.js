@@ -25,7 +25,7 @@ function levelInit(){
     addCake(19,25);
 
     displayText = "Use arrow keys to move! Collect cake!";
-
+    currentLevel = 1;
 
 }
 
@@ -82,7 +82,7 @@ function Update () {
 }
 
 function OnGUI() {
-	super.OnGUI();
+	//super.OnGUI();
 	GUI.Button (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
         
 }

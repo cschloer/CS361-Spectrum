@@ -12,6 +12,7 @@ function levelInit(){
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   displayText = "Now you're ready for a real fight!";
+  currentLevel = 3;
 }
 
 

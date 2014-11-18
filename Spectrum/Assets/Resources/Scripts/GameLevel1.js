@@ -36,6 +36,15 @@ function levelInit(){
   bossSpawner = addDevice(40,21,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+  currentLevel=4;
+}
+
+function addBoss(x : float, y :float, c : Character){
+	addBossTentacle(x,y,c);
+}
+
+function OnGUI(){
+	super.OnGUI();
 }
 
 
