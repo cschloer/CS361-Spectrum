@@ -1,35 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/StartScript.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\GameTutorial2.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/DeviceSpawnModel.js" Line="40" Column="53" />
-      <File FileName="Assets/Resources/Scripts/CakeModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/DeviceWallModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SelectorModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/SpellAOE.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterAttack.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/HeroAttack.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster.js" Line="300" Column="3" />
-      <File FileName="Assets/Resources/Scripts/TileCliffModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="261" Column="56" />
-      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="505" Column="38" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="83" Column="4" />
-      <File FileName="Assets/Resources/Scripts/WeaponModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster1.js" Line="73" Column="50" />
-      <File FileName="Assets/Resources/Scripts/Monster10.js" Line="47" Column="64" />
-      <File FileName="Assets/Resources/Scripts/Monster7.js" Line="68" Column="20" />
-      <File FileName="Assets/Resources/Scripts/Monster2.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster3.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster4.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster5.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster6.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Monster8.js" Line="15" Column="64" />
-      <File FileName="Assets/Resources/Scripts/Monster9.js" Line="27" Column="12" />
-      <File FileName="Assets/Resources/Scripts/MonsterBoss.js" Line="160" Column="42" />
-      <File FileName="Assets/LevelCompleteScript.js" Line="18" Column="40" />
-      <File FileName="Assets/Levels/Hole2Tri.txt" Line="6" Column="1" />
-      <File FileName="Assets/StartScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Monster8.js" Line="5" Column="4" />
+      <File FileName="Assets\Resources\Scripts\TutorialMonster1.js" Line="51" Column="2" />
+      <File FileName="Assets\Resources\Scripts\Monster.js" Line="316" Column="162" />
+      <File FileName="Assets\Resources\Scripts\GameTutorial1.js" Line="87" Column="2" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="252" Column="2" />
+      <File FileName="Assets\Resources\Scripts\Device.js" Line="15" Column="17" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="59" Column="19" />
+      <File FileName="Assets\EndScript.js" Line="19" Column="6" />
+      <File FileName="Assets\Resources\Scripts\GameTutorial2.js" Line="25" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

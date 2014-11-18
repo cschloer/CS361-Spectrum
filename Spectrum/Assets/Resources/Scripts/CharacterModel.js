@@ -1,3 +1,4 @@
+
 var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
@@ -141,6 +142,23 @@ function Start () {
 
 }
 
+//This determines movement direction. ANY MODIFICATION OF HEADING MUST HAPPEN HERE. ANY READING OF HEADING MUST HAPPEN IN UPDATE.
+function FixedUpdate(){
+		heading = Vector3.zero;
+		
+		/*
+		if (moveN) heading += this.transform.left; // uncomment these 4 lines to move in direction of rotation
+		if (moveE) heading += this.transform.right;
+		if (moveS) heading += this.transform.down;
+		if (moveW) heading += this.transform.left;
+		*/
+		if (moveN) heading += Vector3(0, 1, 0);
+		if (moveE) heading += Vector3(1, 0, 0);
+		if (moveS) heading += Vector3(0, -1, 0);
+		if (moveW) heading += Vector3(-1, 0, 0);
+		heading.Normalize();
+	}
+
 // Update is called once per frame
 function Update () {
 	comboSmallTimer += Time.deltaTime;
@@ -175,18 +193,22 @@ function Update () {
 		if (rotateL) this.transform.Rotate(Vector3(0,0,-Time.deltaTime*160*(turnSpeed)));
 		*/
 		
-		
+		/* The following was moved to StartUpdate
 		heading = Vector3.zero;
-		/*if (moveN) heading += this.transform.left; // uncomment these to move in direction of rotation
+		
+		
+		if (moveN) heading += this.transform.left; // uncomment these 4 lines to move in direction of rotation
 		if (moveE) heading += this.transform.right;
 		if (moveS) heading += this.transform.down;
 		if (moveW) heading += this.transform.left;
-		*/
+		
 		if (moveN) heading += Vector3(0, 1, 0);
 		if (moveE) heading += Vector3(1, 0, 0);
 		if (moveS) heading += Vector3(0, -1, 0);
 		if (moveW) heading += Vector3(-1, 0, 0);
 		heading.Normalize();
+		
+		*/
 		if(jumping){
 			//this.transform.Translate(heading * Time.deltaTime * moveSpeed*jumpSpeedMultiplier);
 			this.transform.position += heading*Time.deltaTime*moveSpeed*jumpSpeedMultiplier;
@@ -580,32 +602,6 @@ function colorChoice(){
   }
 }
 
-/*function OnTriggerEnter(col:Collider){
-	if (col.gameObject.name.Contains("Blue")){
-		if (blue) blue = false;
-		else blue = true;
-		print("Blue: " + blue);
-	}
-	if (col.gameObject.name.Contains("Red")){
-		if (red){
-			red = false;
-			this.transform.localScale = Vector3(1,1,1); 
-			modelObject.GetComponent(BoxCollider).size = Vector3(.25,.5,10);
-		}
-		else {
-			red = true;
-			this.transform.localScale = Vector3(2,2,2); 
-			modelObject.GetComponent(BoxCollider).size = Vector3(.5,1,10);
-		}
-		print("Red: " + red);
-	}
-	if (col.gameObject.name.Contains("Yellow")){
-		if (yellow) yellow = false;
-		else yellow = true;
-		print("Yellow: " + yellow);
-	}
-}
-*/
 
 function stopMovement(){
 	rotateR = false;
@@ -625,8 +621,39 @@ function stopMovement(){
 	//todo: stop moving animation
 }
 
+function handleCollisions(col:Collider){
+	if(rolling){
+		 heading = Vector3.zero;
+		 rjTimer = 0;
+		 rolling = false;
+	}
+	var xDist : float = transform.position.x - col.gameObject.transform.position.x;
+	var yDist : float = transform.position.y - col.gameObject.transform.position.y;
+	var xBuffer : float = (gameObject.GetComponent(BoxCollider).size.x + col.gameObject.GetComponent(BoxCollider).size.x)/2;
+	var yBuffer : float = (gameObject.GetComponent(BoxCollider).size.y + col.gameObject.GetComponent(BoxCollider).size.y)/2;
+	if((Mathf.Abs(yDist) > Mathf.Abs(xDist)) && ((heading.y > 0 && yDist < 0) || (heading.y < 0 && yDist > 0))) heading.y =0;
+	if((Mathf.Abs(xDist) > Mathf.Abs(yDist)+.2) && ((heading.x > 0 && xDist < 0) || (heading.x < 0 && xDist > 0))) heading.x = 0;
+	
+	/*
+	var headingMod : Vector3 = 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
+	var buffer : float = .2;
+	var boxSize : Vector3 = gameObject.GetComponent(BoxCollider).size;
+	var xRect : Rect = new Rect(transform.position.x + headingMod.x, transform.position.y, boxSize.x, boxSize.y);
+	var yRect : Rect = new Rect(transform.position.x, transform.position.y + headingMod.y, boxSize.x, boxSize.y);
+	var totalRect : Rect = new Rect(transform.position.x + headingMod.x, transform.position.y + headingMod.y, boxSize.x, boxSize.y);
+	var colRect : Rect = new Rect(col.gameObject.transform.position.x + buffer, col.gameObject.transform.position.y + buffer, col.size.x - 2*buffer ,col.size.y - 2*buffer);
+	if(xRect.Overlaps(colRect)) heading.x = 0;
+	else if(yRect.Overlaps(colRect)) heading.y = 0;
+	else if(totalRect.Overlaps(colRect)) heading = Vector3.zero;
+	*/
+	heading.Normalize();
+} 
+
 function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
+	if(col.gameObject.name.Contains("Tile Wall")){
+		handleCollisions(col);
+	}
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
@@ -652,11 +679,18 @@ function OnTriggerEnter(col:Collider){
 		cakeSound.Play();
 	}
 }
+function OnTriggerStay(col:Collider){
+	if(col.gameObject.name.Contains("Tile Wall")){
+		handleCollisions(col);
+
+	}
+}
 
 function OnCollisionStay(col:Collision){
 	if(col.gameObject.name.Contains("Monster")){
 		monsterHere = true;
 	}
+	
 
 
 }
@@ -674,6 +708,11 @@ function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireCube (transform.position, modelObject.GetComponent(BoxCollider).size);
+		/*
+		Gizmos.color = Color.green;
+ 		Gizmos.DrawWireCube(Vector3(totalRect.left, totalRect.top, 1), Vector3(totalRect.width, totalRect.height, 1));
+ 		Gizmos.DrawWireCube(Vector3(colRect.left, colRect.top, 1), Vector3(colRect.width, colRect.height, 1));
+ 		*/
 	
 }
 
@@ -806,7 +845,8 @@ function spellWall(){
 }
 
 function toBig(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.55,.55,5);
+	//modelObject.GetComponent(BoxCollider).size = Vector3(.55,.55,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.65,.65,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale+=Time.deltaTime*1.5;
@@ -819,7 +859,8 @@ function toBig(){
 
 
 function toSmall(){
-	modelObject.GetComponent(BoxCollider).size = Vector3(.375,.375,5);
+	//modelObject.GetComponent(BoxCollider).size = Vector3(.375,.375,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.475,.475,5);
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale-=Time.deltaTime*1.5;

@@ -39,3 +39,4 @@ public function turnToHero(multiplier : float){
 		if((transform.eulerAngles.z + (360-anglesToHero)) % 360 < 180) sign = 1;
 		transform.eulerAngles += Vector3(0, 0, Time.deltaTime * 90 * sign * multiplier);
 	}
+	

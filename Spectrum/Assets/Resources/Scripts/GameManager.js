@@ -5,11 +5,14 @@
 // Imports:
 import System.IO;
 
+public class GameManager extends MonoBehaviour 
+{
+
 // Globals
 var characterFolder : GameObject;	// This will be an empty game object used for organizing heroes in the hierarchy pane.
 var monsterFolder : GameObject;		// This will be an empty game object used for organizing monsters in the hierarchy pane.
 var tileFolder : GameObject;		// This will be an empty game object used for organizing tiles in the hierarchy pane.
-var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
+//var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
 var deviceFolder : GameObject;		// This will be an empty game object used for organizing devices in the hierarchy pane.
 var character : Character;			// This is the hero character.
 var boss : Monster;					// This is the level boss.
@@ -50,18 +53,7 @@ function Start () {
 	tileFolder.name = "Tiles";
 	tiles = new Array();
 	
-	//Physics.IgnoreLayerCollision(6,7);			// For cliffs and jumping.
-
-	colorFolder = new GameObject();
-	colorFolder.name = "Color Circles";
-	
-	protolevelInit();
-
-	//addCharacter(0,-5);
-
-	addCircle(0); // blue circle
-	addCircle(1); // red circle
-	addCircle(2); // yellow circle	
+	levelInit();
 	
 	paused = false;
 	clock = 0.0;
@@ -74,6 +66,7 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
+
 	/*
 	addMonster(0, 0, character, 10);
 	addMonster(0, 2, character, 7);
@@ -83,6 +76,10 @@ function Start () {
 	*/
 	
 	
+
+	
+	//addMonster(0,0,character,-1);
+
 }
 
 // Update
@@ -152,7 +149,7 @@ function addCake(x : float , y : float) {
 	
 }															
 
-function addCircle(color:int){
+/*function addCircle(color:int){
 	//var colorObject = new GameObject();					// Create a new empty game object that will hold a color.
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
 	var colorScript = modelObject.AddComponent("ColorCircle");		// Add the color.js script to the object.
@@ -161,16 +158,11 @@ function addCircle(color:int){
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
 	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,.5);
-	/*modelObject.AddComponent(Rigidbody);
-	modelObject.GetComponent(Rigidbody).isKinematic = true;
-	modelObject.GetComponent(Rigidbody).useGravity = false;
-	modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
-*/
 																																													// We can now refer to the object via this script.
 	colorScript.transform.parent = colorFolder.transform;	// Set the color's parent object to be the color folder.							
 	colorScript.init(color, character.model);							// Initialize the color script.
 	
-}
+}*/
 
 function spawnMonster() {
 	if (clock%clockFrequency <.1 && clock/clockFrequency > monsterCounter){
@@ -196,6 +188,9 @@ function addMonster(x : float, y :float, c : Character, type: int){
 	var monsterScript;
 	//type = 1;
 	switch(type){
+		case -1:
+			monsterScript = monsterObject.AddComponent("TutorialMonster1");
+			break;
 		case 1:
 			monsterScript = monsterObject.AddComponent("Monster1");
 			break;
@@ -320,9 +315,9 @@ function arrayIndex(n : int){
 // 				Level Initiation
 // *******************************************
 
-// ProtolevelInit
-// Initiates the prototype level.
-function protolevelInit(){
+// levelInit
+// Initiates the level.
+function levelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");
   roomCreate(-10, 10,0,"Plain2Cross.txt");
   roomCreate(-30, 10,0,"Hole2Tri.txt");
@@ -511,12 +506,12 @@ function OnGUI() {
 	if (loseScreen){
 		 Application.LoadLevel("End");
 	}
-	else if (winScreen){
+	/*else if (winScreen){
 		GUI.backgroundColor = Color.black;
 		GUI.color = Color.white;
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n You win!");
-	} else if(paused){
+	}*/ else if(paused){
 		GUI.backgroundColor = Color.black;
 		GUI.color = Color.white;
 		GUI.skin.box.fontSize = 26;
@@ -643,4 +638,6 @@ function OnGUI() {
 
 	}
 																
+}
+
 }
