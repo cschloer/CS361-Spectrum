@@ -1,4 +1,5 @@
-
+var colRect : Rect;
+var totalRect : Rect;
 var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
@@ -638,10 +639,7 @@ function handleCollisions(col:Collider){
 	if(xRect.Overlaps(colRect)) heading.x = 0;
 	else if(yRect.Overlaps(colRect)) heading.y = 0;
 	//else if(totalRect.Overlaps(colRect)) heading = Vector3.zero;
-	//Gizmos.color = Color.green;
- 	//Gizmos.DrawWireCube(Vector3(totalRect.left, totalRect.top, 1), Vector3(totalRect.width, totalRect.height, 1));
- 	//Gizmos.DrawWireCube(Vector3(colRect.left, colRect.top, 1), Vector3(colRect.width, colRect.height, 1));
- 	
+	
 	heading.Normalize();
 } 
 
@@ -690,6 +688,10 @@ function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireCube (transform.position, modelObject.GetComponent(BoxCollider).size);
+		Gizmos.color = Color.green;
+ 		Gizmos.DrawWireCube(Vector3(totalRect.left, totalRect.top, 1), Vector3(totalRect.width, totalRect.height, 1));
+ 		Gizmos.DrawWireCube(Vector3(colRect.left, colRect.top, 1), Vector3(colRect.width, colRect.height, 1));
+ 	
 	
 }
 
