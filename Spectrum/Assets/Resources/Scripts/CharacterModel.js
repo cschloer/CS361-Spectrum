@@ -9,7 +9,7 @@ var Manager:GameManager;
 var rotateL:boolean;
 var rotateR:boolean;
 
-var moveSpeed:int;
+var moveSpeed:float;
 var turnSpeed:int;
 
 var blue:boolean;
@@ -658,7 +658,7 @@ function OnTriggerEnter(col:Collider){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
 		 } 
-		character.hurt();
+		 else character.hurt();
 	}
 	
 	if (col.gameObject.name.Contains("TentacleArm") && !character.hurting && vincible){
@@ -1003,6 +1003,7 @@ function electrocute(){ // electrocute player
 }
 
 function slowMe(duration:float, amount:float){ // slow that stacks
+	if (moveSpeed <.5) return;
 	moveSpeed /= amount;
 	yield WaitForSeconds(duration);
 	moveSpeed *= amount;

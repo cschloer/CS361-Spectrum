@@ -341,6 +341,7 @@ public class Monster extends MonoBehaviour
 		return attack;
 	}
 	
+	// slow attack does not damage
 	function attackSlow(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
 		var temp:MonsterAttack = attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture);
 		temp.slow = true;

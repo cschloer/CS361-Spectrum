@@ -57,6 +57,10 @@ function Start () {
 	levelInit();
 	currentLevel = -1;
 	
+	//addCircle(0);
+	//addCircle(1);
+	//addCircle(2);
+	
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
@@ -150,7 +154,7 @@ function addCake(x : float , y : float) {
 	
 }															
 
-/*function addCircle(color:int){
+function addCircle(color:int){
 	//var colorObject = new GameObject();					// Create a new empty game object that will hold a color.
 	var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
 	var colorScript = modelObject.AddComponent("ColorCircle");		// Add the color.js script to the object.
@@ -160,10 +164,10 @@ function addCake(x : float , y : float) {
 	modelObject.GetComponent(BoxCollider).isTrigger = true;
 	modelObject.GetComponent(BoxCollider).size = Vector3(.5,.5,.5);
 																																													// We can now refer to the object via this script.
-	colorScript.transform.parent = colorFolder.transform;	// Set the color's parent object to be the color folder.							
+	//colorScript.transform.parent = colorFolder.transform;	// Set the color's parent object to be the color folder.							
 	colorScript.init(color, character.model);							// Initialize the color script.
 	
-}*/
+}
 
 function spawnMonster() {
 	if (clock%clockFrequency <.1 && clock/clockFrequency > monsterCounter){

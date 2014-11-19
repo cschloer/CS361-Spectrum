@@ -34,6 +34,9 @@ function init(own : Device, man: GameManager, count: int, typev: int) {
 	breakSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	breakSound.volume = 0;
 	breakSound.clip = Resources.Load("Sounds/rattles");
+	this.gameObject.collider.enabled = false;
+	this.gameObject.AddComponent(BoxCollider);
+	this.gameObject.GetComponent(BoxCollider).isTrigger = true;
 }
 
 function Update(){
@@ -56,11 +59,19 @@ function Update(){
 }
 
 function breakage(){
+	if (broken) return;
 	breakSound.volume = 1;
-	if(!broken) breakSound.Play();
+	breakSound.Play();
 	renderer.material.mainTexture = Resources.Load("Textures/cracked_02", Texture2D);
 	broken = true;
 	owner.box.isTrigger = true;
 	
+	
+}
+
+function OnDrawGizmos() {
+		// Draw a yellow cube at the transforms position
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireCube (transform.position, this.gameObject.GetComponent(BoxCollider).size);
 	
 }

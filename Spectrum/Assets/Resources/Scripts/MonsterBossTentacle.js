@@ -19,7 +19,7 @@ public class MonsterBossTentacle extends Monster{
 		phaseTime = 0;
 		isStraight = false;
 		rooted = p;
-		health = 5;
+		health = 6;
 		super.manager = c.manager;
 		model.renderer.material.mainTexture = Resources.Load("Textures/bossTentacle", Texture2D);	// Set the texture.  Must be in Resources folder.
 		setSize(2, 2.5);
@@ -42,7 +42,7 @@ public class MonsterBossTentacle extends Monster{
 		tentacleFolder = new GameObject();
 		tentacleFolder.transform.parent = transform;
 		tentacles = new Array();
-		var numTentacles:int = 10;
+		var numTentacles:int = 6;
 		var tentacleLength:int = 15;
 		for (var i=0; i<numTentacles; i++){
 		
@@ -67,6 +67,7 @@ public class MonsterBossTentacle extends Monster{
 	
 	//Swings around until player gets close
 	function act(){
+		if (phaseTime > 8) switchPhase();
 		phaseTime += Time.deltaTime;
 		super.model.transform.position = rooted; // root in place
 		if(angleToHero() > 2 && angleToHero() < 358) turnToHero(2);
@@ -116,7 +117,6 @@ public class MonsterBossTentacle extends Monster{
 	public function hurt(){
 		if(!invincible){
 			//if (Random.Range(1,2) > 1.5)
-			if (phaseTime > 0) switchPhase();
 			hurtSound.Play();
 			health--;
 			hurting = true;
@@ -142,7 +142,7 @@ public class MonsterBossTentacle extends Monster{
 	}
 	
 	function switchPhase(){
-		phaseTime = 3;
+		phaseTime = 0;
 		if (!isStraight){
 			isStraight = true;
 			for (var i=0; i < tentacles.length; i++){
