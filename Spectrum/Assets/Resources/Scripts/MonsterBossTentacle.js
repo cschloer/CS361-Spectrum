@@ -13,6 +13,7 @@ public class MonsterBossTentacle extends Monster{
 	var tentacleFolder:GameObject;
 	
 	var phaseTime:float;
+	var isActive:boolean;
 
 	function init(c: Character, p:Vector3){
 		super.init(c);
@@ -50,6 +51,7 @@ public class MonsterBossTentacle extends Monster{
 
 		
 		}
+		isActive = false;
 	}
 	
 	function addTentacleArm(rotation, length){
@@ -67,6 +69,10 @@ public class MonsterBossTentacle extends Monster{
 	
 	//Swings around until player gets close
 	function act(){
+		if (!isActive){
+			if (super.distanceToHero() > 5) return;
+			isActive = true;
+		}
 		if (phaseTime > 8) switchPhase();
 		phaseTime += Time.deltaTime;
 		super.model.transform.position = rooted; // root in place

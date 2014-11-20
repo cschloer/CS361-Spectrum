@@ -133,7 +133,10 @@ function addCharacter(x : float , y : float) {
 	
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
+	
+	//Test spawns
 	//addBossTentacle(2, 2, character);
+	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3]);
 }
 
 function addCake(x : float , y : float) {
@@ -284,6 +287,27 @@ function addWeapon(c : Character){
 	
 	weaponScript.init(c);
 	c.setWeapon(weaponScript);
+}
+
+/*
+ Spawner that takes in:
+ 	1. x value
+ 	2. y value
+	3. an array of monster types
+ 	4. the amount of time for respawning
+ 	5. and the distance at which the character must be f
+*/
+function addDeviceSpawner(x : float, y :float, types:Array, spawnTime:float, spawnDistance:float){ // new spawner created by conrad
+	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
+	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
+	
+	deviceScript.transform.parent = deviceFolder.transform;
+	deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
+	
+	deviceScript.init(this, types, spawnTime, spawnDistance);
+	devices.Add(deviceScript);
+	deviceScript.name = "Device: Spawn, "+ devices.length;
+	return deviceScript;
 }
 
 function addDevice(x : float, y :float, t : String, na : int, nb : int){

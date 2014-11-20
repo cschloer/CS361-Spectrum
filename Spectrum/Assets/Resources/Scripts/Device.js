@@ -46,3 +46,20 @@ function init(t: String, manager: GameManager, numA : int, numB : int) {	// NumA
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
 }
+
+function init(manager: GameManager, types:Array, spawnTime:float, spawnDistance:float) {	// NumA and NumB are used for different purposes by different devices.
+	
+
+
+	frozen = false;
+	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
+	modelObject.collider.enabled = false;								// Turn off MeshCollider
+	modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.
+	var model;
+	var wmodel = modelObject.AddComponent("DeviceSpawnModel");			// Add a script to control direction of the unit.
+	
+	wmodel.name = "Monster Spawner";
+	wmodel.init(this, manager, types, spawnTime, spawnDistance);													// Initialize the device.
+
+	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
+}
