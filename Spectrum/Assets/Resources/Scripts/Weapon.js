@@ -19,6 +19,7 @@ public class Weapon extends MonoBehaviour{
 	public var clubPrimeSound : AudioSource;
 	public var clubJumpSound : AudioSource;
 	public var clubRollSound : AudioSource;
+	public var metalSound : AudioSource;
 	public var tossSpeed : float; // A variable that can be used to modify the "toss" function mid subroutine. Called by WeaponModel in "OnTriggerEnter"
 	public var hasHit : boolean;
 	public var cube:GameObject;
@@ -40,6 +41,8 @@ public class Weapon extends MonoBehaviour{
 	public var clubCharging : boolean = false;
 	public var isBoomerang:boolean;
 	public var chargingBoomTimer:float;
+	
+	public var hitWall : boolean;
 	//Takes owner (main character) as parameter
 	
 // *******************************************
@@ -111,7 +114,9 @@ public class Weapon extends MonoBehaviour{
 		clubPrimeSound.clip = Resources.Load("Sounds/wooshLow") as AudioClip;
 		clubRollSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		clubRollSound.clip = Resources.Load("Sounds/whisk") as AudioClip;
-
+		
+		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
 		swingSound.playOnAwake = false;
 		tossSound.playOnAwake = false;
 		clubSound.playOnAwake = false;
@@ -325,7 +330,8 @@ public class Weapon extends MonoBehaviour{
  			yield;
  		}
  		swinging = false;
- 		
+ 		if(hitWall) playSound(metalSound);
+ 		hitWall = false;
  		hasHit = false;
  		var t:float=0;
  		

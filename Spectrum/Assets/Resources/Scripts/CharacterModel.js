@@ -622,7 +622,7 @@ function stopMovement(){
 }
 
 function handleCollisions(col:Collider){
-	
+	//print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
 		 rjTimer = 0;
@@ -654,9 +654,11 @@ function handleCollisions(col:Collider){
 
 function OnTriggerEnter(col:Collider){
 	//print(col.gameObject.name);
+	/*
 	if(col.gameObject.name.Contains("Tile Wall")){
 		handleCollisions(col);
 	}
+	*/
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
@@ -682,19 +684,30 @@ function OnTriggerEnter(col:Collider){
 		cakeSound.Play();
 	}
 }
+/*
 function OnTriggerStay(col:Collider){
 	if(col.gameObject.name.Contains("Tile Wall")){
 		handleCollisions(col);
 
 	}
 }
-
+*/
 function OnCollisionStay(col:Collision){
 	if(col.gameObject.name.Contains("Monster")){
 		monsterHere = true;
 	}
 	
+	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
+	handleCollisions(col.collider);
 
+
+}
+function OnCollisionEnter(col:Collision){
+	if(col.gameObject.name.Contains("Tile Wall")){
+		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
+		handleCollisions(col.collider);
+	}	
+	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
 
 }
 
