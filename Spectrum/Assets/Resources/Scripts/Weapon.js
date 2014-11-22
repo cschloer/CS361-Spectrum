@@ -183,7 +183,7 @@ public class Weapon extends MonoBehaviour{
  	//Subroutine
  	//Hero swings sword across (angle) over (time), recovering for (recovery) seconds.
  	function swing(angle : int, time : float, recovery : float){
- 		swingSound.Play(); // Plays the sound
+ 		playSound(swingSound); // Plays the sound
 
  		startSwinging();
  		var t : float = 0;
@@ -211,7 +211,7 @@ public class Weapon extends MonoBehaviour{
  	
  	
  	function pauseSwing(angle : int, time : float, recovery : float, pTime:float){
- 		swingSound.Play(); // Plays the sound
+ 		playSound(swingSound); // Plays the sound
 
  		startSwinging();
  		var t : float = 0;
@@ -238,7 +238,7 @@ public class Weapon extends MonoBehaviour{
  	}
  	
  	function dualSwing(angle : int, time : float, recovery : float){ // swing for the dual weild sword
- 		swingSound.Play(); // Plays the sound
+ 		playSound(swingSound); // Plays the sound
  		startSwinging();
  		var t : float = 0;
  		//Swinging motion
@@ -270,7 +270,7 @@ public class Weapon extends MonoBehaviour{
 		startSwinging();
  		var t : float = 0;
  		while (t < time){
- 				if(!tossSound.isPlaying) tossSound.Play();
+ 				if(!tossSound.isPlaying) playSound(tossSound);
  				t += Time.deltaTime;
  			//model.transform.eulerAngles = baseRotation + Vector3(0, 0, angle*(t/time));
  				model.transform.RotateAround(model.transform.position, Vector3.forward, (360 + overshoot)/time * Time.deltaTime);
@@ -317,7 +317,7 @@ public class Weapon extends MonoBehaviour{
  		var moveAdder:Vector3 = character.model.heading/8;// 8 was a guess and check arbitrary number. Print out "tosstime" to see how
  		// similar the tosstime is for each movement pattern
  		while (tossTime < time && !hasHit){
- 			if(!tossSound.isPlaying) tossSound.Play();
+ 			if(!tossSound.isPlaying) playSound(tossSound);
  			tossTime += Time.deltaTime;
  			//model.transform.Rotate(Vector3(0, 0, spinSpeed * Time.deltaTime));
  			//model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
@@ -350,7 +350,7 @@ public class Weapon extends MonoBehaviour{
  	}
  	
  	function clubSwing(angle : int, time : float, recovery : float){
- 		swingSound.Play(); // Plays the sound
+ 		playSound(swingSound); // Plays the sound
 		clubSwinging = true;
  		var t : float = 0;
  		//Swinging motion
@@ -363,7 +363,7 @@ public class Weapon extends MonoBehaviour{
  		}
  		clubSwinging = false;
 		clubStrike();
-		clubSound.Play();
+		playSound(clubSound);
 		recovering = false;
 		//Recovery motion
  		while (t < time + recovery && !clubCharging){
@@ -375,7 +375,7 @@ public class Weapon extends MonoBehaviour{
  		//Optional lunge if roll during recovery
  		if(clubCharging){
  			swinging = true;
- 			clubRollSound.Play();
+ 			playSound(clubRollSound);
  			while(character.model.rolling){
      			model.transform.localEulerAngles.z = 0; 
      			model.transform.eulerAngles.z = -Vector3.Angle(Vector3.up, character.model.heading);
@@ -394,7 +394,7 @@ public class Weapon extends MonoBehaviour{
  	}
  	
  	function jumpClubReady(){
- 		clubPrimeSound.Play();
+ 		playSound(clubPrimeSound);
  		var t : float = 0;
  		while (t < .5){
  				t += Time.deltaTime;
@@ -408,7 +408,7 @@ public class Weapon extends MonoBehaviour{
  	}
  	
  	function jumpClubSwing(){
- 		clubJumpSound.Play();
+ 		playSound(clubJumpSound);
  		clubJumpStrike();
  		character.model.shakeCamera(1);
  		var t : float = 1;
@@ -479,7 +479,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		if (fromChar) moveAdder = character.model.heading/8;// 8 was a guess and check arbitrary number. Print out "tosstime" to see how
  		// similar the tosstime is for each movement pattern
  		while (tossTime < time && !hasHit){
- 			if(!tossSound.isPlaying) tossSound.Play();
+ 			if(!tossSound.isPlaying) playSound(tossSound);
  			tossTime += Time.deltaTime;
  			model.transform.Rotate(this.transform.forward*Time.deltaTime*tossSpeed*50);
  			//model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
@@ -492,7 +492,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		//Recover until sword reaches hero
  		while (distanceFromOwner() > .3){
  			t += Time.deltaTime;
- 			 if(!tossSound.isPlaying) tossSound.Play();
+ 			 if(!tossSound.isPlaying) playSound(tossSound);
 			model.transform.Rotate(this.transform.forward*Time.deltaTime*tossSpeed*50);
  		//	model.transform.RotateAround(model.transform.position, Vector3.forward, spinSpeed * Time.deltaTime);
  			heading = model.transform.position - owner.model.transform.position;
@@ -613,6 +613,10 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
  		model.transform.localScale = Vector3.one;
+	}
+	
+	function playSound(source : AudioSource){
+		character.manager.playSound(source, model.transform.position);
 	}
 	
 	function OnDrawGizmos() {

@@ -58,7 +58,7 @@ public class Monster2 extends Monster {
 		}
 		if( super.distanceToHero() < 1 && !attacked){
 			super.simpleMelee();
-			chargeSound.Play();
+			playSound(chargeSound);
 			attacked = true;
 		}
 	}

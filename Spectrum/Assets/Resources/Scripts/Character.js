@@ -120,6 +120,7 @@ function Update(){
 
 public function hurt(){
 		oofSound.Play();
+		//manager.playSound(offSound, transform.position);
 		health--;
 		hurting = true;
 		var before = model.renderer.material.color;

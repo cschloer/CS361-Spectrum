@@ -435,6 +435,22 @@ function popTile(c: char, xpos: float, ypos: float){
     }
 }
 
+
+
+// *******************************************
+// 			   Sound
+// *******************************************
+
+function playSound(source : AudioSource, spot : Vector3){
+	var spot1 : Vector3 = character.model.transform.position;
+	var distance : Vector3 = spot1 - spot;
+	distance.z = 0;
+	source.volume = 1.0-(distance.magnitude / 10);
+	source.Play();
+}
+
+
+
 // *******************************************
 // 			   Win and Lose Screens
 // *******************************************

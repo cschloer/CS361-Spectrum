@@ -1,7 +1,7 @@
 public class GameTutorial3 extends GameManager {
-
 var bluechange : boolean = true;
 var displayText : String;
+var changeTime : float = 0;
 function levelInit(){
   roomCreate(-10, 30,2,"Plain2End.txt");
   roomCreate(-10, 10,0,"Plain2Opp.txt");
@@ -13,6 +13,7 @@ function levelInit(){
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   displayText = "Now you're ready for a real fight!";
   currentLevel = 3;
+  
 }
 
 
@@ -32,6 +33,7 @@ function addBoss(x : float, y :float, c : Character){
 }
 
 function Update () {
+	changeTime += Time.deltaTime;
 	if (winScreen || loseScreen){
 		losewinTimer += Time.deltaTime;
 		if (losewinTimer >= 2) {
@@ -58,7 +60,6 @@ function Update () {
 			paused = !paused;
 		}
 	}
-	clock = clock + Time.deltaTime;
 	
 	if(clock < .5 && bluechange && !character.model.blue){
 		character.model.changeBlue();
@@ -68,6 +69,7 @@ function Update () {
 	if(boss == null && clock > 1){
 		win();
 	}
+	if(changeTime > 6) displayText = "Explore all the color combinations!";
 }
 function OnGUI() {
 	super.OnGUI();

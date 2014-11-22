@@ -89,6 +89,7 @@ function Update(){
 		if((character.yellow && yellow == 1) || (!character.yellow && yellow == 1)) character.changeYellow();
 		timeLeft = 0;
 		eatSound.Play();
+		//manager.playSound(eatSound, transform.position);
 	
 	}
 

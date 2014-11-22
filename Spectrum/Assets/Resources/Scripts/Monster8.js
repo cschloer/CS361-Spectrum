@@ -56,7 +56,7 @@ public class Monster8 extends Monster {
 		}	
 		if(soundTime > .65){
 			soundTime = 0;
-			magnetSound.Play();
+			playSound(magnetSound);
 		}
 	}
 }

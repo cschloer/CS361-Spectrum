@@ -23,14 +23,14 @@ public class Monster3 extends Monster {
 		if(!dodging && hasDodgedThisSwing && !hero.weapon.swinging) hasDodgedThisSwing = false;
 		if(distanceToHero() < 1.5 && lastAttack < 0 && !dodging){
 			simpleMelee();
-			hissSound.Play();
+			playSound(hissSound);
 			lastAttack = 1;
 		}
 		lastAttack -= Time.deltaTime;
 	}
 
 	function dodge(time : float, speed : float){
-		dodgeSound.Play();
+		playSound(dodgeSound);
 		dodging = true;
 		hasDodgedThisSwing = true;
 		var leftSpeed : float;
