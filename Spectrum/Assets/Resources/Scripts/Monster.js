@@ -56,7 +56,7 @@ public class Monster extends MonoBehaviour
 		modelObject.GetComponent(BoxCollider).isTrigger = false;
  		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
  		modelObject.AddComponent(Rigidbody);
-		modelObject.GetComponent(Rigidbody).isKinematic = false;
+		modelObject.GetComponent(Rigidbody).isKinematic = true;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
  		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
  		modelObject.GetComponent(Rigidbody).freezeRotation = true;
@@ -344,6 +344,7 @@ public class Monster extends MonoBehaviour
 		return attack;
 	}
 	
+	// slow attack does not damage
 	function attackSlow(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
 		var temp:MonsterAttack = attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture);
 		temp.slow = true;

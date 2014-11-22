@@ -13,13 +13,14 @@ public class MonsterBossTentacle extends Monster{
 	var tentacleFolder:GameObject;
 	
 	var phaseTime:float;
+	var isActive:boolean;
 
 	function init(c: Character, p:Vector3){
 		super.init(c);
 		phaseTime = 0;
 		isStraight = false;
 		rooted = p;
-		health = 5;
+		health = 6;
 		super.manager = c.manager;
 		model.renderer.material.mainTexture = Resources.Load("Textures/bossTentacle", Texture2D);	// Set the texture.  Must be in Resources folder.
 		setSize(2, 2.5);
@@ -42,14 +43,15 @@ public class MonsterBossTentacle extends Monster{
 		tentacleFolder = new GameObject();
 		tentacleFolder.transform.parent = transform;
 		tentacles = new Array();
-		var numTentacles:int = 10;
-		var tentacleLength:int = 10;
+		var numTentacles:int = 6;
+		var tentacleLength:int = 15;
 		for (var i=0; i<numTentacles; i++){
 		
 			tentacles.Add(addTentacleArm(Vector3(0,0,i*(360/numTentacles)), tentacleLength));
 
 		
 		}
+		isActive = false;
 	}
 	
 	function addTentacleArm(rotation, length){
@@ -57,7 +59,7 @@ public class MonsterBossTentacle extends Monster{
 		var tentacleScript:MonsterBossTentacleArm = modelObject2.AddComponent("MonsterBossTentacleArm");		// Add the tentacle.js script to the object.
 																// We can now refer to the object via this script.
 		tentacleScript.transform.eulerAngles = rotation;
-		tentacleScript.init(this.transform.position.x, this.transform.position.y, length, modelObject2, rotation, Random.Range(.1, 1.25), Random.Range(.1, 1.75), super.manager);	
+		tentacleScript.init(this.transform.position.x, this.transform.position.y, length, modelObject2, rotation, Random.Range(.3, .75), Random.Range(.2, .6), super.manager);	
 		//tentacleScript.transform.parent
 		tentacleScript.transform.parent = tentacleFolder.transform;	// Set the tentacle's parent object to be the tentacle folder.	
 		tentacleScript.transform.position += tentacleScript.transform.up;						
@@ -67,6 +69,11 @@ public class MonsterBossTentacle extends Monster{
 	
 	//Swings around until player gets close
 	function act(){
+		if (!isActive){
+			if (super.distanceToHero() > 5) return;
+			isActive = true;
+		}
+		if (phaseTime > 8) switchPhase();
 		phaseTime += Time.deltaTime;
 		super.model.transform.position = rooted; // root in place
 		if(angleToHero() > 2 && angleToHero() < 358) turnToHero(2);
@@ -87,6 +94,7 @@ public class MonsterBossTentacle extends Monster{
 	}
 	
 	function explodeArea() : IEnumerator{
+		super.hero.model.shakeCamera(.1*10);
 		for (var i=1; i<10; i++){
 			makeExplosion(super.model.transform.position+super.model.transform.up*i);
 			yield WaitForSeconds(.1);
@@ -117,6 +125,7 @@ public class MonsterBossTentacle extends Monster{
 			//if (Random.Range(1,2) > 1.5)
 			if (phaseTime > 0) switchPhase();
 			playSound(hurtSound);
+
 			health--;
 			hurting = true;
 			model.renderer.material.color = Color(.5,.5,.5);

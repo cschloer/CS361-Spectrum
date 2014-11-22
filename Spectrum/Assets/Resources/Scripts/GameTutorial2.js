@@ -17,11 +17,11 @@ function levelInit(){
 
 
   charSpawner = addDevice(-16.5,18.5,"aSpawn",0,0);
-  bossSpawner = addDevice(19.5,45,"aSpawn",1,0);
-  addDevice(19.5,41,"mSpawn", 3, 1);						//todo: change the last number for a different kind of monster, first number changes # of monster spawned.
+  bossSpawner = addDevice(19.5,40,"aSpawn",1,0);
+  addDevice(19.5,35,"mSpawn", 5, 7);						//todo: change the last number for a different kind of monster, first number changes # of monster spawned.
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
-   addMonster(0, 35, character, -1, 1);
+  addMonster(0, 35, character, -1, 1);
   addMonster(23, -4, character, -1, 2);
   displayText = "Monsters drop colors. Press F to pick them up!";
   currentLevel = 2;
@@ -31,13 +31,13 @@ function levelInit(){
 function addBoss(x : float, y :float, c : Character){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	monsterScript = monsterObject.AddComponent("Monster2");		// Add the monster.js script to the object.
+	monsterScript = monsterObject.AddComponent("Monster9");		// Add the monster.js script to the object.
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
 	
 	monsterScript.init(c);
-	monsterScript.activateDistance = 2;
+	monsterScript.activateDistance = 3;
 	boss = monsterScript;
 	monsterScript.name = "Boss";
 	return monsterScript;
