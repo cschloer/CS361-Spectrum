@@ -136,7 +136,7 @@ function addCharacter(x : float , y : float) {
 	
 	//Test spawns
 	//addBossTentacle(2, 2, character);
-	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3]);
+	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
 }
 
 function addCake(x : float , y : float) {

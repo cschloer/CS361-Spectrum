@@ -5,7 +5,7 @@ public class Monster extends MonoBehaviour
 	public var hero : Character; //Pointer to the hero
 	public var moveSpeed : float;  //Tiles per second
 	public var turnSpeed : float;  //Degrees Per second
-	public var health : int; //Max/starting health
+	public var health : float; //Max/starting health
 	public var hurtRecovery : float; //Time spend invincible after hit
 	public var hurting : boolean; //Marker boolean for whether it was just hurt
 	public var modelObject : GameObject;
@@ -25,6 +25,8 @@ public class Monster extends MonoBehaviour
 	var hooking:boolean;
 	var fleeing:boolean;
 	var charging:boolean;
+	var curHeart:int;
+	var hearts:Array;
 	
 	public function init(c : Character) {
 		activateDistance = 10;
@@ -83,6 +85,7 @@ public class Monster extends MonoBehaviour
 		minionFolder.transform.parent = transform;
 		
 		waitToActivate();
+		addHearts();
 	}
 	
 	function waitToActivate(){
@@ -258,12 +261,13 @@ public class Monster extends MonoBehaviour
 	//Subroutine - call once, runs concurrently.
 	public function hurt(){
 		if(!invincible){
+			removeHeart();
 			hurtSound.Play();
 			flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
 			health--;
 			hurting = true;
 			model.renderer.material.color = Color(.5,.5,.5);
-
+			
 			var t : float = hurtRecovery;
 			while (t > 0 && health > 0){
 				t -= Time.deltaTime;
@@ -454,6 +458,38 @@ public class Monster extends MonoBehaviour
 		Gizmos.color = Color.yellow;
 		
 		//Gizmos.DrawWireCube (model.transform.position, modelObject.GetComponent(BoxCollider).size);
+	
+	}
+	
+	function addHearts(){
+		return;
+		hearts = new Array();
+		yield WaitForSeconds(.5);
+		for (var i=0; i<health; i++){
+			var heartObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
+			
+			//heartObject.gameObject.transform.position = model.transform.position;
+			//heartObject.gameObject.transform.rotation = model.transform.rotation;
+			
+												// Name the object.
+			heartObject.renderer.material.mainTexture = Resources.Load("Textures/heartEnemy", Texture2D);	// Set the texture.  Must be in Resources folder.
+			heartObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");		
+			heartObject.gameObject.collider.enabled = false;
+			heartObject.gameObject.transform.parent = this.model.transform;
+			heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.2, 0,-1);						// Center the model on the parent.
+			heartObject.transform.localScale = Vector3(.5,.5,.5);
+			heartObject.gameObject.name = "heartObject";	
+			hearts.Add(heartObject);
+		}
+		curHeart = health-1;
+	
+	}
+	
+	function removeHeart(){
+		return;
+		if (curHeart < 0) return;
+		Destroy(hearts[curHeart]);
+		curHeart--;
 	
 	}
 	
