@@ -58,7 +58,7 @@ public class Monster extends MonoBehaviour
 		modelObject.GetComponent(BoxCollider).isTrigger = false;
  		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
  		modelObject.AddComponent(Rigidbody);
-		modelObject.GetComponent(Rigidbody).isKinematic = true;
+		modelObject.GetComponent(Rigidbody).isKinematic = false;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
  		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
  		modelObject.GetComponent(Rigidbody).freezeRotation = true;
@@ -261,8 +261,10 @@ public class Monster extends MonoBehaviour
 	//Subroutine - call once, runs concurrently.
 	public function hurt(){
 		if(!invincible){
+
 			removeHeart();
 			hurtSound.Play();
+			playSound(hurtSound);
 			flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
 			health--;
 			hurting = true;
@@ -293,7 +295,8 @@ public class Monster extends MonoBehaviour
 	function die(deathTime : float){
 		hero.killedMonsters++;
 		var t : float = 0;
-		splatSound.Play();
+		//splatSound.Play();
+		playSound(splatSound);
 		dropColor();
 		while (t < deathTime){
 			t += Time.deltaTime;
@@ -431,12 +434,14 @@ public class Monster extends MonoBehaviour
 	//Example melee attack
 	function simpleMelee(){
 		attack(1, 4, 0, 1, .2, Color(1, 1, 1), false, true, "melee");
-		hissSound.Play();
+		//hissSound.Play();
+		playSound(hissSound);
 	}
 	//Example ranged attack
 	function simpleBullet(){
 		attack(5, 2.5, .5, .3, .3, Color(1, 0, 1),true, false, "bullet");
-		puffSound.Play();
+		//puffSound.Play();
+		playSound(puffSound);
 	}
 	
 	function createMinion(n : String){
@@ -453,6 +458,9 @@ public class Monster extends MonoBehaviour
 	function minionCollision(minion : Minion, col : Collider){
 	}
 	
+	function playSound(source : AudioSource){
+		manager.playSound(source, model.transform.position);
+	}
 	function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
 		Gizmos.color = Color.yellow;

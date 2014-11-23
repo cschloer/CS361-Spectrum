@@ -143,7 +143,9 @@ function Update(){
 function breakage(){
 	if (broken) return;
 	breakSound.volume = 1;
-	breakSound.Play();
+
+	if(!broken) manager.playSound(breakSound, transform.position);
+
 	renderer.material.mainTexture = Resources.Load("Textures/cracked_02", Texture2D);
 	broken = true;
 	owner.box.isTrigger = true;

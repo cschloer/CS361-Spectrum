@@ -24,7 +24,7 @@ function levelInit(){
     addCake(-.5,11);
     addCake(19,25);
 
-    displayText = "Use arrow keys to move! Collect cake!";
+    displayText = "Use WASD keys to move! Collect cake!";
     currentLevel = 1;
 
 }

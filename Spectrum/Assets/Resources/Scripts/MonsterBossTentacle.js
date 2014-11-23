@@ -123,7 +123,9 @@ public class MonsterBossTentacle extends Monster{
 	public function hurt(){
 		if(!invincible){
 			//if (Random.Range(1,2) > 1.5)
-			hurtSound.Play();
+			if (phaseTime > 0) switchPhase();
+			playSound(hurtSound);
+
 			health--;
 			hurting = true;
 			model.renderer.material.color = Color(.5,.5,.5);
@@ -177,7 +179,7 @@ public class MonsterBossTentacle extends Monster{
 					var temp:MonsterBossTentacleArm = tentacles[i];
 					temp.destroyMe(deathTime, true);
 		}
-		splatSound.Play();
+		playSound(splatSound);
 		dropColor();
 		while (t < 3){
 			t += Time.deltaTime;

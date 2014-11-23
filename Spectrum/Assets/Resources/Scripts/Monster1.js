@@ -57,7 +57,7 @@ public class Monster1 extends Monster {
 
 		
 	function shield(time : float){
-		metalSound.Play();
+		playSound(metalSound);
 		invincible = true;
 		model.renderer.material.color = Color(2, 2, 2);
 		while (time > 0){

@@ -66,7 +66,8 @@ public class Monster7 extends Monster{
 	
 	function buddyAttack(waitDuration : float, attackDuration : float, attackPause : float){
 		buddyAttacking = true;
-		bingSound.Play();
+		playSound(bingSound);
+		
 		var t : float = 0;
 		model.renderer.material.color = Color(1.3, 1.3, 1.3);
 		while(t<waitDuration && health > 0){
@@ -95,7 +96,7 @@ public class Monster7 extends Monster{
 	
 	function buddyShot(){
 		if (buddy == null) return;
-		shotSound.Play();
+		playSound(shotSound);
 		attack(Vector3.Magnitude(model.transform.position - buddy.model.transform.position), 15, 0, .3, 1, Color.yellow, false, false, "");
 	}
 		

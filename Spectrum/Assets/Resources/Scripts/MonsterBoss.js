@@ -51,7 +51,7 @@ public class MonsterBoss extends Monster{
 			yield;
 		}
 		attack(5, 8, 0, 1.5, .5, Color.green, false, true, "");
-		chargeSound.Play();
+		playSound(chargeSound);
 		while(lungeTime > 0){
 			lungeTime -= Time.deltaTime;
 			move(lungeSpeed);
@@ -67,7 +67,7 @@ public class MonsterBoss extends Monster{
 			}
 			model.renderer.material.color = Color(1, 1, 1);
 			attack(3, -4, 0, 1.8, 2, Color.green, false, true, "");
-			squirtSound.Play();
+			playSound(squirtSound);
 		}else{
 			while(retreatTime > 0){
 				retreatTime -= Time.deltaTime;
@@ -107,7 +107,7 @@ public class MonsterBoss extends Monster{
 	}
 	public function hurt(){
 		if(!invincible && !shielding){
-			hurtSound.Play();
+			playSound(hurtSound);
 			flee(2, hurtRecovery); 
 			health--;
 			hurting = true;
@@ -127,7 +127,7 @@ public class MonsterBoss extends Monster{
 			
 	}
 	function shield(time : float){
-		metalSound.Play();
+		playSound(metalSound);
 		shielding = true;
 		model.renderer.material.color = Color(2, 2, 2);
 		while (time > 0){
@@ -149,7 +149,7 @@ public class MonsterBoss extends Monster{
 	function die(deathTime : float){
 		hero.killedMonsters++;
 		var t : float = 0;
-		splatSound.Play();
+		playSound(splatSound);
 		dropColor();
 		while (t < 3){
 			t += Time.deltaTime;

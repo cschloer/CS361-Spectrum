@@ -23,6 +23,12 @@ function OnTriggerEnter(col:Collider){
 		  
 		  
 		  }
+		  if(col.gameObject.name.Contains("Tile Wall") && weapon.character.isThrowingStar){
+		  		weapon.hasHit = true;
+		  		weapon.hitWall = true;
+		  		yield;
+		  		weapon.hasHit = false;
+		  	}
 }
 	
 	
