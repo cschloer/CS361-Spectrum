@@ -21,6 +21,8 @@ function init(own : Tile) {
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	//renderer.sortingLayerID = 2;														// Set the Unit to the tile layer.
 	//renderer.sortingOrder = 2;
+	transform.localScale += Vector3(0.3,0.3,0);
+
 	
 }
 

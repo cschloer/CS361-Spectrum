@@ -576,7 +576,7 @@ function OnGUI() {
 	
 	var width1 = Screen.width/50;
 	var height1 = width1;
-	var boxSize = Screen.width/10;
+	var boxSize = Screen.width/12;
 	
 	// Controls the jumping image of the TraitMap
 	var textJump : Texture2D;
@@ -597,10 +597,10 @@ function OnGUI() {
 	textRoll = Resources.Load("Textures/TraitMap_Roll", Texture2D);
 	if (character.model.blue == true){
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect(width1,height1*3+boxSize/2,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect(width1,height1*3+boxSize/1.5,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect(width1,height1*3+boxSize/2,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect(width1,height1*3+boxSize/1.5,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
 	}	
 	
 	// Controls the swinging image of the TraitMap
@@ -608,10 +608,10 @@ function OnGUI() {
 	textSwing = Resources.Load("Textures/TraitMap_Swing", Texture2D);
 	if (character.model.yellow == true){
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	}
 	
 	// Controls the throwing image of the TraitMap
@@ -619,10 +619,10 @@ function OnGUI() {
 	textThrow = Resources.Load("Textures/TraitMap_Throw", Texture2D);
 	if (character.model.yellow == true){
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1*3+boxSize/2,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1*3+boxSize/1.5,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect(width1*3 + boxSize/2,height1*3+boxSize/2,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1*3+boxSize/1.5,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
 	}	
 	
 	// Controls the swinging image of the TraitMap
@@ -630,10 +630,10 @@ function OnGUI() {
 	textBig = Resources.Load("Textures/TraitMap_Big", Texture2D);
 	if (character.model.red == true){
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.4*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.4*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 		GUI.color.a = 1;
 
 	}
@@ -643,10 +643,10 @@ function OnGUI() {
 	textSmall = Resources.Load("Textures/TraitMap_Small", Texture2D);
 	if (character.model.red == true){
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1*3+boxSize/2,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.9*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect(2*(width1*3 + boxSize/2),height1*3+boxSize/2,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.9*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	}	
 	
 	// --------> This is the lifehearts
