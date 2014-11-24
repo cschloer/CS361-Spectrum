@@ -22,6 +22,7 @@ public class MonsterBoss extends Monster{
 		shielding = false;
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
+		metalSound.playOnAwake = false;
 		chargeSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		chargeSound.clip = Resources.Load("Sounds/bigHiss") as AudioClip;
 		squirtSound = gameObject.AddComponent("AudioSource") as AudioSource;

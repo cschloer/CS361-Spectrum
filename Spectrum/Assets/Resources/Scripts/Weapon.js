@@ -123,6 +123,7 @@ public class Weapon extends MonoBehaviour{
 		clubJumpSound.playOnAwake = false;
 		clubPrimeSound.playOnAwake = false;
 		clubRollSound.playOnAwake = false;
+		metalSound.playOnAwake = false;
 
 		throwTime = .37;
 		throwRecovery = 1;

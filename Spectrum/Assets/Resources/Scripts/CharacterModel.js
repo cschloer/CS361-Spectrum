@@ -631,7 +631,9 @@ function stopMovement(){
 }
 
 function handleCollisions(col:Collider){
-	//print(col.isTrigger);
+	//
+	
+	print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
 		 rjTimer = 0;
@@ -672,7 +674,7 @@ function OnTriggerEnter(col:Collider){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
 		 } 
-		 else character.hurt();
+		 else if (!col.gameObject.GetComponent("MonsterAttack").safe) character.hurt();
 	}
 	
 	if (col.gameObject.name.Contains("TentacleArm") && !character.hurting && vincible){
