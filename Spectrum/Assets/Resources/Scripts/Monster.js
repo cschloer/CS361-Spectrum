@@ -27,8 +27,10 @@ public class Monster extends MonoBehaviour
 	var charging:boolean;
 	var curHeart:int;
 	var hearts:Array;
+	var color : String;
 	
 	public function init(c : Character) {
+		color = "random";
 		activateDistance = 10;
 		invincible = false;
 		charging = false;
@@ -372,7 +374,11 @@ public class Monster extends MonoBehaviour
 
 	function dropColor(){
 		//print("Dropping Random Color");
-		var rand : float = Random.value;
+		if(color == "random"){
+			var rand : float = Random.value;
+		} else{
+			dropColor(color);
+		}
 		//print(rand);
 		if(rand < 2.0/6){
 			dropColor("red");

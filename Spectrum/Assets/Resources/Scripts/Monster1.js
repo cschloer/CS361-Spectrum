@@ -21,7 +21,7 @@ public class Monster1 extends Monster {
 		metalSound.playOnAwake = false;
 		shootSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		shootSound.clip = Resources.Load("Sounds/wew") as AudioClip;
-		
+		color = "red";
 	}
 	//Approaches hero. If it's lined up, it will lunge. 
 	function act(){
