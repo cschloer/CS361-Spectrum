@@ -708,9 +708,14 @@ function OnCollisionStay(col:Collision){
 		monsterHere = true;
 	}
 	
-	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
-	handleCollisions(col.collider);
+	
+	if(col.gameObject.name.Contains("Tile Wall")){
+		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
+		handleCollisions(col.collider);
+		modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
 
+		
+	}
 
 }
 function OnCollisionEnter(col:Collision){
