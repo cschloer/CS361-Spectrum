@@ -105,7 +105,7 @@ public class Monster8 extends Monster {
 	function act() {
 		if(magnetTimer <= 0){
 			moveRandomly();
-			if (distanceToHero() <= 6 && distanceToHero() >= 2 && Random.value > .95) {
+			if (distanceToHero() <= 6 && distanceToHero() >= 2 && Random.value > .98) {
 				anim.SetBool("Attacking", true);
 				magnetTimer = .7;
 				playSound(magnetSound);
