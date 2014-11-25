@@ -98,7 +98,7 @@ public class Monster9 extends Monster {
 	function act() {
 		if(magnetTimer <= 0){
 			moveRandomly();
-			if (distanceToHero() <= 6 && distanceToHero() >= 2 && Random.value > .95) {
+			if (distanceToHero() <= 6 && distanceToHero() >= 2 && Random.value > .99) {
 				anim.SetBool("Attacking", true);
 				magnetTimer = .7;
 				playSound(magnetSound);
@@ -149,7 +149,7 @@ public class Monster9 extends Monster {
 	
 	function moveHero(){
 			var heroTo : Vector3 = model.transform.position - hero.model.transform.position;
-			hero.model.transform.position -= heroTo * Time.deltaTime*freeze*moveSpeed;
+			hero.model.transform.position -= .5*heroTo * Time.deltaTime*freeze*moveSpeed;
 	}
 	
 }
