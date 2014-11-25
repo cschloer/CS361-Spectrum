@@ -322,7 +322,7 @@ function addDevice(x : float, y :float, t : String, na : int, nb : int){
 			else monArray.Add(nb);
 		
 		}
-		addDeviceSpawner(x, y, monArray, 15, 10);
+		addDeviceSpawner(x, y, monArray, 30, 10);
 	
 	}
 	else {
@@ -383,7 +383,7 @@ function levelInit(){
   addDevice(-14,38,"mSpawn", 4, 7);
   addDevice(20,5,"mSpawn", 4, 3);
   addDevice(-25,41,"mSpawn", 4, 9);
-  addDevice(1,-13,"mSpawn", 4, 5);//first one
+  //addDevice(1,-13,"mSpawn", 4, 5);//first one
   addDevice(-21, 25, "mSpawn", 4, 3);
   addDevice(46, 20,"mSpawn", 4, 6); //boss room
   addDevice(19, 17,"mSpawn", 4, 5);
