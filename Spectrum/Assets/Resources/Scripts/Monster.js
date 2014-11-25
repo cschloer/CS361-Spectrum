@@ -470,7 +470,6 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function addHearts(){
-		return;
 		hearts = new Array();
 		yield WaitForSeconds(.5);
 		for (var i=0; i<health; i++){
@@ -484,7 +483,7 @@ public class Monster extends MonoBehaviour
 			heartObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");		
 			heartObject.gameObject.collider.enabled = false;
 			heartObject.gameObject.transform.parent = this.model.transform;
-			heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.2, 0,-1);						// Center the model on the parent.
+			heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.5, 0,-1);						// Center the model on the parent.
 			heartObject.transform.localScale = Vector3(.5,.5,.5);
 			heartObject.gameObject.name = "heartObject";	
 			hearts.Add(heartObject);
@@ -494,7 +493,6 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function removeHeart(){
-		return;
 		if (curHeart < 0) return;
 		Destroy(hearts[curHeart]);
 		curHeart--;

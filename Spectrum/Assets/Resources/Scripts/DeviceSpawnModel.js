@@ -89,11 +89,8 @@ function init(own : Device, man: GameManager, types: Array, respawnTime:float, s
 	//this.gameObject.AddComponent(BoxCollider);
 	//this.gameObject.GetComponent(BoxCollider).isTrigger = true;
 	for (var j=0; j< numMonsters; j++){
-			if (monsterScripts[j] == null) {
-				var mons = manager.addMonster(transform.position.x+(-1*(numMonsters/2)+j),transform.position.y+2,manager.character,monsterTypes[j]);
-				monsterScripts[j] = mons;
-			}
-		}
+			monsterTimers[j] = respawnTime;
+	}
 }
 
 function Update(){
@@ -118,9 +115,9 @@ function Update(){
 		}
 	}
 	else { // conrad update function
-	
-		if (distanceToCharacter() < spawnDistance){ // don't respawn if character is nearby
-			for (var h=0; h<numMonsters; h++) monsterTimers[h] = 0;
+		if (character == null){
+			character = manager.character;
+		 return;
 		}
 		
 		for (var j=0; j< numMonsters; j++){
@@ -132,9 +129,11 @@ function Update(){
 					var mons = manager.addMonster(transform.position.x+(-1*(numMonsters/2)+j),transform.position.y+2,manager.character,monsterTypes[j]);
 					monsterScripts[j] = mons;
 					monsterTimers[j] = 0;
-					return;
 				}
 			}
+		}
+		if (distanceToCharacter() < spawnDistance){ // don't respawn if character is nearby
+			for (var h=0; h<numMonsters; h++) monsterTimers[h] = 0;
 		}
 		
 	}
@@ -154,6 +153,7 @@ function breakage(){
 }
 
 public function distanceToCharacter(){
+		
 		return Vector3.Magnitude(this.transform.position - character.model.transform.position);
 	}
 

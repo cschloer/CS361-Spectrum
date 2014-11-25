@@ -302,7 +302,7 @@ function addDeviceSpawner(x : float, y :float, types:Array, spawnTime:float, spa
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
 	deviceScript.transform.parent = deviceFolder.transform;
-	deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
+	deviceScript.transform.position = Vector3(x,y, 10);			// Position the character at x,y.								
 	
 	deviceScript.init(this, types, spawnTime, spawnDistance);
 	devices.Add(deviceScript);
@@ -311,16 +311,30 @@ function addDeviceSpawner(x : float, y :float, types:Array, spawnTime:float, spa
 }
 
 function addDevice(x : float, y :float, t : String, na : int, nb : int){
-	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
-	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
+	if (t == "mSpawn"){
+		monArray = new Array();
+		for (var i=0; i<na; i++){
+			if (nb == 0){
+				monArray.Add(Random.Range(0, 8));
+			}
+			else monArray.Add(nb);
+		
+		}
+		addDeviceSpawner(x, y, monArray, 15, 10);
 	
-	deviceScript.transform.parent = deviceFolder.transform;
-	deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
-	
-	deviceScript.init(t, this, na, nb);
-	devices.Add(deviceScript);
-	deviceScript.name = "Device: " + t + ", "+ devices.length;
-	return deviceScript;
+	}
+	else {
+		var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
+		var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
+		
+		deviceScript.transform.parent = deviceFolder.transform;
+		deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
+		
+		deviceScript.init(t, this, na, nb);
+		devices.Add(deviceScript);
+		deviceScript.name = "Device: " + t + ", "+ devices.length;
+		return deviceScript;
+	}
 }
 
 function addTile(xSpacial : float, ySpacial :float, t : String, or: int){

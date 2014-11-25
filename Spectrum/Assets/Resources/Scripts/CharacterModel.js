@@ -139,6 +139,7 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
+	
 
 }
 
