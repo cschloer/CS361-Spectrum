@@ -61,6 +61,7 @@ var boostRaRoTimer:float;
 
 var comboSmall1:boolean; // booleans associated with combo meele attack
 var comboSmall2:boolean;
+var comboSmall3 : boolean;
 var comboSmallTimer:float; // Timer used for each of the combos
 var boostRoll:boolean; // increase roll
 
@@ -134,6 +135,7 @@ function Start () {
 	
 	comboSmall1 = false;
 	comboSmall2 = false;
+	comboSmall3 = false;
 	comboSmallTimer = 0;
 	boostRoll = false;
 	
@@ -168,6 +170,8 @@ function Update () {
 	rjTimer += Time.deltaTime;
 	if (rolling){
 		if (rjTimer >= rollTime) { // Amount of time for rolling
+			comboSmall3 = false;
+
 			boostRoll = false;
 			rolling = false;
 			if(!yellow) {
@@ -226,6 +230,8 @@ function Update () {
 			character.modelObject.layer = 3;
 			
 			jumping = false;
+			comboSmall3 = false;
+
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
@@ -383,6 +389,7 @@ function Update () {
 					rollBoomBonus(1);																									
 				}																						
 				if (comboSmall2) { 
+					comboSmall3 = true;
 					character.weapon.pauseSwing(-70, character.weapon.swingTime/2, character.weapon.swingRecovery, rollTime);
 					character.weaponDual.pauseSwing(70,  character.weapon.swingTime/2, character.weapon.swingRecovery, rollTime);
 					boostRoll = true;
@@ -391,6 +398,8 @@ function Update () {
 			}
 			else if (blue && rjTimer >= jumpCooldown){ // jump because blue
 				if (comboSmall2){
+					comboSmall3 = true;
+
 					character.weapon.spin(.5, .7, 110);
 					character.weaponDual.spin(.5, .7, 110);
 				
@@ -757,6 +766,8 @@ function landing(){
 	else {
 		if (monsterHere){
 			if (comboSmall2){
+				comboSmall3 = true;
+
 				character.weapon.spin(.5, .7, 110);
 				character.weaponDual.spin(.5, .7, 110);
 			
@@ -934,9 +945,10 @@ function boostRR(){
 
 function comboSM(){ // combo for small
 	comboSmallTimer = 0;
+	comboSmall3 = false;
+
  	if (!comboSmall1){
  		comboSmall1 = true;
- 	
  		character.weapon.dualSwing(3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);
  		
  	}

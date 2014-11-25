@@ -57,9 +57,9 @@ function Start () {
 	levelInit();
 	currentLevel = -1;
 	
-	//addCircle(0);
-	//addCircle(1);
-	//addCircle(2);
+	addCircle(0);
+	addCircle(1);
+	addCircle(2);
 	
 	paused = false;
 	clock = 0.0;
@@ -625,28 +625,28 @@ function OnGUI() {
 		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1*3+boxSize/1.5,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
 	}	
 	
-	// Controls the swinging image of the TraitMap
+	// Controls the big image of the TraitMap
 	var textBig : Texture2D;
 	textBig = Resources.Load("Textures/TraitMap_Big", Texture2D);
 	if (character.model.red == true){
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect((width1*3 + 1.4*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.7*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect((width1*3 + 1.4*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.7*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 		GUI.color.a = 1;
 
 	}
 	
-	// Controls the throwing image of the TraitMap
+	// Controls the small image of the TraitMap
 	var textSmall : Texture2D;
 	textSmall = Resources.Load("Textures/TraitMap_Small", Texture2D);
 	if (character.model.red == true){
 		GUI.color.a = 0.3;
-		GUI.DrawTexture(Rect((width1*3 + 1.9*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.7*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	} else {
 		GUI.color.a = 1;
-		GUI.DrawTexture(Rect((width1*3 + 1.9*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
+		GUI.DrawTexture(Rect((width1*3 + 1.7*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	}	
 	
 	// --------> This is the lifehearts
@@ -679,7 +679,7 @@ function OnGUI() {
 	GUI.contentColor = Color.white;
 	if(character.model.red && !character.model.yellow)	GUI.TextField(Rect(Screen.width -60 ,Screen.height-40, 50, 30), "" + character.model.chargingBoomTimer); 
 	
-	// ----------> Trowing Stars
+	// ----------> Throwing star counter
 	if (character.isThrowingStar == true) {
 		var textStars : Texture2D;
 		GUI.color.a = 1;
@@ -687,11 +687,59 @@ function OnGUI() {
 		if (currentStars < 0){
 			currentStars = 0;
 		}
-		textCake = Resources.Load("Textures/Tstars" + currentStars, Texture2D);
-		GUI.DrawTexture(Rect(width1, (Screen.height/7)*3, Screen.height/6, Screen.height/8), textCake, ScaleMode.StretchToFill, true, 0);
+		
+		var textCounter : Texture2D;
+		textCounter = Resources.Load("Textures/chargebar_fill", Texture2D);
 
+		GUI.DrawTexture(Rect(width1, (height1)*10, ((Screen.width/4)*(.25*currentStars)), Screen.width/12), textCounter, ScaleMode.StretchToFill, true, 0);
+		
+		textStars = Resources.Load("Textures/chargebar_frame", Texture2D);
+		GUI.DrawTexture(Rect(width1, (height1)*10, Screen.width/4, Screen.width/12), textStars, ScaleMode.StretchToFill, true, 0);
+		
 	}
-																
+	
+	// ----------> Boomerang charge counter
+
+	if (character.model.yellow == false && character.model.red == true) {
+		GUI.color.a = 1;
+
+		
+		var textCounter2 : Texture2D;
+		textCounter2 = Resources.Load("Textures/chargebar_fill", Texture2D);
+
+		GUI.DrawTexture(Rect(width1*1.1, (height1)*10, ((Screen.width/4)*(character.model.chargingBoomTimer/3)), Screen.width/12), textCounter2, ScaleMode.ScaleAndCrop, true, 0);
+		
+		var textBoom = Resources.Load("Textures/chargebar_frame", Texture2D);
+		GUI.DrawTexture(Rect(width1, (height1)*10, Screen.width/4, Screen.width/12), textBoom, ScaleMode.StretchToFill, true, 0);
+		
+	}
+	
+	// ----------> dual wield charge counter
+
+	if (character.model.yellow == true && character.model.red == false) {
+		GUI.color.a = 1;
+
+		var comboCounter: int = 0;
+		if (character.model.comboSmall1 == true) {
+			comboCounter++;
+		}
+		if (character.model.comboSmall2 == true) {
+			comboCounter++;
+		}
+		
+		if (character.model.comboSmall3 == true) {
+			print("blahsklj");
+			comboCounter = 3;
+		}
+		var textCounter3 : Texture2D;
+		textCounter3 = Resources.Load("Textures/chargebar_fill", Texture2D);
+
+		GUI.DrawTexture(Rect(width1*1.1, (height1)*10, ((Screen.width/4.2)*(.333*comboCounter)), Screen.width/12), textCounter3, ScaleMode.ScaleAndCrop, true, 0);
+		
+		var textDual = Resources.Load("Textures/chargebar_frame", Texture2D);
+		GUI.DrawTexture(Rect(width1, (height1)*10, Screen.width/4, Screen.width/12), textDual, ScaleMode.StretchToFill, true, 0);
+		
+	}																													
 }
 
 }
