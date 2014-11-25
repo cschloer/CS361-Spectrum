@@ -8,15 +8,16 @@ var hero : Character;
 var slow:boolean;
 var slowAmount:float;
 var slowDuration:float;
+var safe : boolean;
 
-
-function init(r : float, s : float, f : boolean, h : float){
+function init(r : float, s : float, f : boolean, h : float, safeTemp : boolean){
 	slow = false;
 	range = r;
 	speed = s;
 	fade = f;
 	traveled = 0;
 	home = h;
+	safe = safeTemp;
 }
 function Start () {
 

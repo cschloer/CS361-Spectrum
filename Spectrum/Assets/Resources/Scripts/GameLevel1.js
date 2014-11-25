@@ -37,6 +37,10 @@ function levelInit(){
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   currentLevel=4;
+  
+  //addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,9);
+
+  
 }
 
 function addBoss(x : float, y :float, c : Character){

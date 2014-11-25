@@ -46,8 +46,8 @@ function init(own : Device, man: GameManager, count: int, typev: int) {
 	breakSound.volume = 0;
 	breakSound.clip = Resources.Load("Sounds/rattles");
 	this.gameObject.collider.enabled = false;
-	this.gameObject.AddComponent(BoxCollider);
-	this.gameObject.GetComponent(BoxCollider).isTrigger = true;
+	//this.gameObject.AddComponent(BoxCollider);
+	//this.gameObject.GetComponent(BoxCollider).isTrigger = true;
 }
 
 

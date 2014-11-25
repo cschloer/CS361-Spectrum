@@ -42,6 +42,7 @@ function addBoss(x : float, y :float, c : Character){
 	
 	boss = monsterScript;
 	monsterScript.name = "Boss";
+	monsterScript.manager = this;
 	return monsterScript;
 }
 

@@ -8,6 +8,7 @@ public class Monster8 extends Monster {
 	var currMovement : int;
 	var magnetSound : AudioSource;
 	var soundTime : float = 0;
+	var magnetTimer : float = 0;
 	function init(c : Character) {
 		super.init(c);
 		model.renderer.material.mainTexture = Resources.Load("Textures/magnetmate_pull", Texture2D);	// Set the texture.  Must be in Resources folder.
@@ -18,6 +19,30 @@ public class Monster8 extends Monster {
 	}
 	
 	function act() {
+		if(magnetTimer <= 0){
+			moveRandomly();
+			if (distanceToHero() <= 6 && distanceToHero() >= 2 && Random.value > .95) {
+				magnetTimer = .7;
+				playSound(magnetSound);
+				attack(2, 2, 0, 1, 1, Color.white, false, false, "", "sparkWaves", angleToHero(), false);
+
+			}
+		} else{
+			magnetTimer -= Time.deltaTime;
+			
+			moveHero();	
+			
+		}
+		
+	}
+	
+	function moveHero(){
+			var heroTo : Vector3 = model.transform.position - hero.model.transform.position;
+			hero.model.transform.position += heroTo * Time.deltaTime*freeze*moveSpeed;
+			
+	}
+	
+	function moveRandomly(){
 		rotateTimer = rotateTimer + Time.deltaTime;
 		var randomChange : float = Random.value;
 		if (rotateTimer > randomChange) {
@@ -48,15 +73,5 @@ public class Monster8 extends Monster {
 				break;		
 				
 		}		
-		
-		if (distanceToHero() <= 6 && distanceToHero() >= 2) {
-			soundTime += Time.deltaTime;
-			var heroTo : Vector3 = model.transform.position - hero.model.transform.position;
-			hero.model.transform.position += heroTo.normalized * Time.deltaTime*freeze*moveSpeed *1.5;
-		}	
-		if(soundTime > .65){
-			soundTime = 0;
-			playSound(magnetSound);
-		}
 	}
 }

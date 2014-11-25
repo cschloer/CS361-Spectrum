@@ -29,6 +29,8 @@ function addBoss(x : float, y :float, c : Character){
 	monsterScript.activateDistance = 6;
 	boss = monsterScript;
 	monsterScript.name = "Boss";
+	monsterScript.manager = this;
+
 	return monsterScript;
 }
 

@@ -61,6 +61,7 @@ var boostRaRoTimer:float;
 
 var comboSmall1:boolean; // booleans associated with combo meele attack
 var comboSmall2:boolean;
+var comboSmall3 : boolean;
 var comboSmallTimer:float; // Timer used for each of the combos
 var boostRoll:boolean; // increase roll
 
@@ -134,6 +135,7 @@ function Start () {
 	
 	comboSmall1 = false;
 	comboSmall2 = false;
+	comboSmall3 = false;
 	comboSmallTimer = 0;
 	boostRoll = false;
 	
@@ -169,6 +171,8 @@ function Update () {
 	rjTimer += Time.deltaTime;
 	if (rolling){
 		if (rjTimer >= rollTime) { // Amount of time for rolling
+			comboSmall3 = false;
+
 			boostRoll = false;
 			rolling = false;
 			if(!yellow) {
@@ -227,6 +231,8 @@ function Update () {
 			character.modelObject.layer = 3;
 			
 			jumping = false;
+			comboSmall3 = false;
+
 			//this.renderer.material.color = colorStore;	
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
@@ -384,6 +390,7 @@ function Update () {
 					rollBoomBonus(1);																									
 				}																						
 				if (comboSmall2) { 
+					comboSmall3 = true;
 					character.weapon.pauseSwing(-70, character.weapon.swingTime/2, character.weapon.swingRecovery, rollTime);
 					character.weaponDual.pauseSwing(70,  character.weapon.swingTime/2, character.weapon.swingRecovery, rollTime);
 					boostRoll = true;
@@ -392,6 +399,8 @@ function Update () {
 			}
 			else if (blue && rjTimer >= jumpCooldown){ // jump because blue
 				if (comboSmall2){
+					comboSmall3 = true;
+
 					character.weapon.spin(.5, .7, 110);
 					character.weaponDual.spin(.5, .7, 110);
 				
@@ -464,7 +473,7 @@ function Update () {
  				 		abilityPrimed = true; //Arm landing ability
  				 		character.weapon.jumpClubReady();
  					}else{ //If on ground, swing club!
- 						character.weapon.clubSwing(character.weapon.swingArc*.6, character.weapon.swingTime*2, character.weapon.swingRecovery*2);
+ 						character.weapon.clubSwing(character.weapon.swingArc*.45, character.weapon.swingTime, character.weapon.swingRecovery*3);
  					}
  				}
  			}
@@ -623,6 +632,8 @@ function stopMovement(){
 }
 
 function handleCollisions(col:Collider){
+	//
+	
 	//print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
@@ -664,7 +675,7 @@ function OnTriggerEnter(col:Collider){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
 		 } 
-		 else character.hurt();
+		 else if (!col.gameObject.GetComponent("MonsterAttack").safe) character.hurt();
 	}
 	
 	if (col.gameObject.name.Contains("TentacleArm") && !character.hurting && vincible){
@@ -698,9 +709,14 @@ function OnCollisionStay(col:Collision){
 		monsterHere = true;
 	}
 	
-	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
-	handleCollisions(col.collider);
+	
+	if(col.gameObject.name.Contains("Tile Wall")){
+		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
+		handleCollisions(col.collider);
+		modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
 
+		
+	}
 
 }
 function OnCollisionEnter(col:Collision){
@@ -758,6 +774,8 @@ function landing(){
 	else {
 		if (monsterHere){
 			if (comboSmall2){
+				comboSmall3 = true;
+
 				character.weapon.spin(.5, .7, 110);
 				character.weaponDual.spin(.5, .7, 110);
 			
@@ -935,9 +953,10 @@ function boostRR(){
 
 function comboSM(){ // combo for small
 	comboSmallTimer = 0;
+	comboSmall3 = false;
+
  	if (!comboSmall1){
  		comboSmall1 = true;
- 	
  		character.weapon.dualSwing(3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);
  		
  	}

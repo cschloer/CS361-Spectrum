@@ -13,18 +13,18 @@ function init(color:int, c) { // 0 for blue, 1 for red, 2 for yellow
 	if (color == 0){
 			this.name = "Blue";											// Name the object.
 			this.renderer.material.mainTexture = Resources.Load("Textures/bluecircle", Texture2D);	// Set the texture.  Must be in Resources folder.
-			this.transform.position = Vector3(3, 3, 1);	
+			this.transform.position = Vector3(3, 3, 0);	
 	}
 	else if (color == 1){
 		this.name = "Red";											// Name the object.
 		this.renderer.material.mainTexture = Resources.Load("Textures/redcircle", Texture2D);	// Set the texture.  Must be in Resources folder.
-		this.transform.position = Vector3(0, 3, 1);	
+		this.transform.position = Vector3(0, 3, 0);	
 	
 	}
 	else if (color == 2){
 		this.name = "Yellow";											// Name the object.
 		this.renderer.material.mainTexture = Resources.Load("Textures/yellowcircle", Texture2D);	// Set the texture.  Must be in Resources folder.
-		this.transform.position = Vector3(-3, 3, 1);	
+		this.transform.position = Vector3(-3, 3, 0);	
 	
 	}
 	this.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
