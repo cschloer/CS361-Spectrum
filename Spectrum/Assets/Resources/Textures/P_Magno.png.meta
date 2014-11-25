@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: a0b21fbbb97064555b5a4beee59dc67c
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: P_Magno_0
+    21300002: P_Magno_1
+    21300004: P_Magno_3
+    21300006: P_Magno_4
+    21300008: P_Magno_5
+    21300010: P_Magno_6
+    21300012: P_Magno_7
+    21300014: P_Magno_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: P_Magno_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 298
+        width: 254
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_1
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 298
+        width: 247
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_3
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 298
+        width: 255
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_4
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 47
+        width: 238
+        height: 169
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_5
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 47
+        width: 240
+        height: 169
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_6
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 47
+        width: 238
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_7
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 37
+        width: 215
+        height: 178
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: P_Magno_2
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 299
+        width: 252
+        height: 167
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

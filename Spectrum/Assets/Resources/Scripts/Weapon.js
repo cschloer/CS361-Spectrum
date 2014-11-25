@@ -80,7 +80,7 @@ public class Weapon extends MonoBehaviour{
 		model.transform.localPosition = basePosition;
 		model.transform.localEulerAngles = baseRotation;						
 		spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Sword", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		
  		/*colliderObject = new GameObject();
 		colliderObject.name = "WeaponObject Colliders";
@@ -560,12 +560,12 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toBoomerang(){
 		cube.GetComponent(BoxCollider).size = Vector3(1, 1, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/Boomerang1", Texture2D), new Rect(40,0,60,130), new Vector2(0.5f, 0), 100f);
  		
 	}
 	function toHammer(){
 		cube.GetComponent(BoxCollider).size = Vector3(2, 3, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/club", Texture2D), new Rect(0,0,256,512), new Vector2(0.5f, 0), 400f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Club", Texture2D), new Rect(0,0,256,512), new Vector2(0.5f, 0), 400f);
  		model.renderer.material.color = Color(1,1,1);
 
 	}
@@ -580,7 +580,11 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toStick(){
 		cube.GetComponent(BoxCollider).size = Vector3(.1, 1, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Sword", Texture2D), new Rect(35,0,45,130), new Vector2(0.5f, 0), 100f);
+	}
+	function toStick2(){
+		cube.GetComponent(BoxCollider).size = Vector3(.1, 1, .5);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Sword2", Texture2D), new Rect(30,0,40,130), new Vector2(0.5f, 0), 100f);
  	
 	}
 	

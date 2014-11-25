@@ -16,6 +16,8 @@ var starsAvailable:int;
 var isThrowingStar:boolean;
 var starTimer:float;
 var starCool:int; // cooldown on stars
+var anim : Animator;
+var sprend : SpriteRenderer;
 
 function init(m) {
 	manager = m;
@@ -23,10 +25,10 @@ function init(m) {
 	hurtRecovery = .5;
 	enabled = false;
 	dead = false;
-	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
+	modelObject = GameObject(); //.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the gem texture.
 	model = modelObject.AddComponent("CharacterModel");						// Add a gemModel script to control visuals of the gem.
 	//gemType = 1;
-	modelObject.collider.enabled = false;
+	//modelObject.collider.enabled = false;
 	modelObject.AddComponent(BoxCollider);
 	modelObject.GetComponent(BoxCollider).name = "Box1";
 	modelObject.GetComponent(BoxCollider).isTrigger = false;
@@ -45,10 +47,14 @@ function init(m) {
 	model.character = this;			
 	model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 	model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
+	this.transform.localScale = Vector3(0.5,0.5,0);
 	model.name = "Character Model";											// Name the object.
-	model.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
-	model.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
-	model.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency
+	anim = modelObject.AddComponent("Animator");
+	sprend = modelObject.AddComponent("SpriteRenderer");
+	anim.runtimeAnimatorController = Resources.Load("Animations/Huey");
+	//model.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
+	//model.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
+	//model.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency
 	model.Manager = m;
 	model.modelObject = modelObject;
 	enabled = true;
@@ -256,7 +262,7 @@ function activateDual(){
  	weaponDual.model.transform.localScale = Vector3.one;
  	weaponDual.canThrow = true;
  	weaponDual.resetPosition();
-	weaponDual.toStick();
+	weaponDual.toStick2();
 	weaponDual.isMeele = true;
 
 }

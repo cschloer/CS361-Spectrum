@@ -169,12 +169,14 @@ function Update () {
 	updateColor();
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
+	character.anim.SetBool("Moving", false);
 	if (rolling){
 		if (rjTimer >= rollTime) { // Amount of time for rolling
 			comboSmall3 = false;
 
 			boostRoll = false;
 			rolling = false;
+			character.anim.SetBool("Rolling", false);
 			if(!yellow) {
 				if(boostRaRo) boostRaRoTimer=0;
 				else boostRR(); // boost the ranged attack after a roll if ranged
@@ -230,6 +232,7 @@ function Update () {
 		if (rjTimer >= jumpTime) { // Amount of time for jumping
 			character.modelObject.layer = 3;
 			
+			character.anim.SetBool("Jumping", false);
 			jumping = false;
 			comboSmall3 = false;
 
@@ -335,7 +338,8 @@ function Update () {
 	if (Input.GetKeyDown("d")) {
 		moveE = true;
 		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = true;
-	}	
+	}
+	if (moveE || moveW || moveN || moveS) character.anim.SetBool("Moving", true);	
 	/*rotateL = false;
 	rotateR = false;
 	if (Input.GetAxis("Mouse X")>0){
@@ -381,6 +385,7 @@ function Update () {
 				rollSound.Play();
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
+				character.anim.SetBool("Rolling", true);
 				rolling = true;
 				rjTimer = 0;
 				if (red) rollKnock();
@@ -412,6 +417,7 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
+				character.anim.SetBool("Jumping", true);
 				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
