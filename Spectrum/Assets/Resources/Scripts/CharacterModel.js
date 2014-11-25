@@ -472,7 +472,7 @@ function Update () {
  				 		abilityPrimed = true; //Arm landing ability
  				 		character.weapon.jumpClubReady();
  					}else{ //If on ground, swing club!
- 						character.weapon.clubSwing(character.weapon.swingArc*.6, character.weapon.swingTime*2, character.weapon.swingRecovery*2);
+ 						character.weapon.clubSwing(character.weapon.swingArc*.45, character.weapon.swingTime, character.weapon.swingRecovery*3);
  					}
  				}
  			}
@@ -633,7 +633,7 @@ function stopMovement(){
 function handleCollisions(col:Collider){
 	//
 	
-	print(col.isTrigger);
+	//print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
 		 rjTimer = 0;

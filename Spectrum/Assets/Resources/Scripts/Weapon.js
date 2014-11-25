@@ -362,21 +362,21 @@ public class Weapon extends MonoBehaviour{
  		var t : float = 0;
  		//Swinging motion
  		recovering = true;
- 		while (t < time/1.25){
+ 		while (t < time){
  				t += Time.deltaTime;
  				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
- 				model.transform.RotateAround(model.transform.position, Vector3.right, 1.0*angle/time * Time.deltaTime);			
+ 				model.transform.RotateAround(model.transform.position, Vector3(Mathf.Cos(character.model.transform.eulerAngles.x), Mathf.Sin(character.model.transform.eulerAngles.x),0), .9*angle/time * Time.deltaTime);			
  				yield;
  		}
  		clubSwinging = false;
 		clubStrike();
 		playSound(clubSound);
-		recovering = false;
+		//recovering = false;
 		//Recovery motion
  		while (t < time + recovery && !clubCharging){
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
- 			model.transform.RotateAround(model.transform.position, Vector3.right, -1.0*angle/time * Time.deltaTime);
+ 			model.transform.RotateAround(model.transform.position, Vector3(Mathf.Cos(character.model.transform.eulerAngles.x), Mathf.Sin(character.model.transform.eulerAngles.x),0), -.3*angle/time * Time.deltaTime);
  			yield;
  		}
  		//Optional lunge if roll during recovery
@@ -393,6 +393,10 @@ public class Weapon extends MonoBehaviour{
  			}
 
  		}
+ 		recovering = false;
+
+ 		// clubSwinging = false;
+
  		clubCharging = false;
  		swinging = false;
  		model.transform.localEulerAngles = baseRotation;

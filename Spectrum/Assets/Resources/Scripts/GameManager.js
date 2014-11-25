@@ -260,6 +260,8 @@ function addBoss(x : float, y :float, c : Character){
 	monsterScript.init(c);
 	boss = monsterScript;
 	monsterScript.name = "Boss";
+	monsterScript.manager = this;
+
 	return monsterScript;
 }
 
@@ -382,7 +384,7 @@ function levelInit(){
   addCake(-16,42);
   addCake(8,48);
   charSpawner = addDevice(-0.5,-5,"aSpawn",0,0);
-  bossSpawner = addDevice(40,21,"aSpawn",1,0);
+  bossSpawner = addDevice(3,3,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
 }

@@ -7,6 +7,7 @@ public class MonsterBoss extends Monster{
 	var chargeSound : AudioSource;
 	var squirtSound : AudioSource;
 	var lunging : boolean;
+	var spotHit : boolean = false;
 	function init(c: Character){
 		super.init(c);
 		health = 3;
@@ -27,7 +28,7 @@ public class MonsterBoss extends Monster{
 		chargeSound.clip = Resources.Load("Sounds/bigHiss") as AudioClip;
 		squirtSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		squirtSound.clip = Resources.Load("Sounds/squirt") as AudioClip;
-		invincible = true;
+		invincible = false;
 	}
 	
 	//Approaches hero. If it's lined up, it will lunge. 
@@ -107,7 +108,7 @@ public class MonsterBoss extends Monster{
 		showingSpot = false;
 	}
 	public function hurt(){
-		if(!invincible && !shielding){
+		if(spotHit && !shielding){
 			playSound(hurtSound);
 			flee(2, hurtRecovery); 
 			health--;
@@ -130,7 +131,7 @@ public class MonsterBoss extends Monster{
 	function shield(time : float){
 		playSound(metalSound);
 		shielding = true;
-		model.renderer.material.color = Color(2, 2, 2);
+		//model.renderer.material.color = Color(2, 2, 2);
 		while (time > 0){
 			time -= Time.deltaTime;
 			yield;
@@ -141,9 +142,9 @@ public class MonsterBoss extends Monster{
 	}
 	function minionCollision(minion : Minion, col : Collider){
 		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0 && !shielding){
-			invincible = false;
+			spotHit = true;
 			hurt();
-			invincible = true;
+			spotHit = false;
 		}
 	}
 	

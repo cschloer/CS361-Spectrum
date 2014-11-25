@@ -60,7 +60,7 @@ public class Monster extends MonoBehaviour
  		modelObject.AddComponent(Rigidbody);
 		modelObject.GetComponent(Rigidbody).isKinematic = false;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
- 		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+ 		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
  		modelObject.GetComponent(Rigidbody).freezeRotation = true;
  		
  		hurtSound = gameObject.AddComponent("AudioSource") as AudioSource;
@@ -343,7 +343,7 @@ public class Monster extends MonoBehaviour
 		attackObject.AddComponent(Rigidbody);
 		attackObject.GetComponent(Rigidbody).isKinematic = false;
 		attackObject.GetComponent(Rigidbody).useGravity = false;
-		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
+		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(100, 100, 100);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 		return attack;
 	}
