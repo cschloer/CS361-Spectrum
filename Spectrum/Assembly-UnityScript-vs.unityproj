@@ -78,6 +78,7 @@
      <Compile Include="Assets\Resources\Scripts\Monster5.js" />
      <Compile Include="Assets\Resources\Scripts\Monster6.js" />
      <Compile Include="Assets\Resources\Scripts\Monster7.js" />
+     <Compile Include="Assets\Resources\Scripts\Monster8.js" />
      <Compile Include="Assets\Resources\Scripts\Monster9.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterAttack.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterBoss.js" />

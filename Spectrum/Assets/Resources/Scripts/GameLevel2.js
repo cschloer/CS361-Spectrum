@@ -3,6 +3,12 @@
 public class GameLevel2 extends GameManager {
 
 
+function Start(){
+	super.Start();
+	musicSound.clip = Resources.Load("Sounds/rhysGameMusic");
+	musicSound.Play();
+}
+
 function levelInit(){
   roomCreate(-10,-10,0,"Plain4End.txt");
   roomCreate(-10, 10,0,"Plain4Cross.txt");

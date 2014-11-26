@@ -354,6 +354,7 @@ function addTile(xSpacial : float, ySpacial :float, t : String, or: int){
 	
 	tileScript.init(t, or, tiles);
 	tiles[x][y] = tileScript;
+	tileScript.manager = this;
 	tileScript.name = "Tile " + xSpacial + ", " + ySpacial;
 	
 }
