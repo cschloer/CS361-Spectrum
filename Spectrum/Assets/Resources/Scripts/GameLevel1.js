@@ -18,7 +18,7 @@ function levelInit(){
   addDevice(-14,38,"mSpawn", 4, 7);
   addDevice(20,5,"mSpawn", 4, 3);
   addDevice(-25,41,"mSpawn", 4, 9);
-  addDevice(1,-13,"mSpawn", 4, 5);//first one
+  //addDevice(1,-13,"mSpawn", 4, 5);//first one
   addDevice(-21, 25, "mSpawn", 4, 3);
   addDevice(46, 20,"mSpawn", 4, 6); //boss room
   addDevice(19, 17,"mSpawn", 4, 5);
