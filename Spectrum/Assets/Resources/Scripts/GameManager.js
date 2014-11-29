@@ -322,7 +322,7 @@ function addDevice(x : float, y :float, t : String, na : int, nb : int){
 			else monArray.Add(nb);
 		
 		}
-		addDeviceSpawner(x, y, monArray, 15, 10);
+		addDeviceSpawner(x, y, monArray, 30, 25);
 	
 	}
 	else {
