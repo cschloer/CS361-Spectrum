@@ -14,9 +14,66 @@ public class MonsterBossTentacle extends Monster{
 	
 	var phaseTime:float;
 	var isActive:boolean;
+	
+	var anim : Animator;
+	var sprend : SpriteRenderer;
 
 	function init(c: Character, p:Vector3){
-		super.init(c);
+		color = "random";
+		charging = false;
+		fleeing = false;
+		hooking = false;
+		freeze=1;
+		hero = c;
+		hurting = false;
+		hurtRecovery = 1;
+		modelObject = GameObject();
+		model = modelObject.AddComponent("MonsterModel") as MonsterModel;						// Add a monsterModel script to control visuals of the monster.
+		model.monster = this;
+		moveSpeed = 1;
+		turnSpeed = 90;
+		
+		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
+		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
+		model.name = "Monster Model";										// Name the object.
+		anim = modelObject.AddComponent("Animator");						// Add the animator component
+		sprend = modelObject.AddComponent("SpriteRenderer");				// Add the renderer for the animations
+		anim.runtimeAnimatorController = Resources.Load("Animations/Eye");	// Add BossTentacle's animation controller.
+		
+ 		modelObject.AddComponent(BoxCollider);
+		modelObject.GetComponent(BoxCollider).isTrigger = false;
+ 		modelObject.GetComponent(BoxCollider).size = Vector3(.75,.75,5);
+ 		modelObject.AddComponent(Rigidbody);
+		modelObject.GetComponent(Rigidbody).isKinematic = false;
+ 		modelObject.GetComponent(Rigidbody).useGravity = false;
+ 		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
+ 		modelObject.GetComponent(Rigidbody).freezeRotation = true;
+ 		
+ 		hurtSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		hurtSound.clip = Resources.Load("Sounds/hit") as AudioClip;
+		splatSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		splatSound.clip = Resources.Load("Sounds/splat") as AudioClip;
+		hissSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		hissSound.clip = Resources.Load("Sounds/hiss") as AudioClip;
+		puffSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		puffSound.clip = Resources.Load("Sounds/puff") as AudioClip;
+		vip1Sound = gameObject.AddComponent("AudioSource") as AudioSource;
+		vip1Sound.clip = Resources.Load("Sounds/vip1") as AudioClip;
+		vip2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
+		vip2Sound.clip = Resources.Load("Sounds/vip2") as AudioClip;
+		
+		bulletFolder = new GameObject();
+		bulletFolder.name = "Bullets";
+		bulletFolder.transform.parent = transform;
+		
+		minionFolder = new GameObject();
+		minionFolder.name = "Minions";
+		minionFolder.transform.parent = transform;
+		
+		waitToActivate();
+		addHearts();
+		
+		
 		phaseTime = 0;
 		isStraight = false;
 		rooted = p;
@@ -53,6 +110,27 @@ public class MonsterBossTentacle extends Monster{
 		}
 		isActive = false;
 	}
+	
+	function Update(){
+		if(activateDistance == 0){
+			anim.SetBool("Blinking", false);
+			anim.SetInteger("Look", 0);
+			if(health > 0){
+				var r : float = Random.value;
+				if(r > .94){
+					if( r > .98 ) anim.SetBool("Blinking", true);
+					else if (r > .96) anim.SetInteger("Look", 1);
+					else anim.SetInteger("Look",-1);
+				}
+				act();
+				model.transform.localPosition.z = 0;
+			}else if (health > -100){
+				super.die(1);
+				health -= 101;
+			}	
+		}	
+	}
+	
 	
 	function addTentacleArm(rotation, length){
 		var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the tentacle texture.
@@ -129,6 +207,7 @@ public class MonsterBossTentacle extends Monster{
 			health--;
 			hurting = true;
 			model.renderer.material.color = Color(.5,.5,.5);
+			anim.SetBool("Blinking", true);
 
 			var t : float = hurtRecovery;
 			while (t > 0 && health > 0){
@@ -136,6 +215,7 @@ public class MonsterBossTentacle extends Monster{
 				yield;
 			}
 			hurting = false;
+			anim.SetBool("Blinking", false);
 			model.renderer.material.color = Color(1,1,1);
 		}
 			
