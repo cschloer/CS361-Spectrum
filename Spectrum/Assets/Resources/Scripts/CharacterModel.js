@@ -1,82 +1,86 @@
+// Character Code
+// CAGE
+// Final Build
 
+
+
+// *******************************************
+// 					 Globals
+// *******************************************
+
+// Movement
 var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
 var moveE:boolean;
-
-var Manager:GameManager;
-
 var rotateL:boolean;
 var rotateR:boolean;
-
 var moveSpeed:float;
 var turnSpeed:int;
+var heading : Vector3;
+var lookDirection : Vector3;
 
+// Colors
 var blue:boolean;
 var red:boolean;
 var yellow:boolean;
 var currentColor : Color;
+var colorStore : Color;
 
-var rolling:boolean;
-var jumping:boolean;
-var vincible:boolean;	// New: makes the player vincible/invincible for certain jumps/rolls.
-
-var rjTimer:float;
-
+// Character Data
+var Manager:GameManager;
 var character : Character;
 var modelObject;
+var shadow : GameObject;
+var shadowOffset : float;
+var heroScale : float; //tracks size of hero in float form
+var cakesCollected : int;
+var frozen : boolean;
+var isPushed : boolean = false;
 
-var colorStore : Color;
-var heading : Vector3;
-var lookDirection : Vector3;
+// Mechanics
+var rolling:boolean;
+var jumping:boolean;
+var vincible:boolean;
+var rjTimer:float;
 var rollTime : float; 
 var rollSpeedMultiplier : float;
 var rollCooldown : float;
 var jumpCooldown : float;
 var jumpTime : float;
 var jumpSpeedMultiplier : float;
-var rollSound : AudioSource;
-var jumpSound : AudioSource;
-var landSound : AudioSource;
-var cakeSound : AudioSource;
-var primeSound : AudioSource;
-
-var shadow : GameObject;
-var shadowOffset : float;
-
-var coolSpellHook:boolean; // cooldown for spell
-var coolSpellMine:boolean;
-var coolSpellAOE:boolean;
-var coolSpellWall:boolean;
-
-var cameraShake:boolean;
-
-var heroScale : float; //tracks size of hero in float form
-
-var cakesCollected : int;
-
 var boostRaRo:boolean; // a range boost that happens after a roll
 var boostRaRoTimer:float;
-
 var comboSmall1:boolean; // booleans associated with combo meele attack
 var comboSmall2:boolean;
 var comboSmall3 : boolean;
 var comboSmallTimer:float; // Timer used for each of the combos
 var boostRoll:boolean; // increase roll
-
 var isChargingBoom:boolean; // boomerang charging
 var chargingBoomTimer:float;
 var hasBoomBoosted:boolean; // boomerang boosted from a roll already during this charge
-
 var rollThrowTimer : float = 0; // Timer for when rolling and shootin'
 var lastAngle: int = 90; //Just for the rolling thingy
 var abilityPrimed : boolean = false;
-
 var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
-var frozen : boolean;
-var isPushed : boolean = false;
 
-// Use this for initialization
+// Effects
+var rollSound : AudioSource;
+var jumpSound : AudioSource;
+var landSound : AudioSource;
+var cakeSound : AudioSource;
+var primeSound : AudioSource;
+var coolSpellHook:boolean; // cooldown for spell
+var coolSpellMine:boolean;
+var coolSpellAOE:boolean;
+var coolSpellWall:boolean;
+var cameraShake:boolean;
+
+
+// *******************************************
+// 				 Initialization
+// *******************************************
+
 function Start () {
 	slowed = false;
 	monsterHere = false;
@@ -143,6 +147,10 @@ function Start () {
 	
 
 }
+
+// *******************************************
+// 					 Updates
+// *******************************************
 
 //This determines movement direction. ANY MODIFICATION OF HEADING MUST HAPPEN HERE. ANY READING OF HEADING MUST HAPPEN IN UPDATE.
 function FixedUpdate(){
@@ -539,8 +547,10 @@ function updateColor(){
 	transform.renderer.material.color.b = (1+currentColor.b)/2;
 }
 	
-
-
+	
+// *******************************************
+// 				Change Functions
+// *******************************************
 
 function changeBlue(){
 	if (blue){
@@ -635,6 +645,10 @@ function stopMovement(){
 	
 	//todo: stop moving animation
 }
+
+// *******************************************
+// 					Collisions
+// *******************************************
 
 function handleCollisions(col:Collider){
 	//
@@ -753,6 +767,11 @@ function OnDrawGizmos() {
  		*/
 	
 }
+
+
+// *******************************************
+// 			  Mechanics Functions
+// *******************************************
 
 function rollKnock(){ // knock back for roll
 	var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.
