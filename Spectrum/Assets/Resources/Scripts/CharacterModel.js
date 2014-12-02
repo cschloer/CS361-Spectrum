@@ -1,83 +1,86 @@
+// Character Code
+// CAGE
+// Final Build
 
+
+
+// *******************************************
+// 					 Globals
+// *******************************************
+
+// Movement
 var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
 var moveE:boolean;
-
-var Manager:GameManager;
-
 var rotateL:boolean;
 var rotateR:boolean;
-
 var moveSpeed:float;
 var turnSpeed:int;
+var heading : Vector3;
+var lookDirection : Vector3;
 
+// Colors
 var blue:boolean;
 var red:boolean;
 var yellow:boolean;
 var currentColor : Color;
+var colorStore : Color;
 
-var rolling:boolean;
-var jumping:boolean;
-var vincible:boolean;	// New: makes the player vincible/invincible for certain jumps/rolls.
-
-var rjTimer:float;
-
+// Character Data
+var Manager:GameManager;
 var character : Character;
 var modelObject;
+var shadow : GameObject;
+var shadowOffset : float;
+var heroScale : float; //tracks size of hero in float form
+var cakesCollected : int;
+var frozen : boolean;
+var isPushed : boolean = false;
 
-var walkclip : AnimationClip;
-var colorStore : Color;
-var heading : Vector3;
-var lookDirection : Vector3;
+// Mechanics
+var rolling:boolean;
+var jumping:boolean;
+var vincible:boolean;
+var rjTimer:float;
 var rollTime : float; 
 var rollSpeedMultiplier : float;
 var rollCooldown : float;
 var jumpCooldown : float;
 var jumpTime : float;
 var jumpSpeedMultiplier : float;
-var rollSound : AudioSource;
-var jumpSound : AudioSource;
-var landSound : AudioSource;
-var cakeSound : AudioSource;
-var primeSound : AudioSource;
-
-var shadow : GameObject;
-var shadowOffset : float;
-
-var coolSpellHook:boolean; // cooldown for spell
-var coolSpellMine:boolean;
-var coolSpellAOE:boolean;
-var coolSpellWall:boolean;
-
-var cameraShake:boolean;
-
-var heroScale : float; //tracks size of hero in float form
-
-var cakesCollected : int;
-
 var boostRaRo:boolean; // a range boost that happens after a roll
 var boostRaRoTimer:float;
-
 var comboSmall1:boolean; // booleans associated with combo meele attack
 var comboSmall2:boolean;
 var comboSmall3 : boolean;
 var comboSmallTimer:float; // Timer used for each of the combos
 var boostRoll:boolean; // increase roll
-
 var isChargingBoom:boolean; // boomerang charging
 var chargingBoomTimer:float;
 var hasBoomBoosted:boolean; // boomerang boosted from a roll already during this charge
-
 var rollThrowTimer : float = 0; // Timer for when rolling and shootin'
 var lastAngle: int = 90; //Just for the rolling thingy
 var abilityPrimed : boolean = false;
-
 var monsterHere:boolean; // boolean for jumping on monsters heads, says whether a monster is currently being collided with
-var frozen : boolean;
-var isPushed : boolean = false;
 
-// Use this for initialization
+// Effects
+var rollSound : AudioSource;
+var jumpSound : AudioSource;
+var landSound : AudioSource;
+var cakeSound : AudioSource;
+var primeSound : AudioSource;
+var coolSpellHook:boolean; // cooldown for spell
+var coolSpellMine:boolean;
+var coolSpellAOE:boolean;
+var coolSpellWall:boolean;
+var cameraShake:boolean;
+
+
+// *******************************************
+// 				 Initialization
+// *******************************************
+
 function Start () {
 	slowed = false;
 	monsterHere = false;
@@ -141,8 +144,13 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
+	
 
 }
+
+// *******************************************
+// 					 Updates
+// *******************************************
 
 //This determines movement direction. ANY MODIFICATION OF HEADING MUST HAPPEN HERE. ANY READING OF HEADING MUST HAPPEN IN UPDATE.
 function FixedUpdate(){
@@ -166,6 +174,7 @@ function Update () {
 	comboSmallTimer += Time.deltaTime;
 	if (comboSmallTimer > .75) comboSmallClear(); // clear the comboSmallTimer and values if the timer has gone off
 	updateColor();
+	character.anim.SetBool("Moving", false);
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
@@ -174,6 +183,7 @@ function Update () {
 
 			boostRoll = false;
 			rolling = false;
+			character.anim.SetBool("Rolling", false);
 			if(!yellow) {
 				if(boostRaRo) boostRaRoTimer=0;
 				else boostRR(); // boost the ranged attack after a roll if ranged
@@ -230,6 +240,7 @@ function Update () {
 			character.modelObject.layer = 3;
 			
 			jumping = false;
+			character.anim.SetBool("Jumping", false);
 			comboSmall3 = false;
 
 			//this.renderer.material.color = colorStore;	
@@ -334,7 +345,8 @@ function Update () {
 	if (Input.GetKeyDown("d")) {
 		moveE = true;
 		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = true;
-	}	
+	}
+	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Moving", true);
 	/*rotateL = false;
 	rotateR = false;
 	if (Input.GetAxis("Mouse X")>0){
@@ -381,6 +393,7 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
 				rolling = true;
+				character.anim.SetBool("Rolling", true);
 				rjTimer = 0;
 				if (red) rollKnock();
 				if (red && !yellow && !hasBoomBoosted) { // big
@@ -411,6 +424,7 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
+				character.anim.SetBool("Jumping", true);
 				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
@@ -472,7 +486,7 @@ function Update () {
  				 		abilityPrimed = true; //Arm landing ability
  				 		character.weapon.jumpClubReady();
  					}else{ //If on ground, swing club!
- 						character.weapon.clubSwing(character.weapon.swingArc*.6, character.weapon.swingTime*2, character.weapon.swingRecovery*2);
+ 						character.weapon.clubSwing(character.weapon.swingArc*.45, character.weapon.swingTime, character.weapon.swingRecovery*3);
  					}
  				}
  			}
@@ -533,8 +547,10 @@ function updateColor(){
 	transform.renderer.material.color.b = (1+currentColor.b)/2;
 }
 	
-
-
+	
+// *******************************************
+// 				Change Functions
+// *******************************************
 
 function changeBlue(){
 	if (blue){
@@ -630,7 +646,13 @@ function stopMovement(){
 	//todo: stop moving animation
 }
 
+// *******************************************
+// 					Collisions
+// *******************************************
+
 function handleCollisions(col:Collider){
+	//
+	
 	//print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
@@ -672,7 +694,7 @@ function OnTriggerEnter(col:Collider){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
 		 } 
-		 else character.hurt();
+		 else if (!col.gameObject.GetComponent("MonsterAttack").safe) character.hurt();
 	}
 	
 	if (col.gameObject.name.Contains("TentacleArm") && !character.hurting && vincible){
@@ -706,9 +728,14 @@ function OnCollisionStay(col:Collision){
 		monsterHere = true;
 	}
 	
-	modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
-	handleCollisions(col.collider);
+	
+	if(col.gameObject.name.Contains("Tile Wall")){
+		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
+		handleCollisions(col.collider);
+		modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
 
+		
+	}
 
 }
 function OnCollisionEnter(col:Collision){
@@ -740,6 +767,11 @@ function OnDrawGizmos() {
  		*/
 	
 }
+
+
+// *******************************************
+// 			  Mechanics Functions
+// *******************************************
 
 function rollKnock(){ // knock back for roll
 	var modelObject2 = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the landing texture.

@@ -6,6 +6,7 @@
 var modelObject : GameObject; 
 var box : BoxCollider;			// For walls and cliffs
 var type : String;
+var manager : GameManager;
 function init(t: String, or: int, tiles: Array) {
 	type = t;
 	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
@@ -43,3 +44,9 @@ function init(t: String, or: int, tiles: Array) {
 	}
 	modelObject.SetActive(true);										// Turn on the object (the Update function will start being called).
 }
+
+function Update(){
+	var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
+	//modelObject.transform.renderer.material.color.a = 1-(Mathf.Round(distance.magnitude/1.5) / (4));
+}
+

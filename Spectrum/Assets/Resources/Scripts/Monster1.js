@@ -4,7 +4,7 @@
 public class Monster1 extends Monster {
 	var lunging : boolean;
 	var metalSound : AudioSource;
-
+	var shootSound : AudioSource;
 	function init(c: Character){
 		super.init(c);
 		health = 1;
@@ -18,7 +18,10 @@ public class Monster1 extends Monster {
 		//Add sound
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
-		
+		metalSound.playOnAwake = false;
+		shootSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		shootSound.clip = Resources.Load("Sounds/wew") as AudioClip;
+		color = "red";
 	}
 	//Approaches hero. If it's lined up, it will lunge. 
 	function act(){
@@ -46,7 +49,7 @@ public class Monster1 extends Monster {
 			yield;
 		}
 		attack(3, 6, 0, 1, .3, Color.red, false, true, "");
-		
+		playSound(shootSound);
 		while(retreatTime > 0){
 			retreatTime -= Time.deltaTime;
 			moveFromHero(retreatSpeed);

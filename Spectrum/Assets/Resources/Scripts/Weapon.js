@@ -80,7 +80,7 @@ public class Weapon extends MonoBehaviour{
 		model.transform.localPosition = basePosition;
 		model.transform.localEulerAngles = baseRotation;						
 		spriteRenderer = weaponObject.AddComponent("SpriteRenderer") as SpriteRenderer;
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Sword", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
  		
  		/*colliderObject = new GameObject();
 		colliderObject.name = "WeaponObject Colliders";
@@ -123,6 +123,7 @@ public class Weapon extends MonoBehaviour{
 		clubJumpSound.playOnAwake = false;
 		clubPrimeSound.playOnAwake = false;
 		clubRollSound.playOnAwake = false;
+		metalSound.playOnAwake = false;
 
 		throwTime = .37;
 		throwRecovery = 1;
@@ -361,21 +362,21 @@ public class Weapon extends MonoBehaviour{
  		var t : float = 0;
  		//Swinging motion
  		recovering = true;
- 		while (t < time/1.25){
+ 		while (t < time){
  				t += Time.deltaTime;
  				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
- 				model.transform.RotateAround(model.transform.position, Vector3.right, 1.0*angle/time * Time.deltaTime);			
+ 				model.transform.RotateAround(model.transform.position, Vector3(Mathf.Cos(character.model.transform.eulerAngles.x), Mathf.Sin(character.model.transform.eulerAngles.x),0), .9*angle/time * Time.deltaTime);			
  				yield;
  		}
  		clubSwinging = false;
 		clubStrike();
 		playSound(clubSound);
-		recovering = false;
+		//recovering = false;
 		//Recovery motion
  		while (t < time + recovery && !clubCharging){
  			t += Time.deltaTime;
  			model.transform.RotateAround(model.transform.position, Vector3.forward, -angle/recovery * Time.deltaTime);
- 			model.transform.RotateAround(model.transform.position, Vector3.right, -1.0*angle/time * Time.deltaTime);
+ 			model.transform.RotateAround(model.transform.position, Vector3(Mathf.Cos(character.model.transform.eulerAngles.x), Mathf.Sin(character.model.transform.eulerAngles.x),0), -.3*angle/time * Time.deltaTime);
  			yield;
  		}
  		//Optional lunge if roll during recovery
@@ -392,6 +393,10 @@ public class Weapon extends MonoBehaviour{
  			}
 
  		}
+ 		recovering = false;
+
+ 		// clubSwinging = false;
+
  		clubCharging = false;
  		swinging = false;
  		model.transform.localEulerAngles = baseRotation;
@@ -555,12 +560,12 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toBoomerang(){
 		cube.GetComponent(BoxCollider).size = Vector3(1, 1, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/boomerang", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/Boomerang1", Texture2D), new Rect(40,0,60,130), new Vector2(0.5f, 0), 100f);
  		
 	}
 	function toHammer(){
 		cube.GetComponent(BoxCollider).size = Vector3(2, 3, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/club", Texture2D), new Rect(0,0,256,512), new Vector2(0.5f, 0), 400f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Club", Texture2D), new Rect(0,0,256,512), new Vector2(0.5f, 0), 400f);
  		model.renderer.material.color = Color(1,1,1);
 
 	}
@@ -575,7 +580,11 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toStick(){
 		cube.GetComponent(BoxCollider).size = Vector3(.1, 1, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/stick2", Texture2D), new Rect(40,0,60,100), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Sword", Texture2D), new Rect(35,0,45,130), new Vector2(0.5f, 0), 100f);
+	}
+	function toStick2(){
+		cube.GetComponent(BoxCollider).size = Vector3(.1, 1, .5);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/P_Sword2", Texture2D), new Rect(30,0,40,130), new Vector2(0.5f, 0), 100f);
  	
 	}
 	

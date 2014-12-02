@@ -55,7 +55,7 @@ public class Monster4 extends Monster {
 		attack.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 		attack.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 		attack.transform.localScale = Vector3(.5,.5,1); 
-		attack.init(10, 0.65, true, 4);
+		attack.init(10, 0.65, true, 4, true);
 		attack.hero = hero;
 
 		attackObject.collider.enabled = false;

@@ -27,8 +27,10 @@ public class Monster extends MonoBehaviour
 	var charging:boolean;
 	var curHeart:int;
 	var hearts:Array;
+	var color : String;
 	
 	public function init(c : Character) {
+		color = "random";
 		activateDistance = 10;
 		invincible = false;
 		charging = false;
@@ -60,7 +62,7 @@ public class Monster extends MonoBehaviour
  		modelObject.AddComponent(Rigidbody);
 		modelObject.GetComponent(Rigidbody).isKinematic = false;
  		modelObject.GetComponent(Rigidbody).useGravity = false;
- 		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
+ 		modelObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
  		modelObject.GetComponent(Rigidbody).freezeRotation = true;
  		
  		hurtSound = gameObject.AddComponent("AudioSource") as AudioSource;
@@ -320,7 +322,7 @@ public class Monster extends MonoBehaviour
 	//If fade is true, attack becomes translucent as it moves.
 	//If destructible is true, the sword can destroy the bullets.
 	//Keywords can be used for specific hit behaviours (stun, slow, knockback, etc) to be implemented in CharacterModel's (or WeaponModel's) OnTriggerEnter.
-	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String, offsetAngle : float){
+	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String, offsetAngle : float, damages : boolean){
 		var attackObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	
 		var attack : MonsterAttack = attackObject.AddComponent("MonsterAttack") as MonsterAttack;						
 		attack.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
@@ -332,7 +334,7 @@ public class Monster extends MonoBehaviour
 		attack.renderer.material.color = color;												// Set the color (easy way to tint things).
 		attack.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 		attack.transform.localScale = Vector3(width,depth,1); 
-		attack.init(range, speed, fade, home);
+		attack.init(range, speed, fade, home, !damages);
 		attack.hero = hero;
 		attack.transform.parent = bulletFolder.transform;
 		attackObject.collider.enabled = false;
@@ -343,7 +345,7 @@ public class Monster extends MonoBehaviour
 		attackObject.AddComponent(Rigidbody);
 		attackObject.GetComponent(Rigidbody).isKinematic = false;
 		attackObject.GetComponent(Rigidbody).useGravity = false;
-		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
+		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(100, 100, 100);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
 		return attack;
 	}
@@ -362,13 +364,21 @@ public class Monster extends MonoBehaviour
 	}
 
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String){
-			 attack(range, speed, home, width, depth, color, destructible, fade, keyword, "ball");
+			return  attack(range, speed, home, width, depth, color, destructible, fade, keyword, "ball");
 
+	}
+	
+	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String, offsetAngle : float){
+		return attack(range, speed, home, width, depth, color, destructible, fade, keyword, bulletTexture, offsetAngle, true);
 	}
 
 	function dropColor(){
 		//print("Dropping Random Color");
-		var rand : float = Random.value;
+		if(color == "random"){
+			var rand : float = Random.value;
+		} else{
+			dropColor(color);
+		}
 		//print(rand);
 		if(rand < 2.0/6){
 			dropColor("red");
@@ -470,7 +480,6 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function addHearts(){
-		return;
 		hearts = new Array();
 		yield WaitForSeconds(.5);
 		for (var i=0; i<health; i++){
@@ -484,7 +493,7 @@ public class Monster extends MonoBehaviour
 			heartObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");		
 			heartObject.gameObject.collider.enabled = false;
 			heartObject.gameObject.transform.parent = this.model.transform;
-			heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.2, 0,-1);						// Center the model on the parent.
+			heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.5, 0,-1);						// Center the model on the parent.
 			heartObject.transform.localScale = Vector3(.5,.5,.5);
 			heartObject.gameObject.name = "heartObject";	
 			hearts.Add(heartObject);
@@ -494,7 +503,6 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function removeHeart(){
-		return;
 		if (curHeart < 0) return;
 		Destroy(hearts[curHeart]);
 		curHeart--;

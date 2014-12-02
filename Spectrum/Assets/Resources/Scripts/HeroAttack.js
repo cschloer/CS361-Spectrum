@@ -6,6 +6,7 @@ var traveled : float;
 var home : float;
 var hero : Character;
 var initialA : float;
+var safe : boolean;
 function init(r : float, s : float, f : boolean){
 	range = r;
 	speed = s;

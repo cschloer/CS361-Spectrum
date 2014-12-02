@@ -260,6 +260,8 @@ function addBoss(x : float, y :float, c : Character){
 	monsterScript.init(c);
 	boss = monsterScript;
 	monsterScript.name = "Boss";
+	monsterScript.manager = this;
+
 	return monsterScript;
 }
 
@@ -302,7 +304,7 @@ function addDeviceSpawner(x : float, y :float, types:Array, spawnTime:float, spa
 	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
 	
 	deviceScript.transform.parent = deviceFolder.transform;
-	deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
+	deviceScript.transform.position = Vector3(x,y, 10);			// Position the character at x,y.								
 	
 	deviceScript.init(this, types, spawnTime, spawnDistance);
 	devices.Add(deviceScript);
@@ -311,16 +313,32 @@ function addDeviceSpawner(x : float, y :float, types:Array, spawnTime:float, spa
 }
 
 function addDevice(x : float, y :float, t : String, na : int, nb : int){
-	var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
-	var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
+	if (t == "mSpawn"){
+		monArray = new Array();
+		for (var i=0; i<na; i++){
+			if (nb == 0){
+				monArray.Add(Random.Range(0, 8));
+			}
+			else monArray.Add(nb);
+		
+		}
+
+		addDeviceSpawner(x, y, monArray, 30, 25);
+
 	
-	deviceScript.transform.parent = deviceFolder.transform;
-	deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
-	
-	deviceScript.init(t, this, na, nb);
-	devices.Add(deviceScript);
-	deviceScript.name = "Device: " + t + ", "+ devices.length;
-	return deviceScript;
+	}
+	else {
+		var deviceObject = new GameObject();						// Create a new empty game object that will hold a character.
+		var deviceScript = deviceObject.AddComponent("Device");		// Add the character.js script to the object.
+		
+		deviceScript.transform.parent = deviceFolder.transform;
+		deviceScript.transform.position = Vector3(x,y,0.1);			// Position the character at x,y.								
+		
+		deviceScript.init(t, this, na, nb);
+		devices.Add(deviceScript);
+		deviceScript.name = "Device: " + t + ", "+ devices.length;
+		return deviceScript;
+	}
 }
 
 function addTile(xSpacial : float, ySpacial :float, t : String, or: int){
@@ -338,6 +356,7 @@ function addTile(xSpacial : float, ySpacial :float, t : String, or: int){
 	
 	tileScript.init(t, or, tiles);
 	tiles[x][y] = tileScript;
+	tileScript.manager = this;
 	tileScript.name = "Tile " + xSpacial + ", " + ySpacial;
 	
 }
@@ -367,7 +386,7 @@ function levelInit(){
   addDevice(-14,38,"mSpawn", 4, 7);
   addDevice(20,5,"mSpawn", 4, 3);
   addDevice(-25,41,"mSpawn", 4, 9);
-  addDevice(1,-13,"mSpawn", 4, 5);//first one
+  //addDevice(1,-13,"mSpawn", 4, 5);//first one
   addDevice(-21, 25, "mSpawn", 4, 3);
   addDevice(46, 20,"mSpawn", 4, 6); //boss room
   addDevice(19, 17,"mSpawn", 4, 5);
@@ -382,7 +401,7 @@ function levelInit(){
   addCake(-16,42);
   addCake(8,48);
   charSpawner = addDevice(-0.5,-5,"aSpawn",0,0);
-  bossSpawner = addDevice(40,21,"aSpawn",1,0);
+  bossSpawner = addDevice(40,20,"aSpawn",1,0);
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
 }
