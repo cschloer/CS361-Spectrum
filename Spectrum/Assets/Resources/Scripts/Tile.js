@@ -47,6 +47,7 @@ function init(t: String, or: int, tiles: Array) {
 
 function Update(){
 	var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
-	//modelObject.transform.renderer.material.color.a = 1-(Mathf.Round(distance.magnitude/1.5) / (4));
+	modelObject.transform.renderer.material.color.a = 1-(Mathf.Round(distance.magnitude/2) / (3));
+	//modelObject.transform.renderer.material.color.a = 1-distance.magnitude * .2;
 }
 

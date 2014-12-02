@@ -13,7 +13,6 @@ public class Monster10 extends Monster {
 		model.renderer.material.mainTexture = Resources.Load("Textures/Monster4", Texture2D);	// Set the texture.  Must be in Resources folder.
 		charging10 = false;
 		firing = false;
-	
 	}
 	
 	function act() {
