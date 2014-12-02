@@ -97,6 +97,7 @@ public class Weapon extends MonoBehaviour{
  		cube.transform.parent = model.transform;
  		cube.transform.localPosition = Vector3(0.1, 0.7, 0);
  		cube.transform.localRotation = Quaternion(0,0,0,0);
+ 		
  			
  		resetPosition();
 		stopSwinging();
@@ -387,8 +388,8 @@ public class Weapon extends MonoBehaviour{
      			model.transform.localEulerAngles.z = 0; 
      			model.transform.eulerAngles.z = -Vector3.Angle(Vector3.up, character.model.heading);
      			if (character.model.heading.x < 0) model.transform.eulerAngles.z = 360-model.transform.eulerAngles.z;
-				model.transform.position = character.model.transform.position;
-
+				model.transform.position = Vector3(owner.model.transform.position.x, owner.model.transform.position.y, owner.model.transform.position.z+.5);
+				
  				yield;
  			}
 
@@ -523,7 +524,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
  		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;
- 		model.transform.position = owner.model.transform.position;
+ 		model.transform.position = Vector3(owner.model.transform.position.x, owner.model.transform.position.y, owner.model.transform.position.z+.5);
  		model.transform.localScale = Vector3.one;
  		
  		stopSwinging();
@@ -551,7 +552,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	function resetPosition(){
 		while (true){
 			if(isMeele || (!swinging && !vibrating && canThrow))
-				model.transform.position = owner.model.transform.position;
+				model.transform.position = Vector3(owner.model.transform.position.x, owner.model.transform.position.y, owner.model.transform.position.z+.5);
 				
 			yield WaitForSeconds(.01);
 			//print("Test");
@@ -560,7 +561,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 	function toBoomerang(){
 		cube.GetComponent(BoxCollider).size = Vector3(1, 1, .5);
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/Boomerang1", Texture2D), new Rect(40,0,60,130), new Vector2(0.5f, 0), 100f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/Boomerang1", Texture2D), new Rect(40,0,60,130), new Vector2(0.5f, 0), 200f);
  		
 	}
 	function toHammer(){
@@ -570,10 +571,10 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 
 	}
 	function toThrowingStar(){
-		cube.GetComponent(BoxCollider).size = Vector3(1, 1, .5);
+		cube.GetComponent(BoxCollider).size = Vector3(.5, .5, .5);
 	//	colliderObject.GetComponent(BoxCollider).center = model.transform.position;
 //		colliderObject.GetComponent(BoxCollider).position = model.transform.position;
-		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 200f);
+		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 400f);
 		model.renderer.material.color = Color(1,1,1);
 
 	}
@@ -602,7 +603,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	
 		
 	function vibrateIntense(intensity:float){
-		model.transform.position = owner.model.transform.position;
+		model.transform.position = Vector3(owner.model.transform.position.x, owner.model.transform.position.y, owner.model.transform.position.z+.5);
 		model.transform.Translate(0, Random.Range(-intensity, intensity), 0);
 		
 	}
@@ -623,7 +624,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 		canThrow = true;
 		swinging = false;
 		
-		model.transform.position = owner.model.transform.position;
+		model.transform.position = Vector3(owner.model.transform.position.x, owner.model.transform.position.y, owner.model.transform.position.z+.5);
 		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
  		model.transform.localPosition = basePosition;

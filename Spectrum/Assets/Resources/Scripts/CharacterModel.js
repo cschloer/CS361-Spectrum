@@ -814,7 +814,7 @@ function landing(){
 			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 			rjTimer = 0;
-			print(modelObject);
+
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 			vincible = false;													// Player invincible without passing through walls.
 			character.modelObject.layer = 6;	// Allows player to jump through cliffs.
@@ -1020,9 +1020,9 @@ function rollBoomBonus(duration:float){  // a timer that sets the boomerang boos
 function landingStar(){
 	yield;
 		if (!yellow && !red && !character.weapon.swinging && !character.weaponrecovering){
-					print("11111");
+				
 					if (!red && character.starsAvailable != 0) { // throw stars!!
-						print("22222");
+						
 	 					character.starsAvailable--;
 	 					//character.throwingStars[character.curStar].canThrow = true;
 	 					character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery,0);
