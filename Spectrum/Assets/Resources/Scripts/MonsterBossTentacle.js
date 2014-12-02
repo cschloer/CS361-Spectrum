@@ -101,7 +101,7 @@ public class MonsterBossTentacle extends Monster{
 		tentacleFolder.transform.parent = transform;
 		tentacles = new Array();
 		var numTentacles:int = 6;
-		var tentacleLength:int = 15;
+		var tentacleLength:int = 9;
 		for (var i=0; i<numTentacles; i++){
 		
 			tentacles.Add(addTentacleArm(Vector3(0,0,i*(360/numTentacles)), tentacleLength));

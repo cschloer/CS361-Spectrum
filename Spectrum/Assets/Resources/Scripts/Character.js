@@ -214,6 +214,7 @@ function activateStars(){
 	for (var i=0; i < numThrowingStars; i++){
 		throwingStars[i].active = true;
 		throwingStars[i].model.active = true;
+		throwingStars[i].cube.transform.localPosition = Vector3(-.1, 0.4, 0);
 		throwingStars[i].resetPosition();
 		throwingStars[i].starActive();
 	

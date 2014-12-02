@@ -293,6 +293,12 @@ public class Monster extends MonoBehaviour
 				health -= 101;
 			}	
 		}	
+		var distance : Vector3 = model.transform.position - hero.model.transform.position;
+		var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
+		var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
+		if (flashLight > aoeLight) model.transform.renderer.material.color.a = flashLight;
+		else model.transform.renderer.material.color.a = aoeLight;
+	//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
 	}
 	function die(deathTime : float){
 		hero.killedMonsters++;
@@ -480,6 +486,7 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function addHearts(){
+		return;
 		hearts = new Array();
 		yield WaitForSeconds(.5);
 		for (var i=0; i<health; i++){
@@ -503,6 +510,7 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function removeHeart(){
+		return;
 		if (curHeart < 0) return;
 		Destroy(hearts[curHeart]);
 		curHeart--;
