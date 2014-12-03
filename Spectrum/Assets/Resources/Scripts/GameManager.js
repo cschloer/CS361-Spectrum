@@ -695,8 +695,7 @@ function OnGUI() {
 	
 	// ----------> Throwing Stars
 
-	GUI.contentColor = Color.white;
-	if(character.model.red && !character.model.yellow)	GUI.TextField(Rect(Screen.width -60 ,Screen.height-40, 50, 30), "" + character.model.chargingBoomTimer); 
+//	GUI.contentColor = Color.white;
 	
 	// ----------> Throwing star counter
 	if (character.isThrowingStar == true) {
@@ -747,7 +746,6 @@ function OnGUI() {
 		}
 		
 		if (character.model.comboSmall3 == true) {
-			print("blahsklj");
 			comboCounter = 3;
 		}
 		var textCounter3 : Texture2D;

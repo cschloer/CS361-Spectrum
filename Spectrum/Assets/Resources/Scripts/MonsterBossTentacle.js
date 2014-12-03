@@ -11,7 +11,7 @@ public class MonsterBossTentacle extends Monster{
 	var rooted:Vector3; //consitent position
 	var isStraight:boolean;
 	var tentacleFolder:GameObject;
-	
+	var numTentacles:int;
 	var phaseTime:float;
 	var isActive:boolean;
 	
@@ -37,7 +37,7 @@ public class MonsterBossTentacle extends Monster{
 		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		model.name = "Monster Model";										// Name the object.
 		anim = modelObject.AddComponent("Animator");						// Add the animator component
-		sprend = modelObject.AddComponent("SpriteRenderer");				// Add the renderer for the animations
+		sprend = modelObject.AddComponent("SpriteRenderer") as SpriteRenderer;				// Add the renderer for the animations
 		anim.runtimeAnimatorController = Resources.Load("Animations/Eye");	// Add BossTentacle's animation controller.
 		
  		modelObject.AddComponent(BoxCollider);
@@ -75,7 +75,7 @@ public class MonsterBossTentacle extends Monster{
 		
 		
 		phaseTime = 0;
-		isStraight = false;
+		isStraight = true;
 		rooted = p;
 		health = 6;
 		super.manager = c.manager;
@@ -100,7 +100,7 @@ public class MonsterBossTentacle extends Monster{
 		tentacleFolder = new GameObject();
 		tentacleFolder.transform.parent = transform;
 		tentacles = new Array();
-		var numTentacles:int = 6;
+		numTentacles = 5;
 		var tentacleLength:int = 9;
 		for (var i=0; i<numTentacles; i++){
 		
@@ -108,7 +108,20 @@ public class MonsterBossTentacle extends Monster{
 
 		
 		}
+		for (var l=0; l <numTentacles; l++){
+			var curTent:MonsterBossTentacleArm = tentacles[l];
+			var nextTent:MonsterBossTentacleArm = tentacles[(l+1)%numTentacles];
+			for (var j=0; j<tentacleLength; j++){
+				curTent = curTent.next;
+			}
+			for (var h=0; h<tentacleLength; h++){
+				nextTent = nextTent.next;
+			}
+			curTent.buddy = nextTent;
+			curTent.straighten();
+		}
 		isActive = false;
+		//switchPhase();
 	}
 	
 	function Update(){
@@ -129,6 +142,8 @@ public class MonsterBossTentacle extends Monster{
 				health -= 101;
 			}	
 		}	
+		
+		
 	}
 	
 	
@@ -137,7 +152,7 @@ public class MonsterBossTentacle extends Monster{
 		var tentacleScript:MonsterBossTentacleArm = modelObject2.AddComponent("MonsterBossTentacleArm");		// Add the tentacle.js script to the object.
 																// We can now refer to the object via this script.
 		tentacleScript.transform.eulerAngles = rotation;
-		tentacleScript.init(this.transform.position.x, this.transform.position.y, length, modelObject2, rotation, Random.Range(.3, .75), Random.Range(.2, .6), super.manager);	
+		tentacleScript.init(this.transform.position.x, this.transform.position.y, length, modelObject2, rotation, Random.Range(.6, 1), Random.Range(1.2, 1.6), super.manager, this);	
 		//tentacleScript.transform.parent
 		tentacleScript.transform.parent = tentacleFolder.transform;	// Set the tentacle's parent object to be the tentacle folder.	
 		tentacleScript.transform.position += tentacleScript.transform.up;						
@@ -148,23 +163,25 @@ public class MonsterBossTentacle extends Monster{
 	//Swings around until player gets close
 	function act(){
 		if (!isActive){
-			if (super.distanceToHero() > 5) return;
+			if (super.distanceToHero() > 10) return;
+			//explodeArea();
+			switchPhase();
 			isActive = true;
 		}
-		if (phaseTime > 8) switchPhase();
+		if (phaseTime > 10) switchPhase();
 		phaseTime += Time.deltaTime;
 		super.model.transform.position = rooted; // root in place
 		if(angleToHero() > 2 && angleToHero() < 358) turnToHero(2);
 		if (!isStraight){
-			if(Random.value > 0.983){
+			if(Random.value > 0.975){
 				turretAttack();
 				}
 		}
 	}
 	
 	function turretAttack(){
-		for (var i=0; i<5;i++){
-			super.attackSlow(13, 10, .5, .3, .3, Color.cyan,true, false, "bullet", "spike");
+		for (var i=0; i<3;i++){
+			super.attackSlow(13, 10, 0, .3, .3, Color.cyan,true, false, "bullet", "spike");
 			yield WaitForSeconds(Random.Range(0.05, 0.15));
 		
 		}
@@ -172,10 +189,12 @@ public class MonsterBossTentacle extends Monster{
 	}
 	
 	function explodeArea() : IEnumerator{
-		super.hero.model.shakeCamera(.1*10);
-		for (var i=1; i<10; i++){
+		var numExplodes:int = 10;
+		var deltaExplode:float = .2;  // time between each explosion
+		super.hero.model.shakeCamera(numExplodes*deltaExplode);
+		for (var i=1; i<numExplodes; i++){
 			makeExplosion(super.model.transform.position+super.model.transform.up*i);
-			yield WaitForSeconds(.1);
+			yield WaitForSeconds(deltaExplode);
 		
 		}
 		if (isStraight) {
@@ -201,7 +220,7 @@ public class MonsterBossTentacle extends Monster{
 	public function hurt(){
 		if(!invincible){
 			//if (Random.Range(1,2) > 1.5)
-			if (phaseTime > 0) switchPhase();
+			//if (phaseTime > 0) switchPhase();
 			playSound(hurtSound);
 
 			health--;
@@ -237,8 +256,18 @@ public class MonsterBossTentacle extends Monster{
 				var temp:MonsterBossTentacleArm = tentacles[i];
 				temp.straighten();
 				temp.transform.localEulerAngles = temp.rotation;
-				explodeArea();
+				
 			}
+			var tempClock:float = 0;
+			while (tempClock < 2){
+				super.model.renderer.material.color.r -= Time.deltaTime;
+				super.model.renderer.material.color.g -= Time.deltaTime;
+				tempClock+=Time.deltaTime;
+				yield;
+			}
+			super.model.renderer.material.color.r = 0;
+			super.model.renderer.material.color.g = 0;
+			explodeArea();
 		}
 		else {
 			isStraight = false;
@@ -247,8 +276,18 @@ public class MonsterBossTentacle extends Monster{
 				
 				temp.unstraighten();
 			}
+			var tempClock2:float = 0;
+			while (tempClock2 < 2){
+				super.model.renderer.material.color.r += Time.deltaTime/2;
+				super.model.renderer.material.color.g += Time.deltaTime/2;
+				tempClock2+=Time.deltaTime;
+				yield;
+			}
+			super.model.renderer.material.color.r = 1;
+			super.model.renderer.material.color.g = 1;
 			
-			}	
+			
+		}	
 	
 	}
 	

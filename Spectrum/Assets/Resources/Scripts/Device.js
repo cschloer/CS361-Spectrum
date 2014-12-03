@@ -52,9 +52,9 @@ function init(manager: GameManager, types:Array, spawnTime:float, spawnDistance:
 
 
 	frozen = false;
-	modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);		// Create a quad object for holding the unit texture.
-	modelObject.collider.enabled = false;								// Turn off MeshCollider
-	modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.
+	modelObject = new GameObject();		// Create a quad object for holding the unit texture.
+	//modelObject.collider.enabled = false;								// Turn off MeshCollider
+	//modelObject.SetActive(false);										// Turn off the object so its script doesn't do anything until we're ready.
 	var model;
 	var wmodel = modelObject.AddComponent("DeviceSpawnModel");			// Add a script to control direction of the unit.
 	
