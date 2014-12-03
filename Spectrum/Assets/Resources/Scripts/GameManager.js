@@ -34,6 +34,7 @@ var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 var currentLevel : int;
+var SpectrumSkin : GUISkin;
 
 
 // Start
@@ -576,6 +577,7 @@ function OnGUI() {
 	
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
+	GUI.skin = SpectrumSkin;
 	if (loseScreen){
 		 Application.LoadLevel("End");
 	}
