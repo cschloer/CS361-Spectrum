@@ -502,16 +502,22 @@ function playSound(source : AudioSource, spot : Vector3){
 // 			   Win and Lose Screens
 // *******************************************
 function death(){
-	if(character.dead)
-		character.model.transform.position = charSpawner.modelObject.GetComponent("SpawnPointModel").transform.position;
+	if(character.dead){
+		Time.timeScale = 0.000001;
 		character.dead = false;
 		character.health = 3;
 		character.model.renderer.material.color.a = 1;
 		character.weapon.model.renderer.material.color.a = 1;
-		character.model.frozen = false;
+		character.model.stopMovement();
 		Destroy(boss.gameObject);
 		bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
+		character.model.transform.position = charSpawner.modelObject.GetComponent("SpawnPointModel").transform.position;
+		//todo: display death screen for real time seconds
+		Time.timeScale = 1;
+	}
 }
+
+
 
 function lose(){
 	loseScreen = true;
@@ -580,19 +586,11 @@ function OnGUI() {
 	GUI.skin = SpectrumSkin;
 	if (loseScreen){
 		 Application.LoadLevel("End");
-	}
-	/*else if (winScreen){
-		GUI.backgroundColor = Color.black;
-		GUI.color = Color.white;
-		GUI.skin.box.fontSize = 26;
-		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n You win!");
-	}*/ else if(paused){
+	} else if(paused){
 		GUI.backgroundColor = Color.black;
 		GUI.color = Color.white;
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n Paused!\nHealth: "+character.health+"\nScore:"+character.killedMonsters);
-	}
-	else {
 	}
 	
 	var width1 = Screen.width/50;
