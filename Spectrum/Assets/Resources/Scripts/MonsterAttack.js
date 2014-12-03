@@ -41,3 +41,11 @@ public function turnToHero(multiplier : float){
 		transform.eulerAngles += Vector3(0, 0, Time.deltaTime * 90 * sign * multiplier);
 	}
 	
+	function OnDrawGizmos() {
+		// Draw a yellow cube at the transforms position
+		Gizmos.color = Color.yellow;
+		
+		Gizmos.DrawWireCube (this.transform.position, this.gameObject.GetComponent(BoxCollider).size);
+	
+	}
+	
