@@ -32,6 +32,7 @@ public class Monster extends MonoBehaviour
 	var heartSpacing : float = .5; //Change the space between hearts
 	var heartOpacity : float = 1.0; //Change heart opacity
 	var heartScale : float = .5; //Change size of hearts
+	var heartOffset : float; //Change vertical offset of hearts (For large enemies. Defaults to boxCollider size.)
 	public function init(c : Character) {
 		color = "random";
 		activateDistance = 10;
@@ -90,6 +91,7 @@ public class Monster extends MonoBehaviour
 		minionFolder.transform.parent = transform;
 		
 		waitToActivate();
+		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
 		addHearts();
 	}
 	
@@ -516,7 +518,7 @@ public class Monster extends MonoBehaviour
 		for (var i = 0; i < hearts.length; i ++){
 			var heart : GameObject  = hearts[i];
 			if(heart != null){
-				heart.transform.position.y = model.transform.position.y + model.gameObject.GetComponent(BoxCollider).size.y;
+				heart.transform.position.y = model.transform.position.y + heartOffset;
 				heart.transform.position.x = model.transform.position.x + heartSpacing*(i - (0.0+health-1)/2);
 				if(!showHealth) heart.transform.renderer.material.color.a=0.0;
 				else heart.transform.renderer.material.color.a = model.transform.renderer.material.color.a * heartOpacity;
