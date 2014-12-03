@@ -563,7 +563,7 @@ function changeBlue(){
 
 }
 function changeRed(){
-	this.renderer.material.color = colorChoice();
+	//this.renderer.material.color = colorChoice();
 	if (red){
 		red = false; 
 		toSmall();
@@ -652,7 +652,6 @@ function stopMovement(){
 
 function handleCollisions(col:Collider){
 	//
-	
 	//print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
@@ -729,7 +728,7 @@ function OnCollisionStay(col:Collision){
 	}
 	
 	
-	if(col.gameObject.name.Contains("Tile Wall")){
+	if(col.gameObject.name.Contains("Tile Wall") || col.gameObject.name.Contains("TentacleArm")){
 		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
 		handleCollisions(col.collider);
 		modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
@@ -739,7 +738,7 @@ function OnCollisionStay(col:Collision){
 
 }
 function OnCollisionEnter(col:Collision){
-	if(col.gameObject.name.Contains("Tile Wall")){
+	if(col.gameObject.name.Contains("Tile Wall") || col.gameObject.name.Contains("TentacleArm")){
 		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
 		handleCollisions(col.collider);
 	}	

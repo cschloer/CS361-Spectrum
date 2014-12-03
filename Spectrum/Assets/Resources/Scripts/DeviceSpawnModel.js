@@ -79,13 +79,13 @@ function init(own : Device, man: GameManager, types: Array, respawnTime:float, s
 	
 	
 	
-	renderer.material.mainTexture = Resources.Load("Textures/spawner_02", Texture2D);		// Set the texture.  Must be in Resources folder.
-	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
-	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
+	//renderer.material.mainTexture = Resources.Load("Textures/spawner_02", Texture2D);		// Set the texture.  Must be in Resources folder.
+	//renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
+	//renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	breakSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	breakSound.volume = 0;
 	breakSound.clip = Resources.Load("Sounds/rattles");
-	this.gameObject.collider.enabled = false;
+//	this.gameObject.collider.enabled = false;
 	//this.gameObject.AddComponent(BoxCollider);
 	//this.gameObject.GetComponent(BoxCollider).isTrigger = true;
 	for (var j=0; j< numMonsters; j++){
@@ -140,6 +140,7 @@ function Update(){
 }
 
 function breakage(){
+	if (conradInit) return;
 	if (broken) return;
 	breakSound.volume = 1;
 

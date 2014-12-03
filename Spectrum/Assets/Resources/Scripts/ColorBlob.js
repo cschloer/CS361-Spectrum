@@ -6,11 +6,13 @@ var yellow : float;
 var eatSound : AudioSource;
 var timeToFEED:boolean;
 var character:CharacterModel;
+var feeding:boolean;
 
 function Start () {
 	eatSound = gameObject.AddComponent("AudioSource") as AudioSource;
 	eatSound.clip = Resources.Load("Sounds/slurp") as AudioClip;
 	timeToFEED = false;
+	feeding = false;
 }
 
 
@@ -80,13 +82,14 @@ function OnTriggerExit(col:Collider){
 function Update(){
 
 
-	if (timeToFEED && Input.GetKeyDown("f")) {
-		
+	if (timeToFEED && Input.GetKeyDown("f") && !feeding) {
+		feeding = true;
 
 
 		if((character.blue && blue == 1) || (!character.blue && blue == 1)) character.changeBlue();
-		if((character.red && red == 1) || (!character.red && red == 1)) character.changeRed();
-		if((character.yellow && yellow == 1) || (!character.yellow && yellow == 1)) character.changeYellow();
+		else if((character.red && red == 1) || (!character.red && red == 1)) character.changeRed();
+		else if((character.yellow && yellow == 1) || (!character.yellow && yellow == 1)) character.changeYellow();
+		else print("here");
 		timeLeft = 0;
 		eatSound.Play();
 		//manager.playSound(eatSound, transform.position);

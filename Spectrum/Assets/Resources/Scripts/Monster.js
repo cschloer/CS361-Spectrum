@@ -293,12 +293,17 @@ public class Monster extends MonoBehaviour
 				health -= 101;
 			}	
 		}	
+		return;
 		var distance : Vector3 = model.transform.position - hero.model.transform.position;
-		var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
-		var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
+		if (distance.magnitude > 20) {
+			model.transform.renderer.material.color.a = 0; 
+			return;
+		}
+		var flashLight = 1.2- (distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
+		var aoeLight = 1-(distance.magnitude/1.2 / (4));
 		if (flashLight > aoeLight) model.transform.renderer.material.color.a = flashLight;
 		else model.transform.renderer.material.color.a = aoeLight;
-	//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
+		//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
 	}
 	function die(deathTime : float){
 		hero.killedMonsters++;
@@ -362,6 +367,7 @@ public class Monster extends MonoBehaviour
 		temp.slow = true;
 		temp.slowAmount = 2;
 		temp.slowDuration = 1;
+
 	}
 
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
@@ -384,6 +390,7 @@ public class Monster extends MonoBehaviour
 			var rand : float = Random.value;
 		} else{
 			dropColor(color);
+			return;
 		}
 		//print(rand);
 		if(rand < 2.0/6){
