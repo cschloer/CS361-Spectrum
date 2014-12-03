@@ -11,7 +11,7 @@ var levelName: String;
 function Start () {
 	startButton = Resources.Load("Textures/NextLevelButton", Texture2D);
 	exitButton = Resources.Load("Textures/ExitButton", Texture2D);
-	var stream = new StreamReader(Application.dataPath +"/Resources/Configuration/data.conf");
+	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");
 	var lev = stream.ReadLine();
 	levelNum = parseInt(lev.Split(":"[0])[1]);
 	if(levelNum < 3){
@@ -22,7 +22,7 @@ function Start () {
 	lev = "currentLevel:"+(levelNum+1);
 	lev = String.Concat(lev,stream.ReadToEnd());
 	stream.Close();
-	var overwrite = new StreamWriter(Application.dataPath +"/Resources/Configuration/data.conf");
+	var overwrite = new StreamWriter(Application.dataPath +"/Configuration/data.conf");
 	overwrite.Write(lev);
 	overwrite.Close();
 }

@@ -56,6 +56,7 @@ function Start () {
 function Update(){
 	if(freeze)
 		recenter();
+	
 }
 
 function recenter(){

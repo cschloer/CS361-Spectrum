@@ -10,7 +10,7 @@ function Start () {
 	startButton = Resources.Load("Textures/StartButton", Texture2D);
 	exitButton = Resources.Load("Textures/ExitButton", Texture2D);
 	levelButton = Resources.Load("Textures/levelEditor_Start", Texture2D);
-	var stream = new StreamReader(Application.dataPath +"/Resources/Configuration/data.conf");
+	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");
 	var lev = stream.ReadLine();
 	levelNum = parseInt(lev.Split(":"[0])[1]);
 	if(levelNum < 3){
