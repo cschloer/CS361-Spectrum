@@ -29,7 +29,7 @@ public class Monster9 extends Monster {
 		
 		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
-		model.transform.localScale = Vector3(0.5,0.5,0);
+		model.transform.localScale = Vector3(0.5,0.5,5);
 		model.name = "Monster Model";										// Name the object.
 		anim = modelObject.AddComponent("Animator");
 		sprend = modelObject.AddComponent("SpriteRenderer");
