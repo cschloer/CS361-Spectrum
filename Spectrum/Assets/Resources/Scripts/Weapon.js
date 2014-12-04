@@ -132,7 +132,7 @@ public class Weapon extends MonoBehaviour{
 		swingTime = .2;
 		swingRecovery = .2;
 		swingArc = 110;
-		clubAttackColor = Color(1, 1, .8);
+		clubAttackColor = Color(1, 1, 1);
 		clubAttackColor.a = .2;
  		
 	//	weaponObject.GetComponent(Rigidbody).active = false;
@@ -162,7 +162,7 @@ public class Weapon extends MonoBehaviour{
  	function stopSwinging(){
  		swinging = false;
  		if (character.isThrowingStar == false){
- 			model.renderer.material.color = Color(.8,.6,.6);
+ 			model.renderer.material.color = Color(1,1,1);
  		}
  	}
  	
@@ -170,7 +170,7 @@ public class Weapon extends MonoBehaviour{
  	function startRecovery(){
  		recovering = true;
  		if (character.isThrowingStar == false){
- 		model.renderer.material.color = Color(.7,.5,.5);
+ 		model.renderer.material.color = Color(1,1,1);
  		}
 
  	}
@@ -179,7 +179,7 @@ public class Weapon extends MonoBehaviour{
  	function stopRecovery(){
  		recovering = false;
  		if (character.isThrowingStar == false){
- 		model.renderer.material.color = Color(.8,.6,.6);
+ 		model.renderer.material.color = Color(1,1,1);
  		}
  	}
  	
