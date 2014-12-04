@@ -26,9 +26,13 @@ public class Monster extends MonoBehaviour
 	var fleeing:boolean;
 	var charging:boolean;
 	var curHeart:int;
-	var hearts:Array;
 	var color : String;
-	
+	var hearts:Array;
+	var showHealth : boolean = true; //To hide an enemie's health, change this in init. Can be changed anytime.
+	var heartSpacing : float = .5; //Change the space between hearts
+	var heartOpacity : float = 1.0; //Change heart opacity
+	var heartScale : float = .5; //Change size of hearts
+	var heartOffset : float; //Change vertical offset of hearts (For large enemies. Defaults to boxCollider size.)
 	public function init(c : Character) {
 		color = "random";
 		activateDistance = 10;
@@ -87,6 +91,7 @@ public class Monster extends MonoBehaviour
 		minionFolder.transform.parent = transform;
 		
 		waitToActivate();
+		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
 		addHearts();
 	}
 	
@@ -292,18 +297,14 @@ public class Monster extends MonoBehaviour
 				die(1);
 				health -= 101;
 			}	
-		}	
-		return;
-		var distance : Vector3 = model.transform.position - hero.model.transform.position;
-		if (distance.magnitude > 20) {
-			model.transform.renderer.material.color.a = 0; 
-			return;
 		}
-		var flashLight = 1.2- (distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
-		var aoeLight = 1-(distance.magnitude/1.2 / (4));
+		updateHearts();	
+		var distance : Vector3 = model.transform.position - hero.model.transform.position;
+		var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
+		var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
 		if (flashLight > aoeLight) model.transform.renderer.material.color.a = flashLight;
 		else model.transform.renderer.material.color.a = aoeLight;
-		//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
+	//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
 	}
 	function die(deathTime : float){
 		hero.killedMonsters++;
@@ -367,7 +368,6 @@ public class Monster extends MonoBehaviour
 		temp.slow = true;
 		temp.slowAmount = 2;
 		temp.slowDuration = 1;
-
 	}
 
 	function attack(range : float, speed : float, home : float, width :float, depth : float, color : Color, destructible : boolean, fade : boolean, keyword : String, bulletTexture : String){
@@ -390,7 +390,6 @@ public class Monster extends MonoBehaviour
 			var rand : float = Random.value;
 		} else{
 			dropColor(color);
-			return;
 		}
 		//print(rand);
 		if(rand < 2.0/6){
@@ -493,7 +492,7 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function addHearts(){
-		return;
+		//return;
 		hearts = new Array();
 		yield WaitForSeconds(.5);
 		for (var i=0; i<health; i++){
@@ -504,24 +503,35 @@ public class Monster extends MonoBehaviour
 			
 												// Name the object.
 			heartObject.renderer.material.mainTexture = Resources.Load("Textures/heartEnemy", Texture2D);	// Set the texture.  Must be in Resources folder.
-			heartObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");		
+			heartObject.renderer.material.shader = Shader.Find ("Transparent/Diffuse");	
 			heartObject.gameObject.collider.enabled = false;
-			heartObject.gameObject.transform.parent = this.model.transform;
-			heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.5, 0,-1);						// Center the model on the parent.
-			heartObject.transform.localScale = Vector3(.5,.5,.5);
+			heartObject.gameObject.transform.parent = this.transform;
+			//heartObject.transform.localPosition = Vector3(((0-health/2)+i+.5)*.5, 0,-1);						// Center the model on the parent.
+			heartObject.transform.localScale = Vector3(heartScale, heartScale, heartScale);
 			heartObject.gameObject.name = "heartObject";	
 			hearts.Add(heartObject);
 		}
 		curHeart = health-1;
 	
 	}
+	function updateHearts(){
+		for (var i = 0; i < hearts.length; i ++){
+			var heart : GameObject  = hearts[i];
+			if(heart != null){
+				heart.transform.position.y = model.transform.position.y + heartOffset;
+				heart.transform.position.x = model.transform.position.x + heartSpacing*(i - (0.0+health-1)/2);
+				if(!showHealth) heart.transform.renderer.material.color.a=0.0;
+				else heart.transform.renderer.material.color.a = model.transform.renderer.material.color.a * heartOpacity;
+			}
+		}
+	}
 	
 	function removeHeart(){
-		return;
+		//return;
 		if (curHeart < 0) return;
 		Destroy(hearts[curHeart]);
+		hearts.Remove(hearts.length);
 		curHeart--;
-	
 	}
 	
 	

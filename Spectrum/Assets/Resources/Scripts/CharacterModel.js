@@ -561,7 +561,7 @@ function changeBlue(){
 
 }
 function changeRed(){
-	//this.renderer.material.color = colorChoice();
+	this.renderer.material.color = colorChoice();
 	if (red){
 		red = false; 
 		toSmall();
@@ -650,6 +650,7 @@ function stopMovement(){
 
 function handleCollisions(col:Collider){
 	//
+	
 	//print(col.isTrigger);
 	if(rolling){
 		 heading = Vector3.zero;
@@ -726,7 +727,7 @@ function OnCollisionStay(col:Collision){
 	}
 	
 	
-	if(col.gameObject.name.Contains("Tile Wall") || col.gameObject.name.Contains("TentacleArm")){
+	if(col.gameObject.name.Contains("Tile Wall")){
 		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
 		handleCollisions(col.collider);
 		modelObject.GetComponent(Rigidbody).velocity = Vector3.zero;
@@ -736,7 +737,7 @@ function OnCollisionStay(col:Collision){
 
 }
 function OnCollisionEnter(col:Collision){
-	if(col.gameObject.name.Contains("Tile Wall") || col.gameObject.name.Contains("TentacleArm")){
+	if(col.gameObject.name.Contains("Tile Wall")){
 		//col.gameObject.GetComponent(BoxCollider).isTrigger = true;
 		handleCollisions(col.collider);
 	}	
@@ -902,7 +903,7 @@ function spellWall(){
 
 function toBig(){
 	//modelObject.GetComponent(BoxCollider).size = Vector3(.55,.55,5);
-	modelObject.GetComponent(BoxCollider).size = Vector3(.65,.65,5);
+	modelObject.GetComponent(BoxCollider).size = Vector3(.15,.15,5); //These are so small but they work. I don't understand. -Evan
 	var counter:float = 0;
 	while (counter < 1){
 		heroScale+=Time.deltaTime*1.5;
@@ -932,9 +933,13 @@ function fallDeath(aim: Vector3){
 	var counter:float = 0;
 	while (counter < 1){
 		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
+		frozen = true;
+		//heroScale-=Time.deltaTime*.5;
 		counter+= Time.deltaTime;
+		//shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
+	//todo: respawn
 	character.dead = true;
 	Manager.death();
 }

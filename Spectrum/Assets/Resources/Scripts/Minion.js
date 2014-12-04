@@ -15,6 +15,7 @@ public class Minion extends Monster{
 		modelObject.GetComponent(BoxCollider).isTrigger = true;
 		model.transform.parent = master.model.transform;
 		model.transform.position = master.model.transform.position;
+		showHealth = false;
 		
 	}
 	
