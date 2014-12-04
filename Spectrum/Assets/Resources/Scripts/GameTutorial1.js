@@ -83,8 +83,9 @@ function Update () {
 }
 
 function OnGUI() {
-	//super.OnGUI();
-	GUI.Button (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
+	super.OnGUI();
+	GUI.skin.box.fontSize = 14;
+	GUI.Box (Rect((Screen.width/3)*1, (Screen.height/8)*7, (Screen.width/3)*2, Screen.height/8), displayText); 
         
 }
 

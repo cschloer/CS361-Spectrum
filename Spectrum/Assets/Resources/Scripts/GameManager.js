@@ -544,7 +544,7 @@ function OnGUI() {
 	GUI.skin = SpectrumSkin;
 	GUI.skin.font = guif;
 
-	if(currentLevel==1)
+	if(currentLevel < 3)
 		return;
 
 
