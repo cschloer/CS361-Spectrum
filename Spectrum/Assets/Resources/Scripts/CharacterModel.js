@@ -174,7 +174,7 @@ function Update () {
 	comboSmallTimer += Time.deltaTime;
 	if (comboSmallTimer > .75) comboSmallClear(); // clear the comboSmallTimer and values if the timer has gone off
 	updateColor();
-	character.anim.SetBool("Moving", false);
+	character.anim.SetBool("Walking", false);
 	transform.position.z = 0;
 	rjTimer += Time.deltaTime;
 	if (rolling){
@@ -183,7 +183,6 @@ function Update () {
 
 			boostRoll = false;
 			rolling = false;
-			character.anim.SetBool("Rolling", false);
 			if(!yellow) {
 				if(boostRaRo) boostRaRoTimer=0;
 				else boostRR(); // boost the ranged attack after a roll if ranged
@@ -240,7 +239,6 @@ function Update () {
 			character.modelObject.layer = 3;
 			
 			jumping = false;
-			character.anim.SetBool("Jumping", false);
 			comboSmall3 = false;
 
 			//this.renderer.material.color = colorStore;	
@@ -346,7 +344,7 @@ function Update () {
 		moveE = true;
 		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = true;
 	}
-	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Moving", true);
+	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Walking", true);
 	/*rotateL = false;
 	rotateR = false;
 	if (Input.GetAxis("Mouse X")>0){
@@ -393,7 +391,7 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(.5,.5,.5);
 				rolling = true;
-				character.anim.SetBool("Rolling", true);
+				character.anim.SetTrigger("Roll");
 				rjTimer = 0;
 				if (red) rollKnock();
 				if (red && !yellow && !hasBoomBoosted) { // big
@@ -424,7 +422,7 @@ function Update () {
 				//colorStore = this.renderer.material.color;
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
-				character.anim.SetBool("Jumping", true);
+				character.anim.SetTrigger("Jump");
 				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
 				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
