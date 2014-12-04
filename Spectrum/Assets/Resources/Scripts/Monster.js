@@ -390,6 +390,7 @@ public class Monster extends MonoBehaviour
 			var rand : float = Random.value;
 		} else{
 			dropColor(color);
+			return;
 		}
 		//print(rand);
 		if(rand < 2.0/6){
