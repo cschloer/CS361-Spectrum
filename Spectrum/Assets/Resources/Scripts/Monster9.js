@@ -71,6 +71,8 @@ public class Monster9 extends Monster {
 		magnetSound.clip = Resources.Load("Sounds/wum") as AudioClip;
 		rotateTimer = 0.0;
 		health = 1;
+		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
+		addHearts();
 	}
 	
 	function hurt() {

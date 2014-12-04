@@ -69,6 +69,8 @@ public class Monster5 extends Monster {
 		clock = 0.0;
 		blinkCounter = 0;
 		health = 1;
+		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
+		addHearts();
 	}
 	
 	function hurt() {
