@@ -538,6 +538,12 @@ function win(){
 
 function OnGUI() {
 
+	// Setup
+	GUI.backgroundColor = Color.white;
+	GUI.skin.label.fontSize = 14;
+	GUI.skin = SpectrumSkin;
+	GUI.skin.font = guif;
+
 	if(currentLevel==1)
 		return;
 
@@ -583,11 +589,7 @@ function OnGUI() {
 		character.model.rollCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.rollCooldown, 0, 2.0);
 	}
 	*/
-	
-	GUI.backgroundColor = Color.white;
-	GUI.skin.label.fontSize = 14;
-	GUI.skin = SpectrumSkin;
-	GUI.skin.font = guif;
+
 	
 	//print("Font Skin:" + GUI.skin.font.ToString());
 	//GUILayout.Label("This is a label with the font");
