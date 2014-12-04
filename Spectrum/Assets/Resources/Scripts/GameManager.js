@@ -61,9 +61,9 @@ function Start () {
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
 	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
 	
-	addCircle(0);
-	addCircle(1);
-	addCircle(2);
+	//addCircle(0);
+	//addCircle(1);
+	//addCircle(2);
 	
 	paused = false;
 	clock = 0.0;
@@ -544,8 +544,8 @@ function OnGUI() {
 	GUI.skin = SpectrumSkin;
 	GUI.skin.font = guif;
 
-	if(currentLevel < 3)
-		return;
+	//if(currentLevel < 3)
+	//	return;
 
 
 	//Balancing sliders
