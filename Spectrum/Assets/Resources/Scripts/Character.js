@@ -170,6 +170,7 @@ function checkHealth(){
 		yield;
 	}
 	dead = true;
+	manager.tip = manager.genTip();
 	manager.death();	//respawn
 }
 
