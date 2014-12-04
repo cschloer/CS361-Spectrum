@@ -171,6 +171,12 @@ function FixedUpdate(){
 
 // Update is called once per frame
 function Update () {
+	
+	if(Manager.paused){
+		return;
+	}
+	
+
 	comboSmallTimer += Time.deltaTime;
 	if (comboSmallTimer > .75) comboSmallClear(); // clear the comboSmallTimer and values if the timer has gone off
 	updateColor();

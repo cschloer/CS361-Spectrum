@@ -35,6 +35,7 @@ var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
 var currentLevel : int;
 var SpectrumSkin : GUISkin;
+var guif : Font;
 
 
 // Start
@@ -57,6 +58,8 @@ function Start () {
 	
 	levelInit();
 	currentLevel = -1;
+	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
+	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
 	
 	addCircle(0);
 	addCircle(1);
@@ -584,18 +587,22 @@ function OnGUI() {
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
 	GUI.skin = SpectrumSkin;
-	if (loseScreen){
-		 Application.LoadLevel("End");
-	} else if(paused){
-		GUI.backgroundColor = Color.black;
-		GUI.color = Color.white;
-		GUI.skin.box.fontSize = 26;
-		GUI.Box(Rect(0,0,Screen.width,Screen.height), "\n\n\n\n\n\n Paused!\nHealth: "+character.health+"\nScore:"+character.killedMonsters);
-	}
+	GUI.skin.font = guif;
+	
+	//print("Font Skin:" + GUI.skin.font.ToString());
+	//GUILayout.Label("This is a label with the font");
 	
 	var width1 = Screen.width/50;
 	var height1 = width1;
 	var boxSize = Screen.width/12;
+	
+	
+	if (loseScreen){
+		 Application.LoadLevel("End");
+	} else if(paused){
+		GUI.skin.box.fontSize = 26;
+		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-75,300,150), "Paused!");
+	}
 	
 	// Controls the jumping image of the TraitMap
 	var textJump : Texture2D;
