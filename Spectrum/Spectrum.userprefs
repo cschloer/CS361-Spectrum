@@ -1,11 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/Tile.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/CameraMovement.js">
     <Files>
       <File FileName="Assets/Levels/portal.txt" Line="4" Column="19" />
       <File FileName="Assets/Levels/Plain1Opp.txt" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="339" Column="29" />
+      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Tile.js" Line="49" Column="12" />
+      <File FileName="Assets/Resources/Scripts/GameLevel1.js" Line="64" Column="2" />
+      <File FileName="Assets/Resources/Scripts/LobbyManager.js" Line="5" Column="19" />
+      <File FileName="Assets/Resources/Scripts/HeroAttack.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="521" Column="36" />
+      <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Weapon.js" Line="648" Column="3" />
+      <File FileName="Assets/Resources/Scripts/WeaponModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CameraMovement.js" Line="105" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
