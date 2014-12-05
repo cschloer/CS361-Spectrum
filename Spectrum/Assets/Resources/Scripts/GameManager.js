@@ -36,6 +36,7 @@ var explosionGreen : ParticleSystem;
 var currentLevel : int;
 var SpectrumSkin : GUISkin;
 var guif : Font;
+var tip : String;
 
 
 // Start
@@ -55,15 +56,16 @@ function Start () {
 	tileFolder = new GameObject();
 	tileFolder.name = "Tiles";
 	tiles = new Array();
+	tip = genTip();
 	
 	levelInit();
 	currentLevel = -1;
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
 	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
 	
-	addCircle(0);
-	addCircle(1);
-	addCircle(2);
+	//addCircle(0);
+	//addCircle(1);
+	//addCircle(2);
 	
 	paused = false;
 	clock = 0.0;
@@ -116,6 +118,10 @@ function Update () {
 			Time.timeScale = 1;
 			paused = !paused;
 		}
+	}
+	if(character.dead){
+		character.model.stopMovement();
+		//death();
 	}
 	clock = clock + Time.deltaTime;
 	if(boss == null && clock > 1){
@@ -512,17 +518,20 @@ function death(){
 		var tempB : boolean = character.model.blue;
 		var tempY : boolean = character.model.yellow;
 		Time.timeScale = 0.000001;
-		character.dead = false;
+		var counter:float = 0;
+		yield WaitForSeconds(4*Time.timeScale);
 		character.health = 3;
+		character.dead = false;
+		character.model.stopMovement();
 		character.model.renderer.material.color.a = 1;
 		character.weapon.model.renderer.material.color.a = 1;
-		character.model.stopMovement();
+
 		character.model.resetDeath();
 //		character.model.init();
+
 		Destroy(boss.gameObject);
 		bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
 		character.model.transform.position = charSpawner.modelObject.GetComponent("SpawnPointModel").transform.position;
-		//todo: display death screen for real time seconds
 		Time.timeScale = 1;
 	}
 }
@@ -542,6 +551,51 @@ function win(){
 // *******************************************
 // 					  GUI
 // *******************************************
+
+function genTip(){
+	var tipNum : int = Random.Range(0,15);
+	switch(tipNum){
+		case 1:
+			return "Without the color red you are \ndiminished.";
+			break;
+		case 2:
+			return "Without the color blue you roll with \ngreat speed.";
+			break;
+		case 3:
+			return "Without the color yellow your senses \nallow you pick off enemies at range.";
+			break;
+		case 4:
+			return "With the color red you are great and \npowerful.";
+			break;
+		case 5:
+			return "With the color blue you may jump and \nreach great heights.";
+			break;
+		case 6:
+			return "With the color yellow your reflexes \nbecome like any great knight.";
+			break;
+		case 7:
+			return "Steal colors from enemies to change \nyour build.";
+			break;
+		case 8:
+			return "Blue is the best color.";
+			break;
+		case 9:
+			return "Red is the best color.";
+			break;
+		case 10:
+			return "Yellow is the best color.";
+			break;
+		case 11:
+			return "Did you know? \nMagnocreatures killed your parents.";
+			break;
+		case 12:
+			return "This wouldn't happen if you were \nbetter.";
+			break;
+		default:
+			return "Try not to die.";
+			break;
+	}
+}
 
 function OnGUI() {
 
@@ -611,6 +665,10 @@ function OnGUI() {
 	} else if(paused){
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-75,300,150), "Paused!");
+	} else if (character.dead){
+		GUI.skin.box.alignment = TextAnchor.UpperLeft;
+		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-25,300,50), tip);
+	
 	}
 	
 	// Controls the jumping image of the TraitMap

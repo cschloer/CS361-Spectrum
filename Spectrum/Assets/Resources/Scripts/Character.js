@@ -108,7 +108,7 @@ function init(m) {
 
 
 function Update(){
-
+	model.transform.position.z = -1;
 
 	if (starTimer > starCool && starsAvailable < numThrowingStars){
 		starsAvailable++;
@@ -171,6 +171,7 @@ function checkHealth(){
 		yield;
 	}
 	dead = true;
+	manager.tip = manager.genTip();
 	manager.death();	//respawn
 }
 

@@ -987,6 +987,7 @@ function fallDeath(aim: Vector3){
 	}
 	//todo: respawn
 	character.dead = true;
+	Manager.tip = Manager.genTip();
 	Manager.death();
 }
 

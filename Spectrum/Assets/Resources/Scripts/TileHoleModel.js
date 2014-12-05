@@ -38,6 +38,7 @@ function OnTriggerEnter(col:Collider){
 function OnTriggerStay(col:Collider){
 	if(col.gameObject.name.Contains("Character")){
 		character.stopMovement();
-		character.fallDeath(transform.position);
+		//if(!character.dead)
+			//character.fallDeath(transform.position);
 	}
 }
