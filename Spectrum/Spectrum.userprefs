@@ -1,10 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\GameManager.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\CharacterModel.js">
     <Files>
-      <File FileName="Assets\Resources\Scripts\Monster5.js" Line="85" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Monster5.js" Line="1" Column="1" />
       <File FileName="Assets\Resources\Scripts\Tile.js" Line="1" Column="1" />
-      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\GameManager.js" Line="24" Column="9" />
+      <File FileName="Assets\Resources\Scripts\Monster.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Monster1.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\Character.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CharacterModel.js" Line="1007" Column="49" />
+      <File FileName="Assets\Resources\Scripts\GameLevel2.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\MonsterBossTentacleArm.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\MonsterBossTentacle.js" Line="1" Column="1" />
+      <File FileName="Assets\Resources\Scripts\CameraMovement.js" Line="120" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

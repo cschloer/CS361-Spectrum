@@ -28,11 +28,14 @@ var curY:float;
 var freeze : boolean;
 
 var squareRadius:float;
+var mouseWorldSpace:Vector3;
 
 function Start () {
+	
 
-	Manager = this.gameObject.transform.parent.GetComponent(GameManager);
+	//Manager = this.gameObject.transform.parent.GetComponent(GameManager);
 	character = Manager.character.model;
+	
 //	character.camera = this.gameObject;
 	speed = 2;
 	freeze = false;
@@ -56,6 +59,8 @@ function Start () {
 function Update(){
 	if(freeze)
 		recenter();
+		
+
 	
 }
 
@@ -70,14 +75,23 @@ function recenter(){
 function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireCube (this.gameObject.transform.position, Vector3(xMax-xMin, yMax-yMin, 0));
+		Gizmos.DrawWireCube (Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0), Vector3(xMax-xMin, yMax-yMin));
+		Gizmos.color = Color.green;
 	
+		Gizmos.DrawWireCube (Vector3(mouseWorldSpace.x, mouseWorldSpace.y, 0), Vector3(.1, .1, .1));
 }
 
 function doMovement(){
+	
 	if(!character.frozen){
 	var charX:float = character.transform.position.x;
 	var charY:float = character.transform.position.y;
+	
+	
+	
+	//this.gameObject.transform.position.x = charX;
+	//this.gameObject.transform.position.y = charY;
+//	return;
 	if (charX > xMax){ // going over right bound
 		curX += charX - xMax;
 		xMin += charX - xMax;
@@ -98,8 +112,15 @@ function doMovement(){
 		yMax -= yMin - charY;
 		yMin -= yMin - charY;
 	}
-	this.transform.position.x = curX;
-	this.transform.position.y = curY;
+	var mouseScreenPosition = Input.mousePosition;
+	mouseScreenPosition.z = character.transform.position.z;
+    mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+  //  mouseWorldSpace.z = 0;
+	mouseWorldSpace.x -= (charX-(xMax+xMin)/2);
+	mouseWorldSpace.y -= (charY-(yMax+yMin)/2);
+	
+	this.gameObject.transform.position.x = curX;
+	this.gameObject.transform.position.y = curY;
 	} else{
 		freeze = true;
 	}

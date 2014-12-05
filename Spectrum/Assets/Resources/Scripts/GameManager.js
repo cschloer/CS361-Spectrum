@@ -21,7 +21,7 @@ var charSpawner : Device;				// Special Device for character spawning.
 var bossSpawner : Device;				// Special Device for boss spawning.
 var monsters : Array;				// This array holds monsters.
 var tiles : Array;					// This array holds tiles.
-var camera:GameObject;				// Camera GameObject for look control
+var theCamera:GameObject;				// Camera GameObject for look control
 var paused : boolean;				// Boolean for pause menu
 var clock: float;					// Clock monitor variable.
 var monsterCounter : int;			// Counter for monster spawning.
@@ -77,6 +77,8 @@ function Start () {
 	winScreen = false;
 	loseScreen = false;
 
+
+	//addMonster(0, 0, character, 1);
 	/*
 	addMonster(0, 0, character, 10);
 	addMonster(0, 2, character, 7);
@@ -506,12 +508,17 @@ function playSound(source : AudioSource, spot : Vector3){
 // *******************************************
 function death(){
 	if(character.dead){
+		var tempR = character.model.red;
+		var tempB : boolean = character.model.blue;
+		var tempY : boolean = character.model.yellow;
 		Time.timeScale = 0.000001;
 		character.dead = false;
 		character.health = 3;
 		character.model.renderer.material.color.a = 1;
 		character.weapon.model.renderer.material.color.a = 1;
 		character.model.stopMovement();
+		character.model.resetDeath();
+//		character.model.init();
 		Destroy(boss.gameObject);
 		bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
 		character.model.transform.position = charSpawner.modelObject.GetComponent("SpawnPointModel").transform.position;
@@ -544,8 +551,8 @@ function OnGUI() {
 	GUI.skin = SpectrumSkin;
 	GUI.skin.font = guif;
 
-	if(currentLevel < 3)
-		return;
+	//if(currentLevel < 3)
+	//	return;
 
 
 	//Balancing sliders
