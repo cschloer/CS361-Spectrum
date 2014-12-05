@@ -68,6 +68,7 @@
      <Compile Include="Assets\Resources\Scripts\Landing.js" />
      <Compile Include="Assets\Resources\Scripts\LevelEditorCamera.js" />
      <Compile Include="Assets\Resources\Scripts\LevelManager.js" />
+     <Compile Include="Assets\Resources\Scripts\LobbyManager.js" />
      <Compile Include="Assets\Resources\Scripts\Minion.js" />
      <Compile Include="Assets\Resources\Scripts\Monster.js" />
      <Compile Include="Assets\Resources\Scripts\Monster1.js" />
@@ -116,6 +117,7 @@
      <None Include="Assets\Levels\Plain2Tri.txt" />
      <None Include="Assets\Levels\Plain2Opp.txt" />
      <None Include="Assets\Levels\Plain1Cross.txt" />
+     <None Include="Assets\Levels\portal.txt" />
      <None Include="Assets\Levels\Walls1End.txt" />
      <None Include="Assets\Levels\Hole2Tri.txt" />
      <None Include="Assets\Levels\Plain1Adj.txt" />
@@ -140,6 +142,7 @@
      <None Include="Assets\Levels\room4.txt" />
      <None Include="Assets\Levels\Hole4Tri.txt" />
      <None Include="Assets\Levels\Plain4Opp.txt" />
+     <None Include="Assets\Levels\portalRoom.txt" />
      <None Include="Assets\Levels\room1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

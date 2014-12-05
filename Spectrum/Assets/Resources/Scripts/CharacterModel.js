@@ -9,6 +9,7 @@
 // *******************************************
 
 // Movement
+var temp : Vector3;
 var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
@@ -517,17 +518,21 @@ function Update () {
 	//Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
-
-	 var mouseScreenPosition = Input.mousePosition;   
+	Camera.mainCamera.transform.localPosition = Vector3(0, 0, -10);
+	 var mouseScreenPosition = Input.mousePosition;  
      mouseScreenPosition.z = this.transform.position.z;
      var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
-     this.transform.LookAt(mouseWorldSpace, Camera.mainCamera.transform.forward);
+     this.transform.LookAt(mouseWorldSpace, Vector3.forward);
      this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
+     mouseWorldSpace.z = 0;
+     temp = mouseWorldSpace;
+     print(temp);
 	lookDirection = mouseWorldSpace - transform.position;
 	lookDirection.z = 0;
 	lookDirection.Normalize();
 	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	updateShadow(); //Position shadow and rescale hero for jumping
+	
 }
 
 //Resize hero and position shadow for jumping
@@ -762,8 +767,10 @@ function OnCollisionExit(col:Collision){
 
 function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireCube (transform.position, modelObject.GetComponent(BoxCollider).size);
+		Gizmos.color = Color.green;
+		Gizmos.DrawWireCube (transform.position, Vector3(.1, .1, .1));
+		Gizmos.DrawWireCube (Vector3(temp.x, temp.y, temp.z), Vector3(.1, .1, .1));
+
 		/*
 		Gizmos.color = Color.green;
  		Gizmos.DrawWireCube(Vector3(totalRect.left, totalRect.top, 1), Vector3(totalRect.width, totalRect.height, 1));

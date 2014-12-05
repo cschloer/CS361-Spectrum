@@ -336,7 +336,7 @@ function addTile(xSpacial : float, ySpacial :float, t : String){
 	tileScript.transform.parent = tileFolder.transform;
 	tileScript.transform.position = Vector3(xSpacial,ySpacial,1);			// Position the character at x,y.								
 	
-	tileScript.init(t, 0);
+	tileScript.init(t, 0, tiles);
 	tiles[x][y] = tileScript;
 	tileScript.name = "Tile " + xSpacial + ", " + ySpacial;
 	
