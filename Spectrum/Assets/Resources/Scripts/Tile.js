@@ -46,16 +46,16 @@ function init(t: String, or: int, tiles: Array) {
 }
 
 function Update(){
-	
-	var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
+	if(manager != null){
+		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
 
-	//var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
-	var flashLight = 1- distance.magnitude/12 - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
-	//var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
-	var aoeLight = 1-distance.magnitude/4;
-	if (flashLight > aoeLight) modelObject.transform.renderer.material.color.a = flashLight;
-	else modelObject.transform.renderer.material.color.a = aoeLight;
-	if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
-	
+		//var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
+		var flashLight = 1- distance.magnitude/12 - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
+		//var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
+		var aoeLight = 1-distance.magnitude/4;
+		if (flashLight > aoeLight) modelObject.transform.renderer.material.color.a = flashLight;
+		else modelObject.transform.renderer.material.color.a = aoeLight;
+		if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
+	}
 }
 

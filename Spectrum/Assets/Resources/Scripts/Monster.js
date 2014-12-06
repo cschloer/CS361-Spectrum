@@ -31,7 +31,7 @@ public class Monster extends MonoBehaviour
 	var showHealth : boolean = true; //To hide an enemie's health, change this in init. Can be changed anytime.
 	var heartSpacing : float = .5; //Change the space between hearts
 	var heartOpacity : float = 1.0; //Change heart opacity
-	var heartScale : float = .5; //Change size of hearts
+	var heartScale : float = .4; //Change size of hearts
 	var heartOffset : float; //Change vertical offset of hearts (For large enemies. Defaults to boxCollider size.)
 	public function init(c : Character) {
 		color = "random";

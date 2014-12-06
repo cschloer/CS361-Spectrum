@@ -9,6 +9,7 @@
 // *******************************************
 
 // Movement
+var temp : Vector3;
 var moveN:boolean;
 var moveW:boolean;
 var moveS:boolean;
@@ -148,36 +149,6 @@ function Start () {
 
 }
 
-
-
-function resetDeath(){
-	
-	boostRaRo = false; // boost when a rolling ranged character rolls
-	boostRaRoTimer = 0;
-	
-	comboSmall1 = false;
-	comboSmall2 = false;
-	comboSmall3 = false;
-	comboSmallTimer = 0;
-	boostRoll = false;
-	
-	isChargingBoom = false;
-	chargingBoomTimer = 0;
-	slowed = false;
-	monsterHere = false;
-	hasBoomBoosted = false;
-	cameraShake = false;
-	isHook = false;
-	moveSpeed = 5;
-	turnSpeed = 1;
-	rolling = false;
-	vincible = true;
-	frozen = false;
-	heading = Vector3.zero;
-	
-
-}
-
 // *******************************************
 // 					 Updates
 // *******************************************
@@ -224,9 +195,9 @@ function Update () {
 				else boostRR(); // boost the ranged attack after a roll if ranged
 			}
 			//this.renderer.material.color = colorStore;	
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
 			//moveSpeed = 2;
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
 			rjTimer = 0;
 		}
 		if(character.weapon.clubSound.isPlaying){
@@ -278,7 +249,7 @@ function Update () {
 			comboSmall3 = false;
 
 			//this.renderer.material.color = colorStore;	
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z + 5;
 			vincible = true;															// Makes player vincible again.
@@ -350,35 +321,35 @@ function Update () {
 	}
 	if (Input.GetKeyUp("w")){
 		 moveN = false;
-	//	 Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = false;
+		 Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = false;
 	}
 	if (Input.GetKeyDown("w")) {
 		moveN = true;
-	//	Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = true;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = true;
 	}	
 	if (Input.GetKeyUp("a")){
 		moveW = false;
-	//	Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = false;	
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = false;	
 	}
 	if (Input.GetKeyDown("a")){
 		 moveW = true;
-	//	 Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = true;
+		 Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = true;
 		}
 	if (Input.GetKeyUp("s")){
 		moveS = false;
-	//	Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = false;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = false;
 	}
 	if (Input.GetKeyDown("s")) {
 		moveS = true;
-	//	Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = true;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = true;
 	}		
 	if (Input.GetKeyUp("d")) {
 		moveE = false;
-	//	Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = false;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = false;
 	}
 	if (Input.GetKeyDown("d")) {
 		moveE = true;
-	//	Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = true;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = true;
 	}
 	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Walking", true);
 	/*rotateL = false;
@@ -394,25 +365,25 @@ function Update () {
 	if (Input.GetKeyUp("right")){
 		if (!rotateR){
 			rotateL = false;
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = false;
 		}
 	}
 	if (Input.GetKeyDown("right")) {
 		if (!rotateR){
 			rotateL = true;
-		//	Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = true;
 		}
 	}		
 	if (Input.GetKeyUp("left")) {
 		if(!rotateL){
 			rotateR = false;
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = false;
 		}
 	}
 	if (Input.GetKeyDown("left")) {
 		if(!rotateL){
 			rotateR = true;
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = true;
 		}
 	}
 	if (Input.GetKeyDown("f")){
@@ -459,8 +430,8 @@ function Update () {
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
 				character.anim.SetTrigger("Jump");
-				//Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
-				//Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
@@ -547,21 +518,21 @@ function Update () {
 	//Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
-
-	 /*var mouseScreenPosition = Input.mousePosition;   
+	Camera.mainCamera.transform.localPosition = Vector3(0, 0, -10);
+	 var mouseScreenPosition = Input.mousePosition;  
      mouseScreenPosition.z = this.transform.position.z;
-     var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);//*/
-     
-	
-	
-	Manager.theCamera.GetComponent(CameraMovement).doMovement();
-	
-	this.transform.LookAt(Manager.theCamera.GetComponent(CameraMovement).mouseWorldSpace, Camera.mainCamera.transform.forward);
+     var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+     this.transform.LookAt(mouseWorldSpace, Vector3.forward);
      this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
-	lookDirection = Manager.theCamera.GetComponent(CameraMovement).mouseWorldSpace - transform.position;
+     mouseWorldSpace.z = 0;
+     temp = mouseWorldSpace;
+     print(temp);
+	lookDirection = mouseWorldSpace - transform.position;
 	lookDirection.z = 0;
 	lookDirection.Normalize();
+	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	updateShadow(); //Position shadow and rescale hero for jumping
+	
 }
 
 //Resize hero and position shadow for jumping
@@ -668,18 +639,18 @@ function colorChoice(){
 
 function stopMovement(){
 	rotateR = false;
-	//Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = false;
 	rotateL = false;
-	//Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = false;
 	
 	moveE = false;
-	//Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = false;
 	moveW = false;
-	//Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = false;	
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = false;	
 	moveS = false;
-	//Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = false;
 	moveN = false;
-	//Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = false;
 	
 	//todo: stop moving animation
 }
@@ -796,14 +767,10 @@ function OnCollisionExit(col:Collision){
 
 function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireCube (transform.position, modelObject.GetComponent(BoxCollider).size);
-		var mouseScreenPosition = Input.mousePosition;
-		mouseScreenPosition.z = this.transform.position.z;
-     	var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
-     	mouseWorldSpace.z = 0;
-     	Gizmos.color = Color.green;
-		//Gizmos.DrawWireCube (mouseWorldSpace, Vector3(.1, .1, .1));
+		Gizmos.color = Color.green;
+		Gizmos.DrawWireCube (transform.position, Vector3(.1, .1, .1));
+		Gizmos.DrawWireCube (Vector3(temp.x, temp.y, temp.z), Vector3(.1, .1, .1));
+
 		/*
 		Gizmos.color = Color.green;
  		Gizmos.DrawWireCube(Vector3(totalRect.left, totalRect.top, 1), Vector3(totalRect.width, totalRect.height, 1));
@@ -855,8 +822,8 @@ function landing(){
 			//colorStore = this.renderer.material.color;
 			//this.renderer.material.color = Color(2,2,2);
 			jumping = true;
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
-			//Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 			rjTimer = 0;
 
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
@@ -987,7 +954,6 @@ function fallDeath(aim: Vector3){
 	}
 	//todo: respawn
 	character.dead = true;
-	Manager.tip = Manager.genTip();
 	Manager.death();
 }
 
@@ -1000,12 +966,12 @@ function shakeCamera(duration:float, intensity:float){
 	var timer:float = 0;
 	cameraShake = true;
 	while (timer < duration){
-		Manager.theCamera.GetComponent(CameraMovement).doMovement();
-		Manager.theCamera.GetComponent(CameraMovement).transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
+		Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
+		Manager.gameObject.GetComponentInChildren(CameraMovement).transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
 		timer+=Time.deltaTime;
 		yield;
 	}
-	Manager.theCamera.GetComponent(CameraMovement).doMovement();
+	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	cameraShake = false;
 }
 
