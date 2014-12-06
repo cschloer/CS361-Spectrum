@@ -103,10 +103,19 @@ public class Monster5 extends Monster {
 		blink();
 	}
 	
+	function lighting(){
+		var distance : Vector3 = model.transform.position - hero.model.transform.position;
+		var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
+		var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
+		if (flashLight > aoeLight) model.transform.renderer.material.color.a = flashLight;
+		else model.transform.renderer.material.color.a = aoeLight;
+	
+	}
+	
 	function act(){
 		model.transform.position.z = 0;
 		circlingBehaviour(2);
-		if(Random.value > .98){
+		if(Random.value > .94){
 			if (!isVisible) return;
 			anim.SetTrigger("Attack");
 			simpleBullet();

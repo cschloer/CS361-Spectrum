@@ -68,7 +68,7 @@ public class Weapon extends MonoBehaviour{
 	 	weaponObject.GetComponent(BoxCollider).isTrigger = true;
 	 	weaponObject.GetComponent(BoxCollider).size = Vector3(.1, 2, .5);
 	 	*/weaponObject.AddComponent(Rigidbody);
-	 	weaponObject.GetComponent(Rigidbody).isKinematic = false;
+	 	weaponObject.GetComponent(Rigidbody).isKinematic = true;
 	 	weaponObject.GetComponent(Rigidbody).useGravity = false;
 	 	weaponObject.GetComponent(Rigidbody).inertiaTensor = Vector3(1, 1, 1);
 	 	weaponObject.transform.parent = owner.model.transform;
@@ -302,6 +302,7 @@ public class Weapon extends MonoBehaviour{
 	//Throw sword directly forward by (distance) over (time), spinning at rate (spinSpeed). Recover for time (recovery). 
 	//Sword returns at speed (distance)/(time) - same speed it's thrown. Currently still damages foes during this time.
   	function tossStar(distance : float, time : float, spinSpeed : float, recovery : float, rotation: int){	
+ 		time = time*1.5;
  		canThrow = false;
  		swinging = true;
  		model.transform.parent = null;
@@ -455,7 +456,7 @@ public class Weapon extends MonoBehaviour{
 		attackObject.GetComponent(BoxCollider).isTrigger = true;
 		attackObject.GetComponent(BoxCollider).size = Vector3(.5,.5,10);
 		attackObject.AddComponent(Rigidbody);
-		attackObject.GetComponent(Rigidbody).isKinematic = false;
+		attackObject.GetComponent(Rigidbody).isKinematic = true;
 		attackObject.GetComponent(Rigidbody).useGravity = false;
 		attackObject.GetComponent(Rigidbody).inertiaTensor = Vector3(.1, .1, .1);
 		attackObject.GetComponent(Rigidbody).freezeRotation = true;
@@ -571,7 +572,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 
 	}
 	function toThrowingStar(){
-		cube.GetComponent(BoxCollider).size = Vector3(.5, .5, .5);
+		cube.GetComponent(BoxCollider).size = Vector3(.5, .5, 1);
 	//	colliderObject.GetComponent(BoxCollider).center = model.transform.position;
 //		colliderObject.GetComponent(BoxCollider).position = model.transform.position;
 		spriteRenderer.sprite = UnityEngine.Sprite.Create(Resources.Load("Textures/throwingstar", Texture2D), new Rect(0,0,250,250), new Vector2(0.5f, 0), 400f);

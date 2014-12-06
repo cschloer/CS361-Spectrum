@@ -63,9 +63,9 @@ function Start () {
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
 	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
 	
-	//addCircle(0);
-	//addCircle(1);
-	//addCircle(2);
+	addCircle(0);
+	addCircle(1);
+	addCircle(2);
 	
 	paused = false;
 	clock = 0.0;
@@ -813,10 +813,10 @@ function OnGUI() {
 
 		var comboCounter: int = 0;
 		if (character.model.comboSmall1 == true) {
-			comboCounter++;
+			comboCounter=1;
 		}
 		if (character.model.comboSmall2 == true) {
-			comboCounter++;
+			comboCounter=2;
 		}
 		
 		if (character.model.comboSmall3 == true) {
