@@ -195,9 +195,9 @@ function Update () {
 				else boostRR(); // boost the ranged attack after a roll if ranged
 			}
 			//this.renderer.material.color = colorStore;	
-			Manager.theCamera.GetComponent(CameraMovement).rolling = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rolling = false;
 			//moveSpeed = 2;
-			Manager.theCamera.GetComponent(CameraMovement).speed = 2;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = 2;
 			rjTimer = 0;
 		}
 		if(character.weapon.clubSound.isPlaying){
@@ -249,7 +249,7 @@ function Update () {
 			comboSmall3 = false;
 
 			//this.renderer.material.color = colorStore;	
-			Manager.theCamera.GetComponent(CameraMovement).jumping = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = false;
 			//modelObject.GetComponent(BoxCollider).isTrigger = false;
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z + 5;
 			vincible = true;															// Makes player vincible again.
@@ -321,69 +321,69 @@ function Update () {
 	}
 	if (Input.GetKeyUp("w")){
 		 moveN = false;
-		 Manager.theCamera.GetComponent(CameraMovement).moveN = false;
+		 Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = false;
 	}
 	if (Input.GetKeyDown("w")) {
 		moveN = true;
-		Manager.theCamera.GetComponent(CameraMovement).moveN = true;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = true;
 	}	
 	if (Input.GetKeyUp("a")){
 		moveW = false;
-		Manager.theCamera.GetComponent(CameraMovement).moveW = false;	
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = false;	
 	}
 	if (Input.GetKeyDown("a")){
 		 moveW = true;
-		 Manager.theCamera.GetComponent(CameraMovement).moveW = true;
+		 Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = true;
 		}
 	if (Input.GetKeyUp("s")){
 		moveS = false;
-		Manager.theCamera.GetComponent(CameraMovement).moveS = false;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = false;
 	}
 	if (Input.GetKeyDown("s")) {
 		moveS = true;
-		Manager.theCamera.GetComponent(CameraMovement).moveS = true;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = true;
 	}		
 	if (Input.GetKeyUp("d")) {
 		moveE = false;
-		Manager.theCamera.GetComponent(CameraMovement).moveE = false;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = false;
 	}
 	if (Input.GetKeyDown("d")) {
 		moveE = true;
-		Manager.theCamera.GetComponent(CameraMovement).moveE = true;
+		Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = true;
 	}
 	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Walking", true);
 	/*rotateL = false;
 	rotateR = false;
 	if (Input.GetAxis("Mouse X")>0){
     		rotateL = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = true;
 	}
 	if (Input.GetAxis("Mouse X")<0){
     		rotateR = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = true;
 	}*/
 	if (Input.GetKeyUp("right")){
 		if (!rotateR){
 			rotateL = false;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = false;
 		}
 	}
 	if (Input.GetKeyDown("right")) {
 		if (!rotateR){
 			rotateL = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = true;
 		}
 	}		
 	if (Input.GetKeyUp("left")) {
 		if(!rotateL){
 			rotateR = false;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = false;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = false;
 		}
 	}
 	if (Input.GetKeyDown("left")) {
 		if(!rotateL){
 			rotateR = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = true;
 		}
 	}
 	if (Input.GetKeyDown("f")){
@@ -430,8 +430,8 @@ function Update () {
 				//this.renderer.material.color = Color(2,2,2);
 				jumping = true;
 				character.anim.SetTrigger("Jump");
-				Manager.theCamera.GetComponent(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
-				Manager.theCamera.GetComponent(CameraMovement).jumping = true;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
+				Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 				rjTimer = 0;
 				modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 				vincible = false;													// Player invincible without passing through walls.
@@ -513,27 +513,24 @@ function Update () {
  		}
 			
 	
-	//if(!cameraShake) Manager.theCamera.GetComponent(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
-	//if(!cameraShake) Manager.theCamera.GetComponent(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
-	//Manager.theCamera.GetComponent(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
+	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10)+3*this.transform.up;
+	//if(!cameraShake) Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.position = Vector3(this.transform.position.x, this.transform.position.y, -10);
+	//Manager.gameObject.GetComponentInChildren(CameraMovement).gameObject.transform.rotation = this.transform.rotation;
 	//OnDrawGizmos();
 	
-	//Camera.mainCamera.transform.localPosition = Vector3(0, 0, -10);
-	
-    
-	
-	Manager.theCamera.GetComponent(CameraMovement).doMovement();
-	
-	var mouseWorldSpace = Manager.theCamera.GetComponent(CameraMovement).mouseWorldSpace;
-    this.transform.LookAt(mouseWorldSpace, Vector3.forward);
-    this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
-    mouseWorldSpace.z = 0;
-    temp = mouseWorldSpace;
+	Camera.mainCamera.transform.localPosition = Vector3(0, 0, -10);
+	 var mouseScreenPosition = Input.mousePosition;  
+     mouseScreenPosition.z = this.transform.position.z;
+     var mouseWorldSpace = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+     this.transform.LookAt(mouseWorldSpace, Vector3.forward);
+     this.transform.eulerAngles =  Vector3(0,0,-this.transform.eulerAngles.z);
+     mouseWorldSpace.z = 0;
+     temp = mouseWorldSpace;
+     print(temp);
 	lookDirection = mouseWorldSpace - transform.position;
 	lookDirection.z = 0;
 	lookDirection.Normalize();
-	
-	
+	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	updateShadow(); //Position shadow and rescale hero for jumping
 	
 }
@@ -642,18 +639,18 @@ function colorChoice(){
 
 function stopMovement(){
 	rotateR = false;
-	Manager.theCamera.GetComponent(CameraMovement).rotateR = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).rotateR = false;
 	rotateL = false;
-	Manager.theCamera.GetComponent(CameraMovement).rotateL = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).rotateL = false;
 	
 	moveE = false;
-	Manager.theCamera.GetComponent(CameraMovement).moveE = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveE = false;
 	moveW = false;
-	Manager.theCamera.GetComponent(CameraMovement).moveW = false;	
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveW = false;	
 	moveS = false;
-	Manager.theCamera.GetComponent(CameraMovement).moveS = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveS = false;
 	moveN = false;
-	Manager.theCamera.GetComponent(CameraMovement).moveN = false;
+	Manager.gameObject.GetComponentInChildren(CameraMovement).moveN = false;
 	
 	//todo: stop moving animation
 }
@@ -772,7 +769,7 @@ function OnDrawGizmos() {
 		// Draw a yellow cube at the transforms position
 		Gizmos.color = Color.green;
 		Gizmos.DrawWireCube (transform.position, Vector3(.1, .1, .1));
-	//	Gizmos.DrawWireCube (Vector3(temp.x, temp.y, temp.z), Vector3(.1, .1, .1));
+		Gizmos.DrawWireCube (Vector3(temp.x, temp.y, temp.z), Vector3(.1, .1, .1));
 
 		/*
 		Gizmos.color = Color.green;
@@ -825,8 +822,8 @@ function landing(){
 			//colorStore = this.renderer.material.color;
 			//this.renderer.material.color = Color(2,2,2);
 			jumping = true;
-			Manager.theCamera.GetComponent(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
-			Manager.theCamera.GetComponent(CameraMovement).jumping = true;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).speed = jumpSpeedMultiplier * moveSpeed;
+			Manager.gameObject.GetComponentInChildren(CameraMovement).jumping = true;
 			rjTimer = 0;
 
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
@@ -969,12 +966,12 @@ function shakeCamera(duration:float, intensity:float){
 	var timer:float = 0;
 	cameraShake = true;
 	while (timer < duration){
-		Manager.theCamera.GetComponent(CameraMovement).doMovement();
-		Manager.theCamera.GetComponent(CameraMovement).transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
+		Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
+		Manager.gameObject.GetComponentInChildren(CameraMovement).transform.Translate(Random.Range(-intensity, intensity),Random.Range(-intensity, intensity),0);
 		timer+=Time.deltaTime;
 		yield;
 	}
-	Manager.theCamera.GetComponent(CameraMovement).doMovement();
+	Manager.gameObject.GetComponentInChildren(CameraMovement).doMovement();
 	cameraShake = false;
 }
 
