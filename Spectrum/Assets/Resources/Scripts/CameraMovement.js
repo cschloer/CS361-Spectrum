@@ -102,7 +102,7 @@ function doMovement(){
 		xMax -= xMin - charX;
 		xMin -= xMin - charX;
 	}
-	if (charY > yMax){ // going over top bound
+	if (charY > yMax){ // going over top bo	und
 		curY += charY - yMax;
 		yMin += charY - yMax;
 		yMax += charY - yMax;
