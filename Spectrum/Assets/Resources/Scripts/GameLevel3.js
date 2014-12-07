@@ -16,6 +16,7 @@ function levelInit(){
   roomCreate(-30, 30,0,"Plain4Opp.txt");  // Monter Left
   roomCreate( 10,-10,3,"Hole2Adj.txt");   // Hole Right
   roomCreate( 10, 10,0,"Hole5Tri.txt");   // Hole Right
+  roomCreate( 30, 10,3,"Plain2End.txt");   // Hole Right
   addCake(-0.5,15);
   addCake(-0.5,0);
   addCake(-1.5,40);

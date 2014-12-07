@@ -977,7 +977,7 @@ function fallDeath(aim: Vector3){
 
 	var counter:float = 0;
 	while (counter < 1){
-		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime*5);
 		frozen = true;
 		//heroScale-=Time.deltaTime*.5;
 		counter+= Time.deltaTime;
