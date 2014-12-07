@@ -726,6 +726,7 @@ function OnTriggerEnter(col:Collider){
 		cakesCollected++;
 		cakeSound.Play();
 	}
+
 }
 /*
 function OnTriggerStay(col:Collider){
