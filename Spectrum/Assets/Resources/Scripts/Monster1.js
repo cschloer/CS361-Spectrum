@@ -14,6 +14,7 @@ public class Monster1 extends Monster {
 		min.setTexture("shield");
 		min.setSize(1.2, 1);
 		min.setLocalPosition(Vector3(0, .6, 0));
+		//min.modelObject.GetComponent(BoxCollider).isTrigger = false;
 		lunging = false;
 		//Add sound
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
@@ -27,9 +28,9 @@ public class Monster1 extends Monster {
 	function act(){
 		if(!lunging){
 			turnToHero(.8);
-			if(distanceToHero() < 3){
+			if(distanceToHero() < 5){
 				moveFromHero(1);
-				if(angleToHero() < 2 || angleToHero() > 358) lunge(.5, .2, .5, 3, .5, 2);
+				if(angleToHero() < 2 || angleToHero() > 358) lunge(.2, .4, .6, 5, .3, 2);
 			}else{
 				move(1.5);
 			}
@@ -48,7 +49,7 @@ public class Monster1 extends Monster {
 			move(lungeSpeed);
 			yield;
 		}
-		attack(3, 6, 0, 1, .3, Color.red, false, true, "");
+		attack(6, 6, 0, 1, .3, Color.red, false, true, "");
 		playSound(shootSound);
 		while(retreatTime > 0){
 			retreatTime -= Time.deltaTime;
@@ -75,6 +76,8 @@ public class Monster1 extends Monster {
 	function minionCollision(minion : Minion, col : Collider){
 		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0){
 			shield(1);
+			col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).hasHit();
+			
 		}
 	}
 

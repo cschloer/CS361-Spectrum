@@ -169,6 +169,34 @@ function FixedUpdate(){
 		if (moveW) heading += Vector3(-1, 0, 0);
 		heading.Normalize();
 	}
+	
+	
+function resetDeath(){
+	slowed = false;
+	monsterHere = false;
+	hasBoomBoosted = false;
+	cameraShake = false;
+	isHook = false;
+	moveSpeed = 5;
+	turnSpeed = 1;
+	rolling = false;
+	vincible = true;
+	frozen = false;
+	
+	boostRaRo = false; // boost when a rolling ranged character rolls
+	boostRaRoTimer = 0;
+	
+	comboSmall1 = false;
+	comboSmall2 = false;
+	comboSmall3 = false;
+	comboSmallTimer = 0;
+	boostRoll = false;
+	
+	isChargingBoom = false;
+	chargingBoomTimer = 0;
+
+
+}
 
 // Update is called once per frame
 function Update () {
@@ -994,7 +1022,7 @@ function comboSM(){ // combo for small
 	comboSmallTimer = 0;
 	comboSmall3 = false;
 
- 	if (!comboSmall1){
+ 	if (!comboSmall1 && !comboSmall2){
  		comboSmall1 = true;
  		character.weapon.dualSwing(3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);
  		
@@ -1005,8 +1033,15 @@ function comboSM(){ // combo for small
  		character.weaponDual.dualSwing(-3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);	
  	}
  	else { // combo ended
- 		comboSmallClear();
- 		comboSM();
+ 		if (comboSmall1) {
+ 			character.weapon.dualSwing(3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);
+ 			comboSmall1 = false;	
+ 		}
+ 		else {
+ 			character.weaponDual.dualSwing(-3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);	
+ 			comboSmall1 = true;
+ 			character.lunge();
+ 		}
  		
  	}
  
