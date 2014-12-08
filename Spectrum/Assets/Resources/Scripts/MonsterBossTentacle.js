@@ -19,6 +19,7 @@ public class MonsterBossTentacle extends Monster{
 	var sprend : SpriteRenderer;
 
 	function init(c: Character, p:Vector3){
+		isBoss = true;
 		color = "random";
 		charging = false;
 		fleeing = false;
@@ -66,9 +67,9 @@ public class MonsterBossTentacle extends Monster{
 		bulletFolder.name = "Bullets";
 		bulletFolder.transform.parent = transform;
 		
-		minionFolder = new GameObject();
+		/*minionFolder = new GameObject();
 		minionFolder.name = "Minions";
-		minionFolder.transform.parent = transform;
+		minionFolder.transform.parent = transform;*/
 		
 		waitToActivate();
 		addHearts();
@@ -85,8 +86,8 @@ public class MonsterBossTentacle extends Monster{
 		//Add sound
 //		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 //		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
-		weakspot = createMinion("weakspot");
-		weakspot.setTexture("yellowBlob");
+		//weakspot = createMinion("weakspot");
+		//weakspot.setTexture("yellowBlob");
 		showingSpot = false;
 		shielding = false;
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
@@ -95,7 +96,7 @@ public class MonsterBossTentacle extends Monster{
 		chargeSound.clip = Resources.Load("Sounds/bigHiss") as AudioClip;
 		squirtSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		squirtSound.clip = Resources.Load("Sounds/squirt") as AudioClip;
-		invincible = true;
+		//invincible = true;
 		
 		tentacleFolder = new GameObject();
 		tentacleFolder.transform.parent = transform;
@@ -240,13 +241,13 @@ public class MonsterBossTentacle extends Monster{
 			
 	}
 	
-	function minionCollision(minion : Minion, col : Collider){
+	/*function minionCollision(minion : Minion, col : Collider){
 		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0 && !shielding){
 			invincible = false;
 			hurt();
 			invincible = true;
 		}
-	}
+	}*/
 	
 	function switchPhase(){
 		phaseTime = 0;

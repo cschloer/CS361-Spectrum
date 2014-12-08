@@ -153,7 +153,7 @@ function addCharacter(x : float , y : float) {
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 	
 	//Test spawns
-	//addBossTentacle(2, 2, character);
+	addBoss(2, 2, character);
 	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
 }
 
@@ -496,6 +496,9 @@ function popTile(c: char, xpos: float, ypos: float){
     }
     else if(c == 'H'){
     	addTile(xpos,ypos,"Hole",0);
+    }
+    else if(c == 'L'){
+    	addTile(xpos,ypos,"Lava",0);
     }
     else if (c == "T"){
     	addTile(xpos,ypos,"Floor",0);

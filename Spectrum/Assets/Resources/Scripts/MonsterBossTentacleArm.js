@@ -18,6 +18,7 @@ var buddy: MonsterBossTentacleArm;
 
 
 function init(x:int, y:int, number:int, m:GameObject, r:Vector3, tt:float, ra:float, gm:GameManager, b:MonsterBossTentacle) {
+	
 	isStraight = true;
 	Manager = gm;
 	rotation = r;
