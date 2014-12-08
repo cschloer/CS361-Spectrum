@@ -332,19 +332,24 @@ public class Weapon extends MonoBehaviour{
  			model.transform.position += (heading * tossSpeed * Time.deltaTime);//+moveAdder; // i think move adder isn't needed for these 
  			yield;
  		}
+ 		
  		swinging = false;
  		if(hitWall) playSound(metalSound);
  		hitWall = false;
  		hasHit = false;
  		var t:float=0;
  		
+ 		
+ 		
  	
  		
  		while (t < recovery){
  			t += Time.deltaTime;
+ 			model.renderer.material.color.a = 1-(t/1);
  			yield;
  		}
  		swinging = false;
+
  		/*model.transform.position = owner.model.transform.position;
 		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
@@ -622,6 +627,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	}
 	
 	function starActive(){
+		model.renderer.material.color.a = 1;
 		canThrow = true;
 		swinging = false;
 		

@@ -44,6 +44,13 @@ var levelNumber : int;
 // Start
 // Called once when the script is created.
 function Start () {
+
+
+// Camera size! Original was 5, see how you like this
+	theCamera.camera.orthographicSize = 8;
+
+
+
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
 	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	explosionGreen.gameObject.SetActive(false); // make it inactive in beginning
@@ -152,7 +159,7 @@ function addCharacter(x : float , y : float) {
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 	
 	//Test spawns
-	addBoss(2, 2, character);
+	//addBoss(2, 2, character);
 	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
 }
 
