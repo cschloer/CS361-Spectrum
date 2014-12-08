@@ -488,6 +488,9 @@ function popTile(c: char, xpos: float, ypos: float){
     else if(c == 'H'){
     	addTile(xpos,ypos,"Hole",0);
     }
+    else if(c == 'L'){
+    	addTile(xpos,ypos,"Lava",0);
+    }
     else if (c == "T"){
     	addTile(xpos,ypos,"Floor",0);
     }

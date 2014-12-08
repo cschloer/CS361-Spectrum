@@ -125,6 +125,7 @@ function Update(){
 }
 
 public function hurt(){
+		if( !model.vincible ) return;
 		oofSound.Play();
 		//manager.playSound(offSound, transform.position);
 		health--;
@@ -164,6 +165,7 @@ function lunge(){ // lunge forward , used to attack
 function checkHealth(){
 	if (health > 0 ) return;
 	var t : float = 0;
+	model.vincible = false;
 	while (t < 2){
 		t += Time.deltaTime;
 		model.renderer.material.color.a = 1-(t/2);

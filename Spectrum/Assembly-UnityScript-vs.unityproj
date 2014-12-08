@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_64;UNITY_STANDALONE_LINUX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_5_2;UNITY_4_5;UNITY_64;UNITY_STANDALONE_LINUX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -60,6 +60,7 @@
      <Compile Include="Assets\Resources\Scripts\DeviceWallModel.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel1.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel2.js" />
+     <Compile Include="Assets\Resources\Scripts\GameLevel3.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial1.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial2.js" />
@@ -95,6 +96,7 @@
      <Compile Include="Assets\Resources\Scripts\SpellMine.js" />
      <Compile Include="Assets\Resources\Scripts\SpellWall.js" />
      <Compile Include="Assets\Resources\Scripts\Tile.js" />
+     <Compile Include="Assets\Resources\Scripts\TileBurnModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileCliffModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileFloorModel.js" />
      <Compile Include="Assets\Resources\Scripts\TileHoleModel.js" />
@@ -106,12 +108,17 @@
      <Compile Include="Assets\Resources\Scripts\gemModel.js" />
      <Compile Include="Assets\StartScript.js" />
      <Compile Include="Assets\controlScreen.js" />
+     <None Include="Assets\Levels\Comb1Cross.txt" />
+     <None Include="Assets\Levels\Lava1Opp.txt" />
      <None Include="Assets\Resources\Levels\test.txt" />
      <None Include="Assets\Levels\Hole3Tri.txt" />
      <None Include="Assets\Levels\wd.txt" />
+     <None Include="Assets\Levels\Lava2Opp.txt" />
      <None Include="Assets\Levels\Plain3End.txt" />
      <None Include="Assets\Levels\Plain2End.txt" />
+     <None Include="Assets\Levels\Plain5Tri.txt" />
      <None Include="Assets\Levels\rooma.txt" />
+     <None Include="Assets\Levels\Hole2Adj.txt" />
      <None Include="Assets\Levels\Plain4Cross.txt" />
      <None Include="Assets\Levels\room3.txt" />
      <None Include="Assets\Levels\Plain2Cross.txt" />
@@ -143,7 +150,9 @@
      <None Include="Assets\Levels\room4.txt" />
      <None Include="Assets\Levels\Hole4Tri.txt" />
      <None Include="Assets\Levels\Plain4Opp.txt" />
+     <None Include="Assets\Levels\Hole5Tri.txt" />
      <None Include="Assets\Levels\portalRoom.txt" />
+     <None Include="Assets\Levels\Comb1Opp.txt" />
      <None Include="Assets\Levels\room1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

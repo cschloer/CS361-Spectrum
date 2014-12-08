@@ -19,7 +19,6 @@ function init(t: String, or: int, tiles: Array) {
 		box.size = Vector3(1.3,1.3,20);
 		wmodel.transform.position.z += -0.1;
 		box.isTrigger = false;
-
 		wmodel.init(this, tiles);													// Initialize the tileModel.
 	} else if(type == "Hole") {
 		var hmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
@@ -28,12 +27,13 @@ function init(t: String, or: int, tiles: Array) {
 		box.size = Vector3(.7,.7,4);
 		box.isTrigger = true;
 		hmodel.init(this);													// Initialize the tileModel.
-	} else if(type == "Cliff") {
-		var cmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
+	} else if(type == "Lava") {
+		var cmodel = modelObject.AddComponent("TileBurnModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = cmodel.transform.position;								// Center the boxcollider on the unit.
 		box.size = Vector3(1,1,4);
-		cmodel.init(this, or);													// Initialize the tileModel.
+		box.isTrigger = true;
+		cmodel.init(this);													// Initialize the tileModel.
 	} else {
 		var model = modelObject.AddComponent("TileFloorModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
