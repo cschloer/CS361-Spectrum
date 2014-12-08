@@ -2,6 +2,10 @@
 
 public class GameLevel1 extends GameManager {
 
+function Start(){
+	super.Start();
+	explosionWorm1.gameObject.SetActive(false);
+}
 
 function levelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");

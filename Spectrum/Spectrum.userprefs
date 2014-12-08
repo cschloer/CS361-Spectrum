@@ -14,23 +14,23 @@
       <File FileName="Assets/Resources/Scripts/LobbyManager.js" Line="21" Column="37" />
       <File FileName="Assets/Resources/Scripts/GameLevel1.js" Line="41" Column="107" />
       <File FileName="Assets/Resources/Scripts/GameLevel2.js" Line="72" Column="17" />
-      <File FileName="Assets/Resources/Scripts/GameLevel3.js" Line="32" Column="19" />
+      <File FileName="Assets/Resources/Scripts/GameLevel3.js" Line="58" Column="2" />
       <File FileName="Assets/Resources/Scripts/Cake.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="701" Column="3" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="1123" Column="1" />
       <File FileName="Assets/Resources/Scripts/Landing.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/LevelEditorCamera.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Monster.js" Line="493" Column="1" />
       <File FileName="Assets/Resources/Scripts/GameManager.js" Line="515" Column="1" />
       <File FileName="Assets/Resources/Scripts/SpawnPointModel.js" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/Tile.js" Line="50" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Tile.js" Line="62" Column="1" />
       <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/GameTutorial1.js" Line="20" Column="21" />
       <File FileName="Assets/Resources/Scripts/GameTutorial2.js" Line="59" Column="43" />
       <File FileName="Assets/Resources/Scripts/GameTutorial3.js" Line="1" Column="1" />
       <File FileName="Assets/Levels/Plain2Tri.txt" Line="1" Column="1" />
       <File FileName="Assets/Levels/Plain3Tri.txt" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Scripts/MonsterWorm.js" Line="223" Column="5" />
+      <File FileName="Assets/Resources/Scripts/MonsterWorm.js" Line="78" Column="28" />
       <File FileName="Assets/Resources/Scripts/MonsterBoss.js" Line="149" Column="3" />
       <File FileName="Assets/Resources/Scripts/MonsterBossTentacle.js" Line="44" Column="41" />
       <File FileName="Assets/Resources/Scripts/SpellMine.js" Line="120" Column="26" />
