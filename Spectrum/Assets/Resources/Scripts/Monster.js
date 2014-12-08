@@ -93,6 +93,7 @@ public class Monster extends MonoBehaviour
 		waitToActivate();
 		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
 		addHearts();
+		manager = c.manager;
 	}
 	
 	function waitToActivate(){

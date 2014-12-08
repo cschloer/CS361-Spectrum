@@ -41,6 +41,8 @@ function levelInit(){
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   currentLevel=5;
   changeColor();
+  levelNumber = 2;
+
 }
 /*
 function addBoss(x : float, y :float, c : Character){
@@ -67,6 +69,7 @@ function Update(){
 		cam.transform.position.y = character.model.transform.position.y;
 		if (cam != Camera.main) cam.transform.position.z = -20;
 		}
+	if(!winScreen) win();
 }
 
 

@@ -6,6 +6,7 @@ var levelButton : Texture2D;
 var clearButton : Texture2D;
 var levelName : String;
 var levelNum : int;
+var displayErase : boolean;
 
 function Start () {
 	startButton = Resources.Load("Textures/StartButton", Texture2D);
@@ -15,10 +16,10 @@ function Start () {
 	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");
 	var lev = stream.ReadLine();
 	levelNum = parseInt(lev.Split(":"[0])[1]);
-	if(levelNum < 3){
-		levelName = "LevelTutorial"+(levelNum);
+	if(levelNum < 1){
+		levelName = "LevelTutorial1";
 	}else{
-		levelName = "Level"+(levelNum-3);
+		levelName = "Lobby";
 	}
 }
 
@@ -40,8 +41,18 @@ function OnGUI() {
         Application.LoadLevel("LevelEditor");
     }
     if (GUI.Button (Rect((Screen.width/10)*9, (Screen.height/30), Screen.width/10, Screen.height/8), clearButton)) {
-        var overwrite = new StreamWriter(Application.dataPath +"/Configuration/data.conf");
-		overwrite.Write("currentLevel:-1");
-		overwrite.Close();
+        displayErase = true;
     }
+    if(displayErase){
+    	if(GUI.Button (Rect((Screen.width/10)*3, (Screen.height*.55), Screen.width/5, Screen.height/8), "Erase Data")){
+    		var overwrite = new StreamWriter(Application.dataPath +"/Configuration/data.conf");
+			overwrite.Write("currentLevel:-1");
+			overwrite.Close();
+			displayErase = false;
+
+		}
+		if(GUI.Button (Rect((Screen.width/10)*5.57, (Screen.height*.55), Screen.width/5, Screen.height/8), "Nevermind!")){
+			displayErase = false;
+		}
+	}
 }

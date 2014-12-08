@@ -56,7 +56,7 @@ function Update () {
 			else{
 			  winScreen = false;
 			  loseScreen = false;
-			  Application.LoadLevel("LevelComplete");
+			  Application.LoadLevel("LevelTutorial3");
 			}
 		}
 		return;

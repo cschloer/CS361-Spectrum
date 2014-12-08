@@ -10,7 +10,7 @@ public class GameManager extends MonoBehaviour
 
 // Globals
 var characterFolder : GameObject;	// This will be an empty game object used for organizing heroes in the hierarchy pane.
-var monsterFolder : GameObject;		// This will be an empty game object used for organizing monsters in the hierarchy pane.
+public var monsterFolder : GameObject;		// This will be an empty game object used for organizing monsters in the hierarchy pane.
 var tileFolder : GameObject;		// This will be an empty game object used for organizing tiles in the hierarchy pane.
 //var colorFolder : GameObject;		// This will be an empty game object used for organizing colors in the hierarchy pane.
 var deviceFolder : GameObject;		// This will be an empty game object used for organizing devices in the hierarchy pane.
@@ -33,11 +33,13 @@ var musicSound : AudioSource;		// Game music.
 var explosionFire : ParticleSystem;
 var explosionIce : ParticleSystem;
 var explosionGreen : ParticleSystem;
+var explosionWorm1 : ParticleSystem;
+var explosionWorm2 : ParticleSystem;
 var currentLevel : int;
 var SpectrumSkin : GUISkin;
 var guif : Font;
 var tip : String;
-
+var levelNumber : int;
 
 // Start
 // Called once when the script is created.
@@ -45,6 +47,8 @@ function Start () {
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
 	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	explosionGreen.gameObject.SetActive(false); // make it inactive in beginning
+	explosionWorm1.gameObject.SetActive(false);
+	//explosionWorm2.gameObject.SetActive(false);
 	characterFolder = new GameObject();  
 	characterFolder.name = "Character";
 	monsterFolder = new GameObject();
@@ -57,16 +61,16 @@ function Start () {
 	tileFolder.name = "Tiles";
 	tiles = new Array();
 	tip = genTip();
-	
-	levelInit();
 	currentLevel = -1;
+
+	levelInit();
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
 	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
-	
+	/*
 	addCircle(0);
 	addCircle(1);
 	addCircle(2);
-	
+	*/
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
@@ -99,12 +103,14 @@ function Start () {
 // Update
 // Called every frame.
 function Update () {
+
 	if (winScreen || loseScreen){
 		losewinTimer += Time.deltaTime;
+		print("winScreen true");
 		if (losewinTimer >= 2) {
 			winScreen = false;
 			loseScreen = false;
-			Application.LoadLevel("End");
+			Application.LoadLevel("LevelComplete");
 
 		}
 		return;
@@ -124,7 +130,7 @@ function Update () {
 		//death();
 	}
 	clock = clock + Time.deltaTime;
-	if(boss == null && clock > 1){
+	if(boss == null && clock > 1 && !winScreen){
 		win();
 	}
 }
@@ -244,6 +250,9 @@ function addMonster(x : float, y :float, c : Character, type: int, data : float)
 			break;		// Add the monster2.js script to the object.
 		case 7:
 			monsterScript = monsterObject.AddComponent("Monster7");
+			break;
+		case 11:
+			monsterScript = monsterObject.AddComponent("MonsterWorm");
 			break;
 		default:
 			monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
@@ -544,6 +553,7 @@ function lose(){
 }
 
 function win(){
+	updateLevel(levelNumber);
 	winScreen = true;
 	losewinTimer = 0;
 }
@@ -594,6 +604,22 @@ function genTip(){
 		default:
 			return "Try not to die.";
 			break;
+	}
+}
+
+function updateLevel(number : int){
+	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");
+	var lev = stream.ReadLine();
+	var levelNum = parseInt(lev.Split(":"[0])[1]);
+	//print("Running updateLevel. Current: " + levelNum + ", new: " + number);
+	if(levelNum <= number){
+		lev = "currentLevel:"+(number + 1);
+		lev = String.Concat(lev,stream.ReadToEnd());
+		stream.Close();
+		var overwrite = new StreamWriter(Application.dataPath +"/Configuration/data.conf");
+		overwrite.Write(lev);
+		overwrite.Close();
+		//print("Writing " + lev);
 	}
 }
 
@@ -665,6 +691,9 @@ function OnGUI() {
 	} else if(paused){
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-75,300,150), "Paused!");
+		if (GUI.Button (Rect((Screen.width/10)*8, (Screen.height/10*9), Screen.width/10, Screen.height/10), "Exit")) {
+        	Application.LoadLevel("Start");
+    	}
 	} else if (character.dead){
 		GUI.skin.box.alignment = TextAnchor.UpperLeft;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-25,300,50), tip);
@@ -832,5 +861,7 @@ function OnGUI() {
 		
 	}																													
 }
+
+
 
 }

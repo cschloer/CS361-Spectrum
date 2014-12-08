@@ -29,6 +29,7 @@ function levelInit(){
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   currentLevel=6;
+  levelNumber = 3;
 }
 
 

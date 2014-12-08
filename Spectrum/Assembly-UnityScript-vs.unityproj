@@ -60,6 +60,7 @@
      <Compile Include="Assets\Resources\Scripts\DeviceWallModel.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel1.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel2.js" />
+     <Compile Include="Assets\Resources\Scripts\GameLevel3.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial1.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial2.js" />
@@ -86,6 +87,7 @@
      <Compile Include="Assets\Resources\Scripts\MonsterBossTentacle.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterBossTentacleArm.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterModel.js" />
+     <Compile Include="Assets\Resources\Scripts\MonsterWorm.js" />
      <Compile Include="Assets\Resources\Scripts\PortalModel.js" />
      <Compile Include="Assets\Resources\Scripts\Selector.js" />
      <Compile Include="Assets\Resources\Scripts\SelectorModel.js" />
@@ -111,7 +113,9 @@
      <None Include="Assets\Levels\wd.txt" />
      <None Include="Assets\Levels\Plain3End.txt" />
      <None Include="Assets\Levels\Plain2End.txt" />
+     <None Include="Assets\Levels\Plain5Tri.txt" />
      <None Include="Assets\Levels\rooma.txt" />
+     <None Include="Assets\Levels\Hole2Adj.txt" />
      <None Include="Assets\Levels\Plain4Cross.txt" />
      <None Include="Assets\Levels\room3.txt" />
      <None Include="Assets\Levels\Plain2Cross.txt" />
@@ -143,6 +147,7 @@
      <None Include="Assets\Levels\room4.txt" />
      <None Include="Assets\Levels\Hole4Tri.txt" />
      <None Include="Assets\Levels\Plain4Opp.txt" />
+     <None Include="Assets\Levels\Hole5Tri.txt" />
      <None Include="Assets\Levels\portalRoom.txt" />
      <None Include="Assets\Levels\room1.txt" />
   </ItemGroup>

@@ -1,15 +1,35 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/PortalModel.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.js">
     <Files>
-      <File FileName="Assets/Resources/Scripts/CameraMovement.js" Line="55" Column="18" />
-      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="62" Column="12" />
+      <File FileName="Assets/Resources/Scripts/PortalModel.js" Line="23" Column="85" />
+      <File FileName="Assets/Resources/Scripts/CameraMovement.js" Line="36" Column="1" />
       <File FileName="Assets/controlScreen.js" Line="1" Column="1" />
-      <File FileName="Assets/StartScript.js" Line="43" Column="38" />
-      <File FileName="Assets/LevelCompleteScript.js" Line="24" Column="17" />
+      <File FileName="Assets/StartScript.js" Line="51" Column="4" />
+      <File FileName="Assets/LevelCompleteScript.js" Line="25" Column="6" />
       <File FileName="Assets/EndScript.js" Line="1" Column="1" />
       <File FileName="Assets/Resources/Scripts/Device.js" Line="46" Column="27" />
-      <File FileName="Assets/Resources/Scripts/PortalModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/PortalModel.js" Line="32" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CakeModel.js" Line="2" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LobbyManager.js" Line="21" Column="37" />
+      <File FileName="Assets/Resources/Scripts/GameLevel1.js" Line="11" Column="26" />
+      <File FileName="Assets/Resources/Scripts/GameLevel2.js" Line="72" Column="17" />
+      <File FileName="Assets/Resources/Scripts/GameLevel3.js" Line="32" Column="19" />
+      <File FileName="Assets/Resources/Scripts/Cake.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Character.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/CharacterModel.js" Line="701" Column="3" />
+      <File FileName="Assets/Resources/Scripts/Landing.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LevelEditorCamera.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Monster.js" Line="94" Column="3" />
+      <File FileName="Assets/Resources/Scripts/GameManager.js" Line="69" Column="4" />
+      <File FileName="Assets/Resources/Scripts/SpawnPointModel.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/Tile.js" Line="50" Column="1" />
+      <File FileName="Assets/Resources/Scripts/LevelManager.js" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/GameTutorial1.js" Line="20" Column="21" />
+      <File FileName="Assets/Resources/Scripts/GameTutorial2.js" Line="59" Column="43" />
+      <File FileName="Assets/Resources/Scripts/GameTutorial3.js" Line="1" Column="1" />
+      <File FileName="Assets/Levels/Plain2Tri.txt" Line="1" Column="1" />
+      <File FileName="Assets/Levels/Plain3Tri.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

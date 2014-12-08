@@ -20,7 +20,7 @@ function init(own : Device, n : int) {
 
 // Update is called once per frame
 function Update () {
-	transform.eulerAngles.z += .1+ 8*Mathf.Abs(3*Mathf.Sin(Time.time));
+	transform.eulerAngles.z += Time.deltaTime*400+ 8*Mathf.Abs(Mathf.Sin(3*Time.time + levelNum));
 }
 
 function OnTriggerEnter(col:Collider){
