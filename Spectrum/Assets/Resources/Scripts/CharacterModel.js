@@ -347,38 +347,43 @@ function Update () {
 	 } 
 		
 	}
-	if (Input.GetKeyUp("w")){
+/*	if (Input.GetKeyUp("w")){
 		 moveN = false;
 		 Manager.theCamera.GetComponent(CameraMovement).moveN = false;
-	}
-	if (Input.GetKeyDown("w")) {
+	}*/
+	if (Input.GetKey("w")) {
 		moveN = true;
 		Manager.theCamera.GetComponent(CameraMovement).moveN = true;
 	}	
-	if (Input.GetKeyUp("a")){
+	else moveN = false;
+	/*if (Input.GetKeyUp("a")){
 		moveW = false;
 		Manager.theCamera.GetComponent(CameraMovement).moveW = false;	
-	}
-	if (Input.GetKeyDown("a")){
+	}*/
+	if (Input.GetKey("a")){
 		 moveW = true;
 		 Manager.theCamera.GetComponent(CameraMovement).moveW = true;
 		}
-	if (Input.GetKeyUp("s")){
+	else moveW = false;
+	
+	/*if (Input.GetKeyUp("s")){
 		moveS = false;
 		Manager.theCamera.GetComponent(CameraMovement).moveS = false;
-	}
-	if (Input.GetKeyDown("s")) {
+	}*/
+	if (Input.GetKey("s")) {
 		moveS = true;
 		Manager.theCamera.GetComponent(CameraMovement).moveS = true;
-	}		
-	if (Input.GetKeyUp("d")) {
+	}
+	else moveS = false;	
+	/*if (Input.GetKeyUp("d")) {
 		moveE = false;
 		Manager.theCamera.GetComponent(CameraMovement).moveE = false;
-	}
-	if (Input.GetKeyDown("d")) {
+	}*/
+	if (Input.GetKey("d")) {
 		moveE = true;
 		Manager.theCamera.GetComponent(CameraMovement).moveE = true;
 	}
+	else moveE = false;
 	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Walking", true);
 	/*rotateL = false;
 	rotateR = false;
@@ -390,31 +395,8 @@ function Update () {
     		rotateR = true;
 			Manager.theCamera.GetComponent(CameraMovement).rotateR = true;
 	}*/
-	if (Input.GetKeyUp("right")){
-		if (!rotateR){
-			rotateL = false;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = false;
-		}
-	}
-	if (Input.GetKeyDown("right")) {
-		if (!rotateR){
-			rotateL = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = true;
-		}
-	}		
-	if (Input.GetKeyUp("left")) {
-		if(!rotateL){
-			rotateR = false;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = false;
-		}
-	}
-	if (Input.GetKeyDown("left")) {
-		if(!rotateL){
-			rotateR = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = true;
-		}
-	}
-	if (Input.GetKeyDown("f")){
+	
+	if (Input.GetKey("f")){
 	
 	//	castSpell();
 	}

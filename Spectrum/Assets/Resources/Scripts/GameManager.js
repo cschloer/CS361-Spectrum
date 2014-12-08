@@ -147,7 +147,7 @@ function addCharacter(x : float , y : float) {
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 	
 	//Test spawns
-	//addBossTentacle(2, 2, character);
+	addBoss(2, 2, character);
 	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
 }
 

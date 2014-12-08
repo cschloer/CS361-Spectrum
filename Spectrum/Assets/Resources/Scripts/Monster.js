@@ -33,8 +33,10 @@ public class Monster extends MonoBehaviour
 	var heartOpacity : float = 1.0; //Change heart opacity
 	var heartScale : float = .4; //Change size of hearts
 	var heartOffset : float; //Change vertical offset of hearts (For large enemies. Defaults to boxCollider size.)
+	var isBoss:boolean;
 	public function init(c : Character) {
 		color = "random";
+		isBoss = false;
 		activateDistance = 10;
 		invincible = false;
 		charging = false;
@@ -275,7 +277,7 @@ public class Monster extends MonoBehaviour
 			flee(2, hurtRecovery); //Might want to be taken out and added only for specific monsters (by overriding hurt)
 			health--;
 			hurting = true;
-			model.renderer.material.color = Color(.5,.5,.5);
+			model.renderer.material.color = model.renderer.material.color+ Color(-.5,-.5,-.5);
 			
 			var t : float = hurtRecovery;
 			while (t > 0 && health > 0){
@@ -283,7 +285,7 @@ public class Monster extends MonoBehaviour
 				yield;
 			}
 			hurting = false;
-			model.renderer.material.color = Color(1,1,1);
+			model.renderer.material.color = model.renderer.material.color+ Color(.5,.5,.5);
 		}
 			
 	}
