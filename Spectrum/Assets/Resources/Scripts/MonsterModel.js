@@ -9,17 +9,18 @@ function Update () {
 }
 function OnTriggerEnter(col:Collider){
 		//print (col.gameObject.name);
-		if(!monster.invincible && col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && !monster.hurting && monster.health > 0){
-			monster.hurt();
+		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && monster.health > 0){
+			if (!monster.hurting && !monster.invincible)
+				monster.hurt();
 			col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).hasHit();
 			//col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.hasHit = true;
 		}
-		if (col.gameObject.name.Contains("Mine")){ // If it runs into a mine, damage it
+		if (col.gameObject.name.Contains("Mine") && !monster.isBoss){ // If it runs into a mine, damage it
 		//var mine:SpellMine = col.gameObject.GetComponent(SpellMine).monster;
 		monster.hurt();
 		//destroyMe();
 		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
-	}
+		}
 		if(col.gameObject.name.Contains("HeroAttack") && !monster.hurting && monster.health > 0){
 			monster.hurt();
 		}

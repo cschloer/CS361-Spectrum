@@ -19,7 +19,7 @@ public class Monster3 extends Monster {
 	function act(){
 		turnToHero(4);
 		move(1.2);
-		if(hero.weapon.swinging && !dodging && !hasDodgedThisSwing) dodge(.3, 6);
+		if((hero.weapon.swinging || hero.model.attacking) && !dodging && !hasDodgedThisSwing) dodge(.3, 6);
 		if(!dodging && hasDodgedThisSwing && !hero.weapon.swinging) hasDodgedThisSwing = false;
 		if(distanceToHero() < 1.5 && lastAttack < 0 && !dodging){
 			simpleMelee();

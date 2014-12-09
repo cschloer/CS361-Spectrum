@@ -38,7 +38,7 @@ var heroScale : float; //tracks size of hero in float form
 var cakesCollected : int;
 var frozen : boolean;
 var isPushed : boolean = false;
-
+ var attacking : boolean;
 // Mechanics
 var rolling:boolean;
 var jumping:boolean;
@@ -145,6 +145,8 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
+	
+
 	
 
 }
@@ -347,38 +349,43 @@ function Update () {
 	 } 
 		
 	}
-	if (Input.GetKeyUp("w")){
+/*	if (Input.GetKeyUp("w")){
 		 moveN = false;
 		 Manager.theCamera.GetComponent(CameraMovement).moveN = false;
-	}
-	if (Input.GetKeyDown("w")) {
+	}*/
+	if (Input.GetKey("w")) {
 		moveN = true;
 		Manager.theCamera.GetComponent(CameraMovement).moveN = true;
 	}	
-	if (Input.GetKeyUp("a")){
+	else moveN = false;
+	/*if (Input.GetKeyUp("a")){
 		moveW = false;
 		Manager.theCamera.GetComponent(CameraMovement).moveW = false;	
-	}
-	if (Input.GetKeyDown("a")){
+	}*/
+	if (Input.GetKey("a")){
 		 moveW = true;
 		 Manager.theCamera.GetComponent(CameraMovement).moveW = true;
 		}
-	if (Input.GetKeyUp("s")){
+	else moveW = false;
+	
+	/*if (Input.GetKeyUp("s")){
 		moveS = false;
 		Manager.theCamera.GetComponent(CameraMovement).moveS = false;
-	}
-	if (Input.GetKeyDown("s")) {
+	}*/
+	if (Input.GetKey("s")) {
 		moveS = true;
 		Manager.theCamera.GetComponent(CameraMovement).moveS = true;
-	}		
-	if (Input.GetKeyUp("d")) {
+	}
+	else moveS = false;	
+	/*if (Input.GetKeyUp("d")) {
 		moveE = false;
 		Manager.theCamera.GetComponent(CameraMovement).moveE = false;
-	}
-	if (Input.GetKeyDown("d")) {
+	}*/
+	if (Input.GetKey("d")) {
 		moveE = true;
 		Manager.theCamera.GetComponent(CameraMovement).moveE = true;
 	}
+	else moveE = false;
 	if (moveE || moveN || moveS || moveW) character.anim.SetBool("Walking", true);
 	/*rotateL = false;
 	rotateR = false;
@@ -390,31 +397,8 @@ function Update () {
     		rotateR = true;
 			Manager.theCamera.GetComponent(CameraMovement).rotateR = true;
 	}*/
-	if (Input.GetKeyUp("right")){
-		if (!rotateR){
-			rotateL = false;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = false;
-		}
-	}
-	if (Input.GetKeyDown("right")) {
-		if (!rotateR){
-			rotateL = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateL = true;
-		}
-	}		
-	if (Input.GetKeyUp("left")) {
-		if(!rotateL){
-			rotateR = false;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = false;
-		}
-	}
-	if (Input.GetKeyDown("left")) {
-		if(!rotateL){
-			rotateR = true;
-			Manager.theCamera.GetComponent(CameraMovement).rotateR = true;
-		}
-	}
-	if (Input.GetKeyDown("f")){
+	
+	if (Input.GetKey("f")){
 	
 	//	castSpell();
 	}
@@ -754,6 +738,7 @@ function OnTriggerEnter(col:Collider){
 		cakesCollected++;
 		cakeSound.Play();
 	}
+
 }
 /*
 function OnTriggerStay(col:Collider){
@@ -839,7 +824,9 @@ function landing(){
 	}			
 	else {
 		if (monsterHere){
-			if (comboSmall2){
+			// Jump on head code
+			
+			/*if (comboSmall2){
 				comboSmall3 = true;
 
 				character.weapon.spin(.5, .7, 110);
@@ -860,7 +847,7 @@ function landing(){
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 			vincible = false;													// Player invincible without passing through walls.
 			character.modelObject.layer = 6;	// Allows player to jump through cliffs.
-			
+			*/
 				
 		
 		
@@ -976,7 +963,7 @@ function fallDeath(aim: Vector3){
 
 	var counter:float = 0;
 	while (counter < 1){
-		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime*5);
 		frozen = true;
 		//heroScale-=Time.deltaTime*.5;
 		counter+= Time.deltaTime;

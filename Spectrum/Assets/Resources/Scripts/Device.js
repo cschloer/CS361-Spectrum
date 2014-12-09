@@ -36,7 +36,15 @@ function init(t: String, manager: GameManager, numA : int, numB : int) {	// NumA
 		var amodel = modelObject.AddComponent("SpawnPointModel");			// Add a script to control direction of the unit.
 		amodel.name = "Spawn Point";
 		amodel.init(this, manager, numA);
-	} else {
+	}else if (type == "portal"){
+		var pmodel = modelObject.AddComponent("PortalModel");			// Add a script to control direction of the unit.
+		pmodel.name = "Portal";
+		modelObject.AddComponent(BoxCollider);
+		modelObject.GetComponent(BoxCollider).name = "cakes";
+		modelObject.GetComponent(BoxCollider).isTrigger = true;
+		modelObject.GetComponent(BoxCollider).size = Vector3(1,1,10);
+		pmodel.init(this, numA);  
+	}else {
 		model = modelObject.AddComponent("DeviceWallModel");			// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.

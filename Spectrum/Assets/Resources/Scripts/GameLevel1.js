@@ -2,6 +2,10 @@
 
 public class GameLevel1 extends GameManager {
 
+function Start(){
+	super.Start();
+	explosionWorm1.gameObject.SetActive(false);
+}
 
 function levelInit(){
   roomCreate(-10,-10,0,"Plain1End.txt");
@@ -37,10 +41,12 @@ function levelInit(){
   charSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   currentLevel=4;
-  
-  //addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,9);
+  levelNumber = 1;
+  addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,3);
 
-  
+  addCircle(0);
+	addCircle(1);
+	addCircle(2);
 }
 
 function addBoss(x : float, y :float, c : Character){

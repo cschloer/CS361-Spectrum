@@ -72,6 +72,14 @@ function Update () {
 		win();
 	}
 	if(changeTime > 6) displayText = "Explore all the color combinations!";
+	
+	var cams : Array = Camera.allCameras;
+	//print(cams.length);
+	for(var cam : Camera in cams){
+		cam.transform.position.x = character.model.transform.position.x;
+		cam.transform.position.y = character.model.transform.position.y;
+		if (cam != Camera.main) cam.transform.position.z = -20;
+		}
 }
 function OnGUI() {
 	super.OnGUI();

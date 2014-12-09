@@ -19,6 +19,7 @@ public class MonsterBossTentacle extends Monster{
 	var sprend : SpriteRenderer;
 
 	function init(c: Character, p:Vector3){
+		isBoss = true;
 		color = "random";
 		charging = false;
 		fleeing = false;
@@ -66,9 +67,9 @@ public class MonsterBossTentacle extends Monster{
 		bulletFolder.name = "Bullets";
 		bulletFolder.transform.parent = transform;
 		
-		minionFolder = new GameObject();
+		/*minionFolder = new GameObject();
 		minionFolder.name = "Minions";
-		minionFolder.transform.parent = transform;
+		minionFolder.transform.parent = transform;*/
 		
 		waitToActivate();
 		addHearts();
@@ -77,7 +78,7 @@ public class MonsterBossTentacle extends Monster{
 		phaseTime = 0;
 		isStraight = true;
 		rooted = p;
-		health = 6;
+		health = 10;
 		super.manager = c.manager;
 		model.renderer.material.mainTexture = Resources.Load("Textures/bossTentacle", Texture2D);	// Set the texture.  Must be in Resources folder.
 		setSize(2, 2.5);
@@ -85,8 +86,8 @@ public class MonsterBossTentacle extends Monster{
 		//Add sound
 //		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
 //		metalSound.clip = Resources.Load("Sounds/metalSound") as AudioClip;
-		weakspot = createMinion("weakspot");
-		weakspot.setTexture("yellowBlob");
+		//weakspot = createMinion("weakspot");
+		//weakspot.setTexture("yellowBlob");
 		showingSpot = false;
 		shielding = false;
 		metalSound = gameObject.AddComponent("AudioSource") as AudioSource;
@@ -95,7 +96,7 @@ public class MonsterBossTentacle extends Monster{
 		chargeSound.clip = Resources.Load("Sounds/bigHiss") as AudioClip;
 		squirtSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		squirtSound.clip = Resources.Load("Sounds/squirt") as AudioClip;
-		invincible = true;
+		//invincible = true;
 		
 		tentacleFolder = new GameObject();
 		tentacleFolder.transform.parent = transform;
@@ -165,14 +166,14 @@ public class MonsterBossTentacle extends Monster{
 		if (!isActive){
 			if (super.distanceToHero() > 10) return;
 			//explodeArea();
-			switchPhase();
+			//switchPhase();
 			isActive = true;
 		}
 		if (phaseTime > 10) switchPhase();
 		phaseTime += Time.deltaTime;
 		super.model.transform.position = rooted; // root in place
 		if(angleToHero() > 2 && angleToHero() < 358) turnToHero(2);
-		if (!isStraight){
+		if (isStraight){
 			if(Random.value > 0.975){
 				turretAttack();
 				}
@@ -197,7 +198,7 @@ public class MonsterBossTentacle extends Monster{
 			yield WaitForSeconds(deltaExplode);
 		
 		}
-		if (isStraight) {
+		if (!isStraight) {
 				yield WaitForSeconds(.5);
 				explodeArea();
 		
@@ -240,13 +241,13 @@ public class MonsterBossTentacle extends Monster{
 			
 	}
 	
-	function minionCollision(minion : Minion, col : Collider){
+	/*function minionCollision(minion : Minion, col : Collider){
 		if(col.gameObject.name.Contains("WeaponObject") && col.gameObject.transform.parent.gameObject.GetComponent(WeaponModel).weapon.swinging && !hurting && health > 0 && !shielding){
 			invincible = false;
 			hurt();
 			invincible = true;
 		}
-	}
+	}*/
 	
 	function switchPhase(){
 		phaseTime = 0;
@@ -267,7 +268,7 @@ public class MonsterBossTentacle extends Monster{
 			}
 			super.model.renderer.material.color.r = 0;
 			super.model.renderer.material.color.g = 0;
-			explodeArea();
+			
 		}
 		else {
 			isStraight = false;
@@ -285,7 +286,7 @@ public class MonsterBossTentacle extends Monster{
 			}
 			super.model.renderer.material.color.r = 1;
 			super.model.renderer.material.color.g = 1;
-			
+			explodeArea();
 			
 		}	
 	

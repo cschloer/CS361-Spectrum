@@ -7,7 +7,7 @@ var displayText : String;
 function levelInit(){
   roomCreate(-10,-10,0,"Plain3End.txt");
   roomCreate(-10, 10,1,"Plain3Adj.txt");
-  roomCreate( 10, 10,0,"Plain3Tri.txt");
+  roomCreate( 10, 10,3,"Plain3Tri.txt");
   roomCreate( 30, 10,3,"Plain2End.txt");
   roomCreate( 10, 30,0,"Plain4Opp.txt");
   addDevice(19.5,28.5,"barrier", 3, 7);
@@ -61,7 +61,7 @@ function Update () {
 			else{
 			  winScreen = false;
 			  loseScreen = false;
-			  Application.LoadLevel("LevelComplete");
+			  Application.LoadLevel("LevelTutorial2");
 			}
 		}
 		return;
@@ -80,6 +80,14 @@ function Update () {
 	if(boss == null && clock > 1){
 		win();
 	}
+	
+	var cams : Array = Camera.allCameras;
+	//print(cams.length);
+	for(var cam : Camera in cams){
+		cam.transform.position.x = character.model.transform.position.x;
+		cam.transform.position.y = character.model.transform.position.y;
+		if (cam != Camera.main) cam.transform.position.z = -20;
+		}
 }
 
 function OnGUI() {

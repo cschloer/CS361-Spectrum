@@ -32,7 +32,6 @@ var mouseWorldSpace:Vector3;
 
 function Start () {
 	
-
 	//Manager = this.gameObject.transform.parent.GetComponent(GameManager);
 	character = Manager.character.model;
 	
@@ -53,7 +52,7 @@ function Start () {
 	curY = character.transform.position.y;
 	this.transform.position.x = character.transform.position.x;
 	this.transform.position.y = character.transform.position.y;
-	
+	//if(currentLevel)
 }
 
 function Update(){
