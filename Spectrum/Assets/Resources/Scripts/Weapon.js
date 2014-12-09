@@ -305,6 +305,7 @@ public class Weapon extends MonoBehaviour{
  		time = time*1.5;
  		canThrow = false;
  		swinging = true;
+ 		character.model.attacking = true;
  		model.transform.parent = null;
  		if (rotation == 0) {
  			var heading : Vector3 = owner.model.transform.up;
@@ -332,7 +333,8 @@ public class Weapon extends MonoBehaviour{
  			model.transform.position += (heading * tossSpeed * Time.deltaTime);//+moveAdder; // i think move adder isn't needed for these 
  			yield;
  		}
- 		
+ 		character.model.attacking = false;
+
  		swinging = false;
  		if(hitWall) playSound(metalSound);
  		hitWall = false;
@@ -369,12 +371,15 @@ public class Weapon extends MonoBehaviour{
  		var t : float = 0;
  		//Swinging motion
  		recovering = true;
+ 		character.model.attacking = true;
  		while (t < time){
  				t += Time.deltaTime;
  				model.transform.RotateAround(model.transform.position, Vector3.forward, 1.25*angle/time * Time.deltaTime);
  				model.transform.RotateAround(model.transform.position, Vector3(Mathf.Cos(character.model.transform.eulerAngles.x), Mathf.Sin(character.model.transform.eulerAngles.x),0), .9*angle/time * Time.deltaTime);			
  				yield;
  		}
+ 		character.model.attacking = false;
+
  		clubSwinging = false;
 		clubStrike();
 		playSound(clubSound);

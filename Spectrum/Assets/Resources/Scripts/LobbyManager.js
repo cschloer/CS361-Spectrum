@@ -18,7 +18,10 @@ function levelInit(){
   if (currentLevel < 2) addDevice(1.5,-3,"barrier", 3, 10);
   if (currentLevel < 3) addDevice(6.5,-3,"barrier", 3, 10);
   if (currentLevel < 4) addDevice(11.5,5,"barrier", 3, 10);
-  addDevice (5, -5, "portal", 2, 0);
+  addDevice (-4, 7, "portal", 1, 0);
+  addDevice (-1, 7, "portal", 2, 0);
+  addDevice (4, 7, "portal", 3, 0);
+  addDevice (-4, 11, "portal", 4, 0);
 
 
   //addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,9);

@@ -120,7 +120,7 @@ public class MonsterWorm extends Monster{
 			undergroundTime -= Time.deltaTime;
 			turnToHero(3);
 			move();
-			if(Random.value > .90) smallCloud();
+			if(Random.value > .80) smallCloud();
 			if(undergroundTime < 0){
 				jump();
 			}
@@ -183,6 +183,8 @@ public class MonsterWorm extends Monster{
 		explosionParticle.transform.position.z = 10;
 		explosionParticle.gameObject.SetActive(true);
 		emergeAttack();
+		yield WaitForSeconds(1);
+		Destroy(explosionParticle.gameObject);
 
 	}
 	
@@ -193,6 +195,8 @@ public class MonsterWorm extends Monster{
 		explosionParticle.transform.position = model.transform.position;
 		explosionParticle.transform.position.z = 10;
 		explosionParticle.gameObject.SetActive(true);
+		yield WaitForSeconds(1);
+		Destroy(explosionParticle.gameObject);
 	}
 	
 	function lighting(){
@@ -202,17 +206,44 @@ public class MonsterWorm extends Monster{
 			super.lighting();
 		}
 	}
+	/* 
+	//Without splitting functionality:
 	public function hurt(){
 		ejectPiece();
 		if(numBehind == 0 && isFront) super.hurt();
 		else if(isFront){
-			passDown();
+			passHurtDown();
 		}
-		else passUp();
+		else passHurtUp();
+		
+	}
+	*/
+	
+	public function hurt(){
+		ejectPiece();
+		if(numBehind == 0 && isFront) super.hurt();
+		else if(isFront){
+			passHurtDown();
+		}
+		else if(numBehind == 0) passHurtUp();
+		else{
+			split();
+			head.passSplitUp(0);
+		}
 		
 	}
 	
-	function passDown(){
+	function split(){
+		isFront = true;
+		undergroundTime = Random.value*4 + 2;
+	}
+	function passSplitUp(n : int){
+		numBehind = n;
+		if(!isFront)
+			head.passSplitUp(n+1);
+	}
+	
+	function passHurtDown(){
 		numBehind--;
 		if(numBehind == 0){
 			Destroy(tail.gameObject);
@@ -220,13 +251,13 @@ public class MonsterWorm extends Monster{
 			ejectPiece();
 		} else{
 			if(tail != null)
-				tail.passDown();
+				tail.passHurtDown();
 		}
 	}
 	
-	function passUp(){
-		if(isFront) passDown();
-		else head.passUp();
+	function passHurtUp(){
+		if(isFront) passHurtDown();
+		else head.passHurtUp();
 	}
 	
 	function screech(){

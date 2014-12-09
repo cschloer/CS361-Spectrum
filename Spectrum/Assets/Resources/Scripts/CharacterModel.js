@@ -38,7 +38,7 @@ var heroScale : float; //tracks size of hero in float form
 var cakesCollected : int;
 var frozen : boolean;
 var isPushed : boolean = false;
-
+ var attacking : boolean;
 // Mechanics
 var rolling:boolean;
 var jumping:boolean;
@@ -145,6 +145,8 @@ function Start () {
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
+	
+
 	
 
 }
