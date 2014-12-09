@@ -19,7 +19,7 @@ function Start () {
 	if(levelNum < 1){
 		levelName = "LevelTutorial1";
 	}else{
-		levelName = "Lobby";
+		levelName = "Level" + levelNum;
 	}
 }
 
@@ -49,6 +49,8 @@ function OnGUI() {
 			overwrite.Write("currentLevel:-1");
 			overwrite.Close();
 			displayErase = false;
+			levelNum = -1;
+			levelName = "LevelTutorial1";
 
 		}
 		if(GUI.Button (Rect((Screen.width/10)*5.57, (Screen.height*.55), Screen.width/5, Screen.height/8), "Nevermind!")){

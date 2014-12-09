@@ -109,6 +109,7 @@ function Update () {
 		if (losewinTimer >= 2) {
 			winScreen = false;
 			loseScreen = false;
+			paused = false;
 			Application.LoadLevel("LevelComplete");
 
 		}
@@ -152,7 +153,7 @@ function addCharacter(x : float , y : float) {
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 	
 	//Test spawns
-	addBoss(2, 2, character);
+	//addBoss(2, 2, character);
 	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
 }
 
@@ -694,6 +695,7 @@ function OnGUI() {
 		GUI.skin.box.fontSize = 26;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-75,300,150), "Paused!");
 		if (GUI.Button (Rect((Screen.width/10)*8, (Screen.height/10*9), Screen.width/10, Screen.height/10), "Exit")) {
+			paused = false;
         	Application.LoadLevel("Start");
     	}
 	} else if (character.dead){
