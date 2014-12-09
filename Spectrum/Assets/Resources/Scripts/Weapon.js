@@ -341,13 +341,17 @@ public class Weapon extends MonoBehaviour{
  		hasHit = false;
  		var t:float=0;
  		
+ 		
+ 		
  	
  		
  		while (t < recovery){
  			t += Time.deltaTime;
+ 			model.renderer.material.color.a = 1-(t/1);
  			yield;
  		}
  		swinging = false;
+
  		/*model.transform.position = owner.model.transform.position;
 		model.transform.parent = owner.model.transform;
 		model.transform.localEulerAngles = baseRotation;
@@ -628,6 +632,7 @@ function tossBoomerang(distance : float, time : float, spinSpeed : float, recove
 	}
 	
 	function starActive(){
+		model.renderer.material.color.a = 1;
 		canThrow = true;
 		swinging = false;
 		

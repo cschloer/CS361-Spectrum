@@ -44,6 +44,13 @@ var levelNumber : int;
 // Start
 // Called once when the script is created.
 function Start () {
+
+
+// Camera size! Original was 5, see how you like this
+	theCamera.camera.orthographicSize = 8;
+
+
+
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
 	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	explosionGreen.gameObject.SetActive(false); // make it inactive in beginning

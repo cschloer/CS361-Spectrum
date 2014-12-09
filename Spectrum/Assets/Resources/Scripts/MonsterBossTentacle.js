@@ -78,7 +78,7 @@ public class MonsterBossTentacle extends Monster{
 		phaseTime = 0;
 		isStraight = true;
 		rooted = p;
-		health = 6;
+		health = 10;
 		super.manager = c.manager;
 		model.renderer.material.mainTexture = Resources.Load("Textures/bossTentacle", Texture2D);	// Set the texture.  Must be in Resources folder.
 		setSize(2, 2.5);
@@ -166,14 +166,14 @@ public class MonsterBossTentacle extends Monster{
 		if (!isActive){
 			if (super.distanceToHero() > 10) return;
 			//explodeArea();
-			switchPhase();
+			//switchPhase();
 			isActive = true;
 		}
 		if (phaseTime > 10) switchPhase();
 		phaseTime += Time.deltaTime;
 		super.model.transform.position = rooted; // root in place
 		if(angleToHero() > 2 && angleToHero() < 358) turnToHero(2);
-		if (!isStraight){
+		if (isStraight){
 			if(Random.value > 0.975){
 				turretAttack();
 				}
@@ -198,7 +198,7 @@ public class MonsterBossTentacle extends Monster{
 			yield WaitForSeconds(deltaExplode);
 		
 		}
-		if (isStraight) {
+		if (!isStraight) {
 				yield WaitForSeconds(.5);
 				explodeArea();
 		
@@ -268,7 +268,7 @@ public class MonsterBossTentacle extends Monster{
 			}
 			super.model.renderer.material.color.r = 0;
 			super.model.renderer.material.color.g = 0;
-			explodeArea();
+			
 		}
 		else {
 			isStraight = false;
@@ -286,7 +286,7 @@ public class MonsterBossTentacle extends Monster{
 			}
 			super.model.renderer.material.color.r = 1;
 			super.model.renderer.material.color.g = 1;
-			
+			explodeArea();
 			
 		}	
 	

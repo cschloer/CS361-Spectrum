@@ -824,7 +824,9 @@ function landing(){
 	}			
 	else {
 		if (monsterHere){
-			if (comboSmall2){
+			// Jump on head code
+			
+			/*if (comboSmall2){
 				comboSmall3 = true;
 
 				character.weapon.spin(.5, .7, 110);
@@ -845,7 +847,7 @@ function landing(){
 			modelObject.GetComponent(BoxCollider).center.z = modelObject.GetComponent(BoxCollider).center.z - 5;
 			vincible = false;													// Player invincible without passing through walls.
 			character.modelObject.layer = 6;	// Allows player to jump through cliffs.
-			
+			*/
 				
 		
 		
