@@ -17,6 +17,10 @@ function OnTriggerEnter(col:Collider){
 			if (weapon.tossSpeed < 25) weapon.tossSpeed *= 2; // doubles the speed of the throw, but not too much
 		 	if (weapon.tossTime > 0) weapon.tossTime -= .25;
 		 } 
+		if(col.gameObject.name.Contains("Explode") && !weapon.owner.model.yellow && weapon.swinging) {
+			if (weapon.tossSpeed < 25) weapon.tossSpeed *= 2; // doubles the speed of the throw, but not too much
+		 	if (weapon.tossTime > 0) weapon.tossTime -= .25;
+		 } 
 	
 		 if(col.gameObject.name.Contains("Monster") && weapon.isBoomerang && weapon.swinging &&  weapon.chargingBoomTimer >= 2){
 		  	makeExplosion();

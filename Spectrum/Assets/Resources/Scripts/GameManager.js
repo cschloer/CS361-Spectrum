@@ -72,7 +72,7 @@ function Start () {
 	levelInit();
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
 	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
-	/*
+/*	
 	addCircle(0);
 	addCircle(1);
 	addCircle(2);
@@ -159,7 +159,7 @@ function addCharacter(x : float , y : float) {
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 	
 	//Test spawns
-	//addBoss(2, 2, character);
+	addBossSMASH(2, 2, character);
 	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
 }
 
@@ -260,6 +260,9 @@ function addMonster(x : float, y :float, c : Character, type: int, data : float)
 		case 11:
 			monsterScript = monsterObject.AddComponent("MonsterWorm");
 			break;
+		case 12: 
+			monsterScript = monsterObject.AddComponent("Monster12");
+			break;
 		default:
 			monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
 	}
@@ -290,6 +293,22 @@ function addBoss(x : float, y :float, c : Character){
 	monsterScript.manager = this;
 
 	return monsterScript;
+}
+
+function addBossSMASH(x:float, y:float, c:Character){
+	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
+	var monsterScript;
+	monsterScript = monsterObject.AddComponent("MonsterBossSmash");		// Add the monster.js script to the object.
+	
+	monsterScript.transform.parent = monsterFolder.transform;
+	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								
+	
+	monsterScript.init(character, Vector3(x,y,0));
+	boss = monsterScript;
+	monsterScript.name = "BossSmash";
+	
+
+
 }
 
 function addBossTentacle(x:float, y:float, c:Character){

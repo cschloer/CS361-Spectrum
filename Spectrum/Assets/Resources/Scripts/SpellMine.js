@@ -13,8 +13,10 @@ var cycles:int; // how many blinking cycles it's gone through
 var destroying:boolean;
 var time:float;
 var ice:boolean;
+var isBig:boolean;
 
 function init(x:float, y:float, m:GameObject, c:CharacterModel, t:float){
+	isBig = false;
 	ice = false;
 	destroying = false;
 	resetCool = true;
@@ -46,6 +48,7 @@ function init(x:float, y:float, m:GameObject, c:CharacterModel, t:float){
 
 
 function init(pos:Vector3, m:GameObject, t:float, c:CharacterModel){
+	isBig = false;
 	ice = true;
 	destroying = false;
 	resetCool = true;
@@ -106,6 +109,8 @@ function OnDrawGizmos() {
 
 
 
+
+
 function destroyMe(){
 	if (destroying) return;
 	this.renderer.enabled = false;
@@ -117,6 +122,11 @@ function destroyMe(){
 	explosionParticle.transform.parent = transform;
 	explosionParticle.transform.localPosition = Vector3(0,0,0);
 	explosionParticle.gameObject.SetActive(true);
+	if (isBig) {
+		explosionParticle.transform.localScale = Vector3(2,2,2);
+		modelObject.GetComponent(BoxCollider).size = Vector3(colliderSize*2*2,colliderSize*2*2,4); // Collider gets bigger in explosion
+	}
+	
 	yield WaitForSeconds(1);
 	if (resetCool && time !=0) { // if the cooldown hasn't been reset yet, this mine was destroyed very early. Remove mine visually and wait before resetting cooldown.
 		yield WaitForSeconds(.5-clock);

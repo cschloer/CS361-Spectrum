@@ -167,6 +167,8 @@ public class MonsterBossTentacle extends Monster{
 			if (super.distanceToHero() > 10) return;
 			//explodeArea();
 			//switchPhase();
+			super.model.renderer.material.color.r = 0;
+			super.model.renderer.material.color.g = 0;
 			isActive = true;
 		}
 		if (phaseTime > 10) switchPhase();
@@ -226,7 +228,7 @@ public class MonsterBossTentacle extends Monster{
 
 			health--;
 			hurting = true;
-			model.renderer.material.color = Color(.5,.5,.5);
+			model.renderer.material.color = model.renderer.material.color+ Color(-.5,-.5,-.5);
 			anim.SetBool("Blinking", true);
 
 			var t : float = hurtRecovery;
@@ -236,7 +238,7 @@ public class MonsterBossTentacle extends Monster{
 			}
 			hurting = false;
 			anim.SetBool("Blinking", false);
-			model.renderer.material.color = Color(1,1,1);
+			model.renderer.material.color = model.renderer.material.color+ Color(.5,.5,.5);
 		}
 			
 	}
