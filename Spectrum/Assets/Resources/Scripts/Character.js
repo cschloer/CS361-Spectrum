@@ -170,6 +170,7 @@ function checkHealth(){
 		t += Time.deltaTime;
 		model.renderer.material.color.a = 1-(t/2);
 		weapon.model.renderer.material.color.a = 1-(t/2);
+		model.stopMovement();
 		yield;
 	}
 	dead = true;
