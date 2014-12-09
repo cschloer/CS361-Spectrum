@@ -7,6 +7,9 @@
 var owner : Device;
 var manager : GameManager;
 var type : int;
+var yellow : boolean;
+var red: boolean;
+var blue: boolean;
 
 function init(own : Device, man : GameManager, type : int) {
 	this.type = type;
@@ -32,6 +35,13 @@ function spawn(){
 		manager.addBoss(transform.position.x,transform.position.y, manager.character);
 	} else{
 		manager.addCharacter(transform.position.x, transform.position.y);
+		if (red) {
+			manager.character.model.changeRed();
+		}if (blue) {
+			manager.character.model.changeBlue();
+		}if (yellow) {
+			manager.character.model.changeYellow();
+		}
 		
 	}
 }

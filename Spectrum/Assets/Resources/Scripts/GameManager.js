@@ -805,7 +805,7 @@ function OnGUI() {
 	var currentCakes = character.model.cakesCollected;
 	
 	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
-	GUI.DrawTexture(Rect(width1, (Screen.height/4)*3, Screen.height/3, Screen.height/4), textCake, ScaleMode.StretchToFill, true, 0);
+	GUI.DrawTexture(Rect(width1, (Screen.height/5)*4, Screen.height/5, Screen.height/5), textCake, ScaleMode.ScaleToFit, true, 0);
 	
 	// ----------> Throwing Stars
 

@@ -734,6 +734,9 @@ function OnTriggerEnter(col:Collider){
 	
 	if(col.gameObject.name.Contains("Cake")){
 		Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").relocate(col.gameObject.transform.position);
+		Manager.charSpawner.red = red;
+		Manager.charSpawner.yellow = yellow;
+		Manager.charSpawner.blue = blue;
 		Destroy(col.gameObject);
 		cakesCollected++;
 		cakeSound.Play();
