@@ -761,6 +761,7 @@ function OnTriggerEnter(col:Collider){
 		handleCollisions(col);
 	}
 	*/
+	
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
@@ -776,6 +777,11 @@ function OnTriggerEnter(col:Collider){
 	if (col.gameObject.name.Contains("Mine") && !character.hurting && vincible){
 		if (col.gameObject.GetComponent("SpellMine").destroying)
 			character.hurt();
+	
+	}
+	if (col.gameObject.name.Contains("Explode") && !character.hurting && vincible){
+		if (col.gameObject.GetComponent("Explosion").destroying)
+		character.hurt();
 	
 	}
 	
@@ -799,6 +805,8 @@ function OnCollisionStay(col:Collision){
 	if(col.gameObject.name.Contains("Monster")){
 		monsterHere = true;
 	}
+	
+	
 	
 	
 	if(col.gameObject.name.Contains("Tile Wall")){

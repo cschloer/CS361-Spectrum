@@ -13,6 +13,10 @@ var nW : boolean;
 var eW : boolean;
 var sW : boolean;
 var wW : boolean;
+var nwW :boolean;
+var swW : boolean;
+var seW : boolean;
+var neW : boolean;
 var tiles : Array;
 var loading : boolean;
 var countdown : int;
@@ -58,6 +62,10 @@ function tileQuery(tiles: Array){
 	eW = checkPos(tiles, posX+1, posY);
 	sW = checkPos(tiles, posX, posY-1);
 	wW = checkPos(tiles, posX-1, posY);
+	nwW = checkPos(tiles, posX-1, posY+1);
+	swW = checkPos(tiles, posX-1, posY-1);
+	neW = checkPos(tiles, posX+1, posY+1);
+	seW = checkPos(tiles, posX+1, posY-1);
 }
 
 function checkPos(tiles: Array, xCh : int, yCh : int){
@@ -91,22 +99,107 @@ function arrayIndex(n : int){
 
 function getTexture(){
 	if( nW && eW && sW && wW){
-		rot = 0;
-		return 8;
+		if( nwW && swW && seW && neW){
+			rot = 0;
+			return 4;
+		} else if( nwW && swW && seW && !neW){
+			rot = 1;
+			return 14;
+		} else if( nwW && swW && !seW && neW){
+			rot = 2;
+			return 14;
+		} else if( nwW && swW && !seW && !neW){
+			rot = 3;
+			return 11;
+		} else if( nwW && !swW && seW && neW){
+			rot = 3;
+			return 14;
+		} else if( nwW && !swW && seW && !neW){
+			rot = 1;
+			return 13;
+		} else if( nwW && !swW && !seW && neW){
+			rot = 2;
+			return 11;
+		} else if( nwW && !swW && !seW && !neW){
+			rot = 3;
+			return 12;
+		} else if( !nwW && swW && seW && neW){
+			rot = 0;
+			return 14;
+		} else if( !nwW && swW && seW && !neW){
+			rot = 0;
+			return 11;
+		} else if( !nwW && swW && !seW && neW){
+			rot = 0;
+			return 13;
+		} else if( !nwW && swW && !seW && !neW){
+			rot = 2;
+			return 12;
+		} else if( !nwW && !swW && seW && neW){
+			rot = 1;
+			return 11;
+		} else if( !nwW && !swW && seW && !neW){
+			rot = 1;
+			return 12;
+		} else if( !nwW && !swW && !seW && neW){
+			rot = 0;
+			return 12;
+		} else{
+			rot = 0;
+			return 8;
+		}
 	} else if( nW && eW && sW && !wW){
-		rot = 3;
-		return 3;
+		if(seW && neW){
+			rot = 0;
+			return 5;
+		} else if( seW && !neW){
+			rot = 3;
+			return 9;
+		} else if(!seW && neW){
+			rot = 3;
+			return 10;
+		} else{
+			rot = 3;
+			return 3;
+		}
 	}else if( nW && eW && !sW && wW){
-		rot = 0;
-		return 3;
+		if(nwW && neW){
+			rot = 1;
+			return 5;
+		} else if( nwW && !neW){
+			rot = 0;
+			return 10;
+		} else if(!nwW && neW){
+			rot = 0;
+			return 9;
+		} else{
+			rot = 0;
+			return 3;
+		}
 	}else if( nW && eW && !sW && !wW){
-		rot = 0;
 		owner.box.size.x = 1;
 		owner.box.size.y = 1;
-		return 2;
+		if( neW ){
+			rot = 0;
+			return 6;
+		} else{
+			rot = 0;
+			return 2;
+		}
 	}else if( nW && !eW && sW && wW){
-		rot = 1;
-		return 3;
+		if(swW && nwW){
+			rot = 2;
+			return 5;
+		} else if( swW && !nwW){
+			rot = 1;
+			return 10;
+		} else if(!swW && nwW){
+			rot = 1;
+			return 9;
+		} else{
+			rot = 1;
+			return 3;
+		}
 	}else if( nW && !eW && sW && !wW){
 		rot = 0;
 		owner.box.size.y = 1;
@@ -117,16 +210,37 @@ function getTexture(){
 		owner.box.size.y = 1;
 		return 2;
 	}else if( nW && !eW && !sW && !wW){
-		rot = 1;
-		return 7;
+		if( nwW ){
+			rot = 1;
+			return 6;
+		} else{
+			rot = 1;
+			return 7;
+		}
 	}else if( !nW && eW && sW && wW){
-		rot = 2;
-		return 3;
+		if(swW && seW){
+			rot = 3;
+			return 5;
+		} else if( swW && !seW){
+			rot = 2;
+			return 9;
+		} else if(!swW && seW){
+			rot = 2;
+			return 10;
+		} else{
+			rot = 2;
+			return 3;
+		}
 	}else if( !nW && eW && sW && !wW){
-		rot = 3;
 		owner.box.size.x = 1;
 		owner.box.size.y = 1;
-		return 2;
+		if( seW ){
+			rot = 3;
+			return 6;
+		} else{
+			rot = 3;
+			return 2;
+		}
 	}else if( !nW && eW && !sW && wW){
 		rot = 1;
 		owner.box.size.x = 1;
@@ -135,10 +249,15 @@ function getTexture(){
 		rot = 0;
 		return 7;
 	}else if( !nW && !eW && sW && wW){
-		rot = 2;
 		owner.box.size.x = 1;
 		owner.box.size.y = 1;
-		return 2;
+		if( swW ){
+			rot = 2;
+			return 6;
+		} else{
+			rot = 2;
+			return 2;
+		}
 	}else if( !nW && !eW && sW && !wW){
 		rot = 3;
 		return 7;

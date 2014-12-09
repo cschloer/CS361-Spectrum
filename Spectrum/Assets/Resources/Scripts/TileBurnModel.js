@@ -66,6 +66,6 @@ function addTime(){
 }
 
 function checkTime(){
-	if(durationCount > 0.8*Time.timeScale) return true;
+	if(durationCount > 0.7*Time.timeScale) return true;
 	else return false;
 }

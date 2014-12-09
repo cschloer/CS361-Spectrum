@@ -21,6 +21,14 @@ function OnTriggerEnter(col:Collider){
 		//destroyMe();
 		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
 		}
+		if (col.gameObject.name.Contains("Explode") && !monster.isBoss){ // If it runs into a mine, damage it
+		//var mine:SpellMine = col.gameObject.GetComponent(SpellMine).monster;
+			monster.hurt();
+		//destroyMe();
+		// Hurt doesn't curently work because it ALSO has a knockback, need to override that
+		}
+		
+		
 		if(col.gameObject.name.Contains("HeroAttack") && !monster.hurting && monster.health > 0){
 			monster.hurt();
 		}
