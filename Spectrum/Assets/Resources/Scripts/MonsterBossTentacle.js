@@ -17,7 +17,6 @@ public class MonsterBossTentacle extends Monster{
 	
 	var anim : Animator;
 	var sprend : SpriteRenderer;
-
 	function init(c: Character, p:Vector3){
 		isBoss = true;
 		color = "random";
@@ -33,7 +32,7 @@ public class MonsterBossTentacle extends Monster{
 		model.monster = this;
 		moveSpeed = 1;
 		turnSpeed = 90;
-		
+		showHealth = false;
 		model.transform.parent = transform;									// Set the model's parent to the gem (this object).
 		model.transform.localPosition = Vector3(0,0,0);						// Center the model on the parent.
 		model.name = "Monster Model";										// Name the object.
@@ -73,7 +72,8 @@ public class MonsterBossTentacle extends Monster{
 		
 		waitToActivate();
 		addHearts();
-		
+		//print("Added tentacle hearts at " + model.transform.position);
+		updateHearts();
 		
 		phaseTime = 0;
 		isStraight = true;

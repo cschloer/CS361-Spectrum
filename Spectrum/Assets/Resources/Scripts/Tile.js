@@ -46,7 +46,7 @@ function init(t: String, or: int, tiles: Array) {
 }
 
 function Update(){
-	/*
+	
 	if(manager != null){
 		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
 		if (distance.magnitude > 25) return;
@@ -62,6 +62,7 @@ function Update(){
 		
 		//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
 	}
-	*/
+	
+	
 }
 
