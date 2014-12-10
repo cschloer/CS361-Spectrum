@@ -307,12 +307,19 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function lighting(){
-		var distance : Vector3 = model.transform.position - hero.model.transform.position;
-		var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, hero.model.lookDirection)/130);
-		var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
-		if (flashLight > aoeLight) model.transform.renderer.material.color.a = flashLight;
-		else model.transform.renderer.material.color.a = aoeLight;
-	
+		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
+		if (distance.magnitude > 25) return;
+		//var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
+		var flashLight = 1*(1 - distance.magnitude/4 + 1*(Vector3.Angle(distance, -manager.character.model.lookDirection)/60));
+		//var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
+		var aoeLight = 1-distance.magnitude/8;
+		if (aoeLight < 0 ) aoeLight = 0;
+		if (flashLight < 0) flashLight = 0;
+		if (flashLight > aoeLight) modelObject.transform.renderer.material.color = Color(flashLight*flashLight/2,flashLight*flashLight/2,flashLight);
+		//if (flashLight > aoeLight) modelObject.transform.renderer.material.color.a = flashLight;
+		else modelObject.transform.renderer.material.color = Color(aoeLight*aoeLight/2, aoeLight*aoeLight/2,aoeLight);
+		
+		//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
 	}
 	
 	
@@ -505,7 +512,7 @@ public class Monster extends MonoBehaviour
 	function addHearts(){
 		//return;
 		hearts = new Array();
-		yield WaitForSeconds(.5);
+		yield; //WaitForSeconds(.02);
 		for (var i=0; i<health; i++){
 			var heartObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 			
@@ -538,8 +545,9 @@ public class Monster extends MonoBehaviour
 	}
 	
 	function removeHeart(){
+
 		//return;
-		if (curHeart < 0) return;
+		if (curHeart < 0 || hearts.length < 1) return;
 		Destroy(hearts[curHeart]);
 		hearts.Remove(hearts.length);
 		curHeart--;

@@ -21,5 +21,6 @@ function init(own : Tile) {
 	transform.localScale += Vector3(0.3,0.3,0);
 	//renderer.sortingLayerID = 2;														// Set the Unit to the tile layer.
 	//renderer.sortingOrder = 2;
+	gameObject.layer = 3;
 	
 }
