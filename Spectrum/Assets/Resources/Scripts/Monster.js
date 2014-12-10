@@ -95,6 +95,7 @@ public class Monster extends MonoBehaviour
 		waitToActivate();
 		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
 		addHearts();
+		updateHearts();
 		manager = c.manager;
 	}
 	
@@ -516,7 +517,7 @@ public class Monster extends MonoBehaviour
 		for (var i=0; i<health; i++){
 			var heartObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
 			
-			//heartObject.gameObject.transform.position = model.transform.position;
+			heartObject.gameObject.transform.position = model.transform.position;
 			//heartObject.gameObject.transform.rotation = model.transform.rotation;
 			
 												// Name the object.

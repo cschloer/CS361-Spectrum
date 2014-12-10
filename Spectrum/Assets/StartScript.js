@@ -18,6 +18,9 @@ function Start () {
 	exitButton = Resources.Load("Textures/ExitButton", Texture2D);
 	levelButton = Resources.Load("Textures/levelEditor_Start", Texture2D);
 	clearButton = Resources.Load("Textures/ResetButton", Texture2D);
+	if(!File.Exists(Application.dataPath +"/Configuration/data.conf")){
+		eraseData();
+	}
 	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");
 	var lev = stream.ReadLine();
 	levelNum = parseInt(lev.Split(":"[0])[1]);
@@ -34,7 +37,14 @@ function Start () {
 function Update () {
 
 }
-
+function eraseData(){
+	var overwrite = new StreamWriter(Application.dataPath +"/Configuration/data.conf");
+	overwrite.Write("currentLevel:-1");
+	overwrite.Close();
+	displayErase = false;
+	levelNum = -1;
+	levelName = "LevelTutorial1";
+}
 function OnGUI() {
 
 	GUI.backgroundColor = Color.white;
@@ -65,12 +75,8 @@ function OnGUI() {
     }
     if(displayErase){
     	if(GUI.Button (Rect((Screen.width/10)*3, (Screen.height*.55), Screen.width/5, Screen.height/8), "Erase Data")){
-    		var overwrite = new StreamWriter(Application.dataPath +"/Configuration/data.conf");
-			overwrite.Write("currentLevel:-1");
-			overwrite.Close();
-			displayErase = false;
-			levelNum = -1;
-			levelName = "LevelTutorial1";
+    		eraseData();
+    		displayErase = false;
 
 		}
 		if(GUI.Button (Rect((Screen.width/10)*5.57, (Screen.height*.55), Screen.width/5, Screen.height/8), "Nevermind!")){

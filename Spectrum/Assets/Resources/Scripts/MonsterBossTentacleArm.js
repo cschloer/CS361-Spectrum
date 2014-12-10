@@ -42,7 +42,6 @@ function init(x:int, y:int, number:int, m:GameObject, r:Vector3, tt:float, ra:fl
 	this.renderer.material.mainTexture = Resources.Load("Textures/bossTentacleArm", Texture2D);	// Set the texture.  Must be in Resources folder.
 	boss = b;
 	//this.transform.rotation = character.transform.rotation;
-
 	this.transform.position = Vector3(x, y, boss.transform.position.z + .5);	
 	//this.transform.localScale = Vector3(2, 2, 2);
 	
