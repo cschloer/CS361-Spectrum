@@ -309,7 +309,13 @@ public class Monster extends MonoBehaviour
 	
 	function lighting(){
 		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
-		if (distance.magnitude > 25) return;
+		if (distance.magnitude > 25) {
+			activateDistance = 10;
+			modelObject.GetComponent(Rigidbody).isKinematic = true;
+			return;
+		}
+		activateDistance = 0;
+		modelObject.GetComponent(Rigidbody).isKinematic = false;
 		//var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
 		var flashLight = 1*(1 - distance.magnitude/4 + 1*(Vector3.Angle(distance, -manager.character.model.lookDirection)/60));
 		//var aoeLight = 1-(Mathf.Round(distance.magnitude/1.0) / (4));
