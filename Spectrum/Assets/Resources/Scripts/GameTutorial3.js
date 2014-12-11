@@ -36,6 +36,7 @@ function addBoss(x : float, y :float, c : Character){
 
 function Update () {
 	changeTime += Time.deltaTime;
+	clock += Time.deltaTime;
 	if (winScreen || loseScreen){
 		losewinTimer += Time.deltaTime;
 		if (losewinTimer >= 2) {

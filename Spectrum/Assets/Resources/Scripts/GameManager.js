@@ -42,14 +42,15 @@ var tip : String;
 var levelNumber : int;
 var activeClock:float;
 var activeClockDone:boolean;
-
+var zoom : float;
 // Start
 // Called once when the script is created.
 function Start () {
 	activeClock = 0;
 	activeClockDone = false;
 // Camera size! Original was 5, see how you like this
-	theCamera.camera.orthographicSize = 8;
+	zoom = 6;
+	theCamera.camera.orthographicSize = zoom;
 
 
 

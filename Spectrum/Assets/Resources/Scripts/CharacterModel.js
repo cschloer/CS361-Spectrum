@@ -229,7 +229,12 @@ function Update () {
 			//moveSpeed = 2;
 			Manager.theCamera.GetComponent(CameraMovement).speed = 2;
 			rjTimer = 0;
+			
+	
 		}
+		if(Manager.theCamera.camera.orthographicSize > Manager.zoom - 2) Manager.theCamera.camera.orthographicSize -= 2*Time.deltaTime;
+
+
 		if(character.weapon.clubSound.isPlaying){
 			 character.weapon.clubCharging = true;
 		}
@@ -237,6 +242,8 @@ function Update () {
 
 		this.transform.position += 2*(heading * Time.deltaTime * moveSpeed*rollSpeedMultiplier);
 	 } else {
+	 		if(Manager.theCamera.camera.orthographicSize < Manager.zoom)Manager.theCamera.camera.orthographicSize += Time.deltaTime;
+
 	 //if not rolling
 	 /* // uncomment to add rotation with a keyboard 
 		if (rotateR) this.transform.Rotate(Vector3(0,0,Time.deltaTime*160*(turnSpeed)));
@@ -592,12 +599,19 @@ function castRays(numRays : int){
 				if (renderer2) {
 					//renderer.material.shader = Shader.Find("Transparent/Diffuse");
 					//renderer2.material.color.a = 1;
-					try{
-						//print(renderer2.collider.gameObject.GetComponent(TileFloorModel).owner);
-						renderer2.collider.gameObject.GetComponent(TileFloorModel).owner.colorTile();
-					} catch (UnityException){
+					var wall = renderer2.collider.gameObject.GetComponent(TileWallModel);
+					var floor = renderer2.collider.gameObject.GetComponent(TileFloorModel);
+					var hole = renderer2.collider.gameObject.GetComponent(TileHoleModel);
+					var burn = renderer2.collider.gameObject.GetComponent(TileBurnModel);
+					if (wall)
+						wall.owner.colorTile();
+					if (floor)
+						floor.owner.colorTile();
+					if (hole)
+						hole.owner.colorTile();
+					if (burn)
+						burn.owner.colorTile();
 					
-					}
 					
 				}
 			}
@@ -606,14 +620,17 @@ function castRays(numRays : int){
 	
 //Resize hero and position shadow for jumping
 function updateShadow(){
-	if(jumping) shadow.renderer.material.color.a = .6;
+	if(jumping){
+		 shadow.renderer.material.color.a = .6;
+		 Manager.theCamera.camera.orthographicSize = Manager.zoom + shadowOffset;
+	}
 	else shadow.renderer.material.color.a = 0;
 	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 4; //Offsets shadow based on time in air (quadratically)
 	shadow.transform.rotation = transform.rotation; //Rotates shadow to match hero
 	shadow.transform.position.z = 0;
 	transform.localScale = Vector3.one * heroScale * (1 + shadowOffset); //Scales hero quadratically as she jumps
 	
-	
+
 }
 function updateColor(){
 	var multiplier : float = 1;
