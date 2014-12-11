@@ -42,7 +42,9 @@ function levelInit(){
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   currentLevel=4;
   levelNumber = 1;
-  addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,3);
+
+ // addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,11);
+
 
   addCircle(0);
 	addCircle(1);

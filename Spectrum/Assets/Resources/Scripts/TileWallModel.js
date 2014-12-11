@@ -38,7 +38,7 @@ function init(own : Tile, tiles: Array) {
 	//renderer.sortingLayerID = 2;														// Set the Unit to the tile layer.
 	//renderer.sortingOrder = 2;
 	transform.localScale += Vector3(0.3,0.3,0);
-	
+	gameObject.layer = 1;
 }
 
 function Update(){

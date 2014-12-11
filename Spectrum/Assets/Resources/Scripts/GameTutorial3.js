@@ -20,7 +20,7 @@ function levelInit(){
 function addBoss(x : float, y :float, c : Character){
 	var monsterObject = new GameObject();					// Create a new empty game object that will hold a character.
 	var monsterScript;
-	monsterScript = monsterObject.AddComponent("MonsterBoss");		// Add the monster.js script to the object.
+	monsterScript = monsterObject.AddComponent("Monster2");		// Add the monster.js script to the object.
 	
 	monsterScript.transform.parent = monsterFolder.transform;
 	monsterScript.transform.position = Vector3(x,y,0);		// Position the character at x,y.								

@@ -347,6 +347,7 @@ function Update () {
 	 		rollThrowTimer = 0;
 	 		}
 	 } 
+	 
 		
 	}
 /*	if (Input.GetKeyUp("w")){
@@ -547,9 +548,55 @@ function Update () {
 	
 	
 	updateShadow(); //Position shadow and rescale hero for jumping
-	
+	//castRays(60);
 }
 
+
+function castRays(numRays : int){
+	for(var j : int = 0; j++ < numRays; j++){
+		var hits : RaycastHit[];
+			var source : Vector3 = Vector3(transform.position.x, transform.position.y, 1);
+			//var direction : Vector3 = transform.up;
+			hits = Physics.RaycastAll (source, Quaternion.Euler(0, 0,(360.0/numRays)*j) * transform.up, 15.0, -1);
+			// Change the material of all hit colliders
+			// to use a transparent Shader
+			for (var i = 0;i < hits.Length; i++) {
+				var hit : RaycastHit = hits[i];
+				var renderer =  hit.collider.renderer;
+				if (renderer) {
+					//renderer.material.shader = Shader.Find("Transparent/Diffuse");
+					renderer.material.color.a = 0.05;
+				}
+			}
+		}
+	
+	
+	for(var k : int = 0; k++ < numRays; k++){
+		var hits2 : RaycastHit[];
+			var source2 : Vector3 = Vector3(transform.position.x, transform.position.y, 1);
+			var hitTemp : RaycastHit;
+			var distance : float;
+			if (Physics.Raycast (transform.position, Quaternion.Euler(0, 0, (360.0/numRays)*k) * transform.up, hitTemp, 15, 2)) {
+				distance = hitTemp.distance;
+			} else{
+				distance = 15.0;
+			}
+			if (k == 1)
+				print(distance);
+			hits2 = Physics.RaycastAll (source2, Quaternion.Euler(0, 0, (360.0/numRays)*k) * transform.up, distance + 1, -1);
+			// Change the material of all hit colliders
+			// to use a transparent Shader
+			for (var l = 0;l < hits2.Length; l++) {
+				var hit2 : RaycastHit = hits2[l];
+				var renderer2 =  hit2.collider.renderer;
+				if (renderer2) {
+					//renderer.material.shader = Shader.Find("Transparent/Diffuse");
+					renderer2.material.color.a = 1;
+				}
+			}
+		}
+	}
+	
 //Resize hero and position shadow for jumping
 function updateShadow(){
 	if(jumping) shadow.renderer.material.color.a = .6;
@@ -714,6 +761,7 @@ function OnTriggerEnter(col:Collider){
 		handleCollisions(col);
 	}
 	*/
+	
 	if(col.gameObject.name.Contains("attack") && !character.hurting && vincible){
 		if (col.gameObject.GetComponent("MonsterAttack").slow){
 			slowMe(col.gameObject.GetComponent("MonsterAttack").slowDuration, col.gameObject.GetComponent("MonsterAttack").slowAmount);
@@ -731,9 +779,17 @@ function OnTriggerEnter(col:Collider){
 			character.hurt();
 	
 	}
+	if (col.gameObject.name.Contains("Explode") && !character.hurting && vincible){
+		if (col.gameObject.GetComponent("Explosion").destroying)
+		character.hurt();
+	
+	}
 	
 	if(col.gameObject.name.Contains("Cake")){
 		Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").relocate(col.gameObject.transform.position);
+		Manager.charSpawner.red = red;
+		Manager.charSpawner.yellow = yellow;
+		Manager.charSpawner.blue = blue;
 		Destroy(col.gameObject);
 		cakesCollected++;
 		cakeSound.Play();
@@ -752,6 +808,8 @@ function OnCollisionStay(col:Collision){
 	if(col.gameObject.name.Contains("Monster")){
 		monsterHere = true;
 	}
+	
+	
 	
 	
 	if(col.gameObject.name.Contains("Tile Wall")){
