@@ -25,23 +25,24 @@ function levelInit(){
   roomCreate(-30, 50,1,"Plain2Adj.txt");  // Joining
   roomCreate(-10, 70,0,"Comb1Opp.txt");   // Boss Prep
   roomCreate(-10, 90,2,"Plain1End.txt");   // Boss
-  addCake(-14.5,62); 	// Left
+  //addCake(-14.5,62); 	// Left
   addCake(-14.5,57);	// Left
   addCake(-24.5,45.5);	// Left
-  addCake(-23.5,25.5);	// Left
-  addCake(14.5,-0.5);	// Right
+  //addCake(-23.5,25.5);// Left
+  //addCake(14.5,-0.5);	// Right
   addCake(12,14.5);		// Right
-  addCake(36,19.5);		// Right
+  //addCake(36,19.5);	// Right
   addCake(19.5,54);		// Right
   addCake(-6,15);		// Middle
-  addCake(1.5,22.5);	// Middle
-  addCake(-0.5,35);		// Middle
+  //addCake(1.5,22.5);	// Middle
+  //addCake(-0.5,35);	// Middle
   addCake(-0.5,48.5);	// Middle
   addCake(-4,72); 		// Final
-  addDevice(-0.5,88,"barrier", 3, 4);
-  addDevice(-11,59.5,"barrier", 0, 3);
-  addDevice(10,59.5,"barrier", 0, 3);
-  addDevice(-0.5,50.5,"barrier", 3, 3);
+  addCake(-0.5,86); 	// Final
+  addDevice(-0.5,88,"barrier", 3, 7);
+  addDevice(-11,59.5,"barrier", 0, 2);
+  addDevice(10,59.5,"barrier", 0, 2);
+  addDevice(-0.5,50.5,"barrier", 3, 2);
   addDevice(-18.5,-1.5,"mSpawn", 3, 1);	// Left 1
   addDevice( 22.5,-1.5,"mSpawn", 3, 1);	// Right 1
   addDevice(-20.5,17,"mSpawn", 4, 7);	// Left 2
