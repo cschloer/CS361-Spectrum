@@ -103,7 +103,7 @@ function Start () {
 	rollTime = .25;
 	rollSpeedMultiplier = 1.5;
 	rollCooldown = .5;
-	jumpCooldown = 1;
+	jumpCooldown = .5;
 	jumpTime = .75;
 	jumpSpeedMultiplier = .75;
 	rollVector = Vector3.zero;
