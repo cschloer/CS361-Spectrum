@@ -232,7 +232,7 @@ function Update () {
 			
 	
 		}
-		if(Manager.theCamera.camera.orthographicSize > Manager.zoom - 2) Manager.theCamera.camera.orthographicSize -= 2*Time.deltaTime;
+		if(Manager.theCamera.camera.orthographicSize > Manager.zoom - 1) Manager.theCamera.camera.orthographicSize -= 1*Time.deltaTime;
 
 
 		if(character.weapon.clubSound.isPlaying){
@@ -622,7 +622,7 @@ function castRays(numRays : int){
 function updateShadow(){
 	if(jumping){
 		 shadow.renderer.material.color.a = .6;
-		 Manager.theCamera.camera.orthographicSize = Manager.zoom + shadowOffset;
+		 Manager.theCamera.camera.orthographicSize = Manager.zoom + 2*shadowOffset;
 	}
 	else shadow.renderer.material.color.a = 0;
 	shadow.transform.position = transform.position + Vector3.down * shadowOffset * 4; //Offsets shadow based on time in air (quadratically)
