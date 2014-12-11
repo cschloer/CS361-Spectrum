@@ -309,7 +309,7 @@ public class Monster extends MonoBehaviour
 	
 	function lighting(){
 		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
-		if (distance.magnitude > 25) {
+		if (distance.magnitude > 16) {
 			activateDistance = 10;
 			modelObject.GetComponent(Rigidbody).isKinematic = true;
 			return;
