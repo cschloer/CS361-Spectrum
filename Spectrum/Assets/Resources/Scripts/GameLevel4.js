@@ -38,12 +38,12 @@ function levelInit(){
   
   addDevice(9.5,-40.5,"barrier", 0, 7);
   
-  addDevice(-25.5,39.5,"mSpawn", 2, 4);	// Room -3,0
+  addDevice(-25.5,39.5,"mSpawn", 2, 5);	// Room -3,0
   addDevice(-35.5,39.5,"mSpawn", 6, 7);	// Room -3,0
-  addDevice(-20.5,63.5,"mSpawn", 5, 8);	// Room -1,1
+  addDevice(-20.5,63.5,"mSpawn", 2, 8);	// Room -1,1
   addDevice(-18,21,"mSpawn", 4, 5);		// Room -1,-1
-  addDevice(-5,26,"mSpawn", 5, 3);		// Room 0,-1
-  addDevice(4,26,"mSpawn", 3, 1);		// Room 0,-1
+  addDevice(-5,26,"mSpawn", 4, 3);		// Room 0,-1
+  addDevice(4,26,"mSpawn", 2, 1);		// Room 0,-1
   addDevice(-2,14,"mSpawn", 3, 2);		// Room 0,-1
   addDevice(-27,-18,"mSpawn", 3, 9);	// Room -1,-3
   addDevice(-19,-22,"mSpawn", 3, 8);	// Room -1,-3
