@@ -159,12 +159,6 @@ function addCharacter(x : float , y : float) {
 	character = characterScript;											// Add the character to the characters array for future access.
 	characterScript.name = "CharacterScript";								// Give the character object a name in the Hierarchy pane.				
 	
-<<<<<<< HEAD
-=======
-	//Test spawns
-	//addBossSMASH(2, 2, character);
-	//addDeviceSpawner(0,-4,[5, 5, 6,  2, 3], 15, 0);
->>>>>>> FETCH_HEAD
 }
 
 function addCake(x : float , y : float) {
