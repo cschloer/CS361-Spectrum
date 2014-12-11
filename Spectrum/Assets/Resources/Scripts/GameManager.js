@@ -49,7 +49,7 @@ function Start () {
 	activeClock = 0;
 	activeClockDone = false;
 // Camera size! Original was 5, see how you like this
-	theCamera.camera.orthographicSize = 5;
+	theCamera.camera.orthographicSize = 8;
 
 
 
