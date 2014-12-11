@@ -581,8 +581,8 @@ function castRays(numRays : int){
 			} else{
 				distance = 15.0;
 			}
-			if (k == 1)
-				print(distance);
+			//if (k == 1)
+//				print(distance);
 			hits2 = Physics.RaycastAll (source2, Quaternion.Euler(0, 0, (360.0/numRays)*k) * transform.up, distance + 1, -1);
 			// Change the material of all hit colliders
 			// to use a transparent Shader
@@ -591,7 +591,14 @@ function castRays(numRays : int){
 				var renderer2 =  hit2.collider.renderer;
 				if (renderer2) {
 					//renderer.material.shader = Shader.Find("Transparent/Diffuse");
-					renderer2.material.color.a = 1;
+					//renderer2.material.color.a = 1;
+					try{
+						//print(renderer2.collider.gameObject.GetComponent(TileFloorModel).owner);
+						renderer2.collider.gameObject.GetComponent(TileFloorModel).owner.colorTile();
+					} catch (UnityException){
+					
+					}
+					
 				}
 			}
 		}

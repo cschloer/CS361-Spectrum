@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_LINUX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_4;UNITY_4_3;UNITY_64;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_64;UNITY_STANDALONE_LINUX;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +58,11 @@
      <Compile Include="Assets\Resources\Scripts\Device.js" />
      <Compile Include="Assets\Resources\Scripts\DeviceSpawnModel.js" />
      <Compile Include="Assets\Resources\Scripts\DeviceWallModel.js" />
+     <Compile Include="Assets\Resources\Scripts\Explosion.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel1.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel2.js" />
      <Compile Include="Assets\Resources\Scripts\GameLevel3.js" />
+     <Compile Include="Assets\Resources\Scripts\GameLevel4.js" />
      <Compile Include="Assets\Resources\Scripts\GameManager.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial1.js" />
      <Compile Include="Assets\Resources\Scripts\GameTutorial2.js" />
@@ -74,6 +76,7 @@
      <Compile Include="Assets\Resources\Scripts\Monster.js" />
      <Compile Include="Assets\Resources\Scripts\Monster1.js" />
      <Compile Include="Assets\Resources\Scripts\Monster10.js" />
+     <Compile Include="Assets\Resources\Scripts\Monster12.js" />
      <Compile Include="Assets\Resources\Scripts\Monster2.js" />
      <Compile Include="Assets\Resources\Scripts\Monster3.js" />
      <Compile Include="Assets\Resources\Scripts\Monster4.js" />
@@ -84,6 +87,7 @@
      <Compile Include="Assets\Resources\Scripts\Monster9.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterAttack.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterBoss.js" />
+     <Compile Include="Assets\Resources\Scripts\MonsterBossSmash.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterBossTentacle.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterBossTentacleArm.js" />
      <Compile Include="Assets\Resources\Scripts\MonsterModel.js" />
@@ -122,14 +126,18 @@
      <None Include="Assets\Levels\Hole2Adj.txt" />
      <None Include="Assets\Levels\Plain4Cross.txt" />
      <None Include="Assets\Levels\room3.txt" />
+     <None Include="Assets\Levels\Comb2End.txt" />
      <None Include="Assets\Levels\Plain2Cross.txt" />
      <None Include="Assets\Levels\Plain2Tri.txt" />
      <None Include="Assets\Levels\Plain2Opp.txt" />
      <None Include="Assets\Levels\Plain1Cross.txt" />
      <None Include="Assets\Levels\portal.txt" />
      <None Include="Assets\Levels\Walls1End.txt" />
+     <None Include="Assets\Levels\Boss4End.txt" />
      <None Include="Assets\Levels\Hole2Tri.txt" />
      <None Include="Assets\Levels\Plain1Adj.txt" />
+     <None Include="Assets\Levels\Small1Cross.txt" />
+     <None Include="Assets\Levels\Lava2Adj.txt" />
      <None Include="Assets\Levels\Plain1End.txt" />
      <None Include="Assets\Levels\Plain3Tri.txt" />
      <None Include="Assets\Levels\Plain3Adj.txt" />
@@ -140,17 +148,22 @@
      <None Include="Assets\Levels\Hole3Opp.txt" />
      <None Include="Assets\Levels\Walls1Cross.txt" />
      <None Include="Assets\Levels\room5.txt" />
+     <None Include="Assets\Levels\Hole3Adj.txt" />
      <None Include="Assets\Levels\Hole2End.txt" />
      <None Include="Assets\Levels\Plain4End.txt" />
      <None Include="Assets\Levels\room2.txt" />
      <None Include="Assets\Levels\testEmpty.txt" />
      <None Include="Assets\Levels\Plain1Tri.txt" />
+     <None Include="Assets\Levels\Small1Tri.txt" />
+     <None Include="Assets\Levels\Comb2Cross.txt" />
      <None Include="Assets\Levels\USER_ERROR.txt" />
      <None Include="Assets\Levels\Hole4Tri2.txt" />
      <None Include="Assets\Levels\Walls1Opp.txt" />
+     <None Include="Assets\Levels\Comb1End.txt" />
      <None Include="Assets\Levels\room4.txt" />
      <None Include="Assets\Levels\Hole4Tri.txt" />
      <None Include="Assets\Levels\Plain4Opp.txt" />
+     <None Include="Assets\Levels\Lava1Adj.txt" />
      <None Include="Assets\Levels\Hole5Tri.txt" />
      <None Include="Assets\Levels\portalRoom.txt" />
      <None Include="Assets\Levels\Comb1Opp.txt" />

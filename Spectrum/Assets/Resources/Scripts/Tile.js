@@ -47,7 +47,13 @@ function init(t: String, or: int, tiles: Array) {
 
 function Update(){
 	
-	if(manager != null){
+	colorTile();
+	
+	
+}
+function colorTile(){
+	//print("coloring");
+		if(manager != null){
 		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
 		if (distance.magnitude > 25) return;
 		//var flashLight = 1- Mathf.Round(distance.magnitude/1.5) / (8) - (Vector3.Angle(distance, manager.character.model.lookDirection)/130);
@@ -61,8 +67,5 @@ function Update(){
 		else modelObject.transform.renderer.material.color = Color(aoeLight*aoeLight/2, aoeLight*aoeLight/2,aoeLight);
 		
 		//if (modelObject.transform.renderer.material.color.a < .05)  modelObject.transform.renderer.material.color.a = .05;
-	}
-	
-	
-}
+}		}
 
