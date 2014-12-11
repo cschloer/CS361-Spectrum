@@ -46,8 +46,14 @@ function init(t: String, or: int, tiles: Array) {
 }
 
 function Update(){
-
-	
+	/*if(manager != null){
+		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
+		if (distance.magnitude > 16) {
+			modelObject.SetActive(false);
+			return;
+		}
+		else modelObject.SetActive(true);
+	}*/
 	colorTile();
 	
 	
