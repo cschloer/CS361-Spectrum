@@ -196,8 +196,23 @@ function resetDeath(){
 	
 	isChargingBoom = false;
 	chargingBoomTimer = 0;
+	
+	var red2: boolean = Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").red;
+	
+	var blue2 : boolean = Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").blue;
+	var yellow2 : boolean = Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").yellow;
+	
+	if (red2 != red) {
+		changeRed();
+	}if (yellow2 != yellow) {
+		changeYellow();
+	}if (blue2 != blue) {
+		changeBlue();
+	}
 
-
+	red = Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").red;
+	blue = Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").blue;
+	yellow = Manager.charSpawner.modelObject.GetComponent("SpawnPointModel").yellow;
 }
 
 // Update is called once per frame
