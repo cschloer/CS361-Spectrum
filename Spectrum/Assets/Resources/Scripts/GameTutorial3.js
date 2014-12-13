@@ -72,7 +72,8 @@ function Update () {
 	if(boss == null && clock > 1){
 		win();
 	}
-	if(changeTime > 6) displayText = "Explore all the color combinations!";
+	if(changeTime > 6) displayText = "You can press Escape to pause.";
+	if(changeTime > 10) displayText = "Explore all the color combinations!";
 	
 	var cams : Array = Camera.allCameras;
 	//print(cams.length);
