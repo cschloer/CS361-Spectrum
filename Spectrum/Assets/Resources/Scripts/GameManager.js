@@ -667,55 +667,7 @@ function OnGUI() {
 	GUI.skin = SpectrumSkin;
 	GUI.skin.font = guif;
 
-	//if(currentLevel < 3)
-	//	return;
-
-
-	//Balancing sliders
-	/*
-	GUI.Label(Rect(300, 0, 300, 30), "Life's a great balancing act.");
-
-	GUI.Label(Rect(270, 20, 200, 30), "Move speed: " + character.model.moveSpeed);
-	character.model.moveSpeed = GUI.HorizontalSlider (Rect (460, 25, 100, 30), character.model.moveSpeed, 2.0, 10.0);
-	GUI.Label(Rect(270, 40, 200, 30), "Turn speed: " + character.model.turnSpeed);
-	character.model.turnSpeed = GUI.HorizontalSlider (Rect (460, 45, 100, 30), character.model.turnSpeed, 0.0, 5.0);
-	if(character.model.yellow){
-		GUI.Label(Rect(270, 60, 200, 30), "Swing time: " + character.weapon.swingTime);
-		character.weapon.swingTime = GUI.HorizontalSlider (Rect (460, 65, 100, 30), character.weapon.swingTime, 0.1, .6);
-		GUI.Label(Rect(270, 80, 200, 30), "Swing recovery: " + character.weapon.swingRecovery);
-		character.weapon.swingRecovery = GUI.HorizontalSlider (Rect (460, 85, 100, 30), character.weapon.swingRecovery, 0.0, .6);
-		GUI.Label(Rect(270, 100, 200, 30), "Swing arc: " + character.weapon.swingArc);
-		character.weapon.swingArc = GUI.HorizontalSlider (Rect (460, 105, 100, 30), character.weapon.swingArc, 1, 270);
-		
-	}else{
-		GUI.Label(Rect(270, 60, 200, 30), "Throw time: " + character.weapon.throwTime);
-		character.weapon.throwTime = GUI.HorizontalSlider (Rect (460, 65, 100, 30), character.weapon.throwTime, 0.1, 1.5);
-		GUI.Label(Rect(270, 80, 200, 30), "Throw recovery: " + character.weapon.throwRecovery);
-		character.weapon.throwRecovery = GUI.HorizontalSlider (Rect (460, 85, 100, 30), character.weapon.throwRecovery, 0.0, 1.5);
-		GUI.Label(Rect(270, 100, 200, 30), "Throw distance: " + character.weapon.throwDistance);
-		character.weapon.throwDistance = GUI.HorizontalSlider (Rect (460, 105, 100, 30), character.weapon.throwDistance, 1.0, 8.0);
-	}
 	
-	if(character.model.blue){
-		GUI.Label(Rect(270, 120, 200, 30), "Jump time: " + character.model.jumpTime);
-		character.model.jumpTime = GUI.HorizontalSlider (Rect (460, 125, 100, 30), character.model.jumpTime, 0.1, 3.0);
-		GUI.Label(Rect(270, 140, 200, 30), "Jump speed: x" + character.model.jumpSpeedMultiplier);
-		character.model.jumpSpeedMultiplier = GUI.HorizontalSlider (Rect (460, 145, 100, 30), character.model.jumpSpeedMultiplier, 0.5, 3.0);
-		GUI.Label(Rect(270, 160, 200, 30), "Jump recovery: " + character.model.jumpCooldown);
-		character.model.jumpCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.jumpCooldown, 0, 2.0);
-	} else{
-		GUI.Label(Rect(270, 120, 200, 30), "Roll time: " + character.model.rollTime);
-		character.model.rollTime = GUI.HorizontalSlider (Rect (460, 125, 100, 30), character.model.rollTime, 0.1, 2.0);
-		GUI.Label(Rect(270, 140, 200, 30), "Roll speed: x" + character.model.rollSpeedMultiplier);
-		character.model.rollSpeedMultiplier = GUI.HorizontalSlider (Rect (460, 145, 100, 30), character.model.rollSpeedMultiplier, 0.5, 6.0);
-		GUI.Label(Rect(270, 160, 200, 30), "Roll recovery: " + character.model.rollCooldown);
-		character.model.rollCooldown = GUI.HorizontalSlider (Rect (460, 165, 100, 30), character.model.rollCooldown, 0, 2.0);
-	}
-	*/
-
-	
-	//print("Font Skin:" + GUI.skin.font.ToString());
-	//GUILayout.Label("This is a label with the font");
 	
 	var width1 = Screen.width/50;
 	var height1 = width1;
@@ -896,7 +848,13 @@ function OnGUI() {
 		var textDual = Resources.Load("Textures/chargebar_frame", Texture2D);
 		GUI.DrawTexture(Rect(width1, (height1)*10, Screen.width/4, Screen.width/12), textDual, ScaleMode.StretchToFill, true, 0);
 		
-	}																													
+	}			
+	
+	// Pause and Restart Level buttons	
+	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), "restart level")) {
+        Application.LoadLevel("GameLevel" + levelNumber);
+    }
+    //GUI.Box (Rect((Screen.width/10)*1, (Screen.height/7)*5, Screen.width/2.5, Screen.height/6), "Play Again!"); 																																																			
 }
 
 
