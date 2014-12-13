@@ -48,7 +48,7 @@ function init(t: String, manager: GameManager, numA : int, numB : int) {	// NumA
 		model = modelObject.AddComponent("DeviceWallModel");			// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = model.transform.position;								// Center the boxcollider on the unit.
-		box.size = Vector3(2.5,1,15);
+		box.size = Vector3(2.5,1.5,15);
 		model.init(this, manager, numA, numB);													// Initialize the tileModel.
 		model.name = "Color Wall";
 	}
