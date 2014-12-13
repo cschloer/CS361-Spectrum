@@ -6,6 +6,8 @@ public class MonsterBossSmash extends Monster{
 	var metalSound : AudioSource;
 	var chargeSound : AudioSource;
 	var squirtSound : AudioSource;
+	var fireSound : AudioSource;
+	var spawnSound : AudioSource;
 	var breathingFire : boolean;
 	var tentacles:Array;
 	var tentacleFolder:GameObject;
@@ -69,6 +71,11 @@ public class MonsterBossSmash extends Monster{
 		vip1Sound.clip = Resources.Load("Sounds/vip1") as AudioClip;
 		vip2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
 		vip2Sound.clip = Resources.Load("Sounds/vip2") as AudioClip;
+		
+		fireSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		fireSound.clip = Resources.Load("Sounds/fire") as AudioClip;
+		spawnSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		spawnSound.clip = Resources.Load("Sounds/firePop") as AudioClip;
 		
 		bulletFolder = new GameObject();
 		bulletFolder.name = "Bullets";
@@ -151,7 +158,10 @@ public class MonsterBossSmash extends Monster{
 		}
 		else { 
 		
-			if (Random.value > .95) super.manager.addMonster(super.model.transform.position.x, super.model.transform.position.y, super.hero, 12);
+			if (Random.value > .95) {
+			super.manager.addMonster(super.model.transform.position.x, super.model.transform.position.y, super.hero, 12);
+			playSound(spawnSound);
+			}
 		// spawn minions
 			/*if (distanceToHero() > 5 && !lunging) {
 				if(angleToHero() > 8 && angleToHero() < 352) 	turnToHero(4);
@@ -170,6 +180,7 @@ public class MonsterBossSmash extends Monster{
 	
 	function breatheFire(duration:float){
 			breathingFire = true;
+			playSound(fireSound);
 			var tempClock:float = 0;
 			var chargeTime:float = 0.4;
 			while (tempClock < chargeTime){

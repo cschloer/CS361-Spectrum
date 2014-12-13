@@ -48,7 +48,7 @@ function Update(){
 		}
 	}
 	if(cakes == null) addCakes();
-	if(Vector3.Magnitude(transform.position - manager.character.model.transform.position) < 3){
+	if(Vector3.Magnitude(transform.position - manager.character.model.transform.position) < 3 && manager.showCakes){
 		showCake();
 	} else {
 		hideCake();

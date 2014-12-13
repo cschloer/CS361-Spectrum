@@ -10,7 +10,7 @@ public class Monster7 extends Monster{
 	var shotSound : AudioSource;
 	function init(c : Character){
 		super.init(c);
-		health = 1;	
+		health = 2;	
 		moveSpeed = 1;	//Moves faster
 		model.renderer.material.mainTexture = Resources.Load("Textures/lightningRobot", Texture2D);	// Set the texture.  Must be in Resources folder.
 		bingSound = gameObject.AddComponent("AudioSource") as AudioSource;

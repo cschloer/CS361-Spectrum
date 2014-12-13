@@ -44,6 +44,7 @@ var activeClock:float;
 var activeClockDone:boolean;
 var zoom : float;
 var restartButton : Texture2D;
+var showCakes : boolean = true;
 // Start
 // Called once when the script is created.
 function Start () {
