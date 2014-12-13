@@ -76,11 +76,7 @@ function Start () {
 	levelInit();
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
 	guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
-/*	
-	addCircle(0);
-	addCircle(1);
-	addCircle(2);
-	*/
+
 	paused = false;
 	clock = 0.0;
 	monsterCounter = 0;
