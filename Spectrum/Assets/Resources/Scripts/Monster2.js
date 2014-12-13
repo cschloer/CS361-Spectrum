@@ -54,7 +54,7 @@ public class Monster2 extends Monster {
 			turnSpeed = 60;
 			timing = Time.time;
 		} else if(Time.time - timing > 1.25){
-			move(4.5);
+			move(6.5);
 		}
 		if( super.distanceToHero() < 1 && !attacked){
 			super.simpleMelee();

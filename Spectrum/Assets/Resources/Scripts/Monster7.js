@@ -25,21 +25,21 @@ public class Monster7 extends Monster{
 	//Monster's behaviour
 	function act(){
 		if(!buddyAttacking){
-			 drift(1);
+			 drift(4);
 			 if(distanceToHero() > 10){
-			 	moveTowardHero(.5);
+			 	moveTowardHero(1.5);
 			 }else{
-			 	move(.5);
+			 	move(1.5);
 			 	if(Random.value > .99){
 			 		model.transform.eulerAngles.z = -90 + 180*Random.value + heroAngle();
 			 	}
 			 }
 		}
 			 	
-		if(Random.value > .995 && buddy == null) findBuddy();
+		if(buddy == null) findBuddy();
 		if(Random.value > .99 && !buddyAttacking && buddy != null){
-			buddyAttack(1.5, 1, .1);
-			buddy.buddyAttack(1.5, 1, .1);
+			buddyAttack(.1, .1, .1);
+			buddy.buddyAttack(.1, .1, .1);
 		}
 		
 	}

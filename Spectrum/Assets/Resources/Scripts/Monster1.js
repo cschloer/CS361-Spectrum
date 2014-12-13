@@ -44,12 +44,13 @@ public class Monster1 extends Monster {
 			moveFromHero(chargeSpeed);
 			yield;
 		}
+		attack(6, lungeSpeed*1.5, 0, 1, .3, Color.red, false, true, "");
 		while(lungeTime > 0){
 			lungeTime -= Time.deltaTime;
 			move(lungeSpeed);
 			yield;
 		}
-		attack(6, 6, 0, 1, .3, Color.red, false, true, "");
+		
 		playSound(shootSound);
 		while(retreatTime > 0){
 			retreatTime -= Time.deltaTime;

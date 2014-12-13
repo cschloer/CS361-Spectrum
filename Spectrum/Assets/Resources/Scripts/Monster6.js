@@ -20,8 +20,8 @@ public class Monster6 extends Monster{
 	function act(){
 		var distance : float = distanceToHero();
 		if(!lunging){		
-			if(heroAngle() > 140 && heroAngle() < 220 && distance < 4.1 && distance > 3.9 && Random.value > .95){
-				lunge(.3, .2, .8, 4, .5, .1);
+			if(heroAngle() > 140 && heroAngle() < 220 && distance < 4.1 && distance > 3.9){
+				lunge(.15, .2, .8, 4, .5, .1);
 			} else{
 				circleBehind();
 			}
@@ -57,8 +57,8 @@ public class Monster6 extends Monster{
 				 
 	//Maintain constant distance and get behind the hero. We can approach faster than we can back away.
 	function circleBehind(){	
-		if(heroAngle() < 180) moveRight(1.5);
-		if(heroAngle() >= 180) moveLeft(1.5);
+		if(heroAngle() < 180) moveRight(2);
+		if(heroAngle() >= 180) moveLeft(2);
 		turnToHero(1.5);
 		if(distanceToHero() > 4){
 			move();
