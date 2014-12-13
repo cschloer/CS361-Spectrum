@@ -93,7 +93,7 @@ function Start () {
 	winScreen = false;
 	loseScreen = false;
 
-addMonster(0, 2, character, 1);
+//addMonster(0, 2, character, 1);
 	
 	//addMonster(0, 0, character, 7);
 	/*
@@ -119,7 +119,7 @@ function Update () {
 
 	if (winScreen || loseScreen){
 		losewinTimer += Time.deltaTime;
-		print("winScreen true");
+	//	print("winScreen true");
 		if (losewinTimer >= 2) {
 			winScreen = false;
 			loseScreen = false;

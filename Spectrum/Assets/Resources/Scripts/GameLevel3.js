@@ -63,7 +63,7 @@ function levelInit(){
 
 function addBoss(x : float, y :float, c : Character){
 	//todo: Rewire for new boss.
-	addBossTentacle(x,y,c);
+	addBossSMASH(x,y,c);
 }
 
 function OnGUI(){
