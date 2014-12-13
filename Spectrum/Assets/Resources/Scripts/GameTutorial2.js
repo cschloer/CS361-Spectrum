@@ -78,19 +78,21 @@ function Update () {
 			paused = !paused;
 		}
 	}
-	if(character.model.yellow) displayText = "Cool blades! Use Space to roll.";
-	if(character.model.blue) displayText = "Use Space to Jump now! Kill the boss!";
+	if((character!=null) && character.model.yellow) displayText = "Cool blades! Use Space to roll.";
+	if((character!=null) && character.model.blue) displayText = "Use Space to Jump now! Kill the boss!";
 	clock = clock + Time.deltaTime;
 	if(boss == null && clock > 1){
 		win();
 	}
 	var cams : Array = Camera.allCameras;
 	//print(cams.length);
+	if ((character!=null)){
 	for(var cam : Camera in cams){
 		cam.transform.position.x = character.model.transform.position.x;
 		cam.transform.position.y = character.model.transform.position.y;
 		if (cam != Camera.main) cam.transform.position.z = -20;
 		}
+	}
 }
 function OnGUI() {
 	super.OnGUI();

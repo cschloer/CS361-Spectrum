@@ -49,10 +49,12 @@ function Update(){
 	//super.Update();
 	var cams : Array = Camera.allCameras;
 	//print(cams.length);
+	if ((character!=null)){
 	for(var cam : Camera in cams){
 		cam.transform.position.x = character.model.transform.position.x;
 		cam.transform.position.y = character.model.transform.position.y;
 		if (cam != Camera.main) cam.transform.position.z = -20;
+		}
 		}
 		
 	if (Input.GetKeyUp(KeyCode.Escape)){
