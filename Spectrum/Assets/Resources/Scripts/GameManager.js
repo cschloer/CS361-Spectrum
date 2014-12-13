@@ -43,6 +43,7 @@ var levelNumber : int;
 var activeClock:float;
 var activeClockDone:boolean;
 var zoom : float;
+var restartButton : Texture2D;
 // Start
 // Called once when the script is created.
 function Start () {
@@ -51,7 +52,7 @@ function Start () {
 // Camera size! Original was 5, see how you like this
 	zoom = 6;
 	theCamera.camera.orthographicSize = zoom;
-
+	restartButton = Resources.Load("Textures/restart_new", Texture2D);
 
 
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
@@ -677,10 +678,11 @@ function OnGUI() {
 		 Application.LoadLevel("End");
 	} else if(paused){
 		GUI.skin.box.fontSize = 26;
-		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-75,300,150), "Paused!");
+		GUI.Box(Rect(Screen.width/2-70,Screen.width/2-20,140,40), "Paused!");
 		if (GUI.Button (Rect((Screen.width/10)*8, (Screen.height/10*9), Screen.width/10, Screen.height/10), "Exit")) {
 			paused = false;
         	Application.LoadLevel("Start");
+        GUI.skin.label.fontSize = 14;
     	}
 	} else if (character.dead){
 		GUI.skin.box.alignment = TextAnchor.UpperLeft;
@@ -850,7 +852,7 @@ function OnGUI() {
 	}			
 	
 	// Pause and Restart Level buttons	
-	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), "restart level")) {
+	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), restartButton)) {
         Application.LoadLevel("Level" + levelNumber);
     }
     //GUI.Box (Rect((Screen.width/10)*1, (Screen.height/7)*5, Screen.width/2.5, Screen.height/6), "Play Again!"); 																																																			
