@@ -1057,7 +1057,7 @@ function toSmall(){
 }
 
 function fallDeath(aim: Vector3){
-
+	character.dead = true;
 	var counter:float = 0;
 	while (counter < 1){
 		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime*5);
@@ -1067,8 +1067,6 @@ function fallDeath(aim: Vector3){
 		//shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
-	//todo: respawn
-	character.dead = true;
 	Manager.death();
 }
 

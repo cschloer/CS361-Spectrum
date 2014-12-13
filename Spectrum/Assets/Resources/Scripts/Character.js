@@ -125,11 +125,11 @@ function Update(){
 }
 
 public function hurt(){
-		if( !model.vincible ) return;
+		if( !model.vincible || dead) return;
+		hurting = true;
 		oofSound.Play();
 		//manager.playSound(offSound, transform.position);
 		health--;
-		hurting = true;
 		var before = model.renderer.material.color;
 		model.renderer.material.color = Color(.5,.5,.5);
 		model.shakeCamera(.5, .1);
@@ -166,6 +166,7 @@ function checkHealth(){
 	if (health > 0 ) return;
 	var t : float = 0;
 	model.vincible = false;
+	dead = true;
 	while (t < 2){
 		t += Time.deltaTime;
 		model.renderer.material.color.a = 1-(t/2);
@@ -173,7 +174,6 @@ function checkHealth(){
 		model.stopMovement();
 		yield;
 	}
-	dead = true;
 	manager.tip = manager.genTip();
 	manager.death();	//respawn
 }

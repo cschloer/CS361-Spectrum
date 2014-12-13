@@ -138,10 +138,6 @@ function Update () {
 			paused = !paused;
 		}
 	}
-	if(character.dead){
-		character.model.stopMovement();
-		//death();
-	}
 	clock = clock + Time.deltaTime;
 	if(boss == null && clock > 1 && !winScreen){
 		win();
@@ -573,7 +569,6 @@ function death(){
 		character.weapon.model.renderer.material.color.a = 1;
 
 		character.model.resetDeath();
-//		character.model.init();
 
 		Destroy(boss.gameObject);
 		bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
@@ -609,7 +604,7 @@ function genTip(){
 			return "Without the color blue you roll with \ngreat speed.";
 			break;
 		case 3:
-			return "Without the color yellow your senses \nallow you pick off enemies at range.";
+			return "Without yellow, your senses give you \nthe gift of great range.";
 			break;
 		case 4:
 			return "With the color red you are great and \npowerful.";
@@ -618,7 +613,7 @@ function genTip(){
 			return "With the color blue you may jump and \nreach great heights.";
 			break;
 		case 6:
-			return "With the color yellow your reflexes \nbecome like any great knight.";
+			return "With the color yellow you swing a sword \nlike any great knight.";
 			break;
 		case 7:
 			return "Steal colors from enemies to change \nyour build.";
@@ -637,6 +632,9 @@ function genTip(){
 			break;
 		case 12:
 			return "This wouldn't happen if you were \nbetter.";
+			break;
+		case 13:
+			return "If you get stuck, you can restart the level!";
 			break;
 		default:
 			return "Try not to die.";
@@ -853,7 +851,7 @@ function OnGUI() {
 	
 	// Pause and Restart Level buttons	
 	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), "restart level")) {
-        Application.LoadLevel("GameLevel" + levelNumber);
+        Application.LoadLevel("Level" + levelNumber);
     }
     //GUI.Box (Rect((Screen.width/10)*1, (Screen.height/7)*5, Screen.width/2.5, Screen.height/6), "Play Again!"); 																																																			
 }
