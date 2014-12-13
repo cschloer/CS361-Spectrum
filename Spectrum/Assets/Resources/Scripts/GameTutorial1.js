@@ -3,6 +3,13 @@
 public class GameTutorial1 extends GameManager {
 
 var displayText : String;
+
+function Start(){
+	super.Start();
+	musicSound.clip = Resources.Load("Sounds/musicTutorial");
+	musicSound.Play();
+}
+
 	
 function levelInit(){
   roomCreate(-10,-10,0,"Plain3End.txt");

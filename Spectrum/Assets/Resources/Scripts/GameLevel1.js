@@ -5,6 +5,8 @@ public class GameLevel1 extends GameManager {
 function Start(){
 	super.Start();
 	explosionWorm1.gameObject.SetActive(false);
+	musicSound.clip = Resources.Load("Sounds/musicLevel1");
+	musicSound.Play();
 }
 
 function levelInit(){

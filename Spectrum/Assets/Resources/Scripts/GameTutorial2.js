@@ -2,6 +2,13 @@
 public class GameTutorial2 extends GameManager {
 var displayText : String;
 
+function Start(){
+	super.Start();
+	musicSound.clip = Resources.Load("Sounds/musicTutorial");
+	musicSound.Play();
+}
+
+
 function levelInit(){
   roomCreate(-10,-10,0,"Plain2End.txt");
   roomCreate(-10, 10,1,"Plain2Cross.txt");

@@ -1,5 +1,13 @@
 ﻿public class LobbyManager extends GameManager {
 
+function Start(){
+	super.Start();
+	musicSound.clip = Resources.Load("Sounds/musicPortal");
+	musicSound.Play();
+}
+
+
+
 function levelInit(){
 
 	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");

@@ -5,7 +5,7 @@ public class GameLevel3 extends GameManager {
 
 function Start(){
 	super.Start();
-	musicSound.clip = Resources.Load("Sounds/rhysGameMusic");
+musicSound.clip = Resources.Load("Sounds/musicLevel3");
 	musicSound.Play();
 }
 
