@@ -18,7 +18,7 @@ function init(own : Tile) {
 	
 	
 
-	renderer.material.mainTexture = Resources.Load("Textures/gem3", Texture2D);		// Set the texture.  Must be in Resources folder.
+	renderer.material.mainTexture = Resources.Load("Textures/lava", Texture2D);		// Set the texture.  Must be in Resources folder.
 	renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency. 
 	transform.localScale += Vector3(0.3,0.3,0);
