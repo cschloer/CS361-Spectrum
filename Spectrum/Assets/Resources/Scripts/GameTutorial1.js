@@ -54,7 +54,7 @@ function addBoss(x : float, y :float, c : Character){
 }
 
 function Update () {
-	if ((character!=null) && character.model.cakesCollected == 8) {
+	if (character.model.cakesCollected == 8) {
 		displayText = "Click to fire at the boss monster!";
 	}
 	if (winScreen || loseScreen){
@@ -89,14 +89,12 @@ function Update () {
 	}
 	
 	var cams : Array = Camera.allCameras;
-	//print(cams.length); 
-	if ((character!=null)){
+	//print(cams.length);
 	for(var cam : Camera in cams){
 		cam.transform.position.x = character.model.transform.position.x;
 		cam.transform.position.y = character.model.transform.position.y;
 		if (cam != Camera.main) cam.transform.position.z = -20;
 		}
-	}
 }
 
 function OnGUI() {

@@ -1,4 +1,4 @@
-﻿
+﻿#pragma strict
 
 var target;
 var Manager:GameManager;
@@ -32,7 +32,7 @@ var mouseWorldSpace:Vector3;
 
 function Start () {
 	
-	Manager = GameObject.Find("Game Manager").GetComponent("GameManager");
+	//Manager = this.gameObject.transform.parent.GetComponent(GameManager);
 	character = Manager.character.model;
 	
 //	character.camera = this.gameObject;

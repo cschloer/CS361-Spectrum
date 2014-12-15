@@ -680,7 +680,7 @@ function OnGUI() {
         	Application.LoadLevel("Start");
         GUI.skin.label.fontSize = 14;
     	}
-	} else if ((character!=null) && character.dead){
+	} else if (character.dead){
 		GUI.skin.box.alignment = TextAnchor.UpperLeft;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-25,300,50), tip);
 	
@@ -689,7 +689,7 @@ function OnGUI() {
 	// Controls the jumping image of the TraitMap
 	var textJump : Texture2D;
 	textJump = Resources.Load("Textures/TraitMap_Jump", Texture2D);
-	if ((character!=null) && character.model.blue == true){
+	if (character.model.blue == true){
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(width1,height1,boxSize,boxSize), textJump, ScaleMode.ScaleToFit, true, 0);
 	} else {
@@ -703,7 +703,7 @@ function OnGUI() {
 	// Controls the rolling image of the TraitMap
 	var textRoll : Texture2D;
 	textRoll = Resources.Load("Textures/TraitMap_Roll", Texture2D);
-	if ((character!=null) && character.model.blue == true){
+	if (character.model.blue == true){
 		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1,height1*3+boxSize/1.5,boxSize,boxSize), textRoll, ScaleMode.ScaleToFit, true, 0);
 	} else {
@@ -714,7 +714,7 @@ function OnGUI() {
 	// Controls the swinging image of the TraitMap
 	var textSwing : Texture2D;
 	textSwing = Resources.Load("Textures/TraitMap_Swing", Texture2D);
-	if ((character!=null) && character.model.yellow == true){
+	if (character.model.yellow == true){
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1,boxSize,boxSize), textSwing, ScaleMode.ScaleToFit, true, 0);
 	} else {
@@ -725,7 +725,7 @@ function OnGUI() {
 	// Controls the throwing image of the TraitMap
 	var textThrow : Texture2D;
 	textThrow = Resources.Load("Textures/TraitMap_Throw", Texture2D);
-	if ((character!=null) && character.model.yellow == true){
+	if (character.model.yellow == true){
 		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect(width1*3 + boxSize/1.5,height1*3+boxSize/1.5,boxSize,boxSize), textThrow, ScaleMode.ScaleToFit, true, 0);
 	} else {
@@ -736,7 +736,7 @@ function OnGUI() {
 	// Controls the big image of the TraitMap
 	var textBig : Texture2D;
 	textBig = Resources.Load("Textures/TraitMap_Big", Texture2D);
-	if ((character!=null) && character.model.red == true){
+	if (character.model.red == true){
 		GUI.color.a = 1;
 		GUI.DrawTexture(Rect((width1*3 + 1.7*boxSize),height1,boxSize,boxSize), textBig, ScaleMode.ScaleToFit, true, 0);
 	} else {
@@ -749,7 +749,7 @@ function OnGUI() {
 	// Controls the small image of the TraitMap
 	var textSmall : Texture2D;
 	textSmall = Resources.Load("Textures/TraitMap_Small", Texture2D);
-	if ((character!=null) && character.model.red == true){
+	if (character.model.red == true){
 		GUI.color.a = 0.3;
 		GUI.DrawTexture(Rect((width1*3 + 1.7*boxSize),height1*3+boxSize/1.5,boxSize,boxSize), textSmall, ScaleMode.ScaleToFit, true, 0);
 	} else {
@@ -760,13 +760,13 @@ function OnGUI() {
 	// --------> This is the lifehearts
 	var textHealth : Texture2D;
 	GUI.color.a = 1;
-	if ((character!=null) && character.health >= 3) {
+	if (character.health >= 3) {
 		textHealth = Resources.Load("Textures/heart3", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);
-	}else if ((character!=null) && character.health == 2) {
+	}else if (character.health == 2) {
 		textHealth = Resources.Load("Textures/heart2", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);
-	}else if ((character!=null) && character.health == 1) {
+	}else if (character.health == 1) {
 		textHealth = Resources.Load("Textures/heart1", Texture2D);
 		GUI.DrawTexture(Rect((Screen.width/7)*5, height1, Screen.width/4, Screen.height/8), textHealth, ScaleMode.StretchToFill, true, 0);
 	}else {
@@ -777,7 +777,6 @@ function OnGUI() {
 	// ----------> Cake
 	var textCake : Texture2D;
 	GUI.color.a = 1;
-	if ((character!=null))
 	var currentCakes = character.model.cakesCollected;
 	
 	textCake = Resources.Load("Textures/cake" + currentCakes, Texture2D);
@@ -788,7 +787,7 @@ function OnGUI() {
 //	GUI.contentColor = Color.white;
 	
 	// ----------> Throwing star counter
-	if ((character!=null) && character.isThrowingStar == true) {
+	if (character.isThrowingStar == true) {
 		var textStars : Texture2D;
 		GUI.color.a = 1;
 		var currentStars = character.starsAvailable;
@@ -808,7 +807,7 @@ function OnGUI() {
 	
 	// ----------> Boomerang charge counter
 
-	if ((character!=null) && character.model.yellow == false && character.model.red == true) {
+	if (character.model.yellow == false && character.model.red == true) {
 		GUI.color.a = 1;
 
 		
@@ -824,7 +823,7 @@ function OnGUI() {
 	
 	// ----------> dual wield charge counter
 
-	if ((character!=null) && character.model.yellow == true && character.model.red == false) {
+	if (character.model.yellow == true && character.model.red == false) {
 		GUI.color.a = 1;
 
 		var comboCounter: int = 0;
@@ -849,9 +848,9 @@ function OnGUI() {
 	}			
 	
 	// Pause and Restart Level buttons	
-	/*if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), restartButton)) {
+	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), restartButton)) {
         Application.LoadLevel("Level" + levelNumber);
-    }*/
+    }
     //GUI.Box (Rect((Screen.width/10)*1, (Screen.height/7)*5, Screen.width/2.5, Screen.height/6), "Play Again!"); 																																																			
 }
 
