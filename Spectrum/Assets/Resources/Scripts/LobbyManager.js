@@ -9,7 +9,7 @@ function Start(){
 
 
 function levelInit(){
-
+	showCakes = false;
 	var stream = new StreamReader(Application.dataPath +"/Configuration/data.conf");
 	var lev = stream.ReadLine();
 	currentLevel = parseInt(lev.Split(":"[0])[1]);

@@ -6,6 +6,8 @@ public class MonsterBossTentacle extends Monster{
 	var metalSound : AudioSource;
 	var chargeSound : AudioSource;
 	var squirtSound : AudioSource;
+	var shotsSound : AudioSource;
+	var iceSound : AudioSource;
 	var lunging : boolean;
 	var tentacles:Array;
 	var rooted:Vector3; //consitent position
@@ -61,6 +63,10 @@ public class MonsterBossTentacle extends Monster{
 		vip1Sound.clip = Resources.Load("Sounds/vip1") as AudioClip;
 		vip2Sound = gameObject.AddComponent("AudioSource") as AudioSource;
 		vip2Sound.clip = Resources.Load("Sounds/vip2") as AudioClip;
+		shotsSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		shotsSound.clip = Resources.Load("Sounds/threeClicks") as AudioClip;
+		iceSound = gameObject.AddComponent("AudioSource") as AudioSource;
+		iceSound.clip = Resources.Load("Sounds/iceBoom") as AudioClip;
 		
 		bulletFolder = new GameObject();
 		bulletFolder.name = "Bullets";
@@ -188,6 +194,7 @@ public class MonsterBossTentacle extends Monster{
 			yield WaitForSeconds(Random.Range(0.05, 0.15));
 		
 		}
+		playSound(shotsSound);
 	
 	}
 	
@@ -214,7 +221,7 @@ public class MonsterBossTentacle extends Monster{
 																																								// We can now refer to the object via this script.
 		mineScript.transform.parent = super.model.transform.parent;	// Set the mine's parent object to be the mine folder.							
 		mineScript.init(pos, modelObject2, 0, super.manager.character.model);	
-
+		playSound(iceSound);
 	
 	}
 	
