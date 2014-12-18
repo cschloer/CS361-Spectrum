@@ -24,7 +24,7 @@ function init(t: String, or: int, tiles: Array) {
 		var hmodel = modelObject.AddComponent("TileHoleModel");					// Add a script to control direction of the unit.
 		box = modelObject.AddComponent("BoxCollider");						// Add boxcollider.
 		box.center = hmodel.transform.position;								// Center the boxcollider on the unit.
-		box.size = Vector3(.7,.7,4);
+		box.size = Vector3(.6,.6,4);
 		box.isTrigger = true;
 		hmodel.init(this);													// Initialize the tileModel.
 	} else if(type == "Lava") {
