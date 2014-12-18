@@ -75,7 +75,8 @@ function OnGUI() {
     }
     if(displayErase){
     	if(GUI.Button (Rect((Screen.width/10)*3, (Screen.height*.55), Screen.width/5, Screen.height/8), "Erase Data")){
-    		eraseData();
+    		if(displayErase)
+    			eraseData();
     		displayErase = false;
 
 		}

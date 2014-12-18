@@ -4,7 +4,7 @@ public class GameLevel1 extends GameManager {
 
 function Start(){
 	super.Start();
-	explosionWorm1.gameObject.SetActive(false);
+	//explosionWorm1.gameObject.SetActive(false);
 	musicSound.clip = Resources.Load("Sounds/musicLevel1");
 	musicSound.Play();
 }
@@ -44,6 +44,7 @@ function levelInit(){
   bossSpawner.modelObject.GetComponent("SpawnPointModel").spawn();
   currentLevel=4;
   levelNumber = 1;
+  addMonster(5, 5, character, 11);
 
  // addMonster(character.model.transform.position.x + 2 ,character.model.transform.position.y+2,character,11);
 }

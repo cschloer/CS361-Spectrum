@@ -24,7 +24,7 @@ function Update () {
 }
 
 function OnTriggerEnter(col:Collider){
-	print(col.gameObject.name);
+	//print(col.gameObject.name);
 	if (col.gameObject.name.Contains("Character")){
 		Application.LoadLevel("Level" + levelNum);
 	}

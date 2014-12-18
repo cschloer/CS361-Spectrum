@@ -45,6 +45,7 @@ var activeClockDone:boolean;
 var zoom : float;
 var restartButton : Texture2D;
 var showCakes : boolean = true;
+var debug : boolean = true;
 // Start
 // Called once when the script is created.
 function Start () {
@@ -59,7 +60,8 @@ function Start () {
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
 	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	explosionGreen.gameObject.SetActive(false); // make it inactive in beginning
-	//explosionWorm2.gameObject.SetActive(false);
+	explosionWorm2.gameObject.SetActive(false);
+	explosionWorm1.gameObject.SetActive(false);
 	characterFolder = new GameObject();  
 	characterFolder.name = "Character";
 	monsterFolder = new GameObject();
@@ -138,6 +140,9 @@ function Update () {
 	}
 	clock = clock + Time.deltaTime;
 	if(boss == null && clock > 1 && !winScreen){
+		win();
+	}
+	if(Input.GetKeyDown("p") && debug){
 		win();
 	}
 }
@@ -657,7 +662,7 @@ function updateLevel(number : int){
 }
 
 function OnGUI() {
-
+	if (character == null) return;
 	// Setup
 	GUI.backgroundColor = Color.white;
 	GUI.skin.label.fontSize = 14;
@@ -681,7 +686,8 @@ function OnGUI() {
         	Application.LoadLevel("Start");
         GUI.skin.label.fontSize = 14;
     	}
-	} else if (character.dead){
+	}
+	 else if (character.dead){
 		GUI.skin.box.alignment = TextAnchor.UpperLeft;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-25,300,50), tip);
 	
@@ -849,8 +855,11 @@ function OnGUI() {
 	}			
 	
 	// Pause and Restart Level buttons	
-	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), restartButton)) {
-        Application.LoadLevel("Level" + levelNumber);
+	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), "Restart Level")) {
+		if( levelNumber > 0 )	
+        	Application.LoadLevel("Level" + levelNumber);
+        else
+        	Application.LoadLevel("LevelTutorial1");
     }
     //GUI.Box (Rect((Screen.width/10)*1, (Screen.height/7)*5, Screen.width/2.5, Screen.height/6), "Play Again!"); 																																																			
 }

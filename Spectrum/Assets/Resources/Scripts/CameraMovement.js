@@ -32,7 +32,7 @@ var mouseWorldSpace:Vector3;
 
 function Start () {
 	
-	//Manager = this.gameObject.transform.parent.GetComponent(GameManager);
+	Manager = GameObject.Find("Game Manager").GetComponent("GameManager");
 	character = Manager.character.model;
 	
 //	character.camera = this.gameObject;

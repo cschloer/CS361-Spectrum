@@ -125,7 +125,7 @@ function Update(){
 }
 
 public function hurt(){
-		if( !model.vincible || dead) return;
+		if( !model.vincible || dead|| manager.debug) return;
 		hurting = true;
 		oofSound.Play();
 		//manager.playSound(offSound, transform.position);

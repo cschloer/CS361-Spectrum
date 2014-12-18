@@ -60,6 +60,7 @@ function Update(){
 }
 function colorTile(){
 	//print("coloring");
+	
 		if(manager != null){
 		var distance : Vector3 = modelObject.transform.position - manager.character.model.transform.position;
 		if (distance.magnitude > 16) {

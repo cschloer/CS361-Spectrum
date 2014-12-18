@@ -179,9 +179,10 @@ public class MonsterWorm extends Monster{
 
 	function dirtCloud(){
 		var explosionParticle : ParticleSystem = Instantiate(hero.manager.explosionWorm1);
+		//print(explosionParticle);
 		explosionParticle.transform.parent = this.transform;
 		explosionParticle.transform.position = model.transform.position;
-		explosionParticle.transform.position.z = 10;
+		explosionParticle.transform.position.z = 1;
 		explosionParticle.gameObject.SetActive(true);
 		emergeAttack();
 		yield WaitForSeconds(1);
@@ -195,7 +196,7 @@ public class MonsterWorm extends Monster{
 		var explosionParticle : ParticleSystem = Instantiate(hero.manager.explosionWorm2);
 		explosionParticle.transform.parent = this.transform;
 		explosionParticle.transform.position = model.transform.position;
-		explosionParticle.transform.position.z = 10;
+		explosionParticle.transform.position.z = 1;
 		explosionParticle.gameObject.SetActive(true);
 		yield WaitForSeconds(1);
 		Destroy(explosionParticle.gameObject);

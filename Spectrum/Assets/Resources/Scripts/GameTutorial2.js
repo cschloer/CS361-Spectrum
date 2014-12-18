@@ -91,6 +91,9 @@ function Update () {
 		cam.transform.position.y = character.model.transform.position.y;
 		if (cam != Camera.main) cam.transform.position.z = -20;
 		}
+	if(Input.GetKeyDown("p") && debug){
+		win();
+	}
 }
 function OnGUI() {
 	super.OnGUI();
