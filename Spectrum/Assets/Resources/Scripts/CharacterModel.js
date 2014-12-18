@@ -36,7 +36,6 @@ var shadow : GameObject;
 var shadowOffset : float;
 var heroScale : float; //tracks size of hero in float form
 var cakesCollected : int;
-var frozen : boolean;
 var isPushed : boolean = false;
  var attacking : boolean;
 // Mechanics
@@ -96,7 +95,6 @@ function Start () {
 	yellow = false;
 	rolling = false;
 	vincible = true;
-	frozen = false;
 	colorStore = Color(1,1,1);
 	curentColor = Color(1, 1, 1);
 	heading = Vector3.zero;
@@ -183,7 +181,6 @@ function resetDeath(){
 	turnSpeed = 1;
 	rolling = false;
 	vincible = true;
-	frozen = false;
 	
 	boostRaRo = false; // boost when a rolling ranged character rolls
 	boostRaRoTimer = 0;
@@ -498,6 +495,7 @@ function Update () {
 	else{
 		if (isChargingBoom) {
 			character.weapon.vibrating = false;
+			character.anim.SetTrigger("Attack1");
 			character.weapon.tossBoomerang(character.weapon.throwDistance/1.5*(chargingBoomTimer+1), character.weapon.throwTime, 1000, character.weapon.throwRecovery, this.transform.up, true, chargingBoomTimer);
 			chargingBoomTimer = 0;
 			isChargingBoom = false;
@@ -535,6 +533,7 @@ function Update () {
  			
  			if (!red && character.starsAvailable != 0 && !jumping) { // throw stars!!
  				character.starsAvailable--;
+ 				character.anim.SetTrigger("Attack1");
  				character.throwingStars[character.curStar].tossStar(character.weapon.throwDistance*3, character.weapon.throwTime, 1000, character.weapon.throwRecovery, 0);
  				character.curStar = (character.curStar+1)%character.numThrowingStars;
  			}
@@ -1059,12 +1058,10 @@ function toSmall(){
 function fallDeath(aim: Vector3){
 	character.dead = true;
 	var counter:float = 0;
-	while (counter < 1){
-		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime*5);
-		frozen = true;
-		//heroScale-=Time.deltaTime*.5;
+	while (counter < 0.8){
+		stopMovement();
+		transform.position = Vector3.MoveTowards(transform.position,aim,(heroScale+1)*Time.deltaTime*2);
 		counter+= Time.deltaTime;
-		//shadow.transform.localScale = Vector3.one * heroScale;
 		yield;
 	}
 	Manager.death();
@@ -1105,12 +1102,14 @@ function comboSM(){ // combo for small
 
  	if (!comboSmall1 && !comboSmall2){
  		comboSmall1 = true;
+ 		character.anim.SetTrigger("Attack1");
  		character.weapon.dualSwing(3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);
  		
  	}
  	else if (!comboSmall2) {
  		comboSmall2 = true;
  		character.lunge();
+ 		character.anim.SetTrigger("Attack2");
  		character.weaponDual.dualSwing(-3*character.weapon.swingArc/4, character.weapon.swingTime, character.weapon.swingRecovery/2);	
  	}
  	else { // combo ended

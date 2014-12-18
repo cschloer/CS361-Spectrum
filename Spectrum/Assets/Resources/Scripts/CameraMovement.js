@@ -82,7 +82,7 @@ function OnDrawGizmos() {
 
 function doMovement(){
 	
-	if(!character.frozen){
+	//if(!character.frozen){
 	var charX:float = character.transform.position.x;
 	var charY:float = character.transform.position.y;
 	
@@ -120,9 +120,9 @@ function doMovement(){
 	
 	this.gameObject.transform.position.x = curX;
 	this.gameObject.transform.position.y = curY;
-	} else{
-		freeze = true;
-	}
+	//} else{
+	//	freeze = true;
+	//}
 }
 
 
