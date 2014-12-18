@@ -16,7 +16,7 @@ function levelInit(){
   roomCreate(-10, 10,1,"Plain3Adj.txt");
   roomCreate( 10, 10,3,"Plain3Tri.txt");
   roomCreate( 30, 10,3,"Plain2End.txt");
-  roomCreate( 10, 30,0,"Plain4Opp.txt");
+  roomCreate( 10, 30,0,"Plain4OppEnd.txt");
   addDevice(19.5,28.5,"barrier", 3, 7);
   charSpawner = addDevice(-0.5,-6.5,"aSpawn",0,0);
   bossSpawner = addDevice(18,45,"aSpawn",1,0);
