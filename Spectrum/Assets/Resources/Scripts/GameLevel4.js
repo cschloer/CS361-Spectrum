@@ -4,7 +4,7 @@ public class GameLevel4 extends GameManager {
 
 
 function Start(){
-	explosionWorm2.gameObject.SetActive(false);
+	//explosionWorm2.gameObject.SetActive(false);
 	super.Start();
 	musicSound.clip = Resources.Load("Sounds/musicLevel4");
 	musicSound.Play();

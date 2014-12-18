@@ -60,8 +60,8 @@ function Start () {
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
 	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	explosionGreen.gameObject.SetActive(false); // make it inactive in beginning
-	explosionWorm2.gameObject.SetActive(false);
-	explosionWorm1.gameObject.SetActive(false);
+	//explosionWorm2.gameObject.SetActive(false);
+	//explosionWorm1.gameObject.SetActive(false);
 	characterFolder = new GameObject();  
 	characterFolder.name = "Character";
 	monsterFolder = new GameObject();
