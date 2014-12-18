@@ -45,7 +45,7 @@ var activeClockDone:boolean;
 var zoom : float;
 var restartButton : Texture2D;
 var showCakes : boolean = true;
-var debug : boolean = true;
+var debug : boolean = false;
 // Start
 // Called once when the script is created.
 function Start () {

@@ -73,11 +73,10 @@ public class Monster8 extends Monster {
 		minionFolder.transform.parent = transform;
 		
 		waitToActivate();
-		addHearts();
 		magnetSound = gameObject.AddComponent("AudioSource") as AudioSource;
 		magnetSound.clip = Resources.Load("Sounds/wum") as AudioClip;
 		rotateTimer = 0.0;
-		health = 1;
+		health = 2;
 		
 		heartOffset = model.gameObject.GetComponent(BoxCollider).size.y;
 		addHearts();

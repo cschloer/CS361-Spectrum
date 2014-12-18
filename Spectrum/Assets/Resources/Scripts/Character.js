@@ -21,7 +21,7 @@ var sprend : SpriteRenderer;
 
 function init(m) {
 	manager = m;
-	health = 3; //For testing purposes
+	health = 3;
 	hurtRecovery = .5;
 	enabled = false;
 	dead = false;

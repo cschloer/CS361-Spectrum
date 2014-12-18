@@ -31,6 +31,8 @@ public class Monster10 extends Monster {
 				charging10 = false;
 				firing = true;
 				model.renderer.material.color = Color(1, 1, 1);
+				invincible = true;
+			} else if (timeElapsed > 2){
 				invincible = false;
 			} else {
 				model.renderer.material.color = Color(timeElapsed/3, 0, 0);

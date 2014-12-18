@@ -16,13 +16,13 @@ function levelInit(){
   roomCreate(-30, 30,2,"Walls1End.txt");
   roomCreate( 10, 10,0,"Hole4Tri.txt");
   roomCreate(-10, 30,2,"Plain4End.txt");
-  addDevice(-4,25,"mSpawn", 3, 9); // magnet
-  addDevice( 4,25,"mSpawn", 3, 8); // magnet
+  addDevice(-4,25,"mSpawn", 2, 9); // magnet
+  addDevice( 4,25,"mSpawn", 2, 8); // magnet
   addDevice(-4,30,"mSpawn", 4, 5); //ranged
   addDevice(-14,38,"mSpawn", 9, 7); // lots of buzz dudes
   addDevice(0,45,"mSpawn", 6, 7); // lots of buzz dudes
   addDevice(-21, 25, "mSpawn", 4, 3);
-  addDevice(17, 24,"mSpawn", 3, 1); //shielded in hall
+  addDevice(17, 24,"mSpawn", 2, 1); //shielded in hall
   addDevice(24, 11,"mSpawn", 1, 4); //single mosnter 4
   addDevice(13, 20,"mSpawn", 2, 10); // chargers near cake
   addDevice(30,19.5,"barrier", 0, 7);

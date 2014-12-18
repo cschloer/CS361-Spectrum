@@ -63,7 +63,6 @@ public class Monster5 extends Monster {
 		minionFolder.transform.parent = transform;
 		
 		waitToActivate();
-		addHearts();
 		rotateTimer = 0.0;
 		isVisible = true;
 		clock = 0.0;
