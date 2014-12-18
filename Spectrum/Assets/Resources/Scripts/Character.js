@@ -21,7 +21,7 @@ var sprend : SpriteRenderer;
 
 function init(m) {
 	manager = m;
-	health = 3;
+	health = 3; //For testing purposes
 	hurtRecovery = .5;
 	enabled = false;
 	dead = false;
@@ -50,7 +50,7 @@ function init(m) {
 	model.name = "Character Model";											// Name the object.
 	anim = modelObject.AddComponent("Animator");
 	sprend = modelObject.AddComponent("SpriteRenderer");
-	anim.runtimeAnimatorController = Resources.Load("Animations/Dot");
+	anim.runtimeAnimatorController = Resources.Load("Animations/Huey");
 	//model.renderer.material.mainTexture = Resources.Load("Textures/CharTemp", Texture2D);	// Set the texture.  Must be in Resources folder.
 	//model.renderer.material.color = Color(1,1,1);												// Set the color (easy way to tint things).
 	//model.renderer.material.shader = Shader.Find ("Transparent/Diffuse");						// Tell the renderer that our textures have transparency
@@ -125,7 +125,7 @@ function Update(){
 }
 
 public function hurt(){
-		if( !model.vincible || dead|| manager.debug) return;
+		if( !model.vincible || dead || manager.debug) return;
 		hurting = true;
 		oofSound.Play();
 		//manager.playSound(offSound, transform.position);

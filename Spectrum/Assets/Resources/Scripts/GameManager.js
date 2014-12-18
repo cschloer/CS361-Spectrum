@@ -45,10 +45,11 @@ var activeClockDone:boolean;
 var zoom : float;
 var restartButton : Texture2D;
 var showCakes : boolean = true;
-var debug : boolean = false;
+var debug : boolean;
 // Start
 // Called once when the script is created.
 function Start () {
+	debug = true;
 	activeClock = 0;
 	activeClockDone = false;
 // Camera size! Original was 5, see how you like this
@@ -60,6 +61,12 @@ function Start () {
 	explosionFire.gameObject.SetActive(false); // make it inactive in beginning
 	explosionIce.gameObject.SetActive(false); // make it inactive in beginning
 	explosionGreen.gameObject.SetActive(false); // make it inactive in beginning
+	if(explosionWorm1){
+		explosionWorm1.gameObject.SetActive(false);
+	}
+	if(explosionWorm2){
+		explosionWorm1.gameObject.SetActive(false);
+	}
 	//explosionWorm2.gameObject.SetActive(false);
 	//explosionWorm1.gameObject.SetActive(false);
 	characterFolder = new GameObject();  
@@ -91,7 +98,7 @@ function Start () {
 	musicSound.Play();
 	winScreen = false;
 	loseScreen = false;
-
+	Time.timeScale = 1;
 //addMonster(0, 2, character, 1);
 	
 	//addMonster(0, 0, character, 7);
@@ -587,7 +594,8 @@ function lose(){
 	losewinTimer = 0;
 }
 
-function win(){
+function win()
+{
 	updateLevel(levelNumber);
 	winScreen = true;
 	losewinTimer = 0;
@@ -660,12 +668,11 @@ function updateLevel(number : int){
 		//print("Writing " + lev);
 	}
 }
-
 function OnGUI() {
-	if (character == null) return;
+
 	// Setup
 	GUI.backgroundColor = Color.white;
-	GUI.skin.label.fontSize = 14;
+	GUI.skin.label.fontSize = 10;
 	GUI.skin = SpectrumSkin;
 	GUI.skin.font = guif;
 
@@ -679,15 +686,12 @@ function OnGUI() {
 	if (loseScreen){
 		 Application.LoadLevel("End");
 	} else if(paused){
-		GUI.skin.box.fontSize = 26;
-		GUI.Box(Rect(Screen.width/2-70,Screen.width/2-20,140,40), "Paused!");
-		if (GUI.Button (Rect((Screen.width/10)*8, (Screen.height/10*9), Screen.width/10, Screen.height/10), "Exit")) {
-			paused = false;
-        	Application.LoadLevel("Start");
-        GUI.skin.label.fontSize = 14;
-    	}
-	}
-	 else if (character.dead){
+		pause();
+
+    	
+    	
+
+	} else if (character.dead){
 		GUI.skin.box.alignment = TextAnchor.UpperLeft;
 		GUI.Box(Rect(Screen.width/2-150,Screen.width/2-25,300,50), tip);
 	
@@ -855,13 +859,46 @@ function OnGUI() {
 	}			
 	
 	// Pause and Restart Level buttons	
-	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), "Restart Level")) {
-		if( levelNumber > 0 )	
-        	Application.LoadLevel("Level" + levelNumber);
-        else
-        	Application.LoadLevel("LevelTutorial1");
+	if (GUI.Button (Rect((Screen.width/8)*7, (Screen.height/15)*0, Screen.width/8, Screen.height/25), "Pause Game")) {
+        Time.timeScale = 0;
+		paused = !paused;
+        pause();
     }
-    //GUI.Box (Rect((Screen.width/10)*1, (Screen.height/7)*5, Screen.width/2.5, Screen.height/6), "Play Again!"); 																																																			
+    GUI.skin.box.fontSize = 10;
+    GUI.Box (Rect((Screen.width/7)*6, (Screen.height/15)*0, Screen.width/7, Screen.height/25), "Pause Game"); 
+    
+  																																																				
+}
+
+function pause() {
+	if(paused){
+		GUI.skin.box.fontSize = 20;
+		//GUI.Box(Rect((Screen.width/3)*1,(Screen.height/6)*2,Screen.width/3,Screen.height/2), "Paused!");
+		if (GUI.Button (Rect((Screen.width/3)*1, (Screen.height/6)*2, Screen.width/3, Screen.height/6), "Back to Game")) {
+			Time.timeScale = 1;
+			paused = !paused;
+        	//Application.LoadLevel("Start");
+    	}
+    	
+    	GUI.Box(Rect((Screen.width/3)*1, (Screen.height/6)*2, Screen.width/3, Screen.height/6), "Back to Game");
+    	
+    	
+   		if (GUI.Button (Rect((Screen.width/3)*1, (Screen.height/6)*3, Screen.width/3, Screen.height/6), "Reset Level")) {
+			paused = false;
+      	  Application.LoadLevel(Application.loadedLevelName);
+    	}
+    	
+    	GUI.Box(Rect((Screen.width/3)*1, (Screen.height/6)*3, Screen.width/3, Screen.height/6), "Reset Level");
+    	
+    	if (GUI.Button (Rect((Screen.width/3)*1, (Screen.height/6)*4, Screen.width/3, Screen.height/6), "Main Menu")) {
+			paused = false;
+        	Application.LoadLevel("Start");
+    	}
+    	
+    	GUI.Box(Rect((Screen.width/3)*1, (Screen.height/6)*4, Screen.width/3, Screen.height/6), "Main Menu");
+    	
+    	GUI.skin.box.fontSize = 10;
+    }
 }
 
 

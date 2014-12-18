@@ -26,8 +26,8 @@ function Start () {
 	levelNum = parseInt(lev.Split(":"[0])[1]);
 	if(levelNum < 1){
 		levelName = "LevelTutorial1";
-	}else{
-		levelName = "Level" + levelNum;
+	}else {
+	 	levelName = "Lobby";
 	}
 		guif = Resources.Load("GUI_Components/Arabolic", Font) as Font;
 	SpectrumSkin = Resources.Load("GUI_Components/SpectrumSkin", GUISkin) as GUISkin;
