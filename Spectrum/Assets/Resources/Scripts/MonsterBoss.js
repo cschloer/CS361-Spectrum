@@ -146,6 +146,11 @@ public class MonsterBoss extends Monster{
 			hurt();
 			spotHit = false;
 		}
+		if(col.gameObject.name.Contains("HeroAttack") && !monster.hurting && monster.health > 0){
+			spotHit = true;
+			hurt();
+			spotHit = false;
+		}
 	}
 	
 	function die(deathTime : float){
